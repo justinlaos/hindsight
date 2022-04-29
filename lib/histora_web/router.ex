@@ -17,7 +17,7 @@ defmodule HistoraWeb.Router do
   scope "/", HistoraWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", MarketingController, :index
   end
 
   # Other scopes may use custom stacks.

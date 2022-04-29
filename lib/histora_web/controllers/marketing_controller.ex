@@ -1,4 +1,4 @@
-defmodule HistoraWeb.PageController do
+defmodule HistoraWeb.MarketingController do
   use HistoraWeb, :controller
 
   def index(conn, _params) do

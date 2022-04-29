@@ -26,7 +26,8 @@ config :histora, HistoraWeb.Endpoint,
   secret_key_base: "LUR1s/PEJDOl95OMpSO7Kwxvan0Baq6yEY7sUqKNIx/0mG3oSX9josr5yDJ0OdwP",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
+    esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},
+    tailwind: {Tailwind, :install_and_run, [:default, ~w(--watch)]}
   ]
 
 # ## SSL Support
