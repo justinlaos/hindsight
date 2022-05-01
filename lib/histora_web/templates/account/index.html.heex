@@ -1,0 +1,24 @@
+<h1>Listing Accounts</h1>
+
+<table>
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for account <- @accounts do %>
+    <tr>
+
+      <td>
+        <span><%= link "Show", to: Routes.account_path(@conn, :show, account) %></span>
+        <span><%= link "Edit", to: Routes.account_path(@conn, :edit, account) %></span>
+        <span><%= link "Delete", to: Routes.account_path(@conn, :delete, account), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Account", to: Routes.account_path(@conn, :new) %></span>
