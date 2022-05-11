@@ -42,3 +42,16 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+
+const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+var root = document.querySelector('#root');
+if (darkThemeMq.matches) {
+    console.log(root)
+    document.documentElement.classList.remove("light");
+    document.documentElement.classList.add("dark");
+    console.log(root)
+} else {
+    document.documentElement.classList.remove("dark");
+    document.documentElement.classList.add("light");
+}
+

@@ -1,38 +1,28 @@
 // See the Tailwind configuration guide for advanced usage
 // https://tailwindcss.com/docs/configuration
 module.exports = {
+  darkMode: 'class',
   content: [
     './js/**/*.js',
     '../lib/*_web.ex',
     '../lib/*_web/**/*.*ex'
   ],
   theme: {
-    screens: {
-      sm: '480px',
-      md: '768px',
-      lg: '976px',
-      xl: '1440px',
-    },
     colors: {
-      'primary': '#2B9154',
+      'primary': '#21a656',
       'dark-primary': '#164629',
       'light-primary': '#62ea98',
-      'gray': '#9E9E9E',
-      'gray-light': '#EFEFEF',
-    },
-    fontFamily: {
-      sans: ['Graphik', 'sans-serif'],
-      serif: ['Merriweather', 'serif'],
+      'grey': '#9E9E9E',
+      'dark-grey': '#6b6b6b',
+      'light-grey': '#EFEFEF',
+      'white': '#ffffff',
+      'slate': '#121212'
     },
     extend: {
-      spacing: {
-        '128': '32rem',
-        '144': '36rem',
+      fontFamily: {
+        sans: ['Poppins'],
       },
-      borderRadius: {
-        '4xl': '2rem',
-      }
-    }
+   }
   },
   plugins: [
     require('@tailwindcss/forms')

@@ -1,8 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
 /* This file is for your main application CSS */
+
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.container {
+  overflow: auto;
+  overscroll-behavior-y: none;
+  scroll-behavior: smooth;
+}
 
 /* Alerts and form errors used by phx.new */
 .alert {
