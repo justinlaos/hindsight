@@ -1,0 +1,49 @@
+
+<div class="navigation h-screen sticky top-0 flex flex-col w-full px-4 py-3 overflow-y-auto border-light-grey dark:border-dark-grey lg:border-r lg:h-screen lg:w-48 justify-between items-start mr-6">
+ 
+    <h4 class="text-2xl font-bold text-primary self-center">Histora</h4>
+
+    <div class="grow mt-8 text-dark-grey">
+      <div class="mb-5 flex flex-row hover:text-primary">
+        <Heroicons.LiveView.icon name="home" type="solid" class="h-5 w-5 mr-2" />
+        <%= link "Home", to: Routes.marketing_path(@conn, :index) %>
+      </div>
+      <div class="my-5 flex flex-row hover:text-primary">
+        <Heroicons.LiveView.icon name="book-open" type="solid" class="h-5 w-5 mr-2" />
+        <%= link "Records", to: Routes.marketing_path(@conn, :index) %>
+      </div>
+      <div class="my-5 flex flex-row hover:text-primary">
+        <Heroicons.LiveView.icon name="view-grid" type="solid" class="h-5 w-5 mr-2" />
+        <%= link "Views", to: Routes.marketing_path(@conn, :index) %>
+      </div>
+      <div class="my-5 flex flex-row hover:text-primary">
+        <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-2" />
+        <%= link "Tags", to: Routes.marketing_path(@conn, :index) %>
+      </div>
+      <div class="my-5 flex flex-row hover:text-primary">
+        <Heroicons.LiveView.icon name="users" type="solid" class="h-5 w-5 mr-2" />
+        <%= link "Team", to: Routes.marketing_path(@conn, :index) %>
+      </div>
+    </div>
+
+    <div class="flex flex-col justify-center text-grey">
+      <%= if Histora.Users.is_admin?(@current_user) do %>         
+        <div class="my-2 flex flex-row hover:text-primary">
+          <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-2" />
+          <%= link "Billing", to: Routes.billing_path(@conn, :create_customer_portal_session, Histora.Organizations.get_organization_by_current_user(@current_user).stripe_customer_id), method: :post %>
+        </div>  
+      <% end %>
+
+      <div class="my-2 flex flex-row hover:text-primary">
+          <Heroicons.LiveView.icon name="support" type="solid" class="h-5 w-5 mr-2" />
+          <%= link "Help", to: Routes.marketing_path(@conn, :index), method: :post %>
+        </div>  
+
+      <div class="my-2 flex flex-row hover:text-primary">
+        <Heroicons.LiveView.icon name="logout" type="solid" class="h-5 w-5 mr-2" />
+        <%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
+      </div>  
+    </div>
+ 
+</div>
+

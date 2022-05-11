@@ -62,3 +62,17 @@ config :tailwind,
   ),
     cd: Path.expand("../assets", __DIR__)
   ]
+
+  # STRIPE CONFIG
+  config :stripity_stripe,
+    api_key: System.get_env("STRIPE_SECRET_API")
+
+  # POW USER AUTH
+  config :histora, :pow,
+    user: Histora.Users.User,
+    repo: Histora.Repo,
+    extensions: [PowResetPassword, PowEmailConfirmation, PowInvitation],
+    controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+    web_module: HistoraWeb,
+    mailer_backend: HistoraWeb.Pow.Mailer,
+    web_mailer_module: HistoraWeb
