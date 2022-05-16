@@ -1,0 +1,13 @@
+<div class="p-5 mb-4 mr-6 rounded-lg ">
+    <time class="text-lg font-semibold text-primary dark:text-white"><%= @record.inserted_at %></time>
+    <ol class="mt-4 divide-y divide-light-grey">
+        <li>
+            <div class="text-gray-600 dark:text-gray-400">
+                <div class="text-base font-normal"><%= @record.content %></div>
+            </div>
+        </li>
+    </ol>
+</div>
+
+<span><%= link "Edit", to: Routes.record_path(@conn, :edit, @record) %></span> |
+<span><%= link "Back", to: Routes.record_path(@conn, :index) %></span>

@@ -24,33 +24,34 @@ defmodule HistoraWeb.Router do
   pipeline :authorized do
     plug Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
+
+  end
+
+  pipeline :scope_resources do
+    plug HistoraWeb.ScopeOrganization
   end
 
   pipeline :activeUser do
-    plug MyAppWeb.EnsureUserActivePlug,
+    plug HistoraWeb.EnsureUserActivePlug,
       error_handler: Pow.Phoenix.PlugErrorHandler
   end
 
-  # Open Webhook for stripe
-  scope "/stripe/webhooks" do
-    post "/", WebhooksController, :webhooks
-  end
-
   # Open Routes
-  scope "/", HistoraWeb do
+    scope "/", HistoraWeb do
     pipe_through [:browser]
 
     get "/", MarketingController, :index
   end
 
-  # Authorized Routes
-  scope "/", Pow.Phoenix, as: "pow" do
-    pipe_through [:browser, :authorized, :activeUser]
+   # Authorized Active Routes
+   scope "/", HistoraWeb do
+    pipe_through [:browser, :authorized, :activeUser, :scope_resources]
 
-    resources "/registration", RegistrationController, singleton: true, only: [:edit, :update, :delete]
+    get "/home", OrganizationController, :home
+    resources "/records", RecordController
   end
 
-  # Authorized Admin Routes
+  # Authorized Active Admin Routes
   scope "/admin", HistoraWeb do
     pipe_through [:browser, :admin, :authorized, :activeUser]
 
@@ -66,6 +67,18 @@ defmodule HistoraWeb.Router do
     pipe_through [:browser, :admin, :authorized]
 
     post "/create_customer_portal_session/:id", Admin.BillingController, :create_customer_portal_session
+  end
+
+  # Authorization Routes
+  scope "/", Pow.Phoenix, as: "pow" do
+    pipe_through [:browser, :authorized, :activeUser]
+
+    resources "/registration", RegistrationController, singleton: true, only: [:edit, :update, :delete]
+  end
+
+  # Open Webhook for stripe
+  scope "/stripe/webhooks" do
+    post "/", WebhooksController, :webhooks
   end
 
    # Pow Routes
