@@ -24,6 +24,11 @@ body {
   scroll-behavior: smooth;
 }
 
+/* .action_bar {
+  position:absolute;
+  margin-left: -200px;
+} */
+
 /* Alerts and form errors used by phx.new */
 .alert {
   padding: 15px;

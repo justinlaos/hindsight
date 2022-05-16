@@ -75,4 +75,5 @@ config :tailwind,
     controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
     web_module: HistoraWeb,
     mailer_backend: HistoraWeb.Pow.Mailer,
-    web_mailer_module: HistoraWeb
+    web_mailer_module: HistoraWeb,
+    routes_backend: HistoraWeb.Pow.Routes

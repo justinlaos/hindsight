@@ -12,6 +12,9 @@ defmodule Histora.Organizations.Organization do
     field :stripe_customer_id, :string
     field :stripe_subscription_id, :string
 
+    has_many :users, Histora.Users.User
+    has_many :records, Histora.Records.Record
+
     timestamps()
   end
 
