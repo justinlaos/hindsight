@@ -7,5 +7,4 @@ defmodule HistoraWeb.OrganizationController do
     render(conn, "home.html", organization: organization)
   end
 
-
 end

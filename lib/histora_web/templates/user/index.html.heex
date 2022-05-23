@@ -1,0 +1,32 @@
+<div class="text-2xl font-bold">All Users</div>
+
+<%= for user <- @users do %>
+
+  <div class="p-5 mb-4 mr-6 rounded-lg ">
+      <time class="text-lg font-bold text-primary dark:text-white"><%= user.email %></time>
+      <ol class="mt-4 divide-y divide-light-grey">
+        <%= for record <- user.records do %>
+          <li class="py-2 pl-5">
+              <%= link to: Routes.record_path(@conn, :show, record) do %>
+                <div class="text-base dark:text-dark-grey rounded-md bg-really-light-grey px-5 py-5"><%= record.content %></div>
+              <% end %>
+
+              <div class="text-xs my-4 font-medium text-dark-grey"> 
+                <%= Histora.Users.formate_time_stamp(record.inserted_at) %> 
+              </div>
+
+              <div class="flex flex-row text-xs -ml-1 mb-2 mx-1">
+                <%= for tag <- record.tags do %>
+                  <%= link to: Routes.tag_path(@conn, :show, tag) do %> 
+                    <span class="inline-flex items-center mx-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-light-grey text-dark-grey hover:text-primary"> 
+                      <%= tag.name %> 
+                    </span>
+                  <% end %>
+                <% end %>
+              </div>              
+          </li>
+        <% end %>
+      </ol>
+  </div>
+
+<% end %>

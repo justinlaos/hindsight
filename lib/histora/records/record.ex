@@ -9,6 +9,8 @@ defmodule Histora.Records.Record do
 
     belongs_to :organization, Histora.Organizations.Organization
     belongs_to :user, Histora.Users.User
+    has_many(:tag_records, Histora.Tags.Tag_record)
+    has_many(:tags, through: [:tag_records, :tag])
 
     timestamps()
   end

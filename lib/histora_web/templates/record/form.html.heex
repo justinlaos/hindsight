@@ -8,6 +8,12 @@
   <%= text_input f, :content, class: "input" %>
   <%= error_tag f, :content %>
 
+  <div class="field">
+    <label class="label has-text-white">Taglist</label>
+      <%= text_input f, :tag_list, class: "input", type: "tags", placeholder: "tags, like, this" %>
+      <%= error_tag f, :tag_list %>
+  </div>
+ 
   <div>
     <%= submit "Save" %>
   </div>

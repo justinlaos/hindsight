@@ -1,12 +1,12 @@
 defmodule HistoraWeb.RecordController do
   use HistoraWeb, :controller
 
+  alias Histora.Tags
   alias Histora.Records
   alias Histora.Records.Record
 
   def index(conn, _params) do
     records = Records.list_organization_records(conn.assigns.organization)
-    IO.inspect(records)
     render(conn, "index.html", records: records)
   end
 
@@ -16,8 +16,11 @@ defmodule HistoraWeb.RecordController do
   end
 
   def create(conn, %{"record" => record_params}) do
+    %{"tag_list" => tag_list} = record_params
+
     case Records.create_record(Map.merge(record_params, %{"user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id})) do
-      {:ok, _record} ->
+      {:ok, record} ->
+        Tags.assign_tags_to_record(tag_list, record.id, record.organization_id, record.user_id)
         conn
         |> put_flash(:info, "Record created.")
         |> redirect(to: Routes.record_path(conn, :index))

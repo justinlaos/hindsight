@@ -24,6 +24,12 @@ body {
   scroll-behavior: smooth;
 }
 
+.marketing {
+  overflow: auto;
+  overscroll-behavior-y: none;
+  scroll-behavior: smooth;
+}
+
 /* .action_bar {
   position:absolute;
   margin-left: -200px;
