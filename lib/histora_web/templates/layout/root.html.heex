@@ -13,13 +13,16 @@
     <%= if Pow.Plug.current_user(@conn) do %>
       <body class="mr-0.5 ml-0.5 flex flex-row bg-white dark:bg-slate font-poppins">
         <%= render "navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
-        <div class="container">
+        <%= render "inner_navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
+
+        <div class="container mx-auto ml-6">
           <%= render "action_bar.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
           <%= @inner_content %>
         </div>
+
       </body>
     <% else %>
-      <body class="container font-poppins">
+      <body class="marketing w-full mx-auto font-poppins">
           <%= render "marketing_navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
           <%= @inner_content %>
       </body>

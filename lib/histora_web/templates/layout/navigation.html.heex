@@ -1,49 +1,46 @@
 
-<div class="navigation h-screen sticky top-0 flex flex-col px-4 py-3 overflow-y-auto border-light-grey dark:border-dark-grey border-r w-10 md:w-48 justify-between items-start mr-6">
+<div class="flex flex-col items-start justify-between w-fit px-4 py-3  border-light-grey dark:border-dark-grey border-r">
  
     <h4 class="text-2xl font-bold text-primary self-center">Histora</h4>
-
-    <div class="grow mt-8 text-dark-grey">
-      <div class="mb-5 flex flex-row hover:text-primary">
-        <Heroicons.LiveView.icon name="home" type="solid" class="h-5 w-5 mr-2" />
+    <div class="grow w-40 mt-8 text-dark-grey">
+      <div class={"#{String.contains?(@conn.request_path, "home") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+        <Heroicons.LiveView.icon name="home" type="solid" class="h-5 w-5 mr-3" />
         <%= link "Home", to: Routes.organization_path(@conn, :home) %>
       </div>
-      <div class="my-5 flex flex-row hover:text-primary">
-        <Heroicons.LiveView.icon name="book-open" type="solid" class="h-5 w-5 mr-2" />
-        <%= link "Records", to: Routes.record_path(@conn, :index) %>
+      <div class={"#{String.contains?(@conn.request_path, "records") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+        <Heroicons.LiveView.icon name="status-online" type="solid" class="h-5 w-5 mr-3" />
+        <%= link "Live Feed", to: Routes.record_path(@conn, :index) %>
       </div>
-      <div class="my-5 flex flex-row hover:text-primary">
-        <Heroicons.LiveView.icon name="view-grid" type="solid" class="h-5 w-5 mr-2" />
+      <div class={"#{String.contains?(@conn.request_path, "groups") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+        <Heroicons.LiveView.icon name="view-grid" type="solid" class="h-5 w-5 mr-3" />
         <%= link "Groups", to: Routes.marketing_path(@conn, :index) %>
       </div>
-      <div class="my-5 flex flex-row hover:text-primary">
-        <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-2" />
-        <%= link "Tags", to: Routes.marketing_path(@conn, :index) %>
+      <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+        <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-3" />
+        <%= link "Tags", to: Routes.tag_path(@conn, :index) %>
       </div>
-      <div class="my-5 flex flex-row hover:text-primary">
-        <Heroicons.LiveView.icon name="users" type="solid" class="h-5 w-5 mr-2" />
-        <%= link "Team", to: Routes.marketing_path(@conn, :index) %>
+      <div class={"#{String.contains?(@conn.request_path, "users") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+        <Heroicons.LiveView.icon name="users" type="solid" class="h-5 w-5 mr-3" />
+        <%= link "Team", to: Routes.user_path(@conn, :index) %>
       </div>
     </div>
 
-    <div class="flex flex-col justify-center text-grey">
+    <div class="w-40 text-grey">
       <%= if Histora.Users.is_admin?(@current_user) do %>         
-        <div class="my-2 flex flex-row hover:text-primary">
-          <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-2" />
-          <%= link "Billing", to: Routes.billing_path(@conn, :create_customer_portal_session, Histora.Organizations.get_organization_by_current_user(@current_user).stripe_customer_id), method: :post %>
+        <div class={"#{String.contains?(@conn.request_path, "admin") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+          <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-3" />
+          <%= link "Settings", to: Routes.settings_path(@conn, :organization) %>
         </div>  
       <% end %>
 
-      <div class="my-2 flex flex-row hover:text-primary">
-          <Heroicons.LiveView.icon name="support" type="solid" class="h-5 w-5 mr-2" />
-          <%= link "Help", to: Routes.marketing_path(@conn, :index), method: :post %>
-        </div>  
+      <div class={"#{String.contains?(@conn.request_path, "help") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+        <Heroicons.LiveView.icon name="support" type="solid" class="h-5 w-5 mr-3" />
+        <%= link "Help", to: Routes.marketing_path(@conn, :index), method: :post %>
+      </div>  
 
-      <div class="my-2 flex flex-row hover:text-primary">
-        <Heroicons.LiveView.icon name="logout" type="solid" class="h-5 w-5 mr-2" />
+      <div class="flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary">
+        <Heroicons.LiveView.icon name="logout" type="solid" class="h-5 w-5 mr-3" />
         <%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
       </div>  
     </div>
- 
 </div>
-

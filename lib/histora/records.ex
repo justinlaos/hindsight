@@ -18,11 +18,11 @@ defmodule Histora.Records do
 
   """
   def list_organization_records(organization) do
-    (from r in Record, where: r.organization_id == ^organization.id, preload: [:user])
+    (from r in Record, where: r.organization_id == ^organization.id, order_by: [desc: r.updated_at], preload: [:user, :tags])
       |> Repo.all()
       |> Enum.group_by(& formate_time_stamp(&1.inserted_at))
-      |> Enum.map(fn {inserted_at, records_collection} -> %{date: inserted_at, records: records_collection}
-      end)
+      |> Enum.map(fn {inserted_at, records_collection} -> %{date: inserted_at, records: records_collection} end)
+      |> Enum.reverse()
   end
 
   defp formate_time_stamp(date) do
@@ -48,7 +48,9 @@ defmodule Histora.Records do
       ** (Ecto.NoResultsError)
 
   """
-  def get_record!(id), do: Repo.get!(Record, id)
+  def get_record!(id) do
+    Repo.get!(Record, id) |> Repo.preload([:user, :tags])
+  end
 
   @doc """
   Creates a record.

@@ -49,14 +49,23 @@ defmodule HistoraWeb.Router do
 
     get "/home", OrganizationController, :home
     resources "/records", RecordController
+    resources "/tags", TagController
+    resources "/users", UserController
+    post "/tag/favorite", TagController, :favorite
+    post "/tag/unfavorite", TagController, :unfavorite
+    post "/user/favorite", UserController, :favorite
+    post "/user/unfavorite", UserController, :unfavorite
   end
 
   # Authorized Active Admin Routes
   scope "/admin", HistoraWeb do
-    pipe_through [:browser, :admin, :authorized, :activeUser]
+    pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources]
+
+    get "/settings/organization", Admin.SettingsController, :organization
+    get "/settings/manage_team", Admin.SettingsController, :manage_team
+    get "/settings/integrations", Admin.SettingsController, :integrations
 
     resources "/invitations", InvitationController, only: [:new, :create, :show]
-
     post "/users/:id/archive", Admin.UserController, :archive
     post "/users/:id/unarchive", Admin.UserController, :unarchive
 
@@ -66,7 +75,7 @@ defmodule HistoraWeb.Router do
   scope "/admin", HistoraWeb do
     pipe_through [:browser, :admin, :authorized]
 
-    post "/create_customer_portal_session/:id", Admin.BillingController, :create_customer_portal_session
+    post "/create_customer_portal_session/:id", Admin.SettingsController, :create_customer_portal_session
   end
 
   # Authorization Routes

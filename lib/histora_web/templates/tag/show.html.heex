@@ -1,0 +1,48 @@
+<div class="flex flex-row content-center items-center">
+    <%= if @tag.tag_favorites != [] && Enum.any?(@tag.tag_favorites, & &1.user_id == @conn.assigns.current_user.id) do %>
+      <%= link to: Routes.tag_path(@conn, :unfavorite, tag: @tag.id), method: :post do %>
+          <Heroicons.LiveView.icon name="star" type="solid" class="h-5 w-5 mr-2 text-yellow" />
+      <% end %>
+    <% else %>
+      <%= link to: Routes.tag_path(@conn, :favorite, tag: @tag.id), method: :post do %>
+          <Heroicons.LiveView.icon name="star" type="outline" class="h-5 w-5 mr-2 text-yellow" />
+      <% end %>
+    <% end %>
+
+    <div class="text-2xl font-bold"><%= @tag.name %></div>
+
+</div>
+
+<%= for record_section <- @records do %>
+
+  <div class="p-5 mb-4 mr-6 rounded-lg ">
+      <time class="text-lg font-bold text-primary dark:text-white"><%= record_section.date %></time>
+      <ol class="mt-4 divide-y divide-light-grey">
+        <%= for record <- record_section.records do %>
+          <li class="py-2 pl-5">
+              <%= link to: Routes.record_path(@conn, :show, record) do %>
+                <div class="text-base dark:text-dark-grey rounded-md bg-really-light-grey px-5 py-5"><%= record.content %></div>
+              <% end %>
+
+              <%= link to: Routes.user_path(@conn, :show, record.user) do %> 
+                <div class="my-4 flex flex-row text-xs text-gray-500 dark:text-dark-grey rounded-md px-3 py-2 hover:bg-light-grey">
+                  <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
+                  <%= record.user.email %>
+                </div> 
+              <% end %>
+
+              <div class="flex flex-row text-xs -ml-1 mb-2 mx-1">
+                <%= for tag <- record.tags do %>
+                  <%= link to: Routes.tag_path(@conn, :show, tag) do %> 
+                    <span class="inline-flex items-center mx-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-light-grey text-dark-grey hover:text-primary"> 
+                      <%= tag.name %> 
+                    </span>
+                  <% end %>
+                <% end %>
+              </div>              
+          </li>
+        <% end %>
+      </ol>
+  </div>
+
+<% end %>
