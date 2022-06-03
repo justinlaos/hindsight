@@ -64,16 +64,24 @@ config :tailwind,
   ]
 
   # STRIPE CONFIG
-  config :stripity_stripe,
-    api_key: System.get_env("STRIPE_SECRET_API")
+config :stripity_stripe,
+  api_key: System.get_env("STRIPE_SECRET_API")
 
   # POW USER AUTH
-  config :histora, :pow,
-    user: Histora.Users.User,
-    repo: Histora.Repo,
-    extensions: [PowResetPassword, PowEmailConfirmation, PowInvitation],
-    controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
-    web_module: HistoraWeb,
-    mailer_backend: HistoraWeb.Pow.Mailer,
-    web_mailer_module: HistoraWeb,
-    routes_backend: HistoraWeb.Pow.Routes
+config :histora, :pow,
+  user: Histora.Users.User,
+  repo: Histora.Repo,
+  extensions: [ PowResetPassword, PowEmailConfirmation, PowInvitation ],
+  controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
+  web_module: HistoraWeb,
+  mailer_backend: HistoraWeb.Pow.Mailer,
+  web_mailer_module: HistoraWeb,
+  routes_backend: HistoraWeb.Pow.Routes
+
+config :histora, HistoraWeb.Pow.Mailer,
+  adapter: Bamboo.SendGridAdapter,
+  api_key: System.get_env("SEND_GRID_API")
+
+config :histora, Histora.Mailer,
+  adapter: Bamboo.SendGridAdapter,
+  api_key: System.get_env("SEND_GRID_API")

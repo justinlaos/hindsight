@@ -1,0 +1,63 @@
+<.form let={f} for={@changeset} action={@action} [as: :user]>
+
+    <div
+        x-show="open"
+        x-on:keydown.escape.prevent.stop="open = false"
+        role="dialog"
+        aria-modal="true"
+        x-id="['modal-title']"
+        :aria-labelledby="$id('modal-title')"
+        class="fixed inset-0 overflow-y-auto z-10"
+    >
+        <!-- Overlay -->
+        <div x-show="open" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-80"></div>
+
+        <!-- Panel -->
+        <div
+            x-show="open" x-transition
+            x-on:click="open = false"
+            class="relative min-h-screen flex items-center justify-center p-4"
+        >
+            <div
+                x-on:click.stop
+                x-trap.noscroll.inert="open"
+                class="relative max-w-2xl w-full bg-light-grey rounded-xl shadow-lg p-8 overflow-y-auto"
+            >
+                <!-- Title -->
+                <div class="mb-4 text-2xl font-bold" :id="$id('modal-title')">Invite New Team Member</div>
+                <!-- Content -->
+
+                <%= if @record_changeset.action do %>
+                    <div class="alert alert-danger">
+                        <p>Oops, something went wrong! Please check the errors below.</p>
+                    </div>
+                <% end %>
+
+                <div>
+                    <div class="mt-1">
+                        <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md", placeholder: "Email"  %>
+                    </div>
+                </div>
+
+                <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+
+
+                <br>
+   
+                <!-- Buttons -->
+                <div class="mt-8 flex justify-between">
+                    <button type="button" x-on:click="open = false" class="bg-light-grey dark:bg-slate border-primary border-2 text-primary hover:bg-primary dark:hover:bg-primary hover:text-white font-bold py-2 px-2 rounded">
+                        Cancel
+                    </button>
+
+                    <%= submit do  %>
+                        <button class="bg-primary hover:bg-primary hover:text-white text-white font-bold py-3 px-3 rounded">
+                            Invite
+                        </button>
+                    <% end %> 
+                </div>
+            </div>
+        </div>
+    </div>
+</.form>
+

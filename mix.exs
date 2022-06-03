@@ -55,7 +55,8 @@ defmodule Histora.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:elixir_uuid, "~> 1.2"},
       {:timex, "~> 3.0"},
-      {:pow, "~> 1.0.27"}
+      {:pow, "~> 1.0.27"},
+      {:bamboo, "~> 1.6"}
     ]
   end
 

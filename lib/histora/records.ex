@@ -25,6 +25,10 @@ defmodule Histora.Records do
       |> Enum.reverse()
   end
 
+  def organization_records_count(organization) do
+    (from r in Record, where: r.organization_id == ^organization.id) |> Repo.all()
+  end
+
   defp formate_time_stamp(date) do
     case Timex.format({date.year, date.month, date.day}, "{Mfull} {D}, {YYYY}") do
       {:ok, date} -> date

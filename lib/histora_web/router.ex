@@ -2,7 +2,7 @@ defmodule HistoraWeb.Router do
   use HistoraWeb, :router
   use Pow.Phoenix.Router
   use Pow.Extension.Phoenix.Router,
-    extensions: [PowResetPassword, PowEmailConfirmation]
+    extensions: [PowResetPassword, PowEmailConfirmation, PowInvitation]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -29,6 +29,8 @@ defmodule HistoraWeb.Router do
 
   pipeline :scope_resources do
     plug HistoraWeb.ScopeOrganization
+    plug HistoraWeb.AddRecordChangesetPlug
+    plug HistoraWeb.AddTagsPlug
   end
 
   pipeline :activeUser do
@@ -47,7 +49,8 @@ defmodule HistoraWeb.Router do
    scope "/", HistoraWeb do
     pipe_through [:browser, :authorized, :activeUser, :scope_resources]
 
-    get "/home", OrganizationController, :home
+    post "/results", SearchController, :results
+    get "/results", SearchController, :results
     resources "/records", RecordController
     resources "/tags", TagController
     resources "/users", UserController
@@ -62,13 +65,18 @@ defmodule HistoraWeb.Router do
     pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources]
 
     get "/settings/organization", Admin.SettingsController, :organization
-    get "/settings/manage_team", Admin.SettingsController, :manage_team
+    post "/settings/organization/:id", Admin.SettingsController, :update
     get "/settings/integrations", Admin.SettingsController, :integrations
 
-    resources "/invitations", InvitationController, only: [:new, :create, :show]
     post "/users/:id/archive", Admin.UserController, :archive
     post "/users/:id/unarchive", Admin.UserController, :unarchive
 
+  end
+
+  scope "/admin", PowInvitation.Phoenix, as: "pow_invitation" do
+    pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources]
+
+    resources "/invitations", InvitationController, only: [:new, :create, :show]
   end
 
   # Authorized Admin Active-Agnostic Routes

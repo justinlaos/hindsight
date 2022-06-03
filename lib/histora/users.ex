@@ -67,6 +67,11 @@ defmodule Histora.Users do
     |> Repo.all()
   end
 
+  def get_organization_users_for_settings(organization) do
+    (from u in User, where: u.organization_id == ^organization.id, preload: :user_favorites )
+    |> Repo.all()
+  end
+
   def get_user!(id) do
     Repo.get!(User, id) |> Repo.preload(:user_favorites)
   end

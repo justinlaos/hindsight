@@ -1,16 +1,22 @@
 defmodule HistoraWeb.Pow.Mailer do
   use Pow.Phoenix.Mailer
-  require Logger
+  use Bamboo.Mailer, otp_app: :histora
 
-  def cast(%{user: user, subject: subject, text: text, html: html, assigns: _assigns}) do
-    # Build email struct to be used in `process/1`
+  import Bamboo.Email
 
-    %{to: user.email, subject: subject, text: text, html: html}
+  @impl true
+  def cast(%{user: user, subject: subject, text: text, html: html}) do
+    new_email(
+      to: user.email,
+      from: "4jlaos@gmail.com",
+      subject: subject,
+      html_body: html,
+      text_body: text
+    )
   end
 
+  @impl true
   def process(email) do
-    # Send email
-
-    Logger.debug("E-mail sent: #{inspect email}")
+    deliver_later(email)
   end
 end

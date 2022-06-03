@@ -1,14 +1,17 @@
-<div class="action_bar sticky top-0 flex w-full flex-row justify-end py-3 px-9">
-    <button class="bg-white dark:bg-slate border-primary border-2 text-primary hover:bg-primary dark:hover:bg-primary hover:text-white font-bold py-2 px-2 mx-2 rounded">
-        Filter
-    </button>
-    <button class="bg-white dark:bg-slate border-primary border-2 text-primary hover:bg-primary dark:hover:bg-primary hover:text-white font-bold py-2 px-2 mx-2 rounded">
-        Search
-    </button>
-    
-
-    <button class="bg-primary hover:bg-primary hover:text-white text-white font-bold py-1 px-3 mx-2 rounded" data-modal-toggle="defaultModal">
-        <%= link "New Record", to: Routes.record_path(@conn, :new) %>
-    </button>
-    
-</div>
+<%= if assigns.conn.request_path != "/" do %>
+    <div class="action_bar sticky top-0 flex w-full flex-row justify-end py-2 px-9">
+        <%= form_for @conn, Routes.search_path(@conn, :results), fn f -> %>
+            <%= search_input f, :search_term, placeholder: "search...", style: "background-color: transparent;", class: " bg-transparent shadow-sm focus:ring-primary border-light-grey focus:border-primary hover:border-primary hover:text-prmiary py-2 px-3 mx-2 rounded bg-transparent " %>
+        <% end %>
+        
+        <div x-data="{ open: false }" class="flex justify-center">
+            <!-- Trigger -->
+            <span x-on:click="open = true">
+                <button class="bg-primary hover:bg-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded" data-modal-toggle="defaultModal">
+                    New Record
+                </button>
+            </span>
+            <%= render "form.html", Map.put(assigns, :action, Routes.record_path(@conn, :create)) %>
+        </div>
+    </div>
+<% end %>

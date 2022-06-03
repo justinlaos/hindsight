@@ -2,7 +2,7 @@
 
 <%= for tag <- @all_tags do %>
 
-  <div class="p-5 mb-4 mr-6 rounded-lg ">
+  <div class="p-5 mb-4 mr-4 rounded-lg ">
       <time class="text-lg font-bold text-primary dark:text-white"><%= tag.name %></time>
       <ol class="mt-4 divide-y divide-light-grey">
         <%= for record <- tag.records do %>
@@ -11,12 +11,18 @@
                 <div class="text-base dark:text-dark-grey rounded-md bg-really-light-grey px-5 py-5"><%= record.content %></div>
               <% end %>
 
-              <%= link to: Routes.user_path(@conn, :show, record.user) do %> 
-                <div class="my-4 flex flex-row text-xs text-gray-500 dark:text-dark-grey rounded-md px-3 py-2 hover:bg-light-grey">
-                  <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
-                  <%= record.user.email %>
-                </div> 
-              <% end %>
+              <div class="flex flex-row text-xs mb-2 mx-1">
+                <%= link to: Routes.user_path(@conn, :show, record.user) do %> 
+                  <div class="my-4 flex flex-row text-xs text-gray-500 dark:text-dark-grey rounded-md px-3 py-2 hover:bg-light-grey">
+                    <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
+                    <%= record.user.email %>
+                  </div> 
+                <% end %>
+
+                <%= if record.reference != nil do %>
+                    <a class="my-4 flex flex-row text-xs text-blue dark:text-dark-grey rounded-md px-3 py-2 hover:bg-light-grey" href={"#{ record.reference }"} target="_blank">Reference</a>
+                <% end %>
+              </div> 
 
               <div class="flex flex-row text-xs -ml-1 mb-2 mx-1">
                 <%= for tag <- record.tags do %>
