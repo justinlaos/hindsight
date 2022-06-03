@@ -15,12 +15,12 @@ defmodule HistoraWeb.Admin.UserController do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User has been archived.")
-        |> redirect(to: "/")
+        |> redirect(to: Routes.settings_path(conn, :organization))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:error, "User couldn't be archived.")
-        |> redirect(to: "/")
+        |> redirect(to: Routes.settings_path(conn, :organization))
     end
   end
 
@@ -29,12 +29,12 @@ defmodule HistoraWeb.Admin.UserController do
       {:ok, _user} ->
         conn
         |> put_flash(:info, "User has been unarchived.")
-        |> redirect(to: "/")
+        |> redirect(to: Routes.settings_path(conn, :organization))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:error, "User couldn't be unarchived.")
-        |> redirect(to: "/")
+        |> redirect(to: Routes.settings_path(conn, :organization))
     end
   end
 

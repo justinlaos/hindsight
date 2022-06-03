@@ -13,13 +13,15 @@ module.exports = {
       'dark-primary': '#164629',
       'light-primary': '#62ea98',
       'grey': '#9E9E9E',
+      'darkest-grey': '#181818',
       'dark-grey': '#6b6b6b',
       'light-grey': '#EFEFEF',
       'really-light-grey': '#f2f3f4',
       'white': '#ffffff',
       'slate': 'black',
       'yellow': '#FFD700',
-      'blue': '#0096FF'
+      'blue': '#0096FF',
+      'red': '#CC0000'
     },
     extend: {
       fontFamily: {

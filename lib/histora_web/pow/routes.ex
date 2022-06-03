@@ -3,5 +3,5 @@ defmodule HistoraWeb.Pow.Routes do
   alias HistoraWeb.Router.Helpers, as: Routes
 
   @impl true
-  def after_sign_in_path(conn), do: Routes.organization_path(conn, :home)
+  def after_sign_in_path(conn), do: Routes.record_path(conn, :index)
 end

@@ -23,6 +23,18 @@ defmodule Histora.Tags do
     |> Repo.all()
   end
 
+  def list_organization_tags_for_records(organization_id) do
+    (from t in Tag,
+      where: t.organization_id == ^organization_id,
+      preload: [:tag_favorites],
+      left_join: fav in assoc(t, :tag_favorites),
+      order_by: [desc: count(fav.id), desc: (t.id)],
+      group_by: t.id,
+      select: t
+    )
+    |> Repo.all()
+  end
+
   def list_organization_tags_with_2_records(organization) do
     (from t in Tag, where: t.organization_id == ^organization.id)
       |> Repo.all()
@@ -73,6 +85,7 @@ defmodule Histora.Tags do
       |> Repo.preload([:user, :tags])
       |> Enum.group_by(& formate_time_stamp(&1.inserted_at))
       |> Enum.map(fn {inserted_at, records_collection} -> %{date: inserted_at, records: records_collection} end)
+      |> Enum.reverse()
   end
 
   defp formate_time_stamp(date) do
