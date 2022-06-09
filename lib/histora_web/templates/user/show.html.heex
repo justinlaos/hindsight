@@ -8,43 +8,10 @@
         <Heroicons.LiveView.icon name="star" type="outline" class="h-5 w-5 mr-2 text-yellow" />
     <% end %>
   <% end %>
-  <div class="text-2xl font-bold"><%= @user.email %></div>
+  <div class="text-2xl font-bold dark:text-white"><%= @user.email %></div>
 
 </div>
 
 <%= for record_section <- @records do %>
-
-  <div class="p-5 mb-4 mr-4 rounded-lg ">
-      <time class="text-lg font-bold text-primary dark:text-white"><%= record_section.date %></time>
-      <ol class="mt-4 divide-y divide-light-grey">
-        <%= for record <- record_section.records do %>
-          <li class="py-2 pl-5">
-              <%= link to: Routes.record_path(@conn, :show, record) do %>
-                <div class="text-base dark:text-dark-grey rounded-md bg-really-light-grey px-5 py-5"><%= record.content %></div>
-              <% end %>
-
-              <div class="flex flex-row text-xs -ml-1 mb-2 mx-1">
-                <div class="my-4 flex flex-row text-xs text-dark-grey dark:text-dark-grey rounded-md px-3 py-2 "> 
-                  <%= Histora.Users.formate_time_stamp(record.inserted_at) %> 
-                </div>
-
-                <%= if record.reference != nil do %>
-                    <a class="my-4 flex flex-row text-xs text-blue dark:text-dark-grey rounded-md px-3 py-2 hover:bg-light-grey" href={"#{ record.reference }"} target="_blank">Reference</a>
-                <% end %>
-              </div> 
-
-              <div class="flex flex-row text-xs -ml-1 mb-2 mx-1">
-                <%= for tag <- record.tags do %>
-                  <%= link to: Routes.tag_path(@conn, :show, tag) do %> 
-                    <span class="inline-flex items-center mx-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-light-grey text-dark-grey hover:text-primary"> 
-                      <%= tag.name %> 
-                    </span>
-                  <% end %>
-                <% end %>
-              </div>              
-          </li>
-        <% end %>
-      </ol>
-  </div>
-
+  <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: record_section, header: record_section.date %>
 <% end %>

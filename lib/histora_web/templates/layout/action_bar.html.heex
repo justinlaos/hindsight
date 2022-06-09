@@ -1,17 +1,14 @@
-<%= if assigns.conn.request_path != "/" do %>
-    <div class="action_bar sticky top-0 flex w-full flex-row justify-end py-2 px-9">
-        <%= form_for @conn, Routes.search_path(@conn, :results), fn f -> %>
-            <%= search_input f, :search_term, placeholder: "search...", style: "background-color: transparent;", class: " bg-transparent shadow-sm focus:ring-primary border-light-grey focus:border-primary hover:border-primary hover:text-prmiary py-2 px-3 mx-2 rounded bg-transparent " %>
-        <% end %>
-        
-        <div x-data="{ open: false }" class="flex justify-center">
-            <!-- Trigger -->
-            <span x-on:click="open = true">
-                <button class="bg-primary hover:bg-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded" data-modal-toggle="defaultModal">
-                    New Record
-                </button>
-            </span>
-            <%= render "form.html", Map.put(assigns, :action, Routes.record_path(@conn, :create)) %>
-        </div>
+<div class="action_bar sticky top-0 flex w-full flex-row justify-end py-2">
+
+    <%= render HistoraWeb.SearchView, "search_form.html", conn: @conn %>
+
+    <div x-data="{ open: false }" class="flex justify-center">
+        <!-- Trigger -->
+        <span x-on:click="open = true">
+            <button class="bg-primary hover:bg-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded" data-modal-toggle="defaultModal">
+                New Record
+            </button>
+            <%= render HistoraWeb.RecordView, "new_record_modal.html", Map.put(assigns, :action, Routes.record_path(@conn, :create)) %>
+        </span>
     </div>
-<% end %>
+</div>

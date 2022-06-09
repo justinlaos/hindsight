@@ -1,0 +1,10 @@
+<div class="my-6 rounded-lg ">
+    <div class="text-lg font-bold text-primary"><%= @header %></div>
+   
+    <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
+        <%= for record <- @record_section.records do %>
+            <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: record %>
+        <% end %>
+    </div>
+</div>
+

@@ -1,11 +1,11 @@
 <%= if assigns[:tags] do %>
-    <div class="flex flex-col items-start w-56 px-1 py-3 text-sm border-light-grey text-dark-grey dark:border-dark-grey border-r">
-        <div class={"#{assigns[:tag] == nil && 'text-primary'} text-sm rounded-md w-full px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+    <div class="flex flex-col items-start w-60 px-1 py-3 text-sm border-light-grey text-dark-grey dark:border-dark-grey border-r">
+        <div class={"#{assigns[:tag] == nil && 'text-primary'} text-sm rounded-md w-full px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
             <%= link "All Tags", to: Routes.tag_path(@conn, :index) %>
         </div>
 
         <%= for tag <- @tags do %>
-            <div class={"#{assigns[:tag] && assigns[:tag].id == tag.id && 'text-primary'} flex flex-row items-center text-sm rounded-md w-full px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+            <div class={"#{assigns[:tag] && assigns[:tag].id == tag.id && 'text-primary'} flex flex-row items-center text-sm rounded-md w-full px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
                 <%= if Enum.any?(tag.tag_favorites, & &1.user_id == @conn.assigns.current_user.id) do %>
                     <Heroicons.LiveView.icon name="star" type="solid" class="h-5 w-5 mr-1 text-yellow" />
                 <% end %>
@@ -17,14 +17,14 @@
 
 
 <%= if assigns[:users] do %>
-    <div class="flex flex-col items-start w-56 px-1 py-3 text-sm border-light-grey text-dark-grey dark:border-dark-grey border-r">
+    <div class="flex flex-col items-start w-60 px-1 py-3 text-sm border-light-grey text-dark-grey dark:border-dark-grey border-r">
 
-        <div class={"#{assigns[:user] == nil && 'text-primary'} w-full text-sm rounded-md px-3 py-3 mb-3 hover:bg-light-grey hover:text-primary"}>
+        <div class={"#{assigns[:user] == nil && 'text-primary'} w-full text-sm rounded-md px-3 py-3 mb-3 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
             <%= link "All Team", to: Routes.user_path(@conn, :index) %>
         </div>
 
         <%= for user <- @users do %>
-            <div class={"#{(assigns[:user] && assigns[:user].id == user.id) && 'text-primary'} flex flex-row items-center w-full text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+            <div class={"#{(assigns[:user] && assigns[:user].id == user.id) && 'text-primary'} flex flex-row items-center w-full text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
                 <%= if Enum.any?(user.user_favorites, & &1.user_id == @conn.assigns.current_user.id) do %>
                     <Heroicons.LiveView.icon name="star" type="solid" class="h-5 w-5 mr-1 text-yellow" />
                 <% end %>
@@ -36,8 +36,8 @@
 <% end %>
 
 <%= if assigns[:settings] do %>
-    <div class="flex flex-col items-start w-56 pt-20 px-1 py-3 text-sm border-light-grey text-dark-grey dark:border-dark-grey border-r">
-        <div class={"#{String.contains?(@conn.request_path, "organization") && 'text-primary'} w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+    <div class="flex flex-col items-start w-60 pt-20 px-1 py-3 text-sm border-light-grey text-dark-grey dark:border-dark-grey border-r">
+        <div class={"#{String.contains?(@conn.request_path, "organization") && 'text-primary'} w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
           <Heroicons.LiveView.icon name="identification" type="solid" class="h-5 w-5 mr-2" />
           <%= link "Organization", to: Routes.settings_path(@conn, :organization), method: :get %>
         </div>  
@@ -47,7 +47,7 @@
           <%= link "Integrations", to: Routes.settings_path(@conn, :integrations), method: :get %>
          
 
-        <div class="w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary">
+        <div class="w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey">
           <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-2" />
           <%= link "Billing", to: Routes.settings_path(@conn, :create_customer_portal_session, Histora.Organizations.get_organization_by_current_user(@current_user).stripe_customer_id), method: :post %>
         </div>  

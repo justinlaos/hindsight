@@ -1,12 +1,10 @@
 defmodule HistoraWeb.SearchController do
   use HistoraWeb, :controller
-  alias Histora.Organizations
   alias Histora.Records.Record
   alias Histora.Repo
   import Ecto.Query, warn: false
 
-
-  def results(conn, %{"search_term" => search_term} = params) do
+  def results(conn, %{"search_term" => search_term}) do
     %{organization: organization} = conn.assigns
 
     search_str =
@@ -31,5 +29,4 @@ defmodule HistoraWeb.SearchController do
 
     render(conn, "no_results.html", organization: organization)
   end
-
 end

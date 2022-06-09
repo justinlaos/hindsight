@@ -16,14 +16,16 @@
         <%= render "navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
         <%= render "inner_navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
 
-        <div class="container mx-auto ml-6">
-          <%= render "action_bar.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
+        <div class="container mx-10">
+          <%= if assigns.conn.request_path != "/" do %>
+            <%= render "action_bar.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
+          <% end %>
           <%= @inner_content %>
         </div>
 
       </body>
     <% else %>
-      <body class="marketing w-full mx-auto font-poppins">
+      <body class="px-6 flex flex-col bg-white dark:bg-slate font-poppins">
           <%= render "marketing_navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
           <%= @inner_content %>
       </body>

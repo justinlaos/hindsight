@@ -1,0 +1,3 @@
+<%= form_for @conn, Routes.search_path(@conn, :results), fn f -> %>
+    <%= search_input f, :search_term, placeholder: "search...", style: "background-color: transparent;", class: " bg-transparent shadow-sm focus:ring-primary border-light-grey focus:border-primary hover:border-primary hover:text-prmiary dark:text-white py-2 px-3 mx-2 rounded bg-transparent " %>
+<% end %>

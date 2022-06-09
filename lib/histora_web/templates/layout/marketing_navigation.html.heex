@@ -1,9 +1,11 @@
-<div class="flex flex-row justify-between content-center mx-20 mt-5">
+<div class="flex flex-row justify-between content-center mt-5">
   <div class="">
-    <h4 class="text-3xl font-bold text-primary">Histora</h4>
+    <%= link to: Routes.marketing_path(@conn, :index) do %> 
+      <h4 class="text-3xl font-bold text-primary">Histora</h4>
+    <% end %>
   </div>
   
-  <div class="">
+  <div class="dark:text-white">
     <%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %>
   </div>
 </div>

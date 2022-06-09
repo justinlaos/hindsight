@@ -88,7 +88,7 @@ defmodule HistoraWeb.Router do
 
   # Authorization Routes
   scope "/", Pow.Phoenix, as: "pow" do
-    pipe_through [:browser, :authorized, :activeUser]
+    pipe_through [:browser, :authorized, :activeUser, :scope_resources]
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update, :delete]
   end

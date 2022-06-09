@@ -1,30 +1,7 @@
-<div class="p-5 mb-4 mr-4 rounded-lg ">
-      <time class="text-lg font-bold text-primary dark:text-white"><%= Histora.Users.formate_time_stamp(@record.inserted_at) %></time>
-      <ol class="mt-4 divide-y divide-light-grey">
-          <li class="py-4 pl-5">
-              <%= link to: Routes.record_path(@conn, :show, @record) do %>
-                <div class="text-base dark:text-dark-grey rounded-md bg-really-light-grey px-5 py-5"><%= @record.content %></div>
-              <% end %>
-
-              <%= link to: Routes.user_path(@conn, :show, @record.user) do %> 
-                <div class="my-4 flex flex-row text-xs text-gray-500 dark:text-dark-grey rounded-md px-3 py-2 hover:bg-light-grey">
-                  <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
-                  <%= @record.user.email %>
-                </div> 
-              <% end %>
-
-              <div class="flex flex-row text-xs -ml-1 mb-2 mx-1">
-                <%= for tag <- @record.tags do %>
-                  <%= link to: Routes.tag_path(@conn, :show, tag) do %> 
-                    <span class="inline-flex items-center mx-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-light-grey text-dark-grey hover:text-primary"> 
-                      <%= tag.name %> 
-                    </span>
-                  <% end %>
-                <% end %>
-              </div>              
-          </li>
-      </ol>
-  </div>
-
-<span><%= link "Edit", to: Routes.record_path(@conn, :edit, @record) %></span> 
-
+<div class="my-6 rounded-lg ">
+    <div class="text-lg font-bold text-primary"><%= Histora.Users.formate_time_stamp(@record.inserted_at) %></div>
+   
+    <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
+      <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: @record %>
+    </div>
+</div>

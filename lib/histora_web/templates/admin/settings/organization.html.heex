@@ -1,6 +1,6 @@
 <div class="flex content-center">
 
-    <div class="text-2xl font-bold mr-5">
+    <div class="text-2xl font-bold mr-5 dark:text-white">
         <%= @organization.name %>
     </div>
 
@@ -19,8 +19,8 @@
 
 
 <div class="relative overflow-x-auto sm:rounded-lg mr-4 mt-5">
-  <table class="w-full text-sm text-left text-light-grey dark:text-gray-400">
-    <thead class="text-xs text-grey uppercase bg-light-grey dark:bg-gray-700 dark:text-gray-400">
+  <table class="w-full text-sm text-left text-light-grey dark:text-dark-grey">
+    <thead class="text-xs text-grey uppercase bg-light-grey dark:bg-darkest-grey dark:text-white">
       <tr>
         <th scope="col" class="px-6 py-3">
           Email
@@ -39,7 +39,7 @@
                           <button class="bg-primary hover:bg-primary hover:text-white text-white font-bold py-3 px-3 rounded" data-modal-toggle="defaultModal">
                             New Team Member
                           </button>
-                          <%= render "form.html", action: Routes.pow_invitation_invitation_path(@conn, :create), changeset: @new_user_changeset %>
+                          <%= render "new_user_form.html", action: Routes.pow_invitation_invitation_path(@conn, :create), changeset: @new_user_changeset %>
                         <% else %>
                           <button disabled class="bg-dark-grey hover:text-white text-white font-bold py-3 px-3 rounded" data-modal-toggle="defaultModal">
                             Upgrade or Archive to add new users
@@ -54,19 +54,19 @@
     <tbody>
       <%= for user <- @managed_users do %>
 
-        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <tr class="bg-white border-b dark:bg-black dark:border-dark-grey">
           <th scope="row" class="px-6 py-2 font-medium text-dark-grey dark:text-white whitespace-nowrap">
             <%= link to: Routes.user_path(@conn, :show, user) do %> 
-              <div class="flex flex-row text-xs text-dark-grey dark:text-dark-grey rounded-md px-3 py-2 hover:bg-light-grey">
+              <div class="flex flex-row text-xs rounded-md px-3 py-2 hover:bg-light-grey dark:hover:bg-darkest-grey">
                 <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
                 <%= user.email %>
               </div> 
             <% end %>
           </th>
-          <td class="text-dark-grey px-6 py-4">
+          <td class="text-dark-grey dark:text-white px-6 py-4">
             <%= user.role %>
           </td>
-          <td class="text-dark-grey px-6 py-4">
+          <td class="text-dark-grey dark:text-white px-6 py-4">
             <%= if user.archived_at == nil do %> 
               <%= if user.role == "user" and user.invitation_accepted_at == nil do %> 
                 Pending

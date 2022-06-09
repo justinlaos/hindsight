@@ -9,46 +9,9 @@
       <% end %>
     <% end %>
 
-    <div class="text-2xl font-bold"><%= @tag.name %></div>
-
+    <div class="text-2xl font-bold dark:text-white"><%= @tag.name %></div>
 </div>
 
 <%= for record_section <- @records do %>
-
-  <div class="p-5 mb-4 mr-4 rounded-lg ">
-      <time class="text-lg font-bold text-primary dark:text-white"><%= record_section.date %></time>
-      <ol class="mt-4 divide-y divide-light-grey">
-        <%= for record <- record_section.records do %>
-          <li class="py-2 pl-5">
-              <%= link to: Routes.record_path(@conn, :show, record) do %>
-                <div class="text-base dark:text-dark-grey rounded-md bg-really-light-grey px-5 py-5"><%= record.content %></div>
-              <% end %>
-
-              <div class="flex flex-row text-xs -ml-1 mb-2 mx-1">
-                <%= link to: Routes.user_path(@conn, :show, record.user) do %> 
-                  <div class="my-4 flex flex-row text-xs text-gray-500 dark:text-dark-grey rounded-md px-3 py-2 hover:bg-light-grey">
-                    <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
-                    <%= record.user.email %>
-                  </div> 
-                <% end %>
-
-                <%= if record.reference != nil do %>
-                  <a class="my-4 flex flex-row text-xs text-blue dark:text-dark-grey rounded-md px-3 py-2 hover:bg-light-grey" href={"#{ record.reference }"} target="_blank">Reference</a>
-                <% end %>
-              </div> 
-
-              <div class="flex flex-row text-xs -ml-1 mb-2 mx-1">
-                <%= for tag <- record.tags do %>
-                  <%= link to: Routes.tag_path(@conn, :show, tag) do %> 
-                    <span class="inline-flex items-center mx-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-light-grey text-dark-grey hover:text-primary"> 
-                      <%= tag.name %> 
-                    </span>
-                  <% end %>
-                <% end %>
-              </div>              
-          </li>
-        <% end %>
-      </ol>
-  </div>
-
+  <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: record_section, header: record_section.date %>
 <% end %>
