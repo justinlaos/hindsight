@@ -4,35 +4,41 @@
     <h4 class="text-2xl font-bold text-primary self-center">Histora</h4>
 
     <div class="grow w-40 mt-8 text-dark-grey">
-      <div class={"#{String.contains?(@conn.request_path, "records") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+      <div class={"#{String.contains?(@conn.request_path, "records") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
         <Heroicons.LiveView.icon name="book-open" type="solid" class="h-5 w-5 mr-3" />
         <%= link "Records", to: Routes.record_path(@conn, :index) %>
       </div>
-      <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+      <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
         <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-3" />
         <%= link "Tags", to: Routes.tag_path(@conn, :index) %>
       </div>
-      <div class={"#{String.contains?(@conn.request_path, "users") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+      <div class={"#{String.contains?(@conn.request_path, "users") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
         <Heroicons.LiveView.icon name="users" type="solid" class="h-5 w-5 mr-3" />
         <%= link "Team", to: Routes.user_path(@conn, :index) %>
       </div>
     </div>
 
     <div class="w-40 text-grey">
+
+      <div class={"#{String.contains?(@conn.request_path, "admin") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
+        <Heroicons.LiveView.icon name="user" type="solid" class="h-5 w-5 mr-3" />
+        <%= link "Profile", to: Routes.pow_registration_path(@conn, :edit) %>
+      </div>  
+
       <%= if Histora.Users.is_admin?(@current_user) do %>         
-        <div class={"#{String.contains?(@conn.request_path, "admin") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+        <div class={"#{String.contains?(@conn.request_path, "admin") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
           <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-3" />
           <%= link "Settings", to: Routes.settings_path(@conn, :organization) %>
         </div>  
       <% end %>
 
-      <div class={"#{String.contains?(@conn.request_path, "help") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
+      <div class={"#{String.contains?(@conn.request_path, "help") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
         <Heroicons.LiveView.icon name="support" type="solid" class="h-5 w-5 mr-3" />
         <%# <%= link "Help", to: Routes.marketing_path(@conn, :index), method: :post %>
         <a href="mailto:4jlaos@gmail.com?subject=Histora Help">Help</a>
       </div>  
 
-      <div class="flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary">
+      <div class="flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary">
         <Heroicons.LiveView.icon name="logout" type="solid" class="h-5 w-5 mr-3" />
         <%= link "Sign out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
       </div>  

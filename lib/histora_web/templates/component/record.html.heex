@@ -1,0 +1,34 @@
+<div class="py-4 pl-5">
+    <%= link to: Routes.record_path(@conn, :show, @record) do %>
+        <div class="text-base dark:text-light-grey rounded-md dark:bg-darkest-grey bg-really-light-grey px-5 py-5"><%= @record.content %></div>
+    <% end %>
+
+    <div class="flex flex-row text-xs mb-2">
+        <%= if Ecto.assoc_loaded?(@record.user) do %>
+            <%= link to: Routes.user_path(@conn, :show, @record.user) do %> 
+                <div class="my-4 flex flex-row text-xs text-gray-500 dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md px-3 py-2 hover:bg-light-grey">
+                    <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
+                    <%= @record.user.email %>
+                </div> 
+            <% end %>
+        <% else %>
+            <div class="my-4 flex flex-row text-xs text-dark-grey dark:text-dark-grey rounded-md px-3 py-2 "> 
+                <%= Histora.Users.formate_time_stamp(@record.inserted_at) %> 
+            </div>
+        <% end %>
+
+        <%= if @record.reference != nil do %>
+            <a class="my-4 flex flex-row text-xs text-blue dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md px-3 py-2 hover:bg-light-grey" href={"#{ @record.reference }"} target="_blank">Reference</a>
+        <% end %>
+    </div> 
+
+    <div class="flex flex-row text-xs mb-2">
+        <%= for tag <- @record.tags do %>
+            <%= link to: Routes.tag_path(@conn, :show, tag) do %> 
+                <div class="inline-flex items-center mx-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-light-grey dark:bg-darkest-grey text-dark-grey dark:text-grey hover:text-primary dark:hover:text-primary"> 
+                    <%= tag.name %> 
+                </div>
+            <% end %>
+        <% end %>
+    </div>              
+</div>
