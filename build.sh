@@ -7,12 +7,13 @@ mix deps.get --only prod
 MIX_ENV=prod mix compile
 
 # Compile assets
-# npm install --prefix ./assets
-# npm run deploy --prefix ./assets
-# mix phx.digest
+MIX_ENV=prod mix assets.deploy
 
 # Build the release and overwrite the existing release directory
+mix phx.gen.release
+
 MIX_ENV=prod mix release --overwrite
+
 
 # Run migrations
 _build/prod/rel/histora/bin/histora eval "Histora.Release.migrate"
