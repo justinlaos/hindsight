@@ -10,15 +10,11 @@ defmodule HistoraWeb.StripeWebhooksPlug do
         signing_secret = System.get_env("WEBHOOK_SIGNING_SECRET")
         [stripe_signature] = Plug.Conn.get_req_header(conn, "stripe-signature")
 
-        with {:ok, body, _} = Plug.Conn.read_body(conn),
-            {:ok, stripe_event} = Stripe.Webhook.construct_event(body, stripe_signature, signing_secret)
-        do
-        Plug.Conn.assign(conn, :stripe_event, stripe_event)
-        else
-        {:error, error} ->
-            conn
-            |> send_resp(:bad_request, error.message)
-            |> halt()
+        {:ok, body, _} = Plug.Conn.read_body(conn)
+
+        case Stripe.Webhook.construct_event(body, stripe_signature, signing_secret) do
+            {:ok, stripe_event} -> Plug.Conn.assign(conn, :stripe_event, stripe_event)
+            {:error, _error} -> conn
         end
 
     end

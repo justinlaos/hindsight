@@ -16,7 +16,7 @@ defmodule WebhooksController do
     defp handle_success(conn) do
         conn
         |> put_resp_content_type("text/plain")
-        |> send_resp(200, "ok")
+        |> send_resp(200, :ok)
     end
 
     defp handle_error(conn, error) do
