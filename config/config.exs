@@ -5,7 +5,7 @@
 # is restricted to this project.
 
 # General application configuration
-import Config
+use Mix.Config
 
 config :histora,
   ecto_repos: [Histora.Repo]
@@ -48,9 +48,6 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-# Import environment specific config. This must remain at the bottom
-# of this file so it overrides the configuration defined above.
-import_config "#{config_env()}.exs"
 
 # Use and set Tailwild
 config :tailwind,
@@ -86,3 +83,8 @@ config :histora, HistoraWeb.Pow.Mailer,
 config :histora, Histora.Mailer,
   adapter: Bamboo.SendGridAdapter,
   api_key: System.get_env("SEND_GRID_API")
+
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{config_env()}.exs"
