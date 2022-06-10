@@ -13,6 +13,7 @@ config :histora,
 # Configures the endpoint
 config :histora, HistoraWeb.Endpoint,
   url: [host: "localhost"],
+  secret_key_base: "RhlmeZgtzsUAdT96KhAJU629D4W46Z37bYDyMBvIJpJlRvnhMRGScH5fN9ksKLel"
   render_errors: [view: HistoraWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Histora.PubSub,
   live_view: [signing_salt: "T7ClLDU5"]
@@ -24,7 +25,7 @@ config :histora, HistoraWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :histora, Histora.Mailer, adapter: Swoosh.Adapters.Local
+# config :histora, Histora.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
