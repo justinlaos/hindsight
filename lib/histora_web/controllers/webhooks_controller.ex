@@ -7,11 +7,16 @@ defmodule WebhooksController do
 
     def webhooks(%Plug.Conn{body_params: stripe_event} = conn, _params) do
         case handle_webhook(stripe_event) do
-          {:ok, _}        -> handle_success(conn)
-          {:error, error} -> handle_error(conn, error)
-          _               -> handle_error(conn, "error")
+            {:ok, user_email} -> {
+                conn
+                |> send_new_subscribe_admin_email(user_email)
+                |> handle_success()
+            }
+            {:ok, _} -> handle_success(conn)
+            {:error, error} -> handle_error(conn, error)
+            _               -> handle_error(conn, "error")
         end
-      end
+    end
 
     defp handle_success(conn) do
         conn
@@ -23,6 +28,14 @@ defmodule WebhooksController do
         conn
         |> put_resp_content_type("text/plain")
         |> send_resp(422, error)
+    end
+
+    defp send_new_subscribe_admin_email(conn, user_email) do
+        token = PowResetPassword.Plug.create_reset_token(conn, user_email)
+        url = Routes.pow_reset_password_reset_password_url(conn, :edit, token)
+
+        Histora.Email.new_subscribe(user_email, url)
+        |> Histora.Mailer.deliver_now()
     end
 
     defp handle_webhook(%{"type" => "customer.subscription.created"} = stripe_event) do
@@ -58,13 +71,13 @@ defmodule WebhooksController do
                             "role" => "admin",
                             "organization_id" => organization.id
                         }) do
-                            {:ok, user} -> IO.inspect(user)
-                            {:error, error} -> IO.puts(error)
+                            {:ok, user} -> {:ok, user.email}
+                            {:error, error} -> {:error, error}
                         end
-                    {:error, error} -> IO.puts(error)
+                    {:error, error} -> {:error, error}
                 end
             }
-            {:error, error} -> IO.inspect(error)
+            {:error, error} -> {:error, error}
         end
     end
 
