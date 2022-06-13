@@ -1,6 +1,6 @@
 defmodule Histora.Email do
     import Bamboo.Email
-    use Bamboo.Phoenix, view: Histora.EmailView
+    use Bamboo.Phoenix, view: HistoraWeb.EmailView
 
     def new_subscribe(email, url) do
         base_email() # Build your default email then customize for welcome
