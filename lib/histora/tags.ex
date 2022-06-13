@@ -44,13 +44,14 @@ defmodule Histora.Tags do
 
   def assign_tags_to_record(tags, record_id, organization_id, user_id) do
     for tag_item <- String.split(tags, ", ") do
-      cleaned_tag = (tag_item
+      cleaned_tag = (
+      tag_item
+      |> String.downcase(:ascii)
       |> String.trim(" ")
-      |> String.downcase()
       )
       case Repo.get_by(Tag, name: cleaned_tag) do
         nil ->
-          case create_tag(%{"name" => tag_item, "organization_id" => organization_id, "user_id" => user_id}) do
+          case create_tag(%{"name" => cleaned_tag, "organization_id" => organization_id, "user_id" => user_id}) do
             {:ok, tag} ->
               create_tag_record(%{"tag_id" => tag.id, "record_id" => record_id})
             {:error, %Ecto.Changeset{} = changeset} -> changeset.error

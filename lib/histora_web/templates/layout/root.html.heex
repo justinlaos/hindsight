@@ -25,7 +25,7 @@
 
       </body>
     <% else %>
-      <body class="px-6 flex flex-col bg-white dark:bg-slate font-poppins">
+      <body class="flex flex-col bg-white dark:bg-slate font-poppins">
           <%= render "marketing_navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
           <%= @inner_content %>
       </body>

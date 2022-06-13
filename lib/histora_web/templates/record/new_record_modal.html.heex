@@ -13,7 +13,7 @@
         class="fixed inset-0 overflow-y-auto z-10"
     >
         <!-- Overlay -->
-        <div x-show="open" x-transition.opacity class="fixed inset-0 bg-black bg-opacity-80"></div>
+        <div x-show="open" x-transition.opacity class="fixed inset-0 "></div>
 
         <!-- Panel -->
         <div
@@ -24,7 +24,7 @@
             <div
                 x-on:click.stop
                 x-trap.noscroll.inert="open"
-                class="relative max-w-2xl w-full bg-light-grey rounded-xl shadow-lg p-8 overflow-y-auto"
+                class="relative max-w-2xl w-full bg-light-grey rounded-xl shadow-xl p-8 overflow-y-auto"
             >
                 <!-- Title -->
                 <div class="mb-4 text-2xl font-bold" :id="$id('modal-title')">New Record</div>
