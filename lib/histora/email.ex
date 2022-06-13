@@ -7,9 +7,10 @@ defmodule Histora.Email do
         |> to(email)
         |> subject("Welcome to Histora")
         |> put_header("Reply-To", "4jlaos@gmail.com")
-        |> html_body("<strong>Welcome to Histora</strong>")
-        |> html_body("<p>Get Started by clicking this link to set your password</p>")
-        |> html_body(url)
+        |> html_body("<strong>Welcome to Histora</strong> <br>
+            <p>Get Started by clicking this link to set your password</p> <br>
+            <a href='<%= url %>'>Set Password</a>
+        ")
     end
 
     defp base_email do
