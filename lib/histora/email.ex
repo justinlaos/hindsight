@@ -8,8 +8,7 @@ defmodule Histora.Email do
         |> subject("Welcome to Histora")
         |> put_header("Reply-To", "4jlaos@gmail.com")
         |> html_body("<strong>Welcome to Histora</strong>")
-        |> html_body("We are excited to help your busniess know its story")
-        |> html_body("Get Started by clicking this link to set your password")
+        |> html_body("<p>Get Started by clicking this link to set your password</p>")
         |> html_body(url)
     end
 

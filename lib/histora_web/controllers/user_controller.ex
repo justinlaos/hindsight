@@ -6,7 +6,6 @@ defmodule HistoraWeb.UserController do
 
   def index(conn, _params) do
     users = Users.get_organization_users(conn.assigns.organization)
-    IO.inspect(users)
     render(conn, "index.html", users: users)
   end
 

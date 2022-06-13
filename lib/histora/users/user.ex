@@ -3,7 +3,7 @@ defmodule Histora.Users.User do
   use Pow.Ecto.Schema
   alias Ecto.{Changeset, Schema}
   use Pow.Extension.Ecto.Schema,
-    extensions: [PowResetPassword, PowEmailConfirmation, PowInvitation]
+    extensions: [PowResetPassword, PowInvitation]
 
   schema "users" do
     field :role, :string, default: "user"

@@ -2,7 +2,7 @@ defmodule HistoraWeb.Router do
   use HistoraWeb, :router
   use Pow.Phoenix.Router
   use Pow.Extension.Phoenix.Router,
-    extensions: [PowResetPassword, PowEmailConfirmation, PowInvitation]
+    extensions: [PowResetPassword, PowInvitation]
 
   pipeline :browser do
     plug :accepts, ["html"]

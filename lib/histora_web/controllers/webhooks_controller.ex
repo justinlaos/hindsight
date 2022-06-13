@@ -7,74 +7,37 @@ defmodule WebhooksController do
 
     def webhooks(%Plug.Conn{body_params: stripe_event} = conn, _params) do
         case handle_webhook(stripe_event) do
-            {:ok, user_email} -> {
+            {{:ok, user_email}} -> {
                 conn
-                |> send_new_subscribe_admin_email(user_email)
-                |> handle_success()
+                |> PowResetPassword.Plug.create_reset_token(%{"email" => user_email})
+                |> maybe_send_email(user_email)
+
             }
-            {:ok, _} -> handle_success(conn)
-            {:error, error} -> handle_error(conn, error)
-            _               -> handle_error(conn, "error")
+            {{:error, error}} -> handle_error(conn, error)
         end
+        Plug.Conn.send_resp(conn, 200, "ok")
     end
 
-    defp handle_success(conn) do
-        conn
-        |> put_resp_content_type("text/plain")
-        |> send_resp(200, :ok)
-    end
 
     defp handle_error(conn, error) do
         conn
-        |> put_resp_content_type("text/plain")
         |> send_resp(422, error)
-    end
-
-    defp send_new_subscribe_admin_email(conn, user_email) do
-        token = PowResetPassword.Plug.create_reset_token(conn, user_email)
-        url = Routes.pow_reset_password_reset_password_url(conn, :edit, token)
-
-        Histora.Email.new_subscribe(user_email, url)
-        |> Histora.Mailer.deliver_now()
     end
 
     defp handle_webhook(%{"type" => "customer.subscription.created"} = stripe_event) do
         case Stripe.Customer.retrieve(stripe_event["data"]["object"]["customer"]) do
-            {:ok, %Stripe.Customer{email: stripe_customer}} -> {
-                # organization = Organizations.get_organization_by_billing_email(stripe_customer)
-
-                # Organizations.update_organization(organization, %{
-                #     "stripe_price_id" => stripe_event["data"]["object"]["plan"]["id"],
-                #     "stripe_product_id" => stripe_event["data"]["object"]["plan"]["product"],
-                #     "stripe_customer_id" => stripe_event["data"]["object"]["customer"],
-                #     "stripe_subscription_id" => stripe_event["data"]["object"]["id"],
-                #     "user_limit" => String.to_integer(stripe_event["data"]["object"]["plan"]["metadata"]["user_limit"]),
-                #     "status" => "active",
-                # })
-
-                case Organizations.create_organization(%{
-                    "stripe_price_id" => stripe_event["data"]["object"]["plan"]["id"],
-                    "stripe_product_id" => stripe_event["data"]["object"]["plan"]["product"],
-                    "stripe_customer_id" => stripe_event["data"]["object"]["customer"],
-                    "stripe_subscription_id" => stripe_event["data"]["object"]["id"],
-                    "billing_email" => stripe_customer,
-                    "user_limit" => String.to_integer(stripe_event["data"]["object"]["plan"]["metadata"]["user_limit"]),
-                    "name" => "New Organization",
-                    "status" => "active",
-                }) do
-                    {:ok, organization} ->
-                        password = UUID.uuid4(:hex)
-                        case Users.create_admin(%{
-                            "email" => stripe_customer,
-                            "password" => password,
-                            "password_confirmation" => password,
-                            "role" => "admin",
-                            "organization_id" => organization.id
-                        }) do
-                            {:ok, user} -> {:ok, user.email}
-                            {:error, error} -> {:error, error}
-                        end
-                    {:error, error} -> {:error, error}
+            {:ok, %{email: email}} -> {
+                if Organizations.get_organization_by_billing_email(email) == nil do
+                    create_organization(stripe_event, email)
+                else
+                    Organizations.update_organization(Organizations.get_organization_by_billing_email(email), %{
+                        "stripe_price_id" => stripe_event["data"]["object"]["plan"]["id"],
+                        "stripe_product_id" => stripe_event["data"]["object"]["plan"]["product"],
+                        "stripe_customer_id" => stripe_event["data"]["object"]["customer"],
+                        "stripe_subscription_id" => stripe_event["data"]["object"]["id"],
+                        "user_limit" => String.to_integer(stripe_event["data"]["object"]["plan"]["metadata"]["user_limit"]),
+                        "status" => "active",
+                    })
                 end
             }
             {:error, error} -> {:error, error}
@@ -109,4 +72,61 @@ defmodule WebhooksController do
     # defp handle_webhook(%{"type" => "invoice.payment_failed"} = stripe_event) do
 
     # end
+
+
+    defp create_organization(stripe_event, email) do
+        case Organizations.create_organization(%{
+            "stripe_price_id" => stripe_event["data"]["object"]["plan"]["id"],
+            "stripe_product_id" => stripe_event["data"]["object"]["plan"]["product"],
+            "stripe_customer_id" => stripe_event["data"]["object"]["customer"],
+            "stripe_subscription_id" => stripe_event["data"]["object"]["id"],
+            "billing_email" => email,
+            "user_limit" => String.to_integer(stripe_event["data"]["object"]["plan"]["metadata"]["user_limit"]),
+            "name" => "New Organization",
+            "status" => "active",
+        }) do
+            {:ok, organization} ->
+                password = UUID.uuid4(:hex)
+                case Users.create_admin(%{
+                    "email" => email,
+                    "password" => password,
+                    "password_confirmation" => password,
+                    "role" => "admin",
+                    "organization_id" => organization.id
+                }) do
+                    {:ok, user} -> {:ok, user.email}
+                    {:error, error} -> {:error, error}
+                end
+            {:error, error} -> {:error, error}
+        end
+    end
+
+
+    # Send Email Functions
+    defp maybe_send_email({:ok, %{token: token, user: user}, conn}, email_address) do
+        deliver_email(conn, user, token)
+
+        {:ok, %{email: email_address}}
+    end
+
+    defp maybe_send_email({:error, _, _}, email_address) do
+        {:ok, %{email: email_address}}
+    end
+
+    defp conn(), do: Pow.Plug.put_config(%Plug.Conn{}, otp_app: :golf)
+
+    defp deliver_email(conn, user, token) do
+        url = reset_password_url(token)
+
+        Histora.Email.new_subscribe(user.email, url)
+        |> Histora.Mailer.deliver_now()
+    end
+
+    defp reset_password_url(token) do
+        Routes.pow_reset_password_reset_password_url(
+            HistoraWeb.Endpoint,
+            :edit,
+            token
+        )
+    end
 end

@@ -40,11 +40,11 @@ defmodule Histora.Organizations do
   def get_organization_by_subscription_id!(id), do: Repo.get_by!(Organization, stripe_subscription_id: id)
 
   def get_organization_by_current_user(current_user) do
-    Repo.get!(Organization, current_user.id)
+    Repo.get!(Organization, current_user.organization_id)
   end
 
   def get_organization_by_billing_email(email) do
-    Repo.get_by!(Organization, billing_email: email)
+    Repo.get_by(Organization, billing_email: email)
   end
 
   @doc """
