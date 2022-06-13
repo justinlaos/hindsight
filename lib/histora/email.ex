@@ -9,7 +9,7 @@ defmodule Histora.Email do
         |> put_header("Reply-To", "4jlaos@gmail.com")
         |> html_body("<strong>Welcome to Histora</strong> <br>
             <p>Get Started by clicking this link to set your password</p> <br>
-            <a href='<%= url %>'>Set Password</a>
+            <a href=`<%= url %>`>Set Password</a>
         ")
     end
 
