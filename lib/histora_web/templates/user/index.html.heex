@@ -1,5 +1,13 @@
 <div class="text-2xl font-bold dark:text-white">Team</div>
 
-<%= for user <- @users do %>
-  <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: user, header: user.email %>
+<%= if Enum.count(@users) > 1 do %>
+  <%= for user <- @users do %>
+    <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: user, header: user.email %>
+  <% end %>
+<% else %>
+  <div class="mt-10 min p-4 bg-really-light-grey rounded">
+    <div>You can favorite certain users to view their records faster</div>
+    <br>
+    <div><%= link "Add New Team Member", to: Routes.settings_path(@conn, :organization), method: :get, class: "text-blue" %></div>
+  </div>
 <% end %>

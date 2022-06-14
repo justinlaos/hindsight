@@ -1,6 +1,13 @@
 <div class="text-2xl font-bold dark:text-white">All Tags</div>
 
-<%= for tag <- @all_tags do %>
-  <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: tag, header: tag.name %>
+<%= if Enum.any?(@all_tags) do %>
+  <%= for tag <- @all_tags do %>
+    <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: tag, header: tag.name %>
+  <% end %>
+<% else %>
+  <div class="mt-10 min p-4 bg-really-light-grey rounded">
+    <div>Tags are created when making a new record. You can view records by tag and favorite certain tags to view easier</div>
+   
+  </div>
 <% end %>
 
