@@ -5,9 +5,8 @@
     <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: tag, header: tag.name %>
   <% end %>
 <% else %>
-  <div class="mt-10 min p-4 bg-really-light-grey rounded">
+  <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
     <div>Tags are created when making a new record. You can view records by tag and favorite certain tags to view easier</div>
-   
   </div>
 <% end %>
 

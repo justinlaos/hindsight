@@ -6,7 +6,7 @@
     <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: record_section, header: record_section.date %>
   <% end %>
 <% else %>
-  <div class="mt-10 min p-4 bg-really-light-grey rounded">
+  <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
     <div class="text-2xl">Welcome!</div>
     <br>
     <div>You can add and manage your team members <span><%= link "Here", to: Routes.settings_path(@conn, :organization), method: :get, class: "text-blue" %></span> </div>

@@ -34,9 +34,9 @@
         <th scope="col" class="px-6 py-3 text-right">
             <div x-data="{ open: false }">
                 <div x-on:click="open = true">
-                    <div data-modal-toggle="defaultModal" class="rounded-md px-3 py-2 hover:bg-light-grey">
+                    <div data-modal-toggle="defaultModal" class="rounded-md px-3 py-2">
                         <%= if Enum.count(@managed_users) <= @organization.user_limit do %>
-                          <button class="bg-primary hover:bg-primary hover:text-white text-white font-bold py-3 px-3 rounded" data-modal-toggle="defaultModal">
+                          <button class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-3 px-3 rounded" data-modal-toggle="defaultModal">
                             New Team Member
                           </button>
                           <%= render "new_user_form.html", action: Routes.pow_invitation_invitation_path(@conn, :create), changeset: @new_user_changeset %>
