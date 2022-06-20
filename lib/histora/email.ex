@@ -9,6 +9,14 @@ defmodule Histora.Email do
         |> assign(:url, url)
         |> render("new_subscribe.html")
     end
+
+    def new_invite(email, url) do
+        base_email() # Build your default email then customize for welcome
+        |> to(email)
+        |> subject("Welcome to Histora")
+        |> assign(:url, url)
+        |> render("new_invite.html")
+    end
         # |> put_header("Reply-To", "4jlaos@gmail.com")
         # |> html_body("<strong>Welcome to Histora</strong> <br>
         #     <p>Get Started by clicking this link to set your password</p> <br>

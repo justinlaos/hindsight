@@ -10,7 +10,7 @@
         aria-modal="true"
         x-id="['modal-title']"
         :aria-labelledby="$id('modal-title')"
-        class="fixed inset-0 overflow-y-auto z-10"
+        class="fixed inset-0 overflow-y-auto z-40"
     >
         <!-- Overlay -->
         <div x-show="open" x-transition.opacity class="fixed inset-0 "></div>
@@ -24,7 +24,7 @@
             <div
                 x-on:click.stop
                 x-trap.noscroll.inert="open"
-                class="relative max-w-2xl w-full bg-light-grey rounded-xl shadow-xl p-8 overflow-y-auto"
+                class="relative max-w-2xl w-full bg-light-grey rounded-xl shadow-xl p-8 overflow-y-auto dark:bg-darkest-grey dark:text-light-grey"
             >
                 <!-- Title -->
                 <div class="mb-4 text-2xl font-bold" :id="$id('modal-title')">New Record</div>
@@ -38,7 +38,7 @@
 
                 <div>
                     <div class="mt-1">
-                        <%= textarea f, :content, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md" %>
+                        <%= textarea f, :content, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "describe what you are recording and add some context to why" %>
                     </div>
                 </div>
 
@@ -47,7 +47,7 @@
                 <div>
                     <div class="mt-1">
                         <label for="name" class="block text-sm font-medium text-gray-700">Tags</label>
-                        <%= text_input f, :tag_list, placeholder: "Operations, Accounting, Office, Pricing", class: "mt-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md" %>
+                        <%= text_input f, :tag_list, placeholder: "operations, accounting, office, pricing", class: "mt-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none" %>
                     </div>
                 </div>     
 
@@ -55,7 +55,8 @@
 
                 <div>
                     <div class="mt-1">
-                        <%= text_input f, :reference, placeholder: "optional: reference link", class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md" %>
+                        <label for="reference" class="block text-sm font-medium text-gray-700">Reference</label>
+                        <%= text_input f, :reference, placeholder: "optional: www.link-to-something-important.com", class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none" %>
                     </div>
                 </div>
 
@@ -64,7 +65,7 @@
 
                 <!-- Buttons -->
                 <div class="mt-8 flex justify-between">
-                    <button type="button" x-on:click="open = false" class="bg-light-grey dark:bg-slate border-primary border-2 text-primary hover:bg-primary dark:hover:bg-primary hover:text-white font-bold py-2 px-2 rounded">
+                    <button type="button" x-on:click="open = false" class="bg-light-grey dark:bg-darkest-grey border-primary border-2 text-primary hover:bg-primary dark:hover:bg-primary hover:text-white font-bold py-2 px-2 rounded">
                         Cancel
                     </button>
 

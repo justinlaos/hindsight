@@ -1,4 +1,4 @@
-<div class="text-2xl font-bold dark:text-white">All Tags</div>
+<div class="text-2xl font-bold dark:text-white">Tags</div>
 
 <%= if Enum.any?(@all_tags) do %>
   <%= for tag <- @all_tags do %>
@@ -6,7 +6,6 @@
   <% end %>
 <% else %>
   <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
-    <div>Tags are created when making a new record. You can view records by tag and favorite certain tags to view easier</div>
+    <div>Tags are created in the "tags" field when making a new record, add one or many like "product, engineering, operations". On this page you can view records by tag and favorite tags you'd like to follow</div>
   </div>
 <% end %>
-

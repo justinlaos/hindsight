@@ -68,6 +68,9 @@ defmodule HistoraWeb.Router do
     post "/settings/organization/:id", Admin.SettingsController, :update
     get "/settings/integrations", Admin.SettingsController, :integrations
 
+    post "/settings/invitations", Admin.InvitationController, :create
+
+
     post "/users/:id/archive", Admin.UserController, :archive
     post "/users/:id/unarchive", Admin.UserController, :unarchive
 
@@ -76,7 +79,8 @@ defmodule HistoraWeb.Router do
   scope "/admin", PowInvitation.Phoenix, as: "pow_invitation" do
     pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources]
 
-    resources "/invitations", InvitationController, only: [:new, :create, :show]
+    # resources "/invitations", InvitationController, only: [:new, :show]
+
   end
 
   # Authorized Admin Active-Agnostic Routes

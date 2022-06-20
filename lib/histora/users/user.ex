@@ -42,10 +42,7 @@ defmodule Histora.Users.User do
   def unarchive_changeset(user_or_changeset) do
     changeset = Changeset.change(user_or_changeset)
 
-    case Changeset.get_field(changeset, :archived_at) do
-      nil  -> Changeset.change(changeset, archived_at: nil)
-      _any -> Changeset.add_error(changeset, :archived_at, "already set")
-    end
+    Changeset.change(changeset, archived_at: nil)
   end
 
   def invite_changeset(user_or_changeset, invited_by, attrs) do

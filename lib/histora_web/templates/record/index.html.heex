@@ -1,4 +1,4 @@
-<div class="text-2xl font-bold dark:text-white">All Records</div>
+<div class="text-2xl font-bold dark:text-white">Records</div>
 <div class="text-base text-grey mt-1"><%= Enum.count(@records_count) %></div>
 
 <%= if Enum.any?(@records) do %>
@@ -9,20 +9,9 @@
   <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
     <div class="text-2xl">Welcome!</div>
     <br>
-    <div>You can add and manage your team members <span><%= link "Here", to: Routes.settings_path(@conn, :organization), method: :get, class: "text-blue" %></span> </div>
-    <br>
-    <div>View records by tags here <span><%= link "Here", to: Routes.tag_path(@conn, :index), method: :get, class: "text-blue" %></span></div>
-    <br>
-    <div>Tags are made when making a new record like this "product, engineering, operations"</div>
-    <br>
-    <div>They are generated and sorted automatically</div>
-    <br>
-    <div>View records by team memebers here <span><%= link "Here", to: Routes.user_path(@conn, :index), method: :get, class: "text-blue" %></span></div>
-    <br>
-    <div>Search for records using the search bar on the top right</div>
+    <div>Get started by adding team members <span><%= link "Here", to: Routes.settings_path(@conn, :organization), method: :get, class: "text-blue" %></span> </div>
     <br>
     <div>Add your first record by clicking "New Record" on the top right</div>
-
   </div>
 <% end %>
 
