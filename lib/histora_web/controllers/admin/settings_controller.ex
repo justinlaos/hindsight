@@ -29,7 +29,7 @@ defmodule HistoraWeb.Admin.SettingsController do
       {:ok, _organization} ->
         conn
         |> put_flash(:info, "organization updated successfully.")
-        |> redirect(to: Routes.record_path(conn, :index))
+        |> redirect(to: Routes.settings_path(conn, :organization))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "organization.html", organization: organization, changeset: changeset)

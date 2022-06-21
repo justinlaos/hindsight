@@ -65,7 +65,7 @@ defmodule HistoraWeb.Router do
     pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources]
 
     get "/settings/organization", Admin.SettingsController, :organization
-    post "/settings/organization/:id", Admin.SettingsController, :update
+    put "/settings/organization/:id", Admin.SettingsController, :update
     get "/settings/integrations", Admin.SettingsController, :integrations
 
     post "/settings/invitations", Admin.InvitationController, :create
