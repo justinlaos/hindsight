@@ -15,6 +15,11 @@ defmodule HistoraWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug HistoraWeb.APIAuthPlug, otp_app: :histora
+  end
+
+  pipeline :api_protected do
+    plug Pow.Plug.RequireAuthenticated, error_handler: HistoraWeb.APIAuthErrorHandler
   end
 
   pipeline :admin do
@@ -108,6 +113,21 @@ defmodule HistoraWeb.Router do
 
     pow_session_routes()
     pow_extension_routes()
+  end
+
+  scope "/api/v1", HistoraWeb.API.V1, as: :api_v1 do
+    pipe_through :api
+
+    resources "/session", SessionController, singleton: true, only: [:create, :delete]
+    post "/session/renew", SessionController, :renew
+  end
+
+  scope "/api/v1", HistoraWeb.API.V1, as: :api_v1 do
+    pipe_through [:api, :api_protected]
+
+    post "/record", RecordController, :create
+
+    # Your protected API endpoints here
   end
 
   # Other scopes may use custom stacks.

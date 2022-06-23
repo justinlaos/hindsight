@@ -1,6 +1,10 @@
 <div class="my-6 rounded-lg ">
     <div class="text-lg font-bold text-primary"><%= Histora.Users.formate_time_stamp(@record.inserted_at) %></div>
-   
+
+    <%= if @record.source != nil do %>
+      <div class="text-xs text-grey"> source: <%= @record.source %> </div>
+    <% end %>
+    
     <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
       <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: @record %>
     </div>
