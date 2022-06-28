@@ -22,10 +22,12 @@ defmodule HistoraWeb.RecordController do
 
     case Records.create_record(Map.merge(record_params, %{"user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id})) do
       {:ok, record} ->
-        Tags.assign_tags_to_record(tag_list, record.id, record.organization_id, record.user_id)
+        if tag_list != "" do
+          Tags.assign_tags_to_record(tag_list, record.id, record.organization_id, record.user_id)
+        end
         conn
-        |> put_flash(:info, "Record created.")
-        |> redirect(to: redirect_to)
+          |> put_flash(:info, "Record created.")
+          |> redirect(to: redirect_to)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

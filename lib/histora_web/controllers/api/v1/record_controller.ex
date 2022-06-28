@@ -10,7 +10,9 @@ defmodule HistoraWeb.API.V1.RecordController do
   def create(conn, %{"content" => content, "tag_list" => tag_list, "reference" => reference, "source" => source}) do
     case Records.create_record(%{"user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.current_user.organization_id, "content" => content, "reference" => reference, "source" => source }) do
       {:ok, record} ->
-        Tags.assign_tags_to_record(tag_list, record.id, record.organization_id, record.user_id)
+        if tag_list != "" do
+          Tags.assign_tags_to_record(tag_list, record.id, record.organization_id, record.user_id)
+        end
 
         json(conn, %{status: 200, data: "recorded created"})
 

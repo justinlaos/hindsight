@@ -47,6 +47,7 @@ defmodule HistoraWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug Pow.Plug.Session, otp_app: :histora
+  plug CORSPlug
   plug HistoraWeb.Router
   plug HistoraWeb.StripeWebhooksPlug
 end
