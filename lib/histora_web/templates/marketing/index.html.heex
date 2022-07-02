@@ -7,12 +7,12 @@
           <div class="mt-20">
           
             <div class="mt-6 sm:max-w-xl">
-              <h1 class="text-4xl font-extrabold text-black dark:text-white tracking-tight sm:text-5xl">Record The Impactful Decisions Your Organization Makes </h1>
-              <p class="mt-6 text-xl text-darkest-grey dark:text-light-grey">Know and learn from what your team does</p>
+              <h1 class="text-4xl font-extrabold text-black dark:text-white tracking-tight sm:text-5xl">Know The Impactful Decisions Your Organization Makes </h1>
+              <p class="mt-6 text-xl text-darkest-grey dark:text-light-grey">record and reflect</p>
             </div>
             <div class="mt-4">
               <a href="https://buy.stripe.com/test_9AQ2bQ0J8cK72vm5kk">
-                <button type="submit" class="block w-full rounded-md px-5 py-3 bg-primary text-base font-medium text-white shadow hover:bg-dark-primary focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">Get Started Now</button>
+                <button type="submit" class="block w-full rounded-md px-5 py-3 bg-primary text-base font-medium text-white shadow hover:bg-dark-primary focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">Start Free <span class="font-extrabold">30</span> Day Trial</button>
               </a>
             </div>
           </div>
@@ -38,6 +38,33 @@
         </div>
       </div>
     </div>
+
+    <div class="my-24 mx-auto text-center text-2xl font-extrabold text-black dark:text-grey ">
+     Businesses Make Impactful Decisions Every day That Could Determine <span class="text-primary">Success</span>
+    </div>
+
+    <div class="mx-auto text-center text-4xl mt-8 font-extrabold text-black dark:text-white ">
+      Create a Record of Success
+    </div>
+
+    <div class="mx-auto my-8 text-center text-black dark:text-grey">
+      Changing a current process? pivoting on product? expanding to something new? Whatever it may be, record it. 
+    </div>
+
+    
+
+
+
+    <div class="mx-auto w-7/12">
+
+      <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: %Histora.Records.Record{id: 1, content: "Better understand and reflect on the decisions being made within our company", user: %Histora.Users.User{id: 1, email: "Justin@histora.app"}, tags: [%Histora.Tags.Tag{ id: 1, name: "product"}, %Histora.Tags.Tag{ id: 1, name: "processes"}, %Histora.Tags.Tag{ id: 1, name: "operations"}]} %>
+
+      <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: %Histora.Records.Record{id: 1, content: "Create more transparency so different teams can understand what's happening in the company", user: %Histora.Users.User{id: 1, email: "Lauren@histora.app"}, tags: [%Histora.Tags.Tag{ id: 1, name: "Human Resources"}, %Histora.Tags.Tag{ id: 1, name: "Team"}]} %>
+
+      <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: %Histora.Records.Record{id: 1, content: "Provide historical context to new hires", user: %Histora.Users.User{id: 1, email: "Mila@histora.app"}, tags: [%Histora.Tags.Tag{ id: 1, name: "hiring"}, %Histora.Tags.Tag{ id: 1, name: "people"}]} %>
+
+    </div>
+
 
     <!-- Testimonial/stats section -->
   

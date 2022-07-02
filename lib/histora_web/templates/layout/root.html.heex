@@ -10,6 +10,15 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5VFPTN6XMY"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-5VFPTN6XMY');
+    </script>
   </head>
     <%= if Pow.Plug.current_user(@conn) do %>
       <body class="mr-0.5 ml-0.5 flex flex-row bg-white dark:bg-slate font-poppins">
@@ -25,7 +34,7 @@
 
       </body>
     <% else %>
-      <body class="flex flex-col bg-white dark:bg-slate font-poppins">
+      <body class="marketing flex flex-col bg-white dark:bg-slate font-poppins">
           <%= render "marketing_navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
           <div class="flex flex-col items-center justify-start">
             <p class="text-blue" role="alert"><%= get_flash(@conn, :info) %></p>

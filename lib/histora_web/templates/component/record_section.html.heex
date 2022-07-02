@@ -3,6 +3,8 @@
    
     <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
         <%= for record <- @record_section.records do %>
+          <% IO.inspect(record) %>
+
             <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: record %>
         <% end %>
     </div>
