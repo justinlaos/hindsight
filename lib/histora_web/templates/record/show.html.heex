@@ -1,5 +1,18 @@
-<div class="my-6 rounded-lg ">
-    <div class="text-lg font-bold text-primary"><%= Histora.Users.formate_time_stamp(@record.inserted_at) %></div>
+<div class="my-6">
+    <div class="flex flex-row justify-between">
+      <div class="text-lg font-bold text-primary"><%= Histora.Users.formate_time_stamp(@record.inserted_at) %></div>
+      <%= if @record.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
+        <div x-data="{ open: false }">
+            <span x-on:click="open = true">
+              <div data-modal-toggle="defaultModal" class="cursor-pointer rounded-md px-3 py-2 hover:bg-light-grey dark:bg-darkest-grey dark:text-light-grey dark:hover:bg-primary">
+                Edit
+              </div> 
+            </span>
+            <%= render "edit_record_modal.html", Map.put(assigns, :action, Routes.record_path(@conn, :update, @record.id)) %>
+        </div>
+      <% end %>
+    </div>
+
 
     <%= if @record.source != nil do %>
       <div class="text-xs text-grey"> source: <%= @record.source %> </div>
@@ -8,4 +21,22 @@
     <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
       <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: @record %>
     </div>
+
+    <%= if Enum.count(@record_users_without_scope) >= 1 do %> 
+      <div class="flex flex-row">
+        <div class="mr-4 font-bold"> Connected Users: </div>
+        <%= for user <- @record_users_without_scope do %>
+          <div class=""><%= user.user.email %>, </div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= if Enum.count(@record_users_with_scope) >= 1 do %> 
+      <div class="flex flex-row">
+        <div class="mr-4 font-bold"> Connected Users throught a scope: </div>
+        <%= for user <- @record_users_with_scope do %>
+          <div class=""><%= user.user.email %>, </div>
+        <% end %>
+      </div>
+    <% end %>
 </div>

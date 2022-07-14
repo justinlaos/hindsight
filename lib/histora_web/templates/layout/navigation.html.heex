@@ -11,19 +11,24 @@
         </div>
       <% end %>
 
-      <%= link to: Routes.tag_path(@conn, :index) do %>
-        <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
-          <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-3" />
-          Tags
+      <%= link to: Routes.scope_path(@conn, :index) do %>
+        <div class={"#{String.contains?(@conn.request_path, "teams") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
+          <Heroicons.LiveView.icon name="user-group" type="solid" class="h-5 w-5 mr-3" />
+          Scopes
         </div>
       <% end %>
-     
-      <%= link to: Routes.user_path(@conn, :index) do %>
-        <div class={"#{String.contains?(@conn.request_path, "users") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
-          <Heroicons.LiveView.icon name="users" type="solid" class="h-5 w-5 mr-3" />
-          Team
+
+        <div class={"#{String.contains?(@conn.request_path, "drafts") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
+          <Heroicons.LiveView.icon name="pencil-alt" type="solid" class="h-5 w-5 mr-3" />
+          Drafts (coming soon)
         </div>
-      <% end %>
+
+        <div class={"#{String.contains?(@conn.request_path, "reflections") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
+          <Heroicons.LiveView.icon name="eye" type="solid" class="h-5 w-5 mr-3" />
+          Reflections (coming soon)
+        </div>
+
+  
     </div>
 
     <div class="w-40 text-grey">

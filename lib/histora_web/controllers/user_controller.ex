@@ -55,10 +55,11 @@ defmodule HistoraWeb.UserController do
   # end
 
   def favorite(conn, %{"favorite_user_id" => favorite_user_id}) do
+
     case Users.create_user_favorite(%{"favorite_user_id" => favorite_user_id, "user_id" => conn.assigns.current_user.id}) do
       {:ok, user_favorite} ->
         conn
-        |> redirect(to: Routes.user_path(conn, :show, user_favorite.favorite_user_id))
+        |> redirect(to: Routes.settings_path(conn, :organization))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -70,6 +71,6 @@ defmodule HistoraWeb.UserController do
     {:ok, _user_favorite} = Users.delete_user_favorite(user_favorite)
 
     conn
-    |> redirect(to: Routes.user_path(conn, :show, user_favorite.favorite_user_id))
+    |> redirect(to: Routes.settings_path(conn, :organization))
   end
 end

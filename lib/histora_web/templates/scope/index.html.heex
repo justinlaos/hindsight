@@ -1,0 +1,11 @@
+<div class="text-2xl mb-8 font-bold dark:text-white">Scopes</div>
+
+<div class="flex flex-row ">
+<%= for scope <- @scopes do %>
+    <%= link to: Routes.scope_path(@conn, :show, scope) do %>
+      <div class="flex flex-col h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
+        <div class="dark:text-white"><%= String.capitalize(scope.name) %></div>
+      </div>
+    <% end %>
+<% end %>
+</div>

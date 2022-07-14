@@ -2,6 +2,32 @@
 
     <%= render HistoraWeb.SearchView, "search_form.html", conn: @conn %>
 
+
+    <%= if assigns.conn.request_path == "/records" do %>
+        <div x-data="{ open: false }" class="flex justify-center">
+            <!-- Trigger -->
+            <span x-on:click="open = true">
+                <button class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded" data-modal-toggle="defaultModal">
+                    Filter
+                </button>
+            </span>
+            <%= render HistoraWeb.RecordView, "record_filter_modal.html", conn: @conn, filterable_tags: @filterable_tags, filterable_users: @filterable_users, selected_filtered_tags: @selected_filtered_tags, selected_filtered_users: @selected_filtered_users, formated_start_date: @formated_start_date, formated_end_date: @formated_end_date %>
+        </div>
+    <% end %>
+
+    <%= if assigns.conn.request_path == "/scopes" do %>
+        <div x-data="{ open: false }" class="flex justify-center">
+            <!-- Trigger -->
+            <span x-on:click="open = true">
+                <button class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded" data-modal-toggle="defaultModal">
+                    New Scope
+                </button>
+            </span>
+            <%= render HistoraWeb.ScopeView, "new_scope_modal.html", Map.put(assigns, :action, Routes.scope_path(@conn, :create)) %>
+        </div>
+    <% end %>
+
+
     <div x-data="{ open: false }" class="flex justify-center">
         <!-- Trigger -->
         <span x-on:click="open = true">

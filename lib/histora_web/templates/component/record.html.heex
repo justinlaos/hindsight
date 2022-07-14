@@ -1,34 +1,42 @@
-<div class="py-4 pl-5">
+<div class="ml-8 px-2 pl-2 pt-4 pb-2 my-8 dark:bg-darkest-grey bg-really-light-grey rounded-md">
     <%= link to: Routes.record_path(@conn, :show, @record) do %>
-        <div class="text-base dark:text-light-grey rounded-md dark:bg-darkest-grey bg-really-light-grey px-5 py-5"><%= @record.content %></div>
+        <div class="text-base dark:text-light-grey ml-4 "><%= @record.content %></div>
     <% end %>
 
-    <div class="flex flex-row text-xs mb-2">
+    <div class="flex flex-row text-xs mt-6">
         <%= if Ecto.assoc_loaded?(@record.user) do %>
             <%= link to: Routes.user_path(@conn, :show, @record.user) do %> 
-                <div class="my-4 flex flex-row text-xs text-gray-500 dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md px-3 py-2 hover:bg-light-grey">
+                <div class="inline-flex flex-row items-center mx-0.5 px-2.5 dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md py-1.5 hover:bg-grey-ish"> 
                     <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
                     <%= @record.user.email %>
-                </div> 
+                </div>
             <% end %>
         <% else %>
-            <div class="my-4 flex flex-row text-xs text-dark-grey dark:text-dark-grey rounded-md px-3 py-2 "> 
+            <div class="items-center mx-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-black dark:text-grey"> 
                 <%= Histora.Users.formate_time_stamp(@record.inserted_at) %> 
             </div>
         <% end %>
 
-        <%= if @record.reference != nil do %>
-            <a class="my-4 flex flex-row text-xs text-blue dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md px-3 py-2 hover:bg-light-grey" href={"#{ @record.reference }"} target="_blank">Reference</a>
-        <% end %>
-    </div> 
+        <%= if Enum.count(@record.users) >= 1 do %> 
+            <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
+            <div class="text-xs mx-1 px-2.5 mt-1 dark:text-grey">
+                <%= Enum.count(@record.users) %> connected users
+            </div>  
+        <% end %>   
 
-    <div class="flex flex-row text-xs mb-2">
+        <%= if @record.reference != nil do %>
+            <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
+            <a class="inline-flex items-center text-xs py-1.5 text-blue dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md px-3 hover:bg-grey-ish" href={"#{ @record.reference }"} target="_blank">Reference</a>
+        <% end %>
+       
+        <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
+
         <%= for tag <- @record.tags do %>
             <%= link to: Routes.tag_path(@conn, :show, tag) do %> 
-                <div class="inline-flex items-center mx-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-light-grey dark:bg-darkest-grey text-dark-grey dark:text-grey hover:text-primary dark:hover:text-primary"> 
+                <div class="inline-flex items-center mx-0.5 px-2.5 py-1.5 rounded-md text-sm font-medium text-darkest-grey dark:text-grey hover:text-primary dark:hover:bg-darkest-grey hover:bg-grey-ish dark:hover:text-primary"> 
                     <%= tag.name %> 
                 </div>
             <% end %>
         <% end %>
-    </div>              
+    </div>     
 </div>

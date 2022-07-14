@@ -1,22 +1,6 @@
-<%= if assigns[:tags] do %>
-    <div class="flex flex-col items-start w-60 px-1 py-3 text-sm border-light-grey text-dark-grey dark:border-dark-grey border-r">
-        <div class={"#{assigns[:tag] == nil && 'text-primary'} text-sm rounded-md w-full px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
-            <%= link "All Tags", to: Routes.tag_path(@conn, :index) %>
-        </div>
+<%# Enum.any?(tag.tag_favorites, & &1.user_id == @conn.assigns.current_user.id) %>
 
-        <%= for tag <- @tags do %>
-            <div class={"#{assigns[:tag] && assigns[:tag].id == tag.id && 'text-primary'} flex flex-row items-center text-sm rounded-md w-full px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
-                <%= if Enum.any?(tag.tag_favorites, & &1.user_id == @conn.assigns.current_user.id) do %>
-                    <Heroicons.LiveView.icon name="star" type="solid" class="h-5 w-5 mr-1 text-yellow" />
-                <% end %>
-                <%= link tag.name, to: Routes.tag_path(@conn, :show, tag) %>
-            </div>
-        <% end %>
-    </div>
-<% end %>
-
-
-<%= if assigns[:users] do %>
+<%= if assigns[:userssss] do %>
     <div class="flex flex-col items-start w-60 px-1 py-3 text-sm border-light-grey text-dark-grey dark:border-dark-grey border-r">
 
         <div class={"#{assigns[:user] == nil && 'text-primary'} w-full text-sm rounded-md px-3 py-3 mb-3 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
@@ -42,10 +26,10 @@
           <%= link "Organization", to: Routes.settings_path(@conn, :organization), method: :get %>
         </div>  
 
-        <%# <div class={"#{String.contains?(@conn.request_path, "integrations") && 'text-primary'} w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary"}>
-          <Heroicons.LiveView.icon name="view-grid-add" type="solid" class="h-5 w-5 mr-2" />
-          <%= link "Integrations", to: Routes.settings_path(@conn, :integrations), method: :get %>
-         
+        <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary'} w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
+          <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-2" />
+          <%= link "tags", to: Routes.settings_path(@conn, :tags), method: :get %>
+        </div>  
 
         <div class="w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey">
           <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-2" />

@@ -68,7 +68,7 @@ defmodule HistoraWeb.TagController do
     case Tags.create_tag_favorite(%{"tag_id" => tag, "user_id" => conn.assigns.current_user.id}) do
       {:ok, tag_favorite} ->
         conn
-        |> redirect(to: Routes.tag_path(conn, :show, tag_favorite.tag_id))
+        |> redirect(to: Routes.settings_path(conn, :tags))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -80,6 +80,6 @@ defmodule HistoraWeb.TagController do
     {:ok, _tag_favorite} = Tags.delete_tag_favorite(tag_favorite)
 
     conn
-    |> redirect(to: Routes.tag_path(conn, :show, tag_favorite.tag_id))
+    |> redirect(to: Routes.settings_path(conn, :tags))
   end
 end

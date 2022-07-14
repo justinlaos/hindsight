@@ -12,6 +12,12 @@ defmodule Histora.Records.Record do
     has_many(:tag_records, Histora.Tags.Tag_record)
     has_many(:tags, through: [:tag_records, :tag])
 
+    has_many(:scope_records, Histora.Scopes.Scope_record)
+    has_many(:scopes, through: [:scope_records, :scope])
+
+    has_many(:record_users, Histora.Records.Record_user)
+    has_many(:users, through: [:record_users, :user])
+
     timestamps()
   end
 

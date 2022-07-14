@@ -21,6 +21,5 @@ defmodule Histora.Tags.Tag do
     tag
     |> cast(attrs, [:name, :user_id, :organization_id])
     |> validate_required([:name, :user_id, :organization_id])
-    |> unique_constraint(:name_your_constraint, name: :your_index_name)
   end
 end

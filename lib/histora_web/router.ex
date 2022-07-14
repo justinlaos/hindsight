@@ -57,6 +57,7 @@ defmodule HistoraWeb.Router do
     post "/results", SearchController, :results
     get "/results", SearchController, :results
     resources "/records", RecordController
+    resources "/scopes", ScopeController
     resources "/tags", TagController
     resources "/users", UserController
     post "/tag/favorite", TagController, :favorite
@@ -72,6 +73,7 @@ defmodule HistoraWeb.Router do
     get "/settings/organization", Admin.SettingsController, :organization
     put "/settings/organization/:id", Admin.SettingsController, :update
     get "/settings/integrations", Admin.SettingsController, :integrations
+    get "/settings/tags", Admin.SettingsController, :tags
 
     post "/settings/invitations", Admin.InvitationController, :create
 

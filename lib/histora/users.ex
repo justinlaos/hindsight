@@ -67,6 +67,16 @@ defmodule Histora.Users do
     |> Repo.all()
   end
 
+  def selected_filtered_users(organization, users) do
+    cleaned_user_list = users |> Enum.map(&String.to_integer/1)
+
+    (from u in User,
+      where: u.organization_id == ^organization.id,
+      where: u.id in ^cleaned_user_list
+    )
+    |> Repo.all()
+  end
+
   def get_organization_users_for_settings(organization) do
     (from u in User, where: u.organization_id == ^organization.id, preload: :user_favorites )
     |> Repo.all()
@@ -91,15 +101,18 @@ defmodule Histora.Users do
     end
   end
 
+  def current_user_user_favorites(current_user) do
+    (from uf in User_favorite, where: uf.user_id == ^current_user.id ) |> Repo.all()
+  end
+
+  def get_user_favorite!(favorite_user_id, user_id) do
+    (from uf in User_favorite, where: uf.favorite_user_id == ^favorite_user_id and uf.user_id == ^user_id) |> Repo.one()
+  end
 
   def create_user_favorite(attrs \\ %{}) do
     %User_favorite{}
     |> User_favorite.changeset(attrs)
     |> Repo.insert()
-  end
-
-  def get_user_favorite!(favorite_user_id, user_id) do
-    (from uf in User_favorite, where: uf.favorite_user_id == ^favorite_user_id and uf.user_id == ^user_id) |> Repo.one()
   end
 
   def delete_user_favorite(%User_favorite{} = user_favorite) do

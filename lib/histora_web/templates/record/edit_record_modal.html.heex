@@ -1,6 +1,6 @@
 <%# is called from the action bar %>
 
-<.form let={f} for={@record_changeset} action={@action}>
+<.form let={f} for={@edit_record_changeset} action={@action}>
 
     <div
         x-show="open"
@@ -27,7 +27,7 @@
                 class="relative max-w-2xl w-full bg-light-grey rounded-xl shadow-xl p-8 overflow-y-auto dark:bg-darkest-grey dark:text-light-grey"
             >
                 <!-- Title -->
-                <div class="mb-4 text-2xl font-bold" :id="$id('modal-title')">New Record</div>
+                <div class="mb-4 text-2xl font-bold" :id="$id('modal-title')">Edit Record</div>
                 <!-- Content -->
 
                 <%= if @record_changeset.action do %>
@@ -80,7 +80,7 @@
 
                     <%= submit do  %>
                         <button class="bg-primary hover:bg-primary hover:text-white text-white font-bold py-3 px-3 rounded">
-                            Create
+                            Update
                         </button>
                     <% end %> 
                 </div>

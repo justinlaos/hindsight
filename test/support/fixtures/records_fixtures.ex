@@ -17,4 +17,18 @@ defmodule Histora.RecordsFixtures do
 
     record
   end
+
+  @doc """
+  Generate a record_user.
+  """
+  def record_user_fixture(attrs \\ %{}) do
+    {:ok, record_user} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Histora.Records.create_record_user()
+
+    record_user
+  end
 end

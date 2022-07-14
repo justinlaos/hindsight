@@ -23,6 +23,8 @@
     <thead class="text-xs text-grey uppercase bg-light-grey dark:bg-darkest-grey dark:text-white">
       <tr>
         <th scope="col" class="px-6 py-3">
+        </th>
+        <th scope="col" class="px-6 py-3">
           Email
         </th>
         <th scope="col" class="px-6 py-3">
@@ -55,8 +57,19 @@
       <%= for user <- @managed_users do %>
 
         <tr class="bg-white border-b dark:bg-black dark:border-dark-grey">
+          <th>
+            <%= if Enum.any?(@user_favorites, & &1.favorite_user_id == user.id) do %>
+              <%= link to: Routes.user_path(@conn, :unfavorite, favorite_user_id: user.id), method: :post do %>
+                  <Heroicons.LiveView.icon name="star" type="solid" class="h-5 w-5 mr-2 text-yellow" />
+              <% end %>
+            <% else %>
+              <%= link to: Routes.user_path(@conn, :favorite, favorite_user_id: user.id), method: :post do %>
+                  <Heroicons.LiveView.icon name="star" type="outline" class="h-5 w-5 mr-2 text-yellow" />
+              <% end %>
+            <% end %>
+          </th>
           <th scope="row" class="px-6 py-2 font-medium text-dark-grey dark:text-white whitespace-nowrap">
-            <%= link to: Routes.user_path(@conn, :show, user) do %> 
+            <%= link to: Routes.record_path(@conn, :index, users: [user.id]) do %> 
               <div class="flex flex-row text-xs rounded-md px-3 py-2 hover:bg-light-grey dark:hover:bg-darkest-grey">
                 <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
                 <%= user.email %>

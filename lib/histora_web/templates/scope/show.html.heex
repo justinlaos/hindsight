@@ -1,0 +1,24 @@
+<div class="flex content-center">
+
+    <div class="text-2xl font-bold mr-5 dark:text-white">
+        <%= String.capitalize(@scope.name) %>
+    </div>
+
+    <div x-data="{ open: false }">
+        <span x-on:click="open = true">
+            <div data-modal-toggle="defaultModal" class="cursor-pointer rounded-md px-3 py-2 hover:bg-light-grey dark:bg-darkest-grey dark:text-light-grey dark:hover:bg-primary">
+                Settings
+            </div> 
+        </span>
+        <%= render "edit_scope_modal.html", Map.put(assigns, :action, Routes.scope_path(@conn, :update, @scope.id)) %>
+    </div>
+    
+</div>
+
+<div>
+<%= Enum.count(@current_scope_users) %> users connected
+</div>
+
+<%= for record_section <- @records do %>
+  <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: record_section, header: record_section.date %>
+<% end %>

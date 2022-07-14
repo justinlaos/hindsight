@@ -54,4 +54,56 @@ defmodule Histora.RecordsTest do
       assert %Ecto.Changeset{} = Records.change_record(record)
     end
   end
+
+  describe "record_users" do
+    alias Histora.Records.Record_user
+
+    import Histora.RecordsFixtures
+
+    @invalid_attrs %{}
+
+    test "list_record_users/0 returns all record_users" do
+      record_user = record_user_fixture()
+      assert Records.list_record_users() == [record_user]
+    end
+
+    test "get_record_user!/1 returns the record_user with given id" do
+      record_user = record_user_fixture()
+      assert Records.get_record_user!(record_user.id) == record_user
+    end
+
+    test "create_record_user/1 with valid data creates a record_user" do
+      valid_attrs = %{}
+
+      assert {:ok, %Record_user{} = record_user} = Records.create_record_user(valid_attrs)
+    end
+
+    test "create_record_user/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Records.create_record_user(@invalid_attrs)
+    end
+
+    test "update_record_user/2 with valid data updates the record_user" do
+      record_user = record_user_fixture()
+      update_attrs = %{}
+
+      assert {:ok, %Record_user{} = record_user} = Records.update_record_user(record_user, update_attrs)
+    end
+
+    test "update_record_user/2 with invalid data returns error changeset" do
+      record_user = record_user_fixture()
+      assert {:error, %Ecto.Changeset{}} = Records.update_record_user(record_user, @invalid_attrs)
+      assert record_user == Records.get_record_user!(record_user.id)
+    end
+
+    test "delete_record_user/1 deletes the record_user" do
+      record_user = record_user_fixture()
+      assert {:ok, %Record_user{}} = Records.delete_record_user(record_user)
+      assert_raise Ecto.NoResultsError, fn -> Records.get_record_user!(record_user.id) end
+    end
+
+    test "change_record_user/1 returns a record_user changeset" do
+      record_user = record_user_fixture()
+      assert %Ecto.Changeset{} = Records.change_record_user(record_user)
+    end
+  end
 end

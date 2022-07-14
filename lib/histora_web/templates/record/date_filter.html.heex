@@ -1,0 +1,27 @@
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+
+<div
+    x-data={"{
+        value: ['#{Date.to_string(@formated_start_date)}', '#{Date.to_string(@formated_end_date)}'],
+        init() {
+            let picker = flatpickr(this.$refs.picker, {
+                mode: 'range',
+                altInput: true,
+                altFormat: 'F j, Y',
+                dateFormat: 'Y-m-d',
+                defaultDate: this.value,
+                onChange: (date, dateString) => {
+                    this.value = dateString.split(' to ')
+                }
+            })
+
+            this.$watch('value', () => picker.setDate(this.value))
+        },
+    }"}
+    class="dark:text-white"
+>
+    <input name="dates[]" id="dates[]" class="bg-transparent focus:ring-primary border-none w-full focus:border-primary hover:border-primary hover:text-prmiary dark:text-white rounded bg-transparent" x-ref="picker" type="text">
+</div>
