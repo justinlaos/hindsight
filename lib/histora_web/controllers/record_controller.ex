@@ -12,7 +12,7 @@ defmodule HistoraWeb.RecordController do
     formated_start_date = if Map.has_key?(params, "dates") && params["dates"] != "" do
       Records.get_param_start_date(params)
     else
-      date_string = Date.to_string(Date.utc_today |> Date.add(-30))
+      date_string = Date.to_string(Date.utc_today |> Date.add(-7))
       {:ok, formated_start_date} = NaiveDateTime.new Date.from_iso8601!(date_string), ~T[00:00:00]
       formated_start_date
     end
@@ -32,8 +32,8 @@ defmodule HistoraWeb.RecordController do
       |> Records.filter_users(params)
       |> Records.filter_dates(formated_start_date, formated_end_date)
 
-    records = sorted_records |> Records.formate_records()
-    records_count = sorted_records |> Records.formate_records_count()
+    records =  Records.formate_records(sorted_records, conn.assigns.current_user)
+    records_count =  Records.formate_records_count(sorted_records)
 
     filterable_tags = Tags.list_organization_tags(conn.assigns.organization)
     filterable_users = Users.get_organization_users(conn.assigns.organization)
@@ -58,21 +58,26 @@ defmodule HistoraWeb.RecordController do
     render(conn, "new.html", changeset: changeset)
   end
 
-  def create(conn, %{"record" => record_params}) do
-    %{"tag_list" => tag_list} = record_params
-    %{"scope" => scope} = record_params
-    %{"redirect_to" => redirect_to} = record_params
+  def create(conn, params) do
+    %{"tag_list" => tag_list} = params["record"]
+    scope = params["scope"]
+    private = params["private"]
+    users = params["users"]
+    %{"redirect_to" => redirect_to} = params["record"]
 
-    case Records.create_record(Map.merge(record_params, %{"user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id})) do
+    case Records.create_record(Map.merge(params["record"], %{"private" => private, "user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id})) do
       {:ok, record} ->
 
         if tag_list != "" do
           Tags.assign_tags_to_record(tag_list, record.id, record.organization_id, record.user_id)
         end
 
-        if scope != "" do
-          [{:ok, scope_record}] = Scopes.assign_scope_to_record(scope, record.id, record.organization_id, record.user_id)
-          Records.connect_scope_users_to_record(record.id, scope_record.scope_id)
+        if scope != nil do
+          {:ok, scope_record} = Scopes.assign_scope_to_record(scope, record.id)
+        end
+
+        if Map.has_key?(params, "users") && users != "" do
+          Records.create_record_users(users, record.id)
         end
 
         conn
@@ -86,14 +91,12 @@ defmodule HistoraWeb.RecordController do
 
   def show(conn, %{"id" => id}) do
     record = Records.get_record!(id)
-    record_users_with_scope = Records.get_record_users_with_scope(record.id)
-    record_users_without_scope = Records.get_record_users_without_scope(record.id)
     edit_record_changeset = Records.change_record(record)
+    scopes = Scopes.list_organization_scopes(conn.assigns.organization)
     render(conn, "show.html",
       record: record,
-      record_users_with_scope: record_users_with_scope,
-      record_users_without_scope: record_users_without_scope,
-      edit_record_changeset: edit_record_changeset
+      edit_record_changeset: edit_record_changeset,
+      scopes: scopes
     )
   end
 

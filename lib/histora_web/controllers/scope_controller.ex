@@ -20,9 +20,10 @@ defmodule HistoraWeb.ScopeController do
   def create(conn, params) do
 
     scope = params["scope"]
+    private = params["private"]
 
     %{"users_list" => users_list} = params
-    case Scopes.create_scope(%{"name" => scope["name"], "organization_id" => conn.assigns.organization.id}) do
+    case Scopes.create_scope(%{"private" => private, "name" => scope["name"], "organization_id" => conn.assigns.organization.id}) do
       {:ok, scope} ->
 
         if Map.has_key?(params, "users_list") && users_list != "" do
@@ -55,6 +56,7 @@ defmodule HistoraWeb.ScopeController do
   end
 
   def update(conn, %{"id" => id, "scope" => scope_params, "users_list" => users_list}) do
+    # %{"id" => id, "scope" => scope_params, "users_list" => users_list}
     scope = Scopes.get_scope!(id)
 
     case Scopes.update_scope(scope, scope_params) do
@@ -63,6 +65,23 @@ defmodule HistoraWeb.ScopeController do
         if users_list != "" do
           Scopes.update_scope_users(users_list, scope.id)
         end
+
+        conn
+        |> put_flash(:info, "Scope updated successfully.")
+        |> redirect(to: Routes.scope_path(conn, :show, scope))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        render(conn, "edit.html", scope: scope, changeset: changeset)
+    end
+  end
+
+  def update(conn, %{"id" => id, "scope" => scope_params}) do
+    scope = Scopes.get_scope!(id)
+
+    case Scopes.update_scope(scope, scope_params) do
+      {:ok, scope} ->
+
+        Scopes.update_scope_users([], scope.id)
 
         conn
         |> put_flash(:info, "Scope updated successfully.")

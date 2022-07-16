@@ -8,12 +8,15 @@ defmodule Histora.Records do
 
   alias Histora.Tags.Tag_record
   alias Histora.Scopes
+  alias Histora.Scopes.Scope
   alias Histora.Scopes.Scope_user
+  alias Histora.Scopes.Scope_record
   alias Histora.Records.Record
   alias Histora.Tags.Tag
 
   def list_organization_records(organization) do
-    (from r in Record, where: r.organization_id == ^organization.id)
+    (from r in Record, where: r.organization_id == ^organization.id )
+    |> order_by(desc: :updated_at)
   end
 
   def filter_tags(records, params) do
@@ -42,13 +45,23 @@ defmodule Histora.Records do
       (from r in subquery(records), where: r.updated_at >= ^formated_start_date and r.updated_at <= ^formated_end_date )
   end
 
-  def formate_records(records) do
-    (from r in subquery(records), preload: [:user, :tags, :users, :scopes])
+  def formate_records(records, current_user) do
+    scope_list = Scopes.get_user_scopes(current_user.id)
+
+    records = (from r in subquery(records), preload: [:user, :tags, :users, :scopes])
     |> Repo.all()
+
+    Enum.filter(records, fn x -> x.private == false or
+      x.user_id == current_user.id or
+      filter_scope(x, scope_list) == true
+    end)
     |> Enum.group_by(& NaiveDateTime.to_date(&1.updated_at))
     |> Enum.map(fn {updated_at, records_collection} -> %{date: updated_at, records: records_collection} end)
     |> Enum.sort_by(&(&1.date), {:desc, Date})
+  end
 
+  defp filter_scope(record, scope_list) do
+    Enum.any?(record.scopes, fn x -> x in scope_list end)
   end
 
   def get_param_start_date(params) do
@@ -251,19 +264,24 @@ defmodule Histora.Records do
     Record_user.changeset(record_user, attrs)
   end
 
-  def connect_scope_users_to_record(record_id, scope_id) do
-    for user <- Scopes.get_scope_users(scope_id) do
+  # def connect_scope_users_to_record(record_id, scope_id) do
+  #   for user <- Scopes.get_scope_users(scope_id) do
+  #     %Record_user{}
+  #       |> Record_user.changeset(%{"user_id" => user.id, "record_id" => record_id, "from_scope" => true})
+  #       |> Repo.insert()
+  #   end
+  # end
+
+  def create_record_users(users, record_id) do
+    for user <- users |> Enum.map(&String.to_integer/1) do
+      IO.inspect(user)
       %Record_user{}
-        |> Record_user.changeset(%{"user_id" => user.id, "record_id" => record_id, "from_scope" => true})
+        |> Record_user.changeset(%{"user_id" => user, "record_id" => record_id})
         |> Repo.insert()
     end
   end
 
-  def get_record_users_with_scope(record_id) do
-    (from ru in Record_user, where: ru.record_id == ^record_id and ru.from_scope == true, preload: [:user]) |> Repo.all
-  end
-
-  def get_record_users_without_scope(record_id) do
-    (from ru in Record_user, where: ru.record_id == ^record_id and ru.from_scope == false) |> Repo.all
+  def connected_users(record_id) do
+    (from ru in Record_user, where: ru.record_id == ^record_id) |> Repo.all
   end
 end

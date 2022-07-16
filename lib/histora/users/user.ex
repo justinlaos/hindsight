@@ -12,6 +12,9 @@ defmodule Histora.Users.User do
     has_many(:records, Histora.Records.Record)
     has_many(:user_favorites, Histora.Users.User_favorite)
 
+    has_many(:scope_users, Histora.Scopes.Scope_user)
+    has_many(:scopes, through: [:scope_users, :scope])
+
 
     pow_user_fields()
     timestamps()

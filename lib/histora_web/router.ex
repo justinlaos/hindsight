@@ -35,6 +35,8 @@ defmodule HistoraWeb.Router do
   pipeline :scope_resources do
     plug HistoraWeb.ScopeOrganization
     plug HistoraWeb.AddRecordChangesetPlug
+    plug HistoraWeb.AddScopesPlug
+    plug HistoraWeb.AddUsersPlug
     plug HistoraWeb.AddTagsPlug
   end
 

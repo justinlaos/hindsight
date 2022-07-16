@@ -4,6 +4,7 @@ defmodule Histora.Scopes.Scope do
 
   schema "scopes" do
     field :name, :string
+    field :private, :boolean
     belongs_to :organization, Histora.Organizations.Organization
 
     has_many(:scope_records, Histora.Scopes.Scope_record)
@@ -18,7 +19,7 @@ defmodule Histora.Scopes.Scope do
   @doc false
   def changeset(scope, attrs) do
     scope
-    |> cast(attrs, [:name, :organization_id])
+    |> cast(attrs, [:name, :organization_id, :private])
     |> validate_required([:name, :organization_id])
   end
 end

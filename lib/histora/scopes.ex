@@ -7,6 +7,9 @@ defmodule Histora.Scopes do
   alias Histora.Repo
 
   alias Histora.Scopes.Scope
+  alias Histora.Users.User
+  alias Histora.Records
+  alias Histora.Records.Record_user
 
   @doc """
   Returns the list of scopes.
@@ -25,22 +28,9 @@ defmodule Histora.Scopes do
     (from s in Scope, where: s.organization_id == ^organization.id ) |> Repo.all()
   end
 
-  def assign_scope_to_record(scope, record_id, organization_id, user_id) do
-    for scope_item <- String.split(scope, ", ") do
-      cleaned_scope = (
-      scope_item
-      |> String.downcase(:ascii)
-      |> String.trim(" ")
-      )
-      case Repo.get_by(Scope, name: cleaned_scope) do
-        nil ->
-          case create_scope(%{"name" => cleaned_scope, "organization_id" => organization_id, "user_id" => user_id}) do
-            {:ok, scope} ->
-              create_scope_record(%{"scope_id" => scope.id, "record_id" => record_id})
-            {:error, %Ecto.Changeset{} = changeset} -> changeset.error
-          end
-        scope -> create_scope_record(%{"scope_id" => scope.id, "record_id" => record_id})
-      end
+  def assign_scope_to_record(scope, record_id) do
+    case Repo.get(Scope, scope) do
+      scope -> create_scope_record(%{"scope_id" => scope.id, "record_id" => record_id})
     end
   end
 
@@ -63,6 +53,7 @@ defmodule Histora.Scopes do
 
   def get_records_for_scope(id) do
     (Repo.all Ecto.assoc(Repo.get(Scope, id), :records))
+      |> Enum.sort_by(&(&1.updated_at), {:desc, Date})
       |> Repo.preload([:user, :tags, :users, :scopes])
       |> Enum.group_by(& NaiveDateTime.to_date(&1.updated_at))
       |> Enum.map(fn {updated_at, records_collection} -> %{date: updated_at, records: records_collection} end)
@@ -254,6 +245,10 @@ defmodule Histora.Scopes do
 
   def get_scope_users(id) do
     (Repo.all Ecto.assoc(Repo.get(Scope, id), :users))
+  end
+
+  def get_user_scopes(id) do
+    (Repo.all Ecto.assoc(Repo.get(User, id), :scopes))
   end
 
   @doc """

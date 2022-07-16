@@ -6,6 +6,7 @@ defmodule Histora.Records.Record do
     field :content, :string
     field :source, :string
     field :reference, :string
+    field :private, :boolean
 
     belongs_to :organization, Histora.Organizations.Organization
     belongs_to :user, Histora.Users.User
@@ -24,7 +25,7 @@ defmodule Histora.Records.Record do
   @doc false
   def changeset(record, attrs) do
     record
-    |> cast(attrs, [:user_id, :organization_id, :content, :source, :reference])
+    |> cast(attrs, [:user_id, :organization_id, :content, :source, :reference, :private])
     |> validate_required([])
   end
 end

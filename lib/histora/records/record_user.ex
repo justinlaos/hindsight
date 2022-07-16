@@ -3,7 +3,6 @@ defmodule Histora.Records.Record_user do
   import Ecto.Changeset
 
   schema "record_users" do
-    field :from_scope, :boolean
     belongs_to(:user, Histora.Users.User)
     belongs_to(:record, Histora.Records.Record)
 
@@ -13,7 +12,7 @@ defmodule Histora.Records.Record_user do
   @doc false
   def changeset(record_user, attrs) do
     record_user
-    |> cast(attrs, [:from_scope, :user_id, :record_id])
+    |> cast(attrs, [:user_id, :record_id])
     |> validate_required([:user_id, :record_id])
   end
 end

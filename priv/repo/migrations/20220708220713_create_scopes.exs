@@ -4,6 +4,7 @@ defmodule Histora.Repo.Migrations.CreateScopes do
   def change do
     create table(:scopes) do
       add :organization_id, references(:organizations, on_delete: :nothing), null: false
+      add :private, :boolean, default: false, null: false
       add :name, :string
 
       timestamps()

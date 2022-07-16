@@ -1,4 +1,6 @@
 <div class="my-6">
+    <div class="text-sm text-grey mb-1"> <%= if @record.private, do: "Private", else: "" %></div>
+
     <div class="flex flex-row justify-between">
       <div class="text-lg font-bold text-primary"><%= Histora.Users.formate_time_stamp(@record.inserted_at) %></div>
       <%= if @record.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
@@ -22,20 +24,11 @@
       <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: @record %>
     </div>
 
-    <%= if Enum.count(@record_users_without_scope) >= 1 do %> 
-      <div class="flex flex-row">
+    <%= if Enum.count(@record.users) >= 1 do %> 
+      <div class="flex flex-row dark:text-grey">
         <div class="mr-4 font-bold"> Connected Users: </div>
-        <%= for user <- @record_users_without_scope do %>
-          <div class=""><%= user.user.email %>, </div>
-        <% end %>
-      </div>
-    <% end %>
-
-    <%= if Enum.count(@record_users_with_scope) >= 1 do %> 
-      <div class="flex flex-row">
-        <div class="mr-4 font-bold"> Connected Users throught a scope: </div>
-        <%= for user <- @record_users_with_scope do %>
-          <div class=""><%= user.user.email %>, </div>
+        <%= for user <- @record.users do %>
+          <div class=""><%= user.email %>, </div>
         <% end %>
       </div>
     <% end %>

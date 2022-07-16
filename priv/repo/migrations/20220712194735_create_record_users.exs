@@ -5,7 +5,6 @@ defmodule Histora.Repo.Migrations.CreateRecordUsers do
     create table(:record_users) do
       add :record_id, references(:records, on_delete: :delete_all)
       add :user_id, references(:users, on_delete: :nothing), null: false
-      add :from_scope, :boolean, default: false, null: false
 
       timestamps()
     end
