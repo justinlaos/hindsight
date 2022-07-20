@@ -32,8 +32,8 @@ defmodule Histora.Records do
   end
 
   def filter_users(records, params) do
-    if Map.has_key?(params, "users") do
-      filtered_users = params["users"] |> Enum.map(&String.to_integer/1)
+    if Map.has_key?(params, "filter_users") do
+      filtered_users = params["filter_users"] |> Enum.map(&String.to_integer/1)
       (from r in subquery(records),
       where: r.user_id in ^filtered_users )
     else
@@ -272,9 +272,12 @@ defmodule Histora.Records do
   #   end
   # end
 
+  def delete_record_users(record_id) do
+    Ecto.assoc(Repo.get(Record, record_id), :record_users) |> Repo.delete_all
+  end
+
   def create_record_users(users, record_id) do
     for user <- users |> Enum.map(&String.to_integer/1) do
-      IO.inspect(user)
       %Record_user{}
         |> Record_user.changeset(%{"user_id" => user, "record_id" => record_id})
         |> Repo.insert()

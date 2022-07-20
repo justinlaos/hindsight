@@ -10,6 +10,10 @@
     <link phx-track-static rel="stylesheet" href={Routes.static_path(@conn, "/assets/app.css")}/>
     <script defer src="https://unpkg.com/alpinejs@3.10.2/dist/cdn.min.js"></script>
     <script defer phx-track-static type="text/javascript" src={Routes.static_path(@conn, "/assets/app.js")}></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5VFPTN6XMY"></script>
     <script>
@@ -25,7 +29,7 @@
         <%= render "navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
         <%= render "inner_navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
 
-        <div class="container mx-10">
+        <div class="container ml-5 pr-7">
           <%= if assigns.conn.request_path != "/" do %>
             <%= render "action_bar.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
           <% end %>

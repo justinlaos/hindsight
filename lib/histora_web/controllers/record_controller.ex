@@ -60,9 +60,9 @@ defmodule HistoraWeb.RecordController do
 
   def create(conn, params) do
     %{"tag_list" => tag_list} = params["record"]
-    scope = params["scope"]
+    scopes = params["new_scopes"]
     private = params["private"]
-    users = params["users"]
+    users = params["new_users"]
     %{"redirect_to" => redirect_to} = params["record"]
 
     case Records.create_record(Map.merge(params["record"], %{"private" => private, "user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id})) do
@@ -72,11 +72,11 @@ defmodule HistoraWeb.RecordController do
           Tags.assign_tags_to_record(tag_list, record.id, record.organization_id, record.user_id)
         end
 
-        if scope != nil do
-          {:ok, scope_record} = Scopes.assign_scope_to_record(scope, record.id)
+        if scopes != nil do
+          Scopes.assign_scopes_to_record(scopes, record.id)
         end
 
-        if Map.has_key?(params, "users") && users != "" do
+        if Map.has_key?(params, "new_users") && users != "" do
           Records.create_record_users(users, record.id)
         end
 
@@ -106,11 +106,34 @@ defmodule HistoraWeb.RecordController do
     render(conn, "edit.html", record: record, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "record" => record_params}) do
+  def update(conn, params) do
+    id = params["id"]
+    record_params = params["record"]
+    private = params["private"]
+    scope = if Map.has_key?(params, "scopes"), do: params["scopes"], else: nil
+    users = if Map.has_key?(params, "users"), do:  params["users"], else: nil
     record = Records.get_record!(id)
 
-    case Records.update_record(record, record_params) do
+    case Records.update_record(record, Map.merge(record_params, %{"private" => private})) do
       {:ok, record} ->
+
+
+        Tags.delete_record_tag_list(record.id)
+        Scopes.delete_scope_from_record(record.id)
+        Records.delete_record_users(record.id)
+
+        if record_params["tag_list"] != "" do
+          Tags.assign_tags_to_record(record_params["tag_list"], record.id, record.organization_id, record.user_id)
+        end
+
+        if scope != nil do
+          Scopes.assign_scopes_to_record(scope, record.id)
+        end
+
+        if users != nil do
+          Records.create_record_users(users, record.id)
+        end
+
         conn
         |> put_flash(:info, "Record updated successfully.")
         |> redirect(to: Routes.record_path(conn, :show, record))
@@ -119,6 +142,7 @@ defmodule HistoraWeb.RecordController do
         render(conn, "edit.html", record: record, changeset: changeset)
     end
   end
+
 
   def delete(conn, %{"id" => id}) do
     record = Records.get_record!(id)

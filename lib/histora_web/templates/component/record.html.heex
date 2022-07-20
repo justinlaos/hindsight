@@ -1,4 +1,16 @@
 <div class="ml-8 px-2 pl-2 pt-4 pb-2 my-8 dark:bg-darkest-grey bg-really-light-grey rounded-md">
+    <%= if Enum.count(@record.scopes) >= 1 and String.contains?(@conn.request_path, "scope") == false do %> 
+      <div class="flex flex-row dark:text-black ml-2 mb-4">
+        <%= for scope <- @record.scopes do %>
+          <%= link to: Routes.scope_path(@conn, :show, scope) do %> 
+            <div class="mr-2 font-bold inline-flex items-center text-xs px-2.5 py-1.5 rounded-md text-primary dark:hover:bg-darkest-grey hover:bg-grey-ish dark:hover:text-primar">
+              <%= scope.name %> 
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+
     <%= link to: Routes.record_path(@conn, :show, @record) do %>
         <div class="text-base dark:text-light-grey ml-4 "><%= @record.content %></div>
     <% end %>
@@ -19,7 +31,7 @@
 
         <%= if Enum.count(@record.users) >= 1 do %> 
             <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
-            <div class="text-xs mx-1 px-2.5 mt-1 dark:text-grey">
+            <div class="text-xs mx-1 px-2.5 py-1.5 dark:text-grey">
                 <%= Enum.count(@record.users) %> connected users
             </div>  
         <% end %>   
@@ -32,9 +44,9 @@
         <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
 
         <%= for tag <- @record.tags do %>
-            <%= link to: Routes.tag_path(@conn, :show, tag) do %> 
-                <div class="inline-flex items-center mx-0.5 px-2.5 py-1.5 rounded-md text-sm font-medium text-darkest-grey dark:text-grey hover:text-primary dark:hover:bg-darkest-grey hover:bg-grey-ish dark:hover:text-primary"> 
-                    <%= tag.name %> 
+            <%= link to: Routes.record_path(@conn, :index, tag_list: [tag.id]) do %> 
+                <div class="inline-flex items-center mx-0.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-darkest-grey dark:text-grey hover:text-primary dark:hover:bg-darkest-grey hover:bg-grey-ish dark:hover:text-primary"> 
+                    <%= tag.name %>
                 </div>
             <% end %>
         <% end %>

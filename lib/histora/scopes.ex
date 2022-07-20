@@ -9,6 +9,7 @@ defmodule Histora.Scopes do
   alias Histora.Scopes.Scope
   alias Histora.Users.User
   alias Histora.Records
+  alias Histora.Records.Record
   alias Histora.Records.Record_user
 
   @doc """
@@ -28,9 +29,15 @@ defmodule Histora.Scopes do
     (from s in Scope, where: s.organization_id == ^organization.id ) |> Repo.all()
   end
 
-  def assign_scope_to_record(scope, record_id) do
-    case Repo.get(Scope, scope) do
-      scope -> create_scope_record(%{"scope_id" => scope.id, "record_id" => record_id})
+  def delete_scope_from_record(record_id) do
+    Ecto.assoc(Repo.get(Record, record_id), :scope_records) |> Repo.delete_all
+  end
+
+  def assign_scopes_to_record(scopes, record_id) do
+    for scope <- scopes do
+      case Repo.get(Scope, scope) do
+        scope -> create_scope_record(%{"scope_id" => scope.id, "record_id" => record_id})
+      end
     end
   end
 

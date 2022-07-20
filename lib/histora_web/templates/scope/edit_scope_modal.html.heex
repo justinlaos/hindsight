@@ -36,68 +36,67 @@
                     </div>
                 <% end %>
 
-                <div>
-                    <div class="mt-1">
-                        <%= textarea f, :name, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "This can be a team or a project" %>
-                    </div>
+               
+                <div class="mt-1 my-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <%= textarea f, :name, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "This can be a team or a project" %>
                 </div>
+                
 
-                <br>
+                <div class="mt-1 my-4">
+                    <label for="name" class="block text-sm font-medium text-gray-700">Connected Users</label>
 
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-                <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-                <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-                
-                <div
-                    x-data={"{
-                        multiple: true,
-                        value: [#{ 
-                            for tag <- @current_scope_users do
-                                "#{tag.id}, "
-                            end
-                        }],
-                        options: [#{ 
-                            for tag <- @users do
-                                "{value: #{tag.id}, label: '#{tag.email}'}, "
-                            end
-                        }],
-                        init() {
-                            let bootSelect2 = () => {
-                                let selections = this.multiple ? this.value : [this.value]
-                
-                                $(this.$refs.select).select2({
-                                    multiple: this.multiple,
-                                    data: this.options.map(i => ({
-                                        id: i.value,
-                                        text: i.label,
-                                        selected: selections.map(i => String(i)).includes(String(i.value)),
-                                    })),
-                                })
-                            }
-                
-                            let refreshSelect2 = () => {
-                                $(this.$refs.select).select2('destroy')
-                                this.$refs.select.innerHTML = ''
+                    <div
+                        x-data={"{
+                            multiple: true,
+                            value: [#{ 
+                                for tag <- @current_scope_users do
+                                    "#{tag.id}, "
+                                end
+                            }],
+                            options: [#{ 
+                                for tag <- @users do
+                                    "{value: #{tag.id}, label: '#{tag.email}'}, "
+                                end
+                            }],
+                            init() {
+                                let bootSelect2 = () => {
+                                    let selections = this.multiple ? this.value : [this.value]
+                    
+                                    $(this.$refs.select).select2({
+                                        multiple: this.multiple,
+                                        data: this.options.map(i => ({
+                                            id: i.value,
+                                            text: i.label,
+                                            selected: selections.map(i => String(i)).includes(String(i.value)),
+                                        })),
+                                    })
+                                }
+                    
+                                let refreshSelect2 = () => {
+                                    $(this.$refs.select).select2('destroy')
+                                    this.$refs.select.innerHTML = ''
+                                    bootSelect2()
+                                }
+                    
                                 bootSelect2()
-                            }
-                
-                            bootSelect2()
-                
-                            $(this.$refs.select).on('change', () => {
-                                let currentSelection = $(this.$refs.select).select2('data')
-                
-                                this.value = this.multiple
-                                    ? currentSelection.map(i => i.id)
-                                    : currentSelection[0].id
-                            })
-                
-                            this.$watch('value', () => refreshSelect2())
-                            this.$watch('options', () => refreshSelect2())
-                        },
-                    }"}
-                    class="w-full"
-                >
-                    <select x-ref="select" data-placeholder="Begin typing a name to filter..." name="users_list[]" id="users_list[]" multiple class="w-full" ></select>
+                    
+                                $(this.$refs.select).on('change', () => {
+                                    let currentSelection = $(this.$refs.select).select2('data')
+                    
+                                    this.value = this.multiple
+                                        ? currentSelection.map(i => i.id)
+                                        : currentSelection[0].id
+                                })
+                    
+                                this.$watch('value', () => refreshSelect2())
+                                this.$watch('options', () => refreshSelect2())
+                            },
+                        }"}
+                        class="w-full"
+                    >
+                        <select x-ref="select" data-placeholder="click to select" name="users_list[]" id="users_list[]" multiple class="w-full" ></select>
+                    </div>
                 </div>
 
 

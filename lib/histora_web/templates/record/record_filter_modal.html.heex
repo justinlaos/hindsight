@@ -29,146 +29,127 @@
             <div class="mb-4 text-2xl font-bold" :id="$id('modal-title')">Filter Records</div>
             <!-- Content -->
 
-                
-
-
-
-
         <!--
             Notice: We have to use jQuery 3.5.1 instead of 3.6.0 because select2's
             input field won't autofocus on open in that version for this reason:
             https://github.com/select2/select2/issues/5993
         -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-        
-        <div
-            x-data={"{
-                multiple: true,
-                value: [#{ 
-                    for tag <- @selected_filtered_tags do
-                        "#{tag.id}, "
-                    end
-                }],
-                options: [#{ 
-                    for tag <- @filterable_tags do
-                        "{value: #{tag.id}, label: '#{tag.name}'}, "
-                    end
-                }],
-                init() {
-                    let bootSelect2 = () => {
-                        let selections = this.multiple ? this.value : [this.value]
-        
-                        $(this.$refs.select).select2({
-                            multiple: this.multiple,
-                            data: this.options.map(i => ({
-                                id: i.value,
-                                text: i.label,
-                                selected: selections.map(i => String(i)).includes(String(i.value)),
-                            })),
-                        })
-                    }
-        
-                    let refreshSelect2 = () => {
-                        $(this.$refs.select).select2('destroy')
-                        this.$refs.select.innerHTML = ''
+        <div class="mt-1 my-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Tags</label>
+            <div
+                x-data={"{
+                    multiple: true,
+                    value: [#{ 
+                        for tag <- @selected_filtered_tags do
+                            "#{tag.id}, "
+                        end
+                    }],
+                    options: [#{ 
+                        for tag <- @filterable_tags do
+                            "{value: #{tag.id}, label: '#{tag.name}'}, "
+                        end
+                    }],
+                    init() {
+                        let bootSelect2 = () => {
+                            let selections = this.multiple ? this.value : [this.value]
+            
+                            $(this.$refs.selecttag).select2({
+                                multiple: this.multiple,
+                                data: this.options.map(i => ({
+                                    id: i.value,
+                                    text: i.label,
+                                    selected: selections.map(i => String(i)).includes(String(i.value)),
+                                })),
+                            })
+                        }
+            
+                        let refreshSelect2 = () => {
+                            $(this.$refs.selecttag).select2('destroy')
+                            this.$refs.selecttag.innerHTML = ''
+                            bootSelect2()
+                        }
+            
                         bootSelect2()
-                    }
-        
-                    bootSelect2()
-        
-                    $(this.$refs.select).on('change', () => {
-                        let currentSelection = $(this.$refs.select).select2('data')
-        
-                        this.value = this.multiple
-                            ? currentSelection.map(i => i.id)
-                            : currentSelection[0].id
-                    })
-        
-                    this.$watch('value', () => refreshSelect2())
-                    this.$watch('options', () => refreshSelect2())
-                },
-            }"}
-            class="w-full"
-        >
-            <select x-ref="select" data-placeholder="Begin typing a name to filter..." name="tag_list[]" id="tag_list[]" multiple class="w-full" ></select>
+            
+                        $(this.$refs.selecttag).on('change', () => {
+                            let currentSelection = $(this.$refs.selecttag).select2('data')
+            
+                            this.value = this.multiple
+                                ? currentSelection.map(i => i.id)
+                                : currentSelection[0].id
+                        })
+            
+                        this.$watch('value', () => refreshSelect2())
+                        this.$watch('options', () => refreshSelect2())
+                    },
+                }"}
+                class="w-full"
+            >
+                <select x-ref="selecttag" data-placeholder="click to select" name="tag_list[]" id="tag_list[]" multiple class="w-full" ></select>
+            </div>
         </div>
 
 
 
-
-
-        <div
-            x-data={"{
-                multiple: true,
-                value: [#{ 
-                    for user <- @selected_filtered_users do
-                        "#{user.id}, "
-                    end
-                }],
-                options: [#{ 
-                    for tag <- @filterable_users do
-                        "{value: #{tag.id}, label: '#{tag.email}'}, "
-                    end
-                }],
-                init() {
-                    let bootSelect2 = () => {
-                        let selections = this.multiple ? this.value : [this.value]
-        
-                        $(this.$refs.select).select2({
-                            multiple: this.multiple,
-                            data: this.options.map(i => ({
-                                id: i.value,
-                                text: i.label,
-                                selected: selections.map(i => String(i)).includes(String(i.value)),
-                            })),
-                        })
-                    }
-        
-                    let refreshSelect2 = () => {
-                        $(this.$refs.select).select2('destroy')
-                        this.$refs.select.innerHTML = ''
+        <div class="mt-1 my-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Users</label>
+            <div
+                x-data={"{
+                    multiple: true,
+                    value: [#{ 
+                        for user <- @selected_filtered_users do
+                            "#{user.id}, "
+                        end
+                    }],
+                    options: [#{ 
+                        for user <- @filterable_users do
+                            "{value: #{user.id}, label: '#{user.email}'}, "
+                        end
+                    }],
+                    init() {
+                        let bootSelect2 = () => {
+                            let selections = this.multiple ? this.value : [this.value]
+            
+                            $(this.$refs.select).select2({
+                                multiple: this.multiple,
+                                data: this.options.map(i => ({
+                                    id: i.value,
+                                    text: i.label,
+                                    selected: selections.map(i => String(i)).includes(String(i.value)),
+                                })),
+                            })
+                        }
+            
+                        let refreshSelect2 = () => {
+                            $(this.$refs.select).select2('destroy')
+                            this.$refs.select.innerHTML = ''
+                            bootSelect2()
+                        }
+            
                         bootSelect2()
-                    }
-        
-                    bootSelect2()
-        
-                    $(this.$refs.select).on('change', () => {
-                        let currentSelection = $(this.$refs.select).select2('data')
-        
-                        this.value = this.multiple
-                            ? currentSelection.map(i => i.id)
-                            : currentSelection[0].id
-                    })
-        
-                    this.$watch('value', () => refreshSelect2())
-                    this.$watch('options', () => refreshSelect2())
-                },
-            }"}
-            class="w-full"
-        >
-            <select x-ref="select" data-placeholder="Begin typing a name to filter..." name="users[]" id="users[]" multiple class="w-full" ></select>
+            
+                        $(this.$refs.select).on('change', () => {
+                            let currentSelection = $(this.$refs.select).select2('data')
+            
+                            this.value = this.multiple
+                                ? currentSelection.map(i => i.id)
+                                : currentSelection[0].id
+                        })
+            
+                        this.$watch('value', () => refreshSelect2())
+                        this.$watch('options', () => refreshSelect2())
+                    },
+                }"}
+                class="w-full"
+            >
+                <select x-ref="select" data-placeholder="click to select" name="filter_users[]" id="filter_users[]" multiple class="w-full" ></select>
+            </div>
         </div>
 
-
-
-
-
-
-
-
-
-
-
+        <div class="mt-1 my-4">
+            <label for="name" class="block text-sm font-medium text-gray-700">Time from and to</label>
             <%= render HistoraWeb.RecordView, "date_filter.html", conn: @conn, formated_start_date: @formated_start_date, formated_end_date: @formated_end_date %>
-
-
-
-
-
-
-                <br>
+        </div>
             
                 <!-- Buttons -->
                 <div class="mt-8 flex justify-between">

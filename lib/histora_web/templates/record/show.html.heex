@@ -19,6 +19,21 @@
     <%= if @record.source != nil do %>
       <div class="text-xs text-grey"> source: <%= @record.source %> </div>
     <% end %>
+
+    <%= if Enum.count(@record.scopes) >= 1 do %> 
+      <div class="flex flex-row dark:text-black">
+        <div class="mr-2 items-center text-sm py-1.5"> Scopes: </div>
+        <%= for scope <- @record.scopes do %>
+          <%= link to: Routes.scope_path(@conn, :show, scope) do %> 
+            <div class="mr-2 font-bold inline-flex items-center px-2.5 py-1.5 rounded-md text-darkest-grey dark:text-grey hover:text-primary dark:hover:bg-darkest-grey hover:bg-grey-ish dark:hover:text-primar">
+              <%= scope.name %> 
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="font-bold dark:text-grey">No Scope</div>
+    <% end %>
     
     <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
       <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: @record %>

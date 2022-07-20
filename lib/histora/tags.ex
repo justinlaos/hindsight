@@ -53,8 +53,12 @@ defmodule Histora.Tags do
 
   end
 
+  def delete_record_tag_list(record_id) do
+    Ecto.assoc(Repo.get(Record, record_id), :tag_records) |> Repo.delete_all
+  end
+
   def assign_tags_to_record(tags, record_id, organization_id, user_id) do
-    for tag_item <- String.split(tags, ", ") do
+    for tag_item <- String.split(tags, ", ", trim: true) do
       cleaned_tag = (
       tag_item
       |> String.downcase(:ascii)
