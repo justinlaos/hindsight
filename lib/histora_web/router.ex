@@ -34,7 +34,7 @@ defmodule HistoraWeb.Router do
 
   pipeline :scope_resources do
     plug HistoraWeb.ScopeOrganization
-    plug HistoraWeb.AddRecordChangesetPlug
+    plug HistoraWeb.AddDecisionChangesetPlug
     plug HistoraWeb.AddScopesPlug
     plug HistoraWeb.AddUsersPlug
     plug HistoraWeb.AddTagsPlug
@@ -58,8 +58,12 @@ defmodule HistoraWeb.Router do
 
     post "/results", SearchController, :results
     get "/results", SearchController, :results
-    resources "/records", RecordController
+    resources "/decisions", DecisionController
     resources "/scopes", ScopeController
+    resources "/drafts", DraftController
+    post "/draft_vote", Draft_voteController, :create
+    resources "/draftoptions", Draft_optionController
+    post "/draft/convert", DraftController, :convert
     resources "/tags", TagController
     resources "/users", UserController
     post "/tag/favorite", TagController, :favorite
@@ -129,7 +133,7 @@ defmodule HistoraWeb.Router do
   scope "/api/v1", HistoraWeb.API.V1, as: :api_v1 do
     pipe_through [:api, :api_protected]
 
-    post "/record", RecordController, :create
+    post "/decision", DecisionController, :create
 
     # Your protected API endpoints here
   end

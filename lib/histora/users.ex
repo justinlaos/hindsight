@@ -1,7 +1,7 @@
 defmodule Histora.Users do
   alias Histora.{Repo, Users.User}
   alias Histora.Users.User_favorite
-  alias Histora.Records.Record
+  alias Histora.Decisions.Decision
 
   import Ecto.Query, warn: false
 
@@ -58,7 +58,7 @@ defmodule Histora.Users do
   def get_organization_users(organization) do
     (from u in User,
       where: u.organization_id == ^organization.id,
-      preload: [:user_favorites, records: ^from(r in Record, order_by: [desc: r.inserted_at], limit: 3, preload: [:tags, :user])],
+      preload: [:user_favorites, decisions: ^from(r in Decision, order_by: [desc: r.inserted_at], limit: 3, preload: [:tags, :user])],
       left_join: fav in assoc(u, :user_favorites),
       order_by: [desc: count(fav.id), desc: (u.id)],
       group_by: u.id,
@@ -86,11 +86,11 @@ defmodule Histora.Users do
     Repo.get!(User, id) |> Repo.preload(:user_favorites)
   end
 
-  def get_records_for_user(id) do
-    (Repo.all Ecto.assoc(Repo.get(User, id), :records))
+  def get_decisions_for_user(id) do
+    (Repo.all Ecto.assoc(Repo.get(User, id), :decisions))
       |> Repo.preload(:tags)
       |> Enum.group_by(& formate_time_stamp(&1.inserted_at))
-      |> Enum.map(fn {inserted_at, records_collection} -> %{date: inserted_at, records: records_collection} end)
+      |> Enum.map(fn {inserted_at, decisions_collection} -> %{date: inserted_at, decisions: decisions_collection} end)
       |> Enum.reverse()
   end
 

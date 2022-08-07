@@ -1,0 +1,5 @@
+<h1>Edit Decision</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.decision_path(@conn, :update, @decision)) %>
+
+<span><%= link "Back", to: Routes.decision_path(@conn, :index) %></span>

@@ -55,55 +55,55 @@ defmodule Histora.ScopesTest do
     end
   end
 
-  describe "scope_records" do
-    alias Histora.Scopes.Scope_record
+  describe "scope_decisions" do
+    alias Histora.Scopes.Scope_decision
 
     import Histora.ScopesFixtures
 
     @invalid_attrs %{}
 
-    test "list_scope_records/0 returns all scope_records" do
-      scope_record = scope_record_fixture()
-      assert Scopes.list_scope_records() == [scope_record]
+    test "list_scope_decisions/0 returns all scope_decisions" do
+      scope_decision = scope_decision_fixture()
+      assert Scopes.list_scope_decisions() == [scope_decision]
     end
 
-    test "get_scope_record!/1 returns the scope_record with given id" do
-      scope_record = scope_record_fixture()
-      assert Scopes.get_scope_record!(scope_record.id) == scope_record
+    test "get_scope_decision!/1 returns the scope_decision with given id" do
+      scope_decision = scope_decision_fixture()
+      assert Scopes.get_scope_decision!(scope_decision.id) == scope_decision
     end
 
-    test "create_scope_record/1 with valid data creates a scope_record" do
+    test "create_scope_decision/1 with valid data creates a scope_decision" do
       valid_attrs = %{}
 
-      assert {:ok, %Scope_record{} = scope_record} = Scopes.create_scope_record(valid_attrs)
+      assert {:ok, %Scope_decision{} = scope_decision} = Scopes.create_scope_decision(valid_attrs)
     end
 
-    test "create_scope_record/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Scopes.create_scope_record(@invalid_attrs)
+    test "create_scope_decision/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Scopes.create_scope_decision(@invalid_attrs)
     end
 
-    test "update_scope_record/2 with valid data updates the scope_record" do
-      scope_record = scope_record_fixture()
+    test "update_scope_decision/2 with valid data updates the scope_decision" do
+      scope_decision = scope_decision_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Scope_record{} = scope_record} = Scopes.update_scope_record(scope_record, update_attrs)
+      assert {:ok, %Scope_decision{} = scope_decision} = Scopes.update_scope_decision(scope_decision, update_attrs)
     end
 
-    test "update_scope_record/2 with invalid data returns error changeset" do
-      scope_record = scope_record_fixture()
-      assert {:error, %Ecto.Changeset{}} = Scopes.update_scope_record(scope_record, @invalid_attrs)
-      assert scope_record == Scopes.get_scope_record!(scope_record.id)
+    test "update_scope_decision/2 with invalid data returns error changeset" do
+      scope_decision = scope_decision_fixture()
+      assert {:error, %Ecto.Changeset{}} = Scopes.update_scope_decision(scope_decision, @invalid_attrs)
+      assert scope_decision == Scopes.get_scope_decision!(scope_decision.id)
     end
 
-    test "delete_scope_record/1 deletes the scope_record" do
-      scope_record = scope_record_fixture()
-      assert {:ok, %Scope_record{}} = Scopes.delete_scope_record(scope_record)
-      assert_raise Ecto.NoResultsError, fn -> Scopes.get_scope_record!(scope_record.id) end
+    test "delete_scope_decision/1 deletes the scope_decision" do
+      scope_decision = scope_decision_fixture()
+      assert {:ok, %Scope_decision{}} = Scopes.delete_scope_decision(scope_decision)
+      assert_raise Ecto.NoResultsError, fn -> Scopes.get_scope_decision!(scope_decision.id) end
     end
 
-    test "change_scope_record/1 returns a scope_record changeset" do
-      scope_record = scope_record_fixture()
-      assert %Ecto.Changeset{} = Scopes.change_scope_record(scope_record)
+    test "change_scope_decision/1 returns a scope_decision changeset" do
+      scope_decision = scope_decision_fixture()
+      assert %Ecto.Changeset{} = Scopes.change_scope_decision(scope_decision)
     end
   end
 

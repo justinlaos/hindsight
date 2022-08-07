@@ -19,17 +19,17 @@ defmodule Histora.ScopesFixtures do
   end
 
   @doc """
-  Generate a scope_record.
+  Generate a scope_decision.
   """
-  def scope_record_fixture(attrs \\ %{}) do
-    {:ok, scope_record} =
+  def scope_decision_fixture(attrs \\ %{}) do
+    {:ok, scope_decision} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Scopes.create_scope_record()
+      |> Histora.Scopes.create_scope_decision()
 
-    scope_record
+    scope_decision
   end
 
   @doc """

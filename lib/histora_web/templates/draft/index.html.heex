@@ -1,0 +1,45 @@
+<div class="text-2xl mb-8 font-bold dark:text-white">Drafts</div>
+
+<div class="text-primary text-2xl mx-4 mb-2"> Yours </div>
+<div class="flex flex-row ">
+  <%= for draft <- @your_drafts do %>
+      <%= link to: Routes.draft_path(@conn, :show, draft) do %>
+        <div class="flex flex-col justify-between h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
+          <div class="dark:text-white"><%= String.capitalize(draft.title) %></div>
+          <%= if draft.target_date != nil do %>
+            <div class="text-orange text-xs font-bold"><%= Histora.Users.formate_time_stamp(draft.target_date) %></div>
+          <% end %>
+        </div>
+      <% end %>
+  <% end %>
+</div>
+
+<div class="text-primary text-2xl mx-4 mt-6 mb-2"> From Scope </div>
+<div class="flex flex-row ">
+  <%= for draft <- @scope_drafts do %>
+      <%= link to: Routes.draft_path(@conn, :show, draft) do %>
+        <div class="flex flex-col justify-between h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
+          <div class="dark:text-white"><%= String.capitalize(draft.title) %></div>
+          <%= if draft.target_date != nil do %>
+            <div class="text-orange text-xs font-bold"><%= Histora.Users.formate_time_stamp(draft.target_date) %></div>
+          <% end %>
+        </div>
+      <% end %>
+  <% end %>
+</div>
+
+
+
+<div class="text-primary text-2xl mx-4 mt-6 mb-2"> Connected </div>
+<div class="flex flex-row ">
+  <%= for draft <- @connected_drafts do %>
+      <%= link to: Routes.draft_path(@conn, :show, draft) do %>
+        <div class="flex flex-col justify-between h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
+          <div class="dark:text-white"><%= String.capitalize(draft.title) %></div>
+          <%= if draft.target_date != nil do %>
+            <div class="text-orange text-xs font-bold"><%= Histora.Users.formate_time_stamp(draft.target_date) %></div>
+          <% end %>
+        </div>
+      <% end %>
+  <% end %>
+</div>

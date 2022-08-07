@@ -1,6 +1,6 @@
 defmodule HistoraWeb.SearchController do
   use HistoraWeb, :controller
-  alias Histora.Records.Record
+  alias Histora.Decisions.Decision
   alias Histora.Repo
   import Ecto.Query, warn: false
 
@@ -14,12 +14,12 @@ defmodule HistoraWeb.SearchController do
       |> Enum.join()
       |> then(&"%#{&1}%")
 
-    search_results = from(r in Record,
+    search_results = from(r in Decision,
       where: fragment("? ilike ?", r.content, ^search_str),
       order_by: [desc: r.updated_at]
     )
     |> Repo.all()
-    |> Repo.preload([:tags, user: :user_favorites])
+    |> Repo.preload([:tags, :scopes, :users, user: :user_favorites])
 
     render(conn, "results.html", organization: organization, search_term: search_term, search_results: search_results)
   end

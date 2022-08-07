@@ -29,9 +29,9 @@ defmodule HistoraWeb.UserController do
   def show(conn, %{"id" => id}) do
     users = Users.get_organization_users(conn.assigns.organization)
     user = Users.get_user!(id)
-    records = Users.get_records_for_user(id)
+    decisions = Users.get_decisions_for_user(id)
 
-    render(conn, "show.html", user: user, users: users, records: records)
+    render(conn, "show.html", user: user, users: users, decisions: decisions)
   end
 
   # def edit(conn, %{"id" => id}) do

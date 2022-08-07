@@ -12,6 +12,6 @@
 
 </div>
 
-<%= for record_section <- @records do %>
-  <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: record_section, header: record_section.date %>
+<%= for decision_section <- @decisions do %>
+  <%= render HistoraWeb.ComponentView, "decision_section.html", conn: @conn, decision_section: decision_section, header: decision_section.date %>
 <% end %>

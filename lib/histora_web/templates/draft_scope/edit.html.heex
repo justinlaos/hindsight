@@ -1,0 +1,5 @@
+<h1>Edit Draft scope</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.draft_scope_path(@conn, :update, @draft_scope)) %>
+
+<span><%= link "Back", to: Routes.draft_scope_path(@conn, :index) %></span>

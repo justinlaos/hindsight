@@ -4,14 +4,14 @@ defmodule Histora.Tags.Tag do
 
   schema "tags" do
     field :name, :string
-    field :records_count, :integer, virtual: true
+    field :decisions_count, :integer, virtual: true
 
     belongs_to :organization, Histora.Organizations.Organization
     belongs_to :user, Histora.Users.User
 
-    has_many(:tag_records, Histora.Tags.Tag_record)
+    has_many(:tag_decisions, Histora.Tags.Tag_decision)
     has_many(:tag_favorites, Histora.Tags.Tag_favorite)
-    has_many(:records, through: [:tag_records, :record])
+    has_many(:decisions, through: [:tag_decisions, :decision])
 
     timestamps()
   end

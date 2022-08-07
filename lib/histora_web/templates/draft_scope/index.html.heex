@@ -1,0 +1,24 @@
+<h1>Listing Draft scopes</h1>
+
+<table>
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for draft_scope <- @draft_scopes do %>
+    <tr>
+
+      <td>
+        <span><%= link "Show", to: Routes.draft_scope_path(@conn, :show, draft_scope) %></span>
+        <span><%= link "Edit", to: Routes.draft_scope_path(@conn, :edit, draft_scope) %></span>
+        <span><%= link "Delete", to: Routes.draft_scope_path(@conn, :delete, draft_scope), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Draft scope", to: Routes.draft_scope_path(@conn, :new) %></span>

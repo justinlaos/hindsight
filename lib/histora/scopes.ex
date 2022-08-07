@@ -8,9 +8,9 @@ defmodule Histora.Scopes do
 
   alias Histora.Scopes.Scope
   alias Histora.Users.User
-  alias Histora.Records
-  alias Histora.Records.Record
-  alias Histora.Records.Record_user
+  alias Histora.Decisions
+  alias Histora.Decisions.Decision
+  alias Histora.Decisions.Decision_user
 
   @doc """
   Returns the list of scopes.
@@ -29,14 +29,22 @@ defmodule Histora.Scopes do
     (from s in Scope, where: s.organization_id == ^organization.id ) |> Repo.all()
   end
 
-  def delete_scope_from_record(record_id) do
-    Ecto.assoc(Repo.get(Record, record_id), :scope_records) |> Repo.delete_all
+  def delete_scope_from_decision(decision_id) do
+    Ecto.assoc(Repo.get(Decision, decision_id), :scope_decisions) |> Repo.delete_all
   end
 
-  def assign_scopes_to_record(scopes, record_id) do
+  def assign_scopes_to_decision(scopes, decision_id) do
     for scope <- scopes do
       case Repo.get(Scope, scope) do
-        scope -> create_scope_record(%{"scope_id" => scope.id, "record_id" => record_id})
+        scope -> create_scope_decision(%{"scope_id" => scope.id, "decision_id" => decision_id})
+      end
+    end
+  end
+
+  def assign_scopes_from_draft_to_decision(scopes, decision_id) do
+    for scope <- scopes do
+      case Repo.get(Scope, scope.id) do
+        scope -> create_scope_decision(%{"scope_id" => scope.id, "decision_id" => decision_id})
       end
     end
   end
@@ -58,12 +66,12 @@ defmodule Histora.Scopes do
   def get_scope!(id), do: Repo.get!(Scope, id)
 
 
-  def get_records_for_scope(id) do
-    (Repo.all Ecto.assoc(Repo.get(Scope, id), :records))
+  def get_decisions_for_scope(id) do
+    (Repo.all Ecto.assoc(Repo.get(Scope, id), :decisions))
       |> Enum.sort_by(&(&1.updated_at), {:desc, Date})
       |> Repo.preload([:user, :tags, :users, :scopes])
       |> Enum.group_by(& NaiveDateTime.to_date(&1.updated_at))
-      |> Enum.map(fn {updated_at, records_collection} -> %{date: updated_at, records: records_collection} end)
+      |> Enum.map(fn {updated_at, decisions_collection} -> %{date: updated_at, decisions: decisions_collection} end)
       |> Enum.sort_by(&(&1.date), {:desc, Date})
   end
 
@@ -134,100 +142,100 @@ defmodule Histora.Scopes do
     Scope.changeset(scope, attrs)
   end
 
-  alias Histora.Scopes.Scope_record
+  alias Histora.Scopes.Scope_decision
 
   @doc """
-  Returns the list of scope_records.
+  Returns the list of scope_decisions.
 
   ## Examples
 
-      iex> list_scope_records()
-      [%Scope_record{}, ...]
+      iex> list_scope_decisions()
+      [%Scope_decision{}, ...]
 
   """
-  def list_scope_records do
-    Repo.all(Scope_record)
+  def list_scope_decisions do
+    Repo.all(Scope_decision)
   end
 
   @doc """
-  Gets a single scope_record.
+  Gets a single scope_decision.
 
-  Raises `Ecto.NoResultsError` if the Scope record does not exist.
+  Raises `Ecto.NoResultsError` if the Scope decision does not exist.
 
   ## Examples
 
-      iex> get_scope_record!(123)
-      %Scope_record{}
+      iex> get_scope_decision!(123)
+      %Scope_decision{}
 
-      iex> get_scope_record!(456)
+      iex> get_scope_decision!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_scope_record!(id), do: Repo.get!(Scope_record, id)
+  def get_scope_decision!(id), do: Repo.get!(Scope_decision, id)
 
   @doc """
-  Creates a scope_record.
+  Creates a scope_decision.
 
   ## Examples
 
-      iex> create_scope_record(%{field: value})
-      {:ok, %Scope_record{}}
+      iex> create_scope_decision(%{field: value})
+      {:ok, %Scope_decision{}}
 
-      iex> create_scope_record(%{field: bad_value})
+      iex> create_scope_decision(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_scope_record(attrs \\ %{}) do
-    %Scope_record{}
-    |> Scope_record.changeset(attrs)
+  def create_scope_decision(attrs \\ %{}) do
+    %Scope_decision{}
+    |> Scope_decision.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a scope_record.
+  Updates a scope_decision.
 
   ## Examples
 
-      iex> update_scope_record(scope_record, %{field: new_value})
-      {:ok, %Scope_record{}}
+      iex> update_scope_decision(scope_decision, %{field: new_value})
+      {:ok, %Scope_decision{}}
 
-      iex> update_scope_record(scope_record, %{field: bad_value})
+      iex> update_scope_decision(scope_decision, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_scope_record(%Scope_record{} = scope_record, attrs) do
-    scope_record
-    |> Scope_record.changeset(attrs)
+  def update_scope_decision(%Scope_decision{} = scope_decision, attrs) do
+    scope_decision
+    |> Scope_decision.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a scope_record.
+  Deletes a scope_decision.
 
   ## Examples
 
-      iex> delete_scope_record(scope_record)
-      {:ok, %Scope_record{}}
+      iex> delete_scope_decision(scope_decision)
+      {:ok, %Scope_decision{}}
 
-      iex> delete_scope_record(scope_record)
+      iex> delete_scope_decision(scope_decision)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_scope_record(%Scope_record{} = scope_record) do
-    Repo.delete(scope_record)
+  def delete_scope_decision(%Scope_decision{} = scope_decision) do
+    Repo.delete(scope_decision)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking scope_record changes.
+  Returns an `%Ecto.Changeset{}` for tracking scope_decision changes.
 
   ## Examples
 
-      iex> change_scope_record(scope_record)
-      %Ecto.Changeset{data: %Scope_record{}}
+      iex> change_scope_decision(scope_decision)
+      %Ecto.Changeset{data: %Scope_decision{}}
 
   """
-  def change_scope_record(%Scope_record{} = scope_record, attrs \\ %{}) do
-    Scope_record.changeset(scope_record, attrs)
+  def change_scope_decision(%Scope_decision{} = scope_decision, attrs \\ %{}) do
+    Scope_decision.changeset(scope_decision, attrs)
   end
 
   alias Histora.Scopes.Scope_user

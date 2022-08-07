@@ -2,10 +2,10 @@
 
 <%= if Enum.any?(@all_tags) do %>
   <%= for tag <- @all_tags do %>
-    <%= render HistoraWeb.ComponentView, "record_section.html", conn: @conn, record_section: tag, header: tag.name %>
+    <%= render HistoraWeb.ComponentView, "decision_section.html", conn: @conn, decision_section: tag, header: tag.name %>
   <% end %>
 <% else %>
   <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
-    <div>Tags are created in the "tags" field when making a new record, add one or many like "product, engineering, operations". On this page you can view records by tag and favorite tags you'd like to follow</div>
+    <div>Tags are created in the "tags" field when making a new decision, add one or many like "product, engineering, operations". On this page you can view decisions by tag and favorite tags you'd like to follow</div>
   </div>
 <% end %>

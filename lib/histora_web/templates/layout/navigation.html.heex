@@ -1,13 +1,13 @@
 
-<div class="flex flex-col items-start justify-between w-fit px-4 py-3  border-light-grey dark:border-dark-grey border-r">
+<div class="flex flex-col items-start justify-between w-fit px-4 py-3 border-light-grey dark:border-dark-grey border-r">
  
     <h4 class="text-2xl font-bold text-primary self-center">Histora</h4>
 
     <div class="grow w-40 mt-8 text-dark-grey">
-      <%= link to: Routes.record_path(@conn, :index)  do %>
-        <div class={"#{String.contains?(@conn.request_path, "records") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
+      <%= link to: Routes.decision_path(@conn, :index)  do %>
+        <div class={"#{String.contains?(@conn.request_path, "decisions") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
           <Heroicons.LiveView.icon name="book-open" type="solid" class="h-5 w-5 mr-3" />
-          Records
+          Decisions
         </div>
       <% end %>
 
@@ -18,10 +18,12 @@
         </div>
       <% end %>
 
+      <%= link to: Routes.draft_path(@conn, :index) do %>
         <div class={"#{String.contains?(@conn.request_path, "drafts") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
           <Heroicons.LiveView.icon name="pencil-alt" type="solid" class="h-5 w-5 mr-3" />
           Drafts
         </div>
+      <% end %>
 
         <div class={"#{String.contains?(@conn.request_path, "reflections") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
           <Heroicons.LiveView.icon name="eye" type="solid" class="h-5 w-5 mr-3" />

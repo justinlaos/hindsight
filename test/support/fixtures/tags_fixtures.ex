@@ -19,17 +19,17 @@ defmodule Histora.TagsFixtures do
   end
 
   @doc """
-  Generate a tag_record.
+  Generate a tag_decision.
   """
-  def tag_record_fixture(attrs \\ %{}) do
-    {:ok, tag_record} =
+  def tag_decision_fixture(attrs \\ %{}) do
+    {:ok, tag_decision} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Tags.create_tag_record()
+      |> Histora.Tags.create_tag_decision()
 
-    tag_record
+    tag_decision
   end
 
   @doc """

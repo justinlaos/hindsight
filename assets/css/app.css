@@ -19,7 +19,7 @@ body {
 }
 
 .container {
-  overflow: auto;
+  overflow: scroll;
   overscroll-behavior-y: none;
   scroll-behavior: smooth;
 }

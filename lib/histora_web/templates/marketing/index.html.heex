@@ -8,7 +8,7 @@
           
             <div class="mt-6 sm:max-w-xl">
               <h1 class="text-4xl font-extrabold text-black dark:text-white tracking-tight sm:text-5xl">Know The Impactful Decisions Your Organization Makes </h1>
-              <p class="mt-6 text-xl text-darkest-grey dark:text-light-grey">record and reflect</p>
+              <p class="mt-6 text-xl text-darkest-grey dark:text-light-grey">decision and reflect</p>
             </div>
             <div class="mt-4">
               <a href="https://buy.stripe.com/test_9AQ2bQ0J8cK72vm5kk">
@@ -44,11 +44,11 @@
     </div>
 
     <div class="mx-auto text-center text-4xl mt-8 font-extrabold text-black dark:text-white ">
-      Create a Record of Success
+      Create a Decision of Success
     </div>
 
     <div class="mx-auto my-8 text-center text-black dark:text-grey">
-      Changing a current process? pivoting on product? expanding to something new? Whatever it may be, record it. 
+      Changing a current process? pivoting on product? expanding to something new? Whatever it may be, decision it. 
     </div>
 
     
@@ -57,11 +57,11 @@
 
     <div class="mx-auto w-7/12">
 
-      <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: %Histora.Records.Record{id: 1, content: "Better understand and reflect on the decisions being made within our company", users: [], user: %Histora.Users.User{id: 1, email: "Justin@histora.app"}, tags: [%Histora.Tags.Tag{ id: 1, name: "product"}, %Histora.Tags.Tag{ id: 1, name: "processes"}, %Histora.Tags.Tag{ id: 1, name: "operations"}]} %>
+      <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: %Histora.Decisions.Decision{id: 1, content: "Better understand and reflect on the decisions being made within our company", scopes: [], users: [], user: %Histora.Users.User{id: 1, email: "Justin@histora.app"}, tags: [%Histora.Tags.Tag{ id: 1, name: "product"}, %Histora.Tags.Tag{ id: 1, name: "processes"}, %Histora.Tags.Tag{ id: 1, name: "operations"}]} %>
 
-      <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: %Histora.Records.Record{id: 1, content: "Create more transparency so different teams can understand what's happening in the company", users: [], user: %Histora.Users.User{id: 1, email: "Lauren@histora.app"}, tags: [%Histora.Tags.Tag{ id: 1, name: "Human Resources"}, %Histora.Tags.Tag{ id: 1, name: "Team"}]} %>
+      <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: %Histora.Decisions.Decision{id: 1, content: "Create more transparency so different teams can understand what's happening in the company", scopes: [%Histora.Scopes.Scope{id: 1, name: "leadership"}], users: [], user: %Histora.Users.User{id: 1, email: "Lauren@histora.app"}, tags: [%Histora.Tags.Tag{ id: 1, name: "Human Resources"}, %Histora.Tags.Tag{ id: 1, name: "Team"}]} %>
 
-      <%= render HistoraWeb.ComponentView, "record.html", conn: @conn, record: %Histora.Records.Record{id: 1, content: "Provide historical context to new hires", user: %Histora.Users.User{id: 1, email: "Mila@histora.app"}, users: [], tags: [%Histora.Tags.Tag{ id: 1, name: "hiring"}, %Histora.Tags.Tag{ id: 1, name: "people"}]} %>
+      <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: %Histora.Decisions.Decision{id: 1, content: "Provide historical context to new hires", user: %Histora.Users.User{id: 1, email: "Mila@histora.app"}, scopes: [], users: [], tags: [%Histora.Tags.Tag{ id: 1, name: "hiring"}, %Histora.Tags.Tag{ id: 1, name: "people"}]} %>
 
     </div>
 

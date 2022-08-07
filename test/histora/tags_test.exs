@@ -55,55 +55,55 @@ defmodule Histora.TagsTest do
     end
   end
 
-  describe "tag_records" do
-    alias Histora.Tags.Tag_record
+  describe "tag_decisions" do
+    alias Histora.Tags.Tag_decision
 
     import Histora.TagsFixtures
 
     @invalid_attrs %{}
 
-    test "list_tag_records/0 returns all tag_records" do
-      tag_record = tag_record_fixture()
-      assert Tags.list_tag_records() == [tag_record]
+    test "list_tag_decisions/0 returns all tag_decisions" do
+      tag_decision = tag_decision_fixture()
+      assert Tags.list_tag_decisions() == [tag_decision]
     end
 
-    test "get_tag_record!/1 returns the tag_record with given id" do
-      tag_record = tag_record_fixture()
-      assert Tags.get_tag_record!(tag_record.id) == tag_record
+    test "get_tag_decision!/1 returns the tag_decision with given id" do
+      tag_decision = tag_decision_fixture()
+      assert Tags.get_tag_decision!(tag_decision.id) == tag_decision
     end
 
-    test "create_tag_record/1 with valid data creates a tag_record" do
+    test "create_tag_decision/1 with valid data creates a tag_decision" do
       valid_attrs = %{}
 
-      assert {:ok, %Tag_record{} = tag_record} = Tags.create_tag_record(valid_attrs)
+      assert {:ok, %Tag_decision{} = tag_decision} = Tags.create_tag_decision(valid_attrs)
     end
 
-    test "create_tag_record/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Tags.create_tag_record(@invalid_attrs)
+    test "create_tag_decision/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Tags.create_tag_decision(@invalid_attrs)
     end
 
-    test "update_tag_record/2 with valid data updates the tag_record" do
-      tag_record = tag_record_fixture()
+    test "update_tag_decision/2 with valid data updates the tag_decision" do
+      tag_decision = tag_decision_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Tag_record{} = tag_record} = Tags.update_tag_record(tag_record, update_attrs)
+      assert {:ok, %Tag_decision{} = tag_decision} = Tags.update_tag_decision(tag_decision, update_attrs)
     end
 
-    test "update_tag_record/2 with invalid data returns error changeset" do
-      tag_record = tag_record_fixture()
-      assert {:error, %Ecto.Changeset{}} = Tags.update_tag_record(tag_record, @invalid_attrs)
-      assert tag_record == Tags.get_tag_record!(tag_record.id)
+    test "update_tag_decision/2 with invalid data returns error changeset" do
+      tag_decision = tag_decision_fixture()
+      assert {:error, %Ecto.Changeset{}} = Tags.update_tag_decision(tag_decision, @invalid_attrs)
+      assert tag_decision == Tags.get_tag_decision!(tag_decision.id)
     end
 
-    test "delete_tag_record/1 deletes the tag_record" do
-      tag_record = tag_record_fixture()
-      assert {:ok, %Tag_record{}} = Tags.delete_tag_record(tag_record)
-      assert_raise Ecto.NoResultsError, fn -> Tags.get_tag_record!(tag_record.id) end
+    test "delete_tag_decision/1 deletes the tag_decision" do
+      tag_decision = tag_decision_fixture()
+      assert {:ok, %Tag_decision{}} = Tags.delete_tag_decision(tag_decision)
+      assert_raise Ecto.NoResultsError, fn -> Tags.get_tag_decision!(tag_decision.id) end
     end
 
-    test "change_tag_record/1 returns a tag_record changeset" do
-      tag_record = tag_record_fixture()
-      assert %Ecto.Changeset{} = Tags.change_tag_record(tag_record)
+    test "change_tag_decision/1 returns a tag_decision changeset" do
+      tag_decision = tag_decision_fixture()
+      assert %Ecto.Changeset{} = Tags.change_tag_decision(tag_decision)
     end
   end
 

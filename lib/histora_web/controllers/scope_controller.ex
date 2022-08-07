@@ -41,12 +41,12 @@ defmodule HistoraWeb.ScopeController do
 
   def show(conn, %{"id" => id}) do
     scope = Scopes.get_scope!(id)
-    records = Scopes.get_records_for_scope(id)
+    decisions = Scopes.get_decisions_for_scope(id)
     current_scope_users = Scopes.get_scope_users(id)
     users = Users.get_organization_users(conn.assigns.organization)
 
     changeset = Scopes.change_scope(scope)
-    render(conn, "show.html", scope: scope, records: records, changeset: changeset, users: users, current_scope_users: current_scope_users)
+    render(conn, "show.html", scope: scope, decisions: decisions, changeset: changeset, users: users, current_scope_users: current_scope_users)
   end
 
   def edit(conn, %{"id" => id}) do

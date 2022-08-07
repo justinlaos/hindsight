@@ -1,0 +1,47 @@
+<div class="my-6">
+    <div class="text-sm text-grey mb-1"> <%= if @decision.private, do: "Private", else: "" %></div>
+
+    <div class="flex flex-row justify-between">
+      <div class="text-lg font-bold text-primary"><%= Histora.Users.formate_time_stamp(@decision.inserted_at) %></div>
+      <%= if @decision.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
+        <%= render "edit_decision_slide_modal.html", Map.put(assigns, :action, Routes.decision_path(@conn, :update, @decision.id)) %>
+      <% end %>
+    </div>
+
+    <%= if @decision.source != nil do %>
+      <div class="text-xs text-grey"> source: <%= @decision.source %> </div>
+    <% end %>
+
+    <%= if Enum.count(@decision.scopes) >= 1 do %> 
+      <div class="flex flex-row dark:text-black">
+        <div class="mr-2 items-center text-sm py-1.5"> Scopes: </div>
+        <%= for scope <- @decision.scopes do %>
+          <%= link to: Routes.scope_path(@conn, :show, scope) do %> 
+            <div class="mr-2 font-bold inline-flex items-center px-2.5 py-1.5 rounded-md text-darkest-grey dark:text-grey hover:text-primary dark:hover:bg-darkest-grey hover:bg-grey-ish dark:hover:text-primar">
+              <%= scope.name %> 
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="font-bold dark:text-grey">No Scope</div>
+    <% end %>
+    
+    <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
+      <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: @decision %>
+    </div>
+
+    <%= if Enum.count(@decision.users) >= 1 do %> 
+      <div class="flex flex-row dark:text-grey">
+        <div class="mr-4 font-bold"> Connected Users: </div>
+        <%= for user <- @decision.users do %>
+          <div class=""><%= user.email %>, </div>
+        <% end %>
+      </div>
+    <% end %>
+</div>
+
+
+<%= if @decision.draft_id != nil do %> 
+  <%= render HistoraWeb.DecisionView, "decision_draft.html", conn: @conn, draft: @draft, current_draft_users: @current_draft_users %>
+<% end %>

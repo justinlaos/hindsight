@@ -13,7 +13,7 @@ defmodule Histora.Organizations.Organization do
     field :stripe_subscription_id, :string
 
     has_many :users, Histora.Users.User
-    has_many :records, Histora.Records.Record
+    has_many :decisions, Histora.Decisions.Decision
 
     timestamps()
   end

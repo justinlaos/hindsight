@@ -1,84 +1,84 @@
-defmodule HistoraWeb.Record_userControllerTest do
+defmodule HistoraWeb.Decision_userControllerTest do
   use HistoraWeb.ConnCase
 
-  import Histora.RecordsFixtures
+  import Histora.DecisionsFixtures
 
   @create_attrs %{}
   @update_attrs %{}
   @invalid_attrs %{}
 
   describe "index" do
-    test "lists all record_users", %{conn: conn} do
-      conn = get(conn, Routes.record_user_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Record users"
+    test "lists all decision_users", %{conn: conn} do
+      conn = get(conn, Routes.decision_user_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Decision users"
     end
   end
 
-  describe "new record_user" do
+  describe "new decision_user" do
     test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.record_user_path(conn, :new))
-      assert html_response(conn, 200) =~ "New Record user"
+      conn = get(conn, Routes.decision_user_path(conn, :new))
+      assert html_response(conn, 200) =~ "New Decision user"
     end
   end
 
-  describe "create record_user" do
+  describe "create decision_user" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.record_user_path(conn, :create), record_user: @create_attrs)
+      conn = post(conn, Routes.decision_user_path(conn, :create), decision_user: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.record_user_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.decision_user_path(conn, :show, id)
 
-      conn = get(conn, Routes.record_user_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Record user"
+      conn = get(conn, Routes.decision_user_path(conn, :show, id))
+      assert html_response(conn, 200) =~ "Show Decision user"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.record_user_path(conn, :create), record_user: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Record user"
+      conn = post(conn, Routes.decision_user_path(conn, :create), decision_user: @invalid_attrs)
+      assert html_response(conn, 200) =~ "New Decision user"
     end
   end
 
-  describe "edit record_user" do
-    setup [:create_record_user]
+  describe "edit decision_user" do
+    setup [:create_decision_user]
 
-    test "renders form for editing chosen record_user", %{conn: conn, record_user: record_user} do
-      conn = get(conn, Routes.record_user_path(conn, :edit, record_user))
-      assert html_response(conn, 200) =~ "Edit Record user"
+    test "renders form for editing chosen decision_user", %{conn: conn, decision_user: decision_user} do
+      conn = get(conn, Routes.decision_user_path(conn, :edit, decision_user))
+      assert html_response(conn, 200) =~ "Edit Decision user"
     end
   end
 
-  describe "update record_user" do
-    setup [:create_record_user]
+  describe "update decision_user" do
+    setup [:create_decision_user]
 
-    test "redirects when data is valid", %{conn: conn, record_user: record_user} do
-      conn = put(conn, Routes.record_user_path(conn, :update, record_user), record_user: @update_attrs)
-      assert redirected_to(conn) == Routes.record_user_path(conn, :show, record_user)
+    test "redirects when data is valid", %{conn: conn, decision_user: decision_user} do
+      conn = put(conn, Routes.decision_user_path(conn, :update, decision_user), decision_user: @update_attrs)
+      assert redirected_to(conn) == Routes.decision_user_path(conn, :show, decision_user)
 
-      conn = get(conn, Routes.record_user_path(conn, :show, record_user))
+      conn = get(conn, Routes.decision_user_path(conn, :show, decision_user))
       assert html_response(conn, 200)
     end
 
-    test "renders errors when data is invalid", %{conn: conn, record_user: record_user} do
-      conn = put(conn, Routes.record_user_path(conn, :update, record_user), record_user: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Record user"
+    test "renders errors when data is invalid", %{conn: conn, decision_user: decision_user} do
+      conn = put(conn, Routes.decision_user_path(conn, :update, decision_user), decision_user: @invalid_attrs)
+      assert html_response(conn, 200) =~ "Edit Decision user"
     end
   end
 
-  describe "delete record_user" do
-    setup [:create_record_user]
+  describe "delete decision_user" do
+    setup [:create_decision_user]
 
-    test "deletes chosen record_user", %{conn: conn, record_user: record_user} do
-      conn = delete(conn, Routes.record_user_path(conn, :delete, record_user))
-      assert redirected_to(conn) == Routes.record_user_path(conn, :index)
+    test "deletes chosen decision_user", %{conn: conn, decision_user: decision_user} do
+      conn = delete(conn, Routes.decision_user_path(conn, :delete, decision_user))
+      assert redirected_to(conn) == Routes.decision_user_path(conn, :index)
 
       assert_error_sent 404, fn ->
-        get(conn, Routes.record_user_path(conn, :show, record_user))
+        get(conn, Routes.decision_user_path(conn, :show, decision_user))
       end
     end
   end
 
-  defp create_record_user(_) do
-    record_user = record_user_fixture()
-    %{record_user: record_user}
+  defp create_decision_user(_) do
+    decision_user = decision_user_fixture()
+    %{decision_user: decision_user}
   end
 end

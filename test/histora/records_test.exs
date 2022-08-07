@@ -1,109 +1,109 @@
-defmodule Histora.RecordsTest do
+defmodule Histora.DecisionsTest do
   use Histora.DataCase
 
-  alias Histora.Records
+  alias Histora.Decisions
 
-  describe "records" do
-    alias Histora.Records.Record
+  describe "decisions" do
+    alias Histora.Decisions.Decision
 
-    import Histora.RecordsFixtures
+    import Histora.DecisionsFixtures
 
     @invalid_attrs %{}
 
-    test "list_records/0 returns all records" do
-      record = record_fixture()
-      assert Records.list_records() == [record]
+    test "list_decisions/0 returns all decisions" do
+      decision = decision_fixture()
+      assert Decisions.list_decisions() == [decision]
     end
 
-    test "get_record!/1 returns the record with given id" do
-      record = record_fixture()
-      assert Records.get_record!(record.id) == record
+    test "get_decision!/1 returns the decision with given id" do
+      decision = decision_fixture()
+      assert Decisions.get_decision!(decision.id) == decision
     end
 
-    test "create_record/1 with valid data creates a record" do
+    test "create_decision/1 with valid data creates a decision" do
       valid_attrs = %{}
 
-      assert {:ok, %Record{} = record} = Records.create_record(valid_attrs)
+      assert {:ok, %Decision{} = decision} = Decisions.create_decision(valid_attrs)
     end
 
-    test "create_record/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Records.create_record(@invalid_attrs)
+    test "create_decision/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Decisions.create_decision(@invalid_attrs)
     end
 
-    test "update_record/2 with valid data updates the record" do
-      record = record_fixture()
+    test "update_decision/2 with valid data updates the decision" do
+      decision = decision_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Record{} = record} = Records.update_record(record, update_attrs)
+      assert {:ok, %Decision{} = decision} = Decisions.update_decision(decision, update_attrs)
     end
 
-    test "update_record/2 with invalid data returns error changeset" do
-      record = record_fixture()
-      assert {:error, %Ecto.Changeset{}} = Records.update_record(record, @invalid_attrs)
-      assert record == Records.get_record!(record.id)
+    test "update_decision/2 with invalid data returns error changeset" do
+      decision = decision_fixture()
+      assert {:error, %Ecto.Changeset{}} = Decisions.update_decision(decision, @invalid_attrs)
+      assert decision == Decisions.get_decision!(decision.id)
     end
 
-    test "delete_record/1 deletes the record" do
-      record = record_fixture()
-      assert {:ok, %Record{}} = Records.delete_record(record)
-      assert_raise Ecto.NoResultsError, fn -> Records.get_record!(record.id) end
+    test "delete_decision/1 deletes the decision" do
+      decision = decision_fixture()
+      assert {:ok, %Decision{}} = Decisions.delete_decision(decision)
+      assert_raise Ecto.NoResultsError, fn -> Decisions.get_decision!(decision.id) end
     end
 
-    test "change_record/1 returns a record changeset" do
-      record = record_fixture()
-      assert %Ecto.Changeset{} = Records.change_record(record)
+    test "change_decision/1 returns a decision changeset" do
+      decision = decision_fixture()
+      assert %Ecto.Changeset{} = Decisions.change_decision(decision)
     end
   end
 
-  describe "record_users" do
-    alias Histora.Records.Record_user
+  describe "decision_users" do
+    alias Histora.Decisions.Decision_user
 
-    import Histora.RecordsFixtures
+    import Histora.DecisionsFixtures
 
     @invalid_attrs %{}
 
-    test "list_record_users/0 returns all record_users" do
-      record_user = record_user_fixture()
-      assert Records.list_record_users() == [record_user]
+    test "list_decision_users/0 returns all decision_users" do
+      decision_user = decision_user_fixture()
+      assert Decisions.list_decision_users() == [decision_user]
     end
 
-    test "get_record_user!/1 returns the record_user with given id" do
-      record_user = record_user_fixture()
-      assert Records.get_record_user!(record_user.id) == record_user
+    test "get_decision_user!/1 returns the decision_user with given id" do
+      decision_user = decision_user_fixture()
+      assert Decisions.get_decision_user!(decision_user.id) == decision_user
     end
 
-    test "create_record_user/1 with valid data creates a record_user" do
+    test "create_decision_user/1 with valid data creates a decision_user" do
       valid_attrs = %{}
 
-      assert {:ok, %Record_user{} = record_user} = Records.create_record_user(valid_attrs)
+      assert {:ok, %Decision_user{} = decision_user} = Decisions.create_decision_user(valid_attrs)
     end
 
-    test "create_record_user/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Records.create_record_user(@invalid_attrs)
+    test "create_decision_user/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Decisions.create_decision_user(@invalid_attrs)
     end
 
-    test "update_record_user/2 with valid data updates the record_user" do
-      record_user = record_user_fixture()
+    test "update_decision_user/2 with valid data updates the decision_user" do
+      decision_user = decision_user_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Record_user{} = record_user} = Records.update_record_user(record_user, update_attrs)
+      assert {:ok, %Decision_user{} = decision_user} = Decisions.update_decision_user(decision_user, update_attrs)
     end
 
-    test "update_record_user/2 with invalid data returns error changeset" do
-      record_user = record_user_fixture()
-      assert {:error, %Ecto.Changeset{}} = Records.update_record_user(record_user, @invalid_attrs)
-      assert record_user == Records.get_record_user!(record_user.id)
+    test "update_decision_user/2 with invalid data returns error changeset" do
+      decision_user = decision_user_fixture()
+      assert {:error, %Ecto.Changeset{}} = Decisions.update_decision_user(decision_user, @invalid_attrs)
+      assert decision_user == Decisions.get_decision_user!(decision_user.id)
     end
 
-    test "delete_record_user/1 deletes the record_user" do
-      record_user = record_user_fixture()
-      assert {:ok, %Record_user{}} = Records.delete_record_user(record_user)
-      assert_raise Ecto.NoResultsError, fn -> Records.get_record_user!(record_user.id) end
+    test "delete_decision_user/1 deletes the decision_user" do
+      decision_user = decision_user_fixture()
+      assert {:ok, %Decision_user{}} = Decisions.delete_decision_user(decision_user)
+      assert_raise Ecto.NoResultsError, fn -> Decisions.get_decision_user!(decision_user.id) end
     end
 
-    test "change_record_user/1 returns a record_user changeset" do
-      record_user = record_user_fixture()
-      assert %Ecto.Changeset{} = Records.change_record_user(record_user)
+    test "change_decision_user/1 returns a decision_user changeset" do
+      decision_user = decision_user_fixture()
+      assert %Ecto.Changeset{} = Decisions.change_decision_user(decision_user)
     end
   end
 end

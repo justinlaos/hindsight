@@ -6,7 +6,7 @@ defmodule HistoraWeb.TagController do
 
   def index(conn, _params) do
     tags = Tags.list_organization_tags(conn.assigns.organization)
-    all_tags = Tags.list_organization_tags_with_2_records(conn.assigns.organization)
+    all_tags = Tags.list_organization_tags_with_2_decisions(conn.assigns.organization)
     render(conn, "index.html", tags: tags, all_tags: all_tags)
   end
 
@@ -30,9 +30,9 @@ defmodule HistoraWeb.TagController do
   def show(conn, %{"id" => id}) do
     tags = Tags.list_organization_tags(conn.assigns.organization)
     tag = Tags.get_tag!(id)
-    records = Tags.get_records_for_tag(id)
+    decisions = Tags.get_decisions_for_tag(id)
 
-    render(conn, "show.html", tag: tag, tags: tags, records: records)
+    render(conn, "show.html", tag: tag, tags: tags, decisions: decisions)
   end
 
   def edit(conn, %{"id" => id}) do

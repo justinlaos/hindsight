@@ -1,34 +1,34 @@
-defmodule Histora.RecordsFixtures do
+defmodule Histora.DecisionsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Records` context.
+  entities via the `Histora.Decisions` context.
   """
 
   @doc """
-  Generate a record.
+  Generate a decision.
   """
-  def record_fixture(attrs \\ %{}) do
-    {:ok, record} =
+  def decision_fixture(attrs \\ %{}) do
+    {:ok, decision} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Records.create_record()
+      |> Histora.Decisions.create_decision()
 
-    record
+    decision
   end
 
   @doc """
-  Generate a record_user.
+  Generate a decision_user.
   """
-  def record_user_fixture(attrs \\ %{}) do
-    {:ok, record_user} =
+  def decision_user_fixture(attrs \\ %{}) do
+    {:ok, decision_user} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Records.create_record_user()
+      |> Histora.Decisions.create_decision_user()
 
-    record_user
+    decision_user
   end
 end

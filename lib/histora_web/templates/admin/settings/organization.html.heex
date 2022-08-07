@@ -4,21 +4,13 @@
         <%= @organization.name %>
     </div>
 
-    <div x-data="{ open: false }">
-        <span x-on:click="open = true">
-            <div data-modal-toggle="defaultModal" class="cursor-pointer rounded-md px-3 py-2 hover:bg-light-grey dark:bg-darkest-grey dark:text-light-grey dark:hover:bg-primary">
-                Settings
-            </div> 
-        </span>
-        <%= render "organization_form.html", Map.put(assigns, :action, Routes.settings_path(@conn, :update, @organization.id)) %>
-    </div>
-    
+    <%= render "edit_organization_slide_modal.html", Map.put(assigns, :action, Routes.settings_path(@conn, :update, @organization.id)) %>   
 </div>
 
 <div class="text-base text-grey mt-1"> <%= Enum.count(@managed_users) %> / <%= @organization.user_limit %> seats</div>
 
 
-<div class="relative overflow-x-auto sm:rounded-lg mr-4 mt-5 z-0">
+<div class="overflow-x-auto sm:rounded-lg mr-4 mt-5">
   <table class="w-full text-sm text-left text-light-grey dark:text-dark-grey">
     <thead class="text-xs text-grey uppercase bg-light-grey dark:bg-darkest-grey dark:text-white">
       <tr>
@@ -34,22 +26,6 @@
           Status
         </th>
         <th scope="col" class="px-6 py-3 text-right">
-            <div x-data="{ open: false }">
-                <div x-on:click="open = true">
-                    <div data-modal-toggle="defaultModal" class="rounded-md px-3 py-2">
-                        <%= if Enum.count(@managed_users) <= @organization.user_limit do %>
-                          <button class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-3 px-3 rounded" data-modal-toggle="defaultModal">
-                            New Team Member
-                          </button>
-                        <% else %>
-                          <button disabled class="bg-dark-grey hover:text-white text-white font-bold py-3 px-3 rounded" data-modal-toggle="defaultModal">
-                            Upgrade or Archive to add new users
-                          </button>
-                        <% end %>
-                    </div> 
-                </div>
-                <%= render "new_user_form.html", action: Routes.invitation_path(@conn, :create), changeset: @new_user_changeset %>
-            </div>
         </th>
       </tr>
     </thead>
@@ -69,7 +45,7 @@
             <% end %>
           </th>
           <th scope="row" class="px-6 py-2 font-medium text-dark-grey dark:text-white whitespace-nowrap">
-            <%= link to: Routes.record_path(@conn, :index, users: [user.id]) do %> 
+            <%= link to: Routes.decision_path(@conn, :index, users: [user.id]) do %> 
               <div class="flex flex-row text-xs rounded-md px-3 py-2 hover:bg-light-grey dark:hover:bg-darkest-grey">
                 <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
                 <%= user.email %>

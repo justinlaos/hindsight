@@ -7,9 +7,9 @@ defmodule Histora.Tags do
 
   alias Histora.Repo
   alias Histora.Tags.Tag
-  alias Histora.Tags.Tag_record
+  alias Histora.Tags.Tag_decision
   alias Histora.Tags.Tag_favorite
-  alias Histora.Records.Record
+  alias Histora.Decisions.Decision
 
   def list_organization_tags(organization) do
     (from t in Tag,
@@ -23,7 +23,7 @@ defmodule Histora.Tags do
     |> Repo.all()
   end
 
-  def list_organization_tags_for_records(organization_id) do
+  def list_organization_tags_for_decisions(organization_id) do
     (from t in Tag,
       where: t.organization_id == ^organization_id,
       preload: [:tag_favorites],
@@ -46,18 +46,18 @@ defmodule Histora.Tags do
     |> Repo.all()
   end
 
-  def list_organization_tags_with_2_records(organization) do
+  def list_organization_tags_with_2_decisions(organization) do
     (from t in Tag, where: t.organization_id == ^organization.id)
       |> Repo.all()
-      |> Repo.preload(records: from(r in Record, order_by: [desc: r.inserted_at], preload: [:tags, :user]))
+      |> Repo.preload(decisions: from(r in Decision, order_by: [desc: r.inserted_at], preload: [:tags, :user]))
 
   end
 
-  def delete_record_tag_list(record_id) do
-    Ecto.assoc(Repo.get(Record, record_id), :tag_records) |> Repo.delete_all
+  def delete_decision_tag_list(decision_id) do
+    Ecto.assoc(Repo.get(Decision, decision_id), :tag_decisions) |> Repo.delete_all
   end
 
-  def assign_tags_to_record(tags, record_id, organization_id, user_id) do
+  def assign_tags_to_decision(tags, decision_id, organization_id, user_id) do
     for tag_item <- String.split(tags, ", ", trim: true) do
       cleaned_tag = (
       tag_item
@@ -68,10 +68,10 @@ defmodule Histora.Tags do
         nil ->
           case create_tag(%{"name" => cleaned_tag, "organization_id" => organization_id, "user_id" => user_id}) do
             {:ok, tag} ->
-              create_tag_record(%{"tag_id" => tag.id, "record_id" => record_id})
+              create_tag_decision(%{"tag_id" => tag.id, "decision_id" => decision_id})
             {:error, %Ecto.Changeset{} = changeset} -> changeset.error
           end
-        tag -> create_tag_record(%{"tag_id" => tag.id, "record_id" => record_id})
+        tag -> create_tag_decision(%{"tag_id" => tag.id, "decision_id" => decision_id})
       end
     end
   end
@@ -96,11 +96,11 @@ defmodule Histora.Tags do
     Repo.get!(Tag, id) |> Repo.preload(:tag_favorites)
   end
 
-  def get_records_for_tag(id) do
-    (Repo.all Ecto.assoc(Repo.get(Tag, id), :records))
+  def get_decisions_for_tag(id) do
+    (Repo.all Ecto.assoc(Repo.get(Tag, id), :decisions))
       |> Repo.preload([:user, :tags])
       |> Enum.group_by(& formate_time_stamp(&1.inserted_at))
-      |> Enum.map(fn {inserted_at, records_collection} -> %{date: inserted_at, records: records_collection} end)
+      |> Enum.map(fn {inserted_at, decisions_collection} -> %{date: inserted_at, decisions: decisions_collection} end)
       |> Enum.reverse()
   end
 
@@ -177,84 +177,84 @@ defmodule Histora.Tags do
   end
 
   @doc """
-  Gets a single tag_record.
+  Gets a single tag_decision.
 
-  Raises `Ecto.NoResultsError` if the Tag record does not exist.
+  Raises `Ecto.NoResultsError` if the Tag decision does not exist.
 
   ## Examples
 
-      iex> get_tag_record!(123)
-      %Tag_record{}
+      iex> get_tag_decision!(123)
+      %Tag_decision{}
 
-      iex> get_tag_record!(456)
+      iex> get_tag_decision!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_tag_record!(id), do: Repo.get!(Tag_record, id)
+  def get_tag_decision!(id), do: Repo.get!(Tag_decision, id)
 
   @doc """
-  Creates a tag_record.
+  Creates a tag_decision.
 
   ## Examples
 
-      iex> create_tag_record(%{field: value})
-      {:ok, %Tag_record{}}
+      iex> create_tag_decision(%{field: value})
+      {:ok, %Tag_decision{}}
 
-      iex> create_tag_record(%{field: bad_value})
+      iex> create_tag_decision(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_tag_record(attrs \\ %{}) do
-    %Tag_record{}
-    |> Tag_record.changeset(attrs)
+  def create_tag_decision(attrs \\ %{}) do
+    %Tag_decision{}
+    |> Tag_decision.changeset(attrs)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a tag_record.
+  Updates a tag_decision.
 
   ## Examples
 
-      iex> update_tag_record(tag_record, %{field: new_value})
-      {:ok, %Tag_record{}}
+      iex> update_tag_decision(tag_decision, %{field: new_value})
+      {:ok, %Tag_decision{}}
 
-      iex> update_tag_record(tag_record, %{field: bad_value})
+      iex> update_tag_decision(tag_decision, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_tag_record(%Tag_record{} = tag_record, attrs) do
-    tag_record
-    |> Tag_record.changeset(attrs)
+  def update_tag_decision(%Tag_decision{} = tag_decision, attrs) do
+    tag_decision
+    |> Tag_decision.changeset(attrs)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a tag_record.
+  Deletes a tag_decision.
 
   ## Examples
 
-      iex> delete_tag_record(tag_record)
-      {:ok, %Tag_record{}}
+      iex> delete_tag_decision(tag_decision)
+      {:ok, %Tag_decision{}}
 
-      iex> delete_tag_record(tag_record)
+      iex> delete_tag_decision(tag_decision)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_tag_record(%Tag_record{} = tag_record) do
-    Repo.delete(tag_record)
+  def delete_tag_decision(%Tag_decision{} = tag_decision) do
+    Repo.delete(tag_decision)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking tag_record changes.
+  Returns an `%Ecto.Changeset{}` for tracking tag_decision changes.
 
   ## Examples
 
-      iex> change_tag_record(tag_record)
-      %Ecto.Changeset{data: %Tag_record{}}
+      iex> change_tag_decision(tag_decision)
+      %Ecto.Changeset{data: %Tag_decision{}}
 
   """
-  def change_tag_record(%Tag_record{} = tag_record, attrs \\ %{}) do
-    Tag_record.changeset(tag_record, attrs)
+  def change_tag_decision(%Tag_decision{} = tag_decision, attrs \\ %{}) do
+    Tag_decision.changeset(tag_decision, attrs)
   end
 
   def create_tag_favorite(attrs \\ %{}) do

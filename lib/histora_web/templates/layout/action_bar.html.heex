@@ -3,38 +3,27 @@
     <%= render HistoraWeb.SearchView, "search_form.html", conn: @conn %>
 
 
-    <%= if assigns.conn.request_path == "/records" do %>
-        <div x-data="{ open: false }" class="flex justify-center">
-            <!-- Trigger -->
-            <span x-on:click="open = true">
-                <button class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-2 px-6 mx-2 rounded" data-modal-toggle="defaultModal">
-                    Filter
-                </button>
-            </span>
-            <%= render HistoraWeb.RecordView, "record_filter_modal.html", conn: @conn, filterable_tags: @filterable_tags, filterable_users: @filterable_users, selected_filtered_tags: @selected_filtered_tags, selected_filtered_users: @selected_filtered_users, formated_start_date: @formated_start_date, formated_end_date: @formated_end_date %>
-        </div>
+    <%= if assigns.conn.request_path == "/decisions" do %>
+        <%= render HistoraWeb.DecisionView, "filter_decision_slide_modal.html", conn: @conn, filterable_tags: @filterable_tags, filterable_users: @filterable_users, selected_filtered_tags: @selected_filtered_tags, selected_filtered_users: @selected_filtered_users, formated_start_date: @formated_start_date, formated_end_date: @formated_end_date %>
     <% end %>
 
     <%= if assigns.conn.request_path == "/scopes" do %>
-        <div x-data="{ open: false }" class="flex justify-center">
-            <!-- Trigger -->
-            <span x-on:click="open = true">
-                <button class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded" data-modal-toggle="defaultModal">
-                    New Scope
-                </button>
-            </span>
-            <%= render HistoraWeb.ScopeView, "new_scope_modal.html", Map.put(assigns, :action, Routes.scope_path(@conn, :create)) %>
-        </div>
+        <%= render HistoraWeb.ScopeView, "new_scope_slide_modal.html", Map.put(assigns, :action, Routes.scope_path(@conn, :create)) %>
     <% end %>
 
+    <%= if assigns.conn.request_path == "/drafts" do %>
+        <%= render HistoraWeb.DraftView, "new_draft_slide_modal.html", Map.put(assigns, :action, Routes.draft_path(@conn, :create)) %>
+    <% end %>
 
-    <div x-data="{ open: false }" class="flex justify-center">
-        <!-- Trigger -->
-        <span x-on:click="open = true">
-            <button class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-2 px-3 rounded" data-modal-toggle="defaultModal">
-                New Record
+    <%= if assigns.conn.request_path == "/admin/settings/organization" do %>
+        <%= if Enum.count(@managed_users) <= @organization.user_limit do %>
+            <%= render HistoraWeb.Admin.SettingsView, "new_user_slide_modal.html", action: Routes.invitation_path(@conn, :create), changeset: @new_user_changeset %>
+        <% else %>
+            <button disabled class="bg-dark-grey hover:text-white text-white font-bold py-3 px-3 rounded" data-modal-toggle="defaultModal">
+                Upgrade or Archive to add new users
             </button>
-        </span>
-        <%= render HistoraWeb.RecordView, "new_record_modal.html", Map.put(assigns, :action, Routes.record_path(@conn, :create)) %>
-    </div>
+        <% end %>
+    <% end %>
+
+    <%= render HistoraWeb.DecisionView, "new_decision_slide_modal.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
 </div>

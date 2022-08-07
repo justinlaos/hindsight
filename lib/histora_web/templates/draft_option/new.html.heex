@@ -1,0 +1,5 @@
+<h1>New Draft option</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.draft_option_path(@conn, :create)) %>
+
+<span><%= link "Back", to: Routes.draft_option_path(@conn, :index) %></span>

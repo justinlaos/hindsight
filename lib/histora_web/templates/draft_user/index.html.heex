@@ -1,0 +1,24 @@
+<h1>Listing Draft users</h1>
+
+<table>
+  <thead>
+    <tr>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for draft_user <- @draft_users do %>
+    <tr>
+
+      <td>
+        <span><%= link "Show", to: Routes.draft_user_path(@conn, :show, draft_user) %></span>
+        <span><%= link "Edit", to: Routes.draft_user_path(@conn, :edit, draft_user) %></span>
+        <span><%= link "Delete", to: Routes.draft_user_path(@conn, :delete, draft_user), method: :delete, data: [confirm: "Are you sure?"] %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>
+
+<span><%= link "New Draft user", to: Routes.draft_user_path(@conn, :new) %></span>

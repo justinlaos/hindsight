@@ -1,0 +1,10 @@
+<div class="my-6 rounded-lg ">
+    <div class="text-lg font-bold text-primary"><%= Histora.Users.formate_time_stamp(@header) %></div>
+   
+    <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
+        <%= for decision <- @decision_section.decisions do %>
+            <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: decision %>
+        <% end %>
+    </div>
+</div>
+
