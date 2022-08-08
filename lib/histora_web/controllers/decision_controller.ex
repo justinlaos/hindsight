@@ -64,9 +64,10 @@ defmodule HistoraWeb.DecisionController do
     scopes = params["new_scopes"]
     private = params["private"]
     users = params["new_users"]
+    date = if Map.has_key?(params, "date"), do: params["date"], else: Date.to_string(Date.utc_today)
     %{"redirect_to" => redirect_to} = params["decision"]
 
-    case Decisions.create_decision(Map.merge(params["decision"], %{"private" => private, "user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id})) do
+    case Decisions.create_decision(Map.merge(params["decision"], %{"private" => private, "user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id, "date" => date})) do
       {:ok, decision} ->
 
         if tag_list != "" do
@@ -94,8 +95,10 @@ defmodule HistoraWeb.DecisionController do
     decision = Decisions.get_decision!(id)
     edit_decision_changeset = Decisions.change_decision(decision)
     scopes = Scopes.list_organization_scopes(conn.assigns.organization)
-    draft = Drafts.get_draft!(decision.draft_id)
-    current_draft_users = Drafts.get_draft_connected_users(draft.id)
+
+    draft = if decision.draft_id, do: Drafts.get_draft!(decision.draft_id), else: nil
+    current_draft_users = if decision.draft_id, do: Drafts.get_draft_connected_users(draft.id), else: nil
+
     render(conn, "show.html",
       decision: decision,
       edit_decision_changeset: edit_decision_changeset,
@@ -117,9 +120,10 @@ defmodule HistoraWeb.DecisionController do
     private = params["private"]
     scope = if Map.has_key?(params, "scopes"), do: params["scopes"], else: nil
     users = if Map.has_key?(params, "users"), do:  params["users"], else: nil
+    date = if Map.has_key?(params, "date"), do: params["date"], else: Date.to_string(Date.utc_today)
     decision = Decisions.get_decision!(id)
 
-    case Decisions.update_decision(decision, Map.merge(decision_params, %{"private" => private})) do
+    case Decisions.update_decision(decision, Map.merge(decision_params, %{"private" => private, "date" => date})) do
       {:ok, decision} ->
 
 

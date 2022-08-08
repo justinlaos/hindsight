@@ -51,7 +51,13 @@
                             <%= if @decision_changeset.action do %> <div class="alert alert-danger"> <p>Oops, something went wrong! Please check the errors below.</p></div><% end %>
 
                             <div class="mt-1 my-4">
-                                <%= textarea f, :content, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "describe the decsion with context from the draft and the selected option" %>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey">What</label>
+                                <%= textarea f, :what, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "What decision is being made" %>
+                            </div>
+
+                            <div class="mt-1 my-4">
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey">Why</label>
+                                <%= textarea f, :why, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "Why is this decision beimg made" %>
                             </div>
                             
                             <div class="mt-1 my-4">
@@ -59,6 +65,32 @@
                                 <%= text_input f, :tag_list, placeholder: "operations, accounting, office, pricing", class: "mt-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none" %>
                             </div>
                             
+                        </div>
+                    
+                        <div class="mt-1 my-4">
+                            <label for="name" class="block text-sm font-medium text-gray-700">Date</label>
+                            <div
+                                x-data={"{
+                                    value: ['#{Date.to_string(Date.utc_today)}'],
+                                    init() {
+                                        let picker = flatpickr(this.$refs.picker, {
+                                            altInput: true,
+                                            altFormat: 'F j, Y',
+                                            dateFormat: 'Y-m-d',
+                                            class: 'border-light-grey rounded-md',
+                                            defaultDate: this.value,
+                                            onChange: (date, dateString) => {
+                                                this.value = dateString
+                                            }
+                                        })
+
+                                        this.$watch('value', () => picker.setDate(this.value))
+                                    },
+                                }"}
+                                
+                            >
+                                <input name="date" id="date" class="bg-transparent focus:ring-primary border-none w-full focus:border-primary hover:border-primary hover:text-prmiary dark:text-white rounded bg-transparent" x-ref="picker" type="text">
+                            </div>
                         </div>
                     </div>
 

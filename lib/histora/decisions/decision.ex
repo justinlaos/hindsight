@@ -3,7 +3,9 @@ defmodule Histora.Decisions.Decision do
   import Ecto.Changeset
 
   schema "decisions" do
-    field :content, :string
+    field :what, :string
+    field :why, :string
+    field :date, :date
     field :source, :string
     field :reference, :string
     field :private, :boolean
@@ -27,7 +29,7 @@ defmodule Histora.Decisions.Decision do
   @doc false
   def changeset(decision, attrs) do
     decision
-    |> cast(attrs, [:user_id, :organization_id, :content, :source, :reference, :private, :draft_id])
+    |> cast(attrs, [:user_id, :organization_id, :what, :why, :source, :reference, :private, :draft_id, :date])
     |> validate_required([])
   end
 end

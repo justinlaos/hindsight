@@ -9,15 +9,18 @@
                 <% end %>
             <% end %>
         </div>
+    <% else %>
+        <div class="font-bold inline-flex items-center text-xs text-drak-grey mr-6 dark:text-dark-grey">
+            No Scopes
+        </div>
     <% end %>
 
     <div class="flex flex-row">
 
+        <%= render "new_draft_option_slide_modal.html", Map.put(assigns, :action, Routes.draft_option_path(@conn, :create)) %>    
+
         <%= if @draft.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
             <%= render "convert_draft_to_decision_slide_modal.html", Map.put(assigns, :action, Routes.draft_path(@conn, :convert, draft: @draft.id)) %>    
-        <% end %>
-        
-        <%= if @draft.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
             <%= render "edit_draft_slide_modal.html", Map.put(assigns, :action, Routes.draft_path(@conn, :update, @draft.id)) %>    
         <% end %>
 
@@ -38,18 +41,10 @@
     <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
     <%= @draft.user.email %>
     <%= render "view_draft_connected_users_slide_modal.html", current_draft_users: @current_draft_users, draft_votes: @draft.draft_votes %>    
-
+    <div class="dark:text-white ml-6">
+        <%= Enum.count(@draft.draft_votes) %> / <%= Enum.count( @current_draft_users) %> votes
+    </div>
 </div>
-
-<div class="mt-4 dark:text-white">
-    <%= Enum.count(@draft.draft_votes) %> / <%= Enum.count( @current_draft_users) %> votes
-</div>
-
-
-<div class="mt-4">
-    <%= render "new_draft_option_slide_modal.html", Map.put(assigns, :action, Routes.draft_option_path(@conn, :create)) %>    
-</div>
-
 
 <div class="mt-8">
     <%= for option <- @draft.draft_options do %>

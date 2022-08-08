@@ -25,8 +25,9 @@ defmodule HistoraWeb.DraftController do
     scopes = Drafts.get_draft_scopes(params["draft"])
     users = Drafts.get_draft_connected_users(params["draft"])
     draft = Drafts.get_draft!(params["draft"])
+    date = if Map.has_key?(params, "date"), do: params["date"], else: Date.to_string(Date.utc_today)
 
-    case Drafts.convert_draft(params["draft"], conn.assigns.current_user.id, params["decision"]) do
+    case Drafts.convert_draft(params["draft"], conn.assigns.current_user.id, params["decision"], date) do
       {:ok, decision} ->
 
         if tag_list != "" do

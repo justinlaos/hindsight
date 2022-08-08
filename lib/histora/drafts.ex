@@ -87,7 +87,7 @@ defmodule Histora.Drafts do
     Drafts.update_draft_option(draft_id, %{"selected" => true})
   end
 
-  def convert_draft(draft_id, user_id, decision) do
+  def convert_draft(draft_id, user_id, decision, date) do
     draft = get_draft!(draft_id)
 
     Histora.Decisions.create_decision(%{
@@ -95,7 +95,9 @@ defmodule Histora.Drafts do
       "user_id" => user_id,
       "organization_id" => draft.organization_id,
       "reference" => draft.reference,
-      "content" => decision["content"]
+      "what" => decision["what"],
+      "why" => decision["why"],
+      "date" => date
     })
   end
 

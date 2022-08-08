@@ -16,7 +16,7 @@ defmodule Histora.Decisions do
 
   def list_organization_decisions(organization) do
     (from r in Decision, where: r.organization_id == ^organization.id )
-    |> order_by(desc: :updated_at)
+    |> order_by(desc: :date)
   end
 
   def filter_tags(decisions, params) do
@@ -42,7 +42,7 @@ defmodule Histora.Decisions do
   end
 
   def filter_dates(decisions, formated_start_date, formated_end_date) do
-      (from r in subquery(decisions), where: r.updated_at >= ^formated_start_date and r.updated_at <= ^formated_end_date )
+      (from r in subquery(decisions), where: r.date >= ^formated_start_date and r.date <= ^formated_end_date )
   end
 
   def formate_decisions(decisions, current_user) do
@@ -55,8 +55,8 @@ defmodule Histora.Decisions do
       x.user_id == current_user.id or
       filter_scope(x, scope_list) == true
     end)
-    |> Enum.group_by(& NaiveDateTime.to_date(&1.updated_at))
-    |> Enum.map(fn {updated_at, decisions_collection} -> %{date: updated_at, decisions: decisions_collection} end)
+    |> Enum.group_by(& &1.date)
+    |> Enum.map(fn {date, decisions_collection} -> %{date: date, decisions: decisions_collection} end)
     |> Enum.sort_by(&(&1.date), {:desc, Date})
   end
 

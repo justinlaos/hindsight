@@ -68,12 +68,12 @@ defmodule Histora.Scopes do
 
   def get_decisions_for_scope(id) do
     (Repo.all Ecto.assoc(Repo.get(Scope, id), :decisions))
-      |> Enum.sort_by(&(&1.updated_at), {:desc, Date})
-      |> Repo.preload([:user, :tags, :users, :scopes])
-      |> Enum.group_by(& NaiveDateTime.to_date(&1.updated_at))
-      |> Enum.map(fn {updated_at, decisions_collection} -> %{date: updated_at, decisions: decisions_collection} end)
-      |> Enum.sort_by(&(&1.date), {:desc, Date})
+    |> Repo.preload([:user, :tags, :users, :scopes])
+    |> Enum.group_by(& &1.date)
+    |> Enum.map(fn {date, decisions_collection} -> %{date: date, decisions: decisions_collection} end)
+    |> Enum.sort_by(&(&1.date), {:desc, Date})
   end
+
 
   @doc """
   Creates a scope.
