@@ -29,7 +29,7 @@
                 x-transition:leave-end="translate-x-full"
                 class="h-full w-full"
             >
-                <div class="h-full flex flex-col justify-between bg-really-light-grey shadow-lg overflow-y-auto">
+                <div class="h-full flex flex-col justify-between bg-really-light-grey dark:bg-darkest-grey shadow-lg overflow-y-auto">
                     <!-- Close Button -->
                     <div class="absolute top-0 right-0 pt-4 pr-4">
                         <button type="button" @click="$dialog.close()" class="bg-gray-50 rounded-lg p-2 text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
@@ -44,12 +44,12 @@
                     <!-- Body -->
                     <div class="p-8">
                         <!-- Title -->
-                        <h2 x-dialog:title class="text-3xl mb-8 font-bold">Filter Decisions</h2>
+                        <h2 x-dialog:title class="text-3xl mb-8 font-bold dark:text-white">Filter Decisions</h2>
 
                         <!-- Content -->
                         <div class="form_content">
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Tags</label>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Tags</label>
                                 <div
                                     x-data={"{
                                         multiple: true,
@@ -106,7 +106,7 @@
 
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Users</label>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Users</label>
                                 <div
                                     x-data={"{
                                         multiple: true,
@@ -161,7 +161,7 @@
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Time from and to</label>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Time from and to</label>
                                 <%= render HistoraWeb.DecisionView, "date_filter.html", conn: @conn, formated_start_date: @formated_start_date, formated_end_date: @formated_end_date %>
                             </div>
                         </div>
@@ -169,7 +169,7 @@
 
                     <!-- Footer -->
                     <div class="p-4 flex justify-end space-x-2 bg-gray-50">
-                        <button type="button" x-on:click="$dialog.close()" class="text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg px-5 py-2.5">
+                        <button type="button" x-on:click="$dialog.close()" class="text-sm focus:outline-none dark:text-white rounded-lg px-5 py-2.5">
                             Close
                         </button>
 
