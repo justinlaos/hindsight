@@ -5,11 +5,10 @@ defmodule HistoraWeb.Admin.UserController do
   alias Pow.{Plug, Operations}
   alias Histora.Users
 
-  plug :load_user when action in [:archive, :unarchive]
+  plug :load_user when action in [:archive, :unarchive, :cancel_invite]
 
   # ...
 
-  @spec archive(Conn.t(), map()) :: Conn.t()
   def archive(%{assigns: %{user: user}} = conn, _params) do
     case Users.archive(user) do
       {:ok, _user} ->
@@ -34,6 +33,15 @@ defmodule HistoraWeb.Admin.UserController do
       {:error, _changeset} ->
         conn
         |> put_flash(:error, "User couldn't be unarchived.")
+        |> redirect(to: Routes.settings_path(conn, :organization))
+    end
+  end
+
+  def cancel_invite(%{assigns: %{user: user}} = conn, _params) do
+    case Users.cancel_invite(user) do
+      {_id, _user} ->
+        conn
+        |> put_flash(:info, "Invitation has been cancelled.")
         |> redirect(to: Routes.settings_path(conn, :organization))
     end
   end

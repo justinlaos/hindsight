@@ -51,27 +51,27 @@
                             <%= if @decision_changeset.action do %> <div class="alert alert-danger"> <p>Oops, something went wrong! Please check the errors below.</p></div><% end %>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium dark:text-light-grey">What</label>
-                                <%= textarea f, :what, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "What decision is being made" %>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">What</label>
+                                <%= textarea f, :what, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none", placeholder: "What decision is being made" %>
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium dark:text-light-grey">Why</label>
-                                <%= textarea f, :why, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "Why is this decision beimg made" %>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Why</label>
+                                <%= textarea f, :why, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none", placeholder: "Why is this decision beimg made" %>
                             </div>
                             
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium dark:text-light-grey">Tags</label>
-                                <%= text_input f, :tag_list, placeholder: "operations, accounting, office, pricing", class: "mt-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none" %>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Tags</label>
+                                <%= text_input f, :tag_list, placeholder: "operations, accounting, office, pricing", class: "mt-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none" %>
                             </div>
                             
                             <div class="mt-1 my-4">
-                                <label for="reference" class="block text-sm font-medium dark:text-light-grey">Reference</label>
-                                <%= text_input f, :reference, placeholder: "optional: www.link-to-something-important.com", class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none" %>
+                                <label for="reference" class="block text-sm font-medium dark:text-light-grey mb-1">Reference</label>
+                                <%= text_input f, :reference, placeholder: "optional: www.link-to-something-important.com", class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none" %>
                             </div>
                             
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium dark:text-light-grey">Scope</label>                
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Scope</label>                
                                 <div
                                     x-data={"{
                                         multiple: true,
@@ -117,12 +117,12 @@
                                     }"}
                                     class="w-full"
                                 >
-                                    <select x-ref="select" data-placeholder="click to select" name="new_scopes[]" id="new_scopes[]" multiple class="w-full" ></select>
+                                    <select x-ref="select" data-placeholder="click to select" name="new_scopes[]" id="new_scopes[]" multiple class="w-full dark:bg-black" ></select>
                                 </div>
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Connect Other Users</label>               
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Connect Other Users</label>               
                                 <div
                                     x-data={"{
                                         multiple: true,
@@ -173,7 +173,7 @@
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Date</label>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Date</label>
                                 <div
                                     x-data={"{
                                         value: ['#{Date.to_string(Date.utc_today)}'],
@@ -237,6 +237,35 @@
 
                             <%= error_tag f, :tag_list %>
                             <%= hidden_input f, :redirect_to, value: @conn.request_path %>
+
+                            <div class="mt-6 dark:text-white">Reflections</div>
+
+
+                            <div class="mt-1 my-4">
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Schedule date</label>
+                                <div
+                                    x-data={"{
+                                        value: ['#{ nil }'],
+                                        init() {
+                                            let picker = flatpickr(this.$refs.picker, {
+                                                altInput: true,
+                                                altFormat: 'F j, Y',
+                                                dateFormat: 'Y-m-d',
+                                                class: 'border-light-grey rounded-md',
+                                                defaultDate: this.value,
+                                                onChange: (date, dateString) => {
+                                                    this.value = dateString
+                                                }
+                                            })
+
+                                            this.$watch('value', () => picker.setDate(this.value))
+                                        },
+                                    }"}
+                                    
+                                >
+                                    <input name="reflection_date" id="reflection_date" class="bg-transparent focus:ring-primary border-none w-full focus:border-primary hover:border-primary hover:text-prmiary dark:text-white rounded bg-transparent" x-ref="picker" type="text">
+                                </div>
+                            </div>
 
                         </div>
                     </div>

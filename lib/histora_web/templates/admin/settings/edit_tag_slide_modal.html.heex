@@ -1,8 +1,8 @@
-<div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-center">
+<div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="">
     <!-- Trigger -->
     <span @click="toggle">
-        <button class="hover:bg-light-grey text-dark-grey dark:text-white py-2 px-3 mx-2 rounded">
-            Edit
+        <button class="text:light-grey">
+            edit
         </button>
     </span>
 
@@ -17,7 +17,7 @@
         <%# <div x-dialog:overlay x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50"></div> %>
 
         <!-- Panel -->
-        <.form let={f} for={Histora.Drafts.change_draft_option(@option)} action={@action}>
+        <.form let={f} for={Histora.Tags.change_tag(@tag)} action={@action}>
         <div class="fixed inset-y-0 right-0 max-w-lg w-full">
             <div
                 x-dialog:panel
@@ -32,7 +32,7 @@
                 <div class="h-full flex flex-col justify-between bg-really-light-grey dark:bg-darkest-grey shadow-lg overflow-y-auto">
                     <!-- Close Button -->
                     <div class="absolute top-0 right-0 pt-4 pr-4">
-                        <button type="button" @click="$dialog.close()" class="bg-gray-50 rounded-lg p-2 text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
+                        <button type="button" @click="$dialog.close()" class="text-gray dark:text-light-grey rounded-lg p-2">
                             <span class="sr-only">Close slideover</span>
 
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
@@ -44,20 +44,22 @@
                     <!-- Body -->
                     <div class="p-8">
                         <!-- Title -->
-                        <h2 x-dialog:title class="text-3xl mb-8 font-bold">Edit Option</h2>
+                        <h2 x-dialog:title class="float-left text-3xl mb-8 font-bold dark:text-light-grey">Edit Tag</h2>
 
                         <!-- Content -->
-                        <div class="form_content">
-                            <div class="mt-1 my-4">
-                                <%= textarea f, :content, class: "mb-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md text-black dark:border-none", placeholder: "summry of this draft" %>
-                            </div>
+                        <div class="form_content">                            
+                            
 
+                            <div class="mt-4 my-4">
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey"></label>
+                                <%= text_input f, :name, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "How did this decsion go?" %>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Footer -->
                     <div class="p-4 flex justify-end space-x-2 bg-gray-50">
-                        <button type="button" x-on:click="$dialog.close()" class="text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg px-5 py-2.5">
+                        <button type="button" x-on:click="$dialog.close()" class="text-sm dark:text-light-grey rounded-lg px-5 py-2.5">
                             Close
                         </button>
 

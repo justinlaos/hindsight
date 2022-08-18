@@ -2,10 +2,15 @@ defmodule HistoraWeb.Admin.InvitationController do
   use HistoraWeb, :controller
 
   alias PowInvitation.{Plug}
+  alias Histora.Users
 
-  def create(conn, %{"user" => user_params}) do
-    case Plug.create_user(conn, user_params) do
+  def create(conn, params) do
+    case Plug.create_user(conn, params["user"]) do
       {:ok, user, conn} ->
+        if params["role"] == "admin" do
+          Users.set_admin_role(user)
+        end
+
         deliver_email(conn, user)
 
         conn

@@ -48,7 +48,7 @@ defmodule HistoraWeb.TagController do
       {:ok, tag} ->
         conn
         |> put_flash(:info, "Tag updated successfully.")
-        |> redirect(to: Routes.tag_path(conn, :show, tag))
+        |> redirect(to: Routes.settings_path(conn, :tags))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", tag: tag, changeset: changeset)

@@ -29,7 +29,7 @@
                 x-transition:leave-end="translate-x-full"
                 class="h-full w-full"
             >
-                <div class="h-full flex flex-col justify-between bg-really-light-grey shadow-lg overflow-y-auto">
+                <div class="h-full flex flex-col justify-between bg-really-light-grey dark:bg-darkest-grey shadow-lg overflow-y-auto">
                     <!-- Close Button -->
                     <div class="absolute top-0 right-0 pt-4 pr-4">
                         <button type="button" @click="$dialog.close()" class="bg-gray-50 rounded-lg p-2 text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
@@ -44,20 +44,20 @@
                     <!-- Body -->
                     <div class="p-8">
                         <!-- Title -->
-                        <h2 x-dialog:title class="text-3xl mb-8 font-bold">Edit Organization</h2>
+                        <h2 x-dialog:title class="text-3xl mb-8 font-bold dark:text-white">Edit Organization</h2>
 
                         <!-- Content -->
                         <div class="form_content">
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                                <%= textarea f, :name, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "This can be a team or a project" %>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Name</label>
+                                <%= textarea f, :name, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none", placeholder: "This can be a team or a project" %>
                             </div>
                         </div>
                     </div>
 
                     <!-- Footer -->
                     <div class="p-4 flex justify-end space-x-2 bg-gray-50">
-                        <button type="button" x-on:click="$dialog.close()" class="text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg px-5 py-2.5">
+                        <button type="button" x-on:click="$dialog.close()" class="text-sm focus:outline-none dark:text-white rounded-lg px-5 py-2.5">
                             Close
                         </button>
 

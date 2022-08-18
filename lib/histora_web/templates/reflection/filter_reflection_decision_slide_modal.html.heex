@@ -1,8 +1,8 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-center">
     <!-- Trigger -->
     <span @click="toggle">
-        <button class="hover:bg-light-grey text-dark-grey dark:text-white py-2 px-3 mx-2 rounded">
-            Edit
+        <button class="bg-dark-primary hover:bg-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded">
+            Filter
         </button>
     </span>
 
@@ -17,7 +17,7 @@
         <%# <div x-dialog:overlay x-transition.opacity class="fixed inset-0 bg-black bg-opacity-50"></div> %>
 
         <!-- Panel -->
-        <.form let={f} for={Histora.Drafts.change_draft_option(@option)} action={@action}>
+        <form  action="/reflections" method="GET">
         <div class="fixed inset-y-0 right-0 max-w-lg w-full">
             <div
                 x-dialog:panel
@@ -29,7 +29,7 @@
                 x-transition:leave-end="translate-x-full"
                 class="h-full w-full"
             >
-                <div class="h-full flex flex-col justify-between bg-really-light-grey dark:bg-darkest-grey shadow-lg overflow-y-auto">
+                <div class="h-full flex flex-col justify-between bg-really-light-grey shadow-lg overflow-y-auto">
                     <!-- Close Button -->
                     <div class="absolute top-0 right-0 pt-4 pr-4">
                         <button type="button" @click="$dialog.close()" class="bg-gray-50 rounded-lg p-2 text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
@@ -44,14 +44,34 @@
                     <!-- Body -->
                     <div class="p-8">
                         <!-- Title -->
-                        <h2 x-dialog:title class="text-3xl mb-8 font-bold">Edit Option</h2>
+                        <h2 x-dialog:title class="text-3xl mb-8 font-bold">Filter Upcoming Reflections</h2>
 
                         <!-- Content -->
                         <div class="form_content">
                             <div class="mt-1 my-4">
-                                <%= textarea f, :content, class: "mb-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md text-black dark:border-none", placeholder: "summry of this draft" %>
-                            </div>
+                                <div
+                                    x-data={"{
+                                        value: ['#{Date.to_string(@formated_start_date)}', '#{Date.to_string(@formated_end_date)}'],
+                                        init() {
+                                            let picker = flatpickr(this.$refs.picker, {
+                                                mode: 'range',
+                                                altInput: true,
+                                                altFormat: 'F j, Y',
+                                                dateFormat: 'Y-m-d',
+                                                defaultDate: this.value,
+                                                onChange: (date, dateString) => {
+                                                    this.value = dateString.split(' to ')
+                                                }
+                                            })
 
+                                            this.$watch('value', () => picker.setDate(this.value))
+                                        },
+                                    }"}
+                                    class="dark:text-white"
+                                >
+                                    <input name="dates[]" id="dates[]" class="bg-transparent focus:ring-primary border-none w-full focus:border-primary hover:border-primary hover:text-prmiary dark:text-white rounded bg-transparent" x-ref="picker" type="text">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -61,15 +81,14 @@
                             Close
                         </button>
 
-                        <%= submit do  %>
-                            <button class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded">
-                                Update
-                            </button>
-                        <% end %> 
+                        <button type="submit" class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded">
+                            Filter
+                        </button>
+                      
                     </div>
                 </div>
             </div>
         </div>
-        </.form>
+        </form>
     </div>
 </div>

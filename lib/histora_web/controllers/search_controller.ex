@@ -15,7 +15,7 @@ defmodule HistoraWeb.SearchController do
       |> then(&"%#{&1}%")
 
     search_results = from(r in Decision,
-      where: fragment("? ilike ?", r.what, ^search_str) and fragment("? ilike ?", r.why, ^search_str),
+      where: ilike(fragment("CONCAT((?), ' ',(?))", r.why, r.what), ^search_str),
       order_by: [desc: r.updated_at]
     )
     |> Repo.all()

@@ -1,15 +1,10 @@
 <div class="text-sm text-grey mb-1"> <%= if @scope.private, do: "Private", else: "" %></div>
-<div class="flex content-center">
-    <div class="text-2xl font-bold mr-5 text-primary">
-        <%= String.capitalize(@scope.name) %>
-    </div>
- 
+<div class="flex flex-row justify-between">
+    <div class="text-2xl font-bold mr-5 text-primary"><%= String.capitalize(@scope.name) %></div>
     <%= render "edit_scope_slide_modal.html", Map.put(assigns, :action, Routes.scope_path(@conn, :update, @scope.id)) %>    
 </div>
 
-<div>
-    <%= Enum.count(@current_scope_users) %> users connected
-</div>
+<div class="dark:text-grey"><%= Enum.count(@current_scope_users) %> users connected</div>
 
 <%= for decision_section <- @decisions do %>
   <%= render HistoraWeb.ComponentView, "decision_section.html", conn: @conn, decision_section: decision_section, header: decision_section.date %>

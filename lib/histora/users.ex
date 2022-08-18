@@ -7,22 +7,6 @@ defmodule Histora.Users do
 
   @type t :: %User{}
 
-  @spec create_admin(map()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
-  def create_admin(params) do
-    %User{}
-    |> User.changeset(params)
-    |> User.changeset_role(%{role: "admin", organization_id: params["organization_id"]})
-    |> Repo.insert()
-  end
-
-  def create_user(params) do
-    %User{}
-    |> User.changeset(params)
-    |> User.changeset_role(%{role: "user"})
-    |> Repo.insert()
-  end
-
-  @spec set_admin_role(t()) :: {:ok, t()} | {:error, Ecto.Changeset.t()}
   def set_admin_role(user) do
     user
     |> User.changeset_role(%{role: "admin"})
@@ -38,7 +22,10 @@ defmodule Histora.Users do
   def is_admin?(%{role: "admin"}), do: true
   def is_admin?(_any), do: false
 
-  @spec archive(map()) :: {:ok, map()} | {:error, map()}
+  def cancel_invite(user) do
+    (from u in User, where: u.id == ^user.id) |> Repo.delete_all
+  end
+
   def archive(user) do
     user
     |> User.archive_changeset()

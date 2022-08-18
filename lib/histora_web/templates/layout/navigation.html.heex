@@ -12,7 +12,7 @@
       <% end %>
 
       <%= link to: Routes.scope_path(@conn, :index) do %>
-        <div class={"#{String.contains?(@conn.request_path, "teams") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
+        <div class={"#{String.contains?(@conn.request_path, "scopes") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
           <Heroicons.LiveView.icon name="user-group" type="solid" class="h-5 w-5 mr-3" />
           Scopes
         </div>
@@ -25,10 +25,12 @@
         </div>
       <% end %>
 
+      <%= link to: Routes.reflection_path(@conn, :index) do %>
         <div class={"#{String.contains?(@conn.request_path, "reflections") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
           <Heroicons.LiveView.icon name="eye" type="solid" class="h-5 w-5 mr-3" />
           Reflections
         </div>
+      <% end %>
 
   
     </div>
@@ -46,7 +48,7 @@
       <%= if Histora.Users.is_admin?(@current_user) do %>         
         <%= link to: Routes.settings_path(@conn, :organization) do %>
           <div class={"#{String.contains?(@conn.request_path, "admin") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
-            <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-3" />
+            <Heroicons.LiveView.icon name="cog" type="solid" class="h-5 w-5 mr-3" />
             Settings
           </div>  
         <% end %>

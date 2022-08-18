@@ -28,7 +28,7 @@
                 x-transition:leave-end="translate-x-full"
                 class="h-full w-full"
             >
-                <div class="h-full flex flex-col justify-between bg-really-light-grey shadow-lg overflow-y-auto">
+                <div class="h-full flex flex-col justify-between bg-really-light-grey dark:bg-darkest-grey shadow-lg overflow-y-auto">
                     <!-- Close Button -->
                     <div class="absolute top-0 right-0 pt-4 pr-4">
                         <button type="button" @click="$dialog.close()" class="bg-gray-50 rounded-lg p-2 text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
@@ -43,12 +43,12 @@
                     <!-- Body -->
                     <div class="p-8">
                         <!-- Title -->
-                        <h2 x-dialog:title class="text-3xl mb-8 font-bold">Connected Users List</h2>
+                        <h2 x-dialog:title class="text-3xl mb-8 font-bold dark:text-white">Connected Users List</h2>
 
                         <!-- Content -->
                         <div class="">
                             <%= for user <- @current_draft_users do %>
-                                <%= user.email %> - <%= if @draft_votes != [] && Enum.any?(@draft_votes, & &1.user_id == user.id) do %> <span class="text-primary font-bold"> voted </span> <% end %>
+                                <div class="dark:text-white"><%= user.email %> - <%= if @draft_votes != [] && Enum.any?(@draft_votes, & &1.user_id == user.id) do %> <span class="text-primary font-bold"> voted </span> <% end %></div>
                             <% end %>
                         </div>
                     </div>

@@ -29,7 +29,7 @@
                 x-transition:leave-end="translate-x-full"
                 class="h-full w-full"
             >
-                <div class="h-full flex flex-col justify-between bg-really-light-grey shadow-lg overflow-y-auto">
+                <div class="h-full flex flex-col justify-between bg-really-light-grey dark:bg-darkest-grey shadow-lg overflow-y-auto">
                     <!-- Close Button -->
                     <div class="absolute top-0 right-0 pt-4 pr-4">
                         <button type="button" @click="$dialog.close()" class="bg-gray-50 rounded-lg p-2 text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
@@ -44,14 +44,69 @@
                     <!-- Body -->
                     <div class="p-8">
                         <!-- Title -->
-                        <h2 x-dialog:title class="text-3xl mb-8 font-bold">Invite New Team Member</h2>
+                        <h2 x-dialog:title class="text-3xl mb-8 font-bold dark:text-white">Invite New Team Member</h2>
 
                         <!-- Content -->
                         <div class="form_content">
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Email</label>
 
-                                <%= textarea f, Pow.Ecto.Schema.user_id_field(@changeset), class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "user@company.com" %>
+                                <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none", placeholder: "user@company.com" %>
+                            </div>
+
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+                            <div class="mt-1 my-4">
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Role</label>
+
+                                <div
+                                    x-data="{
+                                        multiple: false,
+                                        value: 'user',
+                                        options: [
+                                            { value: 'admin', label: 'admin' },
+                                            { value: 'user', label: 'user' },
+                                        ],
+                                        init() {
+                                            let bootSelect2 = () => {
+                                                let selections = this.multiple ? this.value : [this.value]
+                                
+                                                $(this.$refs.select).select2({
+                                                    multiple: this.multiple,
+                                                    data: this.options.map(i => ({
+                                                        id: i.value,
+                                                        text: i.label,
+                                                        selected: selections.map(i => String(i)).includes(String(i.value)),
+                                                    })),
+                                                })
+                                            }
+                                
+                                            let refreshSelect2 = () => {
+                                                $(this.$refs.select).select2('destroy')
+                                                this.$refs.select.innerHTML = ''
+                                                bootSelect2()
+                                            }
+                                
+                                            bootSelect2()
+                                
+                                            $(this.$refs.select).on('change', () => {
+                                                let currentSelection = $(this.$refs.select).select2('data')
+                                
+                                                this.value = this.multiple
+                                                    ? currentSelection.map(i => i.id)
+                                                    : currentSelection[0].id
+                                            })
+                                
+                                            this.$watch('value', () => refreshSelect2())
+                                            this.$watch('options', () => refreshSelect2())
+                                        },
+                                    }"
+                                    class="mx-auto max-w-sm"
+                                >
+                                    <select x-ref="select" name="role" id="role" class="w-full"></select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -60,13 +115,13 @@
 
                     <!-- Footer -->
                     <div class="p-4 flex justify-end space-x-2 bg-gray-50">
-                        <button type="button" x-on:click="$dialog.close()" class="text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-lg px-5 py-2.5">
+                        <button type="button" x-on:click="$dialog.close()" class="text-sm focus:outline-none dark:text-white rounded-lg px-5 py-2.5">
                             Close
                         </button>
 
                         <%= submit do  %>
                             <button class="bg-primary hover:bg-dark-primary hover:text-white text-white font-bold py-2 px-3 mx-2 rounded">
-                                Update
+                                Invite
                             </button>
                         <% end %> 
                     </div>

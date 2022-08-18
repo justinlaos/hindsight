@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" id="root" class="light font-['Poppins']">
   <head>
+    <script>
+      const darkThemeMq = window.matchMedia("(prefers-color-scheme: dark)");
+      var root = document.querySelector('#root');
+      if (darkThemeMq.matches) {
+          console.log(root)
+          document.documentElement.classList.remove("light");
+          document.documentElement.classList.add("dark");
+          console.log(root)
+      } else {
+          document.documentElement.classList.remove("dark");
+          document.documentElement.classList.add("light");
+      }
+    </script>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

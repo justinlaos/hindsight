@@ -1,0 +1,5 @@
+<h1>Edit Reflection</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :update, @reflection)) %>
+
+<span><%= link "Back", to: Routes.reflection_path(@conn, :index) %></span>

@@ -15,10 +15,19 @@
     <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
       <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: @decision %>
     </div>
+
+    <div class="ml-8">
+        <%= if @decision.user_id == @conn.assigns.current_user.id && Enum.count(@decision.reflections) <= 0 do %>
+            <%= if is_nil(@decision.reflection_date) do %>
+                <div class="text-orange">No Scheduled Reflection</div>
+            <% else %>
+                <div class="text-orange">Scheduled Reflection on <%= Histora.Users.formate_time_stamp(@decision.reflection_date) %></div>
+            <% end %>
+            <%= render "new_reflection_slide_modal.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :create, decision: @decision.id)) %>
+        <% end %>
+    </div>
+
 </div>
-
-
-
 
 
 <!-- Tabs -->
@@ -55,6 +64,24 @@
         class="-mb-px flex items-stretch"
     >
         <!-- Tab -->
+
+        <%= if Enum.count(@decision.reflections) >= 1 do %>
+            <li>
+                <button
+                    :id="$id('tab', whichChild($el.parentElement, $refs.tablist))"
+                    @click="select($el.id)"
+                    @mousedown.prevent
+                    @focus="select($el.id)"
+                    type="button"
+                    :tabindex="isSelected($el.id) ? 0 : -1"
+                    :aria-selected="isSelected($el.id)"
+                    :class="isSelected($el.id) ? 'border-primary bg-white' : ' border-light-grey border-transparent'"
+                    class="dark:bg-black dark:text-white inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
+                    role="tab"
+                >Reflections</button>
+            </li>
+        <% end %>
+
         <li>
             <button
                 :id="$id('tab', whichChild($el.parentElement, $refs.tablist))"
@@ -65,7 +92,7 @@
                 :tabindex="isSelected($el.id) ? 0 : -1"
                 :aria-selected="isSelected($el.id)"
                 :class="isSelected($el.id) ? 'border-primary bg-white' : ' border-light-grey border-transparent'"
-                class="inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
+                class="dark:bg-black dark:text-white inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
                 role="tab"
             >Draft</button>
         </li>
@@ -80,7 +107,7 @@
                 :tabindex="isSelected($el.id) ? 0 : -1"
                 :aria-selected="isSelected($el.id)"
                 :class="isSelected($el.id) ? 'border-primary bg-white' : 'border-light-grey border-transparent'"
-                class="inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
+                class="dark:bg-black dark:text-white inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
                 role="tab"
             >Logs</button>
         </li>
@@ -93,14 +120,10 @@
             x-show="isSelected($id('tab', whichChild($el, $el.parentElement)))"
             :aria-labelledby="$id('tab', whichChild($el, $el.parentElement))"
             role="tabpanel"
-            class="p-8"
+            class="p-8 dark:bg-black"
         >
-            <%= if @decision.draft_id != nil do %> 
-              <div class="ml-8 mt-20">
-                <%= render HistoraWeb.DecisionView, "decision_draft.html", conn: @conn, draft: @draft, current_draft_users: @current_draft_users %>
-              </div>
-            <% else %>
-              <div>No connected Draft</div>
+            <%= for reflection <- @decision.reflections do %>
+                <%= render HistoraWeb.ComponentView, "reflection.html", conn: @conn, reflection: reflection %>
             <% end %>
         </section>
 
@@ -108,11 +131,26 @@
             x-show="isSelected($id('tab', whichChild($el, $el.parentElement)))"
             :aria-labelledby="$id('tab', whichChild($el, $el.parentElement))"
             role="tabpanel"
-            class="p-8"
+            class="p-8 dark:bg-black"
         >
-            <h2 class="text-xl font-bold">Tab 2 Content</h2>
-            <p class="mt-2 text-gray-500">Fugiat odit alias, eaque optio quas nobis minima reiciendis voluptate dolorem nisi facere debitis ea laboriosam vitae omnis ut voluptatum eos. Fugiat?</p>
-            <button class="mt-5 rounded-md border border-gray-200 px-4 py-2 text-sm">Something else focusable</button>
+            <%= if @decision.draft_id != nil do %> 
+              <div class="ml-8 mt-20">
+                <%= render HistoraWeb.DecisionView, "decision_draft.html", conn: @conn, draft: @draft, current_draft_users: @current_draft_users %>
+              </div>
+            <% else %>
+              <div class="dark:text-white">No connected Draft</div>
+            <% end %>
+        </section>
+
+        <section
+            x-show="isSelected($id('tab', whichChild($el, $el.parentElement)))"
+            :aria-labelledby="$id('tab', whichChild($el, $el.parentElement))"
+            role="tabpanel"
+            class="p-8 dark:bg-black"
+        >
+            <div class="dark:text-white">
+                No logs
+            </div>
         </section>
     </div>
 </div>

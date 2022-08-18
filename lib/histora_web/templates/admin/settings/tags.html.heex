@@ -39,7 +39,7 @@
             </div> 
           </th>
           <td scope="row" class="px-6 py-2 font-medium text-dark-grey dark:text-white whitespace-nowrap text-right">
-            edit
+                <%= render "edit_tag_slide_modal.html", Map.merge(Map.put(assigns, :action, Routes.tag_path(@conn, :update, tag.id)), Map.put(assigns, :tag, tag)) %>
           </td>
         </tr>
       <% end %>

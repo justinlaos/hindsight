@@ -7,6 +7,8 @@ defmodule HistoraWeb.DecisionController do
   alias Histora.Scopes
   alias Histora.Drafts
   alias Histora.Decisions.Decision
+  alias Histora.Reflections
+  alias Histora.Reflections.Reflection
 
   def index(conn, params) do
 
@@ -65,9 +67,10 @@ defmodule HistoraWeb.DecisionController do
     private = params["private"]
     users = params["new_users"]
     date = if Map.has_key?(params, "date"), do: params["date"], else: Date.to_string(Date.utc_today)
+    reflection_date = if Map.has_key?(params, "reflection_date"), do: params["reflection_date"], else: nil
     %{"redirect_to" => redirect_to} = params["decision"]
 
-    case Decisions.create_decision(Map.merge(params["decision"], %{"private" => private, "user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id, "date" => date})) do
+    case Decisions.create_decision(Map.merge(params["decision"], %{"private" => private, "user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id, "date" => date, "reflection_date" => reflection_date})) do
       {:ok, decision} ->
 
         if tag_list != "" do
@@ -94,6 +97,7 @@ defmodule HistoraWeb.DecisionController do
   def show(conn, %{"id" => id}) do
     decision = Decisions.get_decision!(id)
     edit_decision_changeset = Decisions.change_decision(decision)
+    reflection_changeset = Reflections.change_reflection(%Reflection{})
     scopes = Scopes.list_organization_scopes(conn.assigns.organization)
 
     draft = if decision.draft_id, do: Drafts.get_draft!(decision.draft_id), else: nil
@@ -104,7 +108,8 @@ defmodule HistoraWeb.DecisionController do
       edit_decision_changeset: edit_decision_changeset,
       scopes: scopes,
       draft: draft,
-      current_draft_users: current_draft_users
+      current_draft_users: current_draft_users,
+      reflection_changeset: reflection_changeset
     )
   end
 
@@ -121,9 +126,10 @@ defmodule HistoraWeb.DecisionController do
     scope = if Map.has_key?(params, "scopes"), do: params["scopes"], else: nil
     users = if Map.has_key?(params, "users"), do:  params["users"], else: nil
     date = if Map.has_key?(params, "date"), do: params["date"], else: Date.to_string(Date.utc_today)
+    reflection_date = if Map.has_key?(params, "reflection_date"), do: params["reflection_date"], else: nil
     decision = Decisions.get_decision!(id)
 
-    case Decisions.update_decision(decision, Map.merge(decision_params, %{"private" => private, "date" => date})) do
+    case Decisions.update_decision(decision, Map.merge(decision_params, %{"private" => private, "date" => date, "reflection_date" => reflection_date})) do
       {:ok, decision} ->
 
 

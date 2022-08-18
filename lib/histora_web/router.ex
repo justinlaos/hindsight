@@ -60,6 +60,9 @@ defmodule HistoraWeb.Router do
     get "/results", SearchController, :results
     resources "/decisions", DecisionController
     resources "/scopes", ScopeController
+    resources "/reflections", ReflectionController
+    get "/past_due", ReflectionController, :past_due
+    get "/all_reflection_decsions", ReflectionController, :all_reflection_decsions
     resources "/drafts", DraftController
     post "/draft_vote", Draft_voteController, :create
     resources "/draftoptions", Draft_optionController
@@ -84,6 +87,7 @@ defmodule HistoraWeb.Router do
     post "/settings/invitations", Admin.InvitationController, :create
 
 
+    post "/users/:id/cancel_invite", Admin.UserController, :cancel_invite
     post "/users/:id/archive", Admin.UserController, :archive
     post "/users/:id/unarchive", Admin.UserController, :unarchive
 
