@@ -6,6 +6,7 @@ defmodule HistoraWeb.DecisionController do
   alias Histora.Decisions
   alias Histora.Scopes
   alias Histora.Drafts
+  alias Histora.Logs
   alias Histora.Decisions.Decision
   alias Histora.Reflections
   alias Histora.Reflections.Reflection
@@ -85,6 +86,12 @@ defmodule HistoraWeb.DecisionController do
           Decisions.create_decision_users(users, decision.id)
         end
 
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "decision_id" => decision.id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "created decision" })
+
         conn
           |> put_flash(:info, "Decision created.")
           |> redirect(to: redirect_to)
@@ -93,6 +100,9 @@ defmodule HistoraWeb.DecisionController do
         render(conn, "new.html", changeset: changeset)
     end
   end
+
+
+
 
   def show(conn, %{"id" => id}) do
     decision = Decisions.get_decision!(id)
@@ -109,7 +119,7 @@ defmodule HistoraWeb.DecisionController do
       scopes: scopes,
       draft: draft,
       current_draft_users: current_draft_users,
-      reflection_changeset: reflection_changeset
+      reflection_changeset: reflection_changeset,
     )
   end
 
@@ -132,7 +142,6 @@ defmodule HistoraWeb.DecisionController do
     case Decisions.update_decision(decision, Map.merge(decision_params, %{"private" => private, "date" => date, "reflection_date" => reflection_date})) do
       {:ok, decision} ->
 
-
         Tags.delete_decision_tag_list(decision.id)
         Scopes.delete_scope_from_decision(decision.id)
         Decisions.delete_decision_users(decision.id)
@@ -148,6 +157,12 @@ defmodule HistoraWeb.DecisionController do
         if users != nil do
           Decisions.create_decision_users(users, decision.id)
         end
+
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "decision_id" => decision.id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "updated decision" })
 
         conn
         |> put_flash(:info, "Decision updated successfully.")

@@ -26,6 +26,7 @@ defmodule Histora.Decisions.Decision do
     has_many(:users, through: [:decision_users, :user])
 
     has_many(:reflections, Histora.Reflections.Reflection)
+    has_many(:logs, Histora.Logs.Log)
 
     timestamps()
   end

@@ -22,6 +22,8 @@ defmodule Histora.Drafts.Draft do
 
     has_many(:draft_votes, Histora.Drafts.Draft_vote)
 
+    has_many(:logs, Histora.Logs.Log)
+
     timestamps()
   end
 

@@ -10,6 +10,7 @@ defmodule Histora.Drafts do
   alias Histora.Drafts.Draft_user
   alias Histora.Scopes.Scope
   alias Histora.Drafts.Draft_scope
+  alias Histora.Logs.Log
 
   alias Histora.Scopes.Scope_user
 
@@ -115,7 +116,7 @@ defmodule Histora.Drafts do
       ** (Ecto.NoResultsError)
 
   """
-  def get_draft!(id), do: Repo.get!(Draft, id) |> Repo.preload([:user, :users, :scopes, :draft_votes, draft_options: [:user, :draft_votes]])
+  def get_draft!(id), do: Repo.get!(Draft, id) |> Repo.preload([:user, :users, :scopes, :draft_votes, draft_options: [:user, :draft_votes], logs: [:user]])
 
   def create_draft_users(users, draft) do
     for user_item <- users |> Enum.map(&String.to_integer/1) do
@@ -153,6 +154,10 @@ defmodule Histora.Drafts do
     scope_users = (Repo.all Ecto.assoc(Repo.get(Draft, id), :scopes)) |> Repo.preload([:users]) |> Enum.map(fn scope -> scope.users end)
 
     Enum.uniq(List.flatten([draft_users, scope_users, draft_user]))
+  end
+
+  def convert_draft_logs(decision) do
+    (from l in Log, where: l.draft_id == ^decision.draft_id ) |> Repo.update_all(set: [decision_id: decision.id])
   end
 
   @doc """

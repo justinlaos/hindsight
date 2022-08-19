@@ -42,6 +42,15 @@ defmodule HistoraWeb.DraftController do
           Decisions.create_decision_users_from_draft(users, decision.id)
         end
 
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "decision_id" => decision.id,
+          "draft_id" => draft.id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "converted draft into a decision" })
+
+        Drafts.convert_draft_logs(decision)
+
         case Drafts.update_draft(draft, %{"converted" => true}) do
           {:ok, draft} ->
             conn
@@ -76,6 +85,12 @@ defmodule HistoraWeb.DraftController do
         if scopes != nil do
           Drafts.assign_scopes_to_draft(scopes, draft.id)
         end
+
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "draft_id" => draft.id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "created draft" })
 
         conn
         |> put_flash(:info, "Draft created successfully.")
@@ -125,6 +140,12 @@ defmodule HistoraWeb.DraftController do
         if users != nil do
           Drafts.create_draft_users(users, draft.id)
         end
+
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "draft_id" => draft.id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "updated draft" })
 
         conn
         |> put_flash(:info, "Draft updated successfully.")

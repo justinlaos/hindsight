@@ -20,7 +20,14 @@ defmodule HistoraWeb.Draft_voteController do
     Drafts.delete_other_votes_for_draft(conn.assigns.current_user.id, draft_option.draft_id)
     case Drafts.create_draft_vote(%{"user_id" => conn.assigns.current_user.id, "draft_option_id" => draft_option.id, "draft_id" => draft_option.draft_id}) do
 
-      {:ok, _draft_vote} ->
+      {:ok, draft_vote} ->
+
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "draft_id" => draft_vote.draft_id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "voted on a draft option" })
+
         conn
         |> put_flash(:info, "vote was casted")
         |> redirect(to: Routes.draft_path(conn, :show, draft_option.draft_id))

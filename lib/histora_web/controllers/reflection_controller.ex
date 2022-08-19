@@ -14,7 +14,6 @@ defmodule HistoraWeb.ReflectionController do
       formated_start_date
     end
 
-
     formated_end_date = if Map.has_key?(params, "dates") && params["dates"] != "" do
       Decisions.get_param_end_date(params)
     else
@@ -53,6 +52,13 @@ defmodule HistoraWeb.ReflectionController do
   def create(conn, params) do
     case Reflections.create_reflection(Map.merge(params["reflection"], %{"decision_id" => params["decision"], "user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id, "status" => params["status"]})) do
       {:ok, reflection} ->
+
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "decision_id" => reflection.decision_id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "created a reflection" })
+
         conn
         |> put_flash(:info, "Reflection created successfully.")
         |> redirect(to: Routes.decision_path(conn, :show, reflection.decision_id))
@@ -78,6 +84,13 @@ defmodule HistoraWeb.ReflectionController do
 
     case Reflections.update_reflection(reflection, reflection_params) do
       {:ok, reflection} ->
+
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "decision_id" => reflection.draft_id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "updated a reflection" })
+
         conn
         |> put_flash(:info, "Reflection updated successfully.")
         |> redirect(to: Routes.decision_path(conn, :show, reflection.decision_id))

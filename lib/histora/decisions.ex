@@ -100,7 +100,7 @@ defmodule Histora.Decisions do
 
   """
   def get_decision!(id) do
-    Repo.get!(Decision, id) |> Repo.preload([:user, :tags, :users, :scopes, reflections: [:user]])
+    Repo.get!(Decision, id) |> Repo.preload([:user, :tags, :users, :scopes, reflections: [:user], logs: [:user]])
   end
 
   @doc """

@@ -17,6 +17,13 @@ defmodule HistoraWeb.Draft_optionController do
   def create(conn, %{"draft_option" => draft_option_params}) do
     case Drafts.create_draft_option(Map.merge(draft_option_params, %{"user_id" => conn.assigns.current_user.id})) do
       {:ok, draft_option} ->
+
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "draft_id" => draft_option.draft_id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "created a draft option" })
+
         conn
         |> put_flash(:info, "Option created successfully.")
         |> redirect(to: Routes.draft_path(conn, :show, draft_option.draft_id))
@@ -42,6 +49,13 @@ defmodule HistoraWeb.Draft_optionController do
 
     case Drafts.update_draft_option(draft_option, draft_option_params) do
       {:ok, draft_option} ->
+
+        Histora.Logs.create_log(%{
+          "organization_id" => conn.assigns.organization.id,
+          "draft_id" => draft_option.draft_id,
+          "user_id" => conn.assigns.current_user.id,
+          "event" => "updated a draft option" })
+
         conn
         |> put_flash(:info, "Draft option updated successfully.")
         |> redirect(to: Routes.draft_option_path(conn, :show, draft_option))

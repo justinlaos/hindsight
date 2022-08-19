@@ -35,7 +35,7 @@ defmodule Histora.Reflections do
     |> Repo.all()
     |> Enum.group_by(& &1.reflection_date)
     |> Enum.map(fn {reflection_date, decisions_collection} -> %{reflection_date: reflection_date, decisions: decisions_collection} end)
-    |> Enum.sort_by(&(&1.reflection_date), {:desc, Date})
+    |> Enum.sort_by(&(&1.reflection_date), {:asc, Date})
   end
 
   def list_past_due_reflection_decisions(organization) do
@@ -49,7 +49,7 @@ defmodule Histora.Reflections do
     |> Repo.all()
     |> Enum.group_by(& &1.reflection_date)
     |> Enum.map(fn {reflection_date, decisions_collection} -> %{reflection_date: reflection_date, decisions: decisions_collection} end)
-    |> Enum.sort_by(&(&1.reflection_date), {:desc, Date})
+    |> Enum.sort_by(&(&1.reflection_date), {:asc, Date})
   end
 
   def list_all_reflection_decisions(organization) do
@@ -63,7 +63,7 @@ defmodule Histora.Reflections do
     |> Repo.all()
     |> Enum.group_by(& &1.reflection_date)
     |> Enum.map(fn {reflection_date, decisions_collection} -> %{reflection_date: reflection_date, decisions: decisions_collection} end)
-    |> Enum.sort_by(&(&1.reflection_date), {:desc, Date})
+    |> Enum.sort_by(&(&1.reflection_date), {:asc, Date})
   end
 
   def todays_date do

@@ -65,23 +65,21 @@
     >
         <!-- Tab -->
 
-        <%= if Enum.count(@decision.reflections) >= 1 do %>
-            <li>
-                <button
-                    :id="$id('tab', whichChild($el.parentElement, $refs.tablist))"
-                    @click="select($el.id)"
-                    @mousedown.prevent
-                    @focus="select($el.id)"
-                    type="button"
-                    :tabindex="isSelected($el.id) ? 0 : -1"
-                    :aria-selected="isSelected($el.id)"
-                    :class="isSelected($el.id) ? 'border-primary bg-white' : ' border-light-grey border-transparent'"
-                    class="dark:bg-black dark:text-white inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
-                    role="tab"
-                >Reflections</button>
-            </li>
-        <% end %>
-
+        <li>
+            <button
+                :id="$id('tab', whichChild($el.parentElement, $refs.tablist))"
+                @click="select($el.id)"
+                @mousedown.prevent
+                @focus="select($el.id)"
+                type="button"
+                :tabindex="isSelected($el.id) ? 0 : -1"
+                :aria-selected="isSelected($el.id)"
+                :class="isSelected($el.id) ? 'border-primary bg-white' : ' border-light-grey border-transparent'"
+                class="dark:bg-black dark:text-white inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
+                role="tab"
+            >Reflections</button>
+        </li>
+     
         <li>
             <button
                 :id="$id('tab', whichChild($el.parentElement, $refs.tablist))"
@@ -122,8 +120,12 @@
             role="tabpanel"
             class="p-8 dark:bg-black"
         >
-            <%= for reflection <- @decision.reflections do %>
-                <%= render HistoraWeb.ComponentView, "reflection.html", conn: @conn, reflection: reflection %>
+            <%= if Enum.count(@decision.reflections) >= 1 do %>
+                <%= for reflection <- @decision.reflections do %>
+                    <%= render HistoraWeb.ComponentView, "reflection.html", conn: @conn, reflection: reflection %>
+                <% end %>
+            <% else %>
+                <div class="dark:text-white">No reflections</div>
             <% end %>
         </section>
 
@@ -134,11 +136,11 @@
             class="p-8 dark:bg-black"
         >
             <%= if @decision.draft_id != nil do %> 
-              <div class="ml-8 mt-20">
-                <%= render HistoraWeb.DecisionView, "decision_draft.html", conn: @conn, draft: @draft, current_draft_users: @current_draft_users %>
-              </div>
+                <div class="ml-8 mt-20">
+                    <%= render HistoraWeb.DecisionView, "decision_draft.html", conn: @conn, draft: @draft, current_draft_users: @current_draft_users %>
+                </div>
             <% else %>
-              <div class="dark:text-white">No connected Draft</div>
+                <div class="dark:text-white">No connected draft</div>
             <% end %>
         </section>
 
@@ -148,9 +150,14 @@
             role="tabpanel"
             class="p-8 dark:bg-black"
         >
-            <div class="dark:text-white">
-                No logs
-            </div>
+            <%= if Enum.count(@decision.logs) >= 1 do %> 
+                <%= for log <- Enum.reverse(@decision.logs) do %>
+
+                    <div class="my-4 dark:text-grey text-dark-grey text-xs"><%= Histora.Users.formate_time_stamp(log.updated_at) %> <span class="text-primary ml-2"><%= log.user.email %> <span class="ml-2 dark:text-white text-black"><%= log.event %></span></span></div>
+                <% end %>
+            <% else %>
+                <div class="dark:text-white">No Logs</div>
+            <% end %>
         </section>
     </div>
 </div>
