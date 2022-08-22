@@ -23,7 +23,7 @@ config :histora, HistoraWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "LUR1s/PEJDOl95OMpSO7Kwxvan0Baq6yEY7sUqKNIx/0mG3oSX9josr5yDJ0OdwP",
+  secret_key_base: "z34502VtAmc07Oc0Pq4JgEqkF+o3yiYSVWIjZXLJq5qhZSIeTwIrXbRDOrF7rsg7",
   watchers: [
     # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
     esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]},

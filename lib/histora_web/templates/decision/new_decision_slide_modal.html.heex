@@ -238,11 +238,8 @@
                             <%= error_tag f, :tag_list %>
                             <%= hidden_input f, :redirect_to, value: @conn.request_path %>
 
-                            <div class="mt-6 dark:text-white">Reflections</div>
-
-
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Schedule date</label>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Schedule reflection date</label>
                                 <div
                                     x-data={"{
                                         value: ['#{ nil }'],
@@ -271,7 +268,7 @@
                     </div>
 
                     <!-- Footer -->
-                    <div class="p-4 flex justify-end space-x-2 bg-gray-50">
+                    <div class="p-4 flex justify-end space-x-2">
                         <button type="button" x-on:click="$dialog.close()" class="text-sm dark:text-light-grey rounded-lg px-5 py-2.5">
                             Close
                         </button>

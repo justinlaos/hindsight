@@ -1,7 +1,7 @@
 
 <div class="flex flex-col items-start justify-between w-fit px-4 py-3 border-light-grey dark:border-dark-grey border-r">
  
-    <h4 class="text-2xl font-bold text-primary self-center">Histora</h4>
+    <h4 class="text-2xl font-extrabold text-primary self-center">Histora</h4>
 
     <div class="grow w-40 mt-8 text-dark-grey">
       <%= link to: Routes.decision_path(@conn, :index)  do %>
@@ -55,10 +55,10 @@
       <% end %>
 
         <%# <%= link "Help", to: Routes.marketing_path(@conn, :index), method: :post %>
-      <a href="mailto:4jlaos@gmail.com?subject=Histora Help">
+      <a href="https://histora.crunch.help">
         <div class={"#{String.contains?(@conn.request_path, "help") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
           <Heroicons.LiveView.icon name="support" type="solid" class="h-5 w-5 mr-3" />
-          Help
+          Help Center
         </div> 
       </a>
        
