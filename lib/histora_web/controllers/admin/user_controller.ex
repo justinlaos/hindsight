@@ -12,6 +12,7 @@ defmodule HistoraWeb.Admin.UserController do
   def archive(%{assigns: %{user: user}} = conn, _params) do
     case Users.archive(user) do
       {:ok, _user} ->
+        Histora.Data.event(conn.assigns.current_user, "Archived A User")
         conn
         |> put_flash(:info, "User has been archived.")
         |> redirect(to: Routes.settings_path(conn, :organization))
@@ -26,6 +27,7 @@ defmodule HistoraWeb.Admin.UserController do
   def unarchive(%{assigns: %{user: user}} = conn, _params) do
     case Users.unarchive(user) do
       {:ok, _user} ->
+        Histora.Data.event(conn.assigns.current_user, "Unarchived A User")
         conn
         |> put_flash(:info, "User has been unarchived.")
         |> redirect(to: Routes.settings_path(conn, :organization))
@@ -40,6 +42,7 @@ defmodule HistoraWeb.Admin.UserController do
   def cancel_invite(%{assigns: %{user: user}} = conn, _params) do
     case Users.cancel_invite(user) do
       {_id, _user} ->
+        Histora.Data.event(conn.assigns.current_user, "Canceled Invite")
         conn
         |> put_flash(:info, "Invitation has been cancelled.")
         |> redirect(to: Routes.settings_path(conn, :organization))

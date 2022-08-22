@@ -29,7 +29,11 @@ defmodule HistoraWeb.Router do
   pipeline :authorized do
     plug Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
+  end
 
+  pipeline :not_authenticated do
+    plug Pow.Plug.RequireNotAuthenticated,
+      error_handler: HistoraWeb.AuthErrorHandler
   end
 
   pipeline :scope_resources do
@@ -42,14 +46,17 @@ defmodule HistoraWeb.Router do
 
   pipeline :activeUser do
     plug HistoraWeb.EnsureUserActivePlug,
-      error_handler: Pow.Phoenix.PlugErrorHandler
+      error_handler: HistoraWeb.AuthErrorHandler
   end
 
   # Open Routes
     scope "/", HistoraWeb do
-    pipe_through [:browser]
+    pipe_through [:browser, :not_authenticated]
 
     get "/", MarketingController, :index
+
+    get "/login", SessionController, :new, as: :login
+    post "/login", SessionController, :create, as: :login
   end
 
    # Authorized Active Routes
@@ -73,6 +80,7 @@ defmodule HistoraWeb.Router do
     post "/tag/unfavorite", TagController, :unfavorite
     post "/user/favorite", UserController, :favorite
     post "/user/unfavorite", UserController, :unfavorite
+    delete "/logout", SessionController, :delete, as: :logout
   end
 
   # Authorized Active Admin Routes
@@ -123,7 +131,6 @@ defmodule HistoraWeb.Router do
    scope "/" do
     pipe_through [:browser]
 
-    pow_session_routes()
     pow_extension_routes()
   end
 

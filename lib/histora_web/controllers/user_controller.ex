@@ -58,6 +58,7 @@ defmodule HistoraWeb.UserController do
 
     case Users.create_user_favorite(%{"favorite_user_id" => favorite_user_id, "user_id" => conn.assigns.current_user.id}) do
       {:ok, user_favorite} ->
+        Histora.Data.event(conn.assigns.current_user, "Favorited A User")
         conn
         |> redirect(to: Routes.settings_path(conn, :organization))
 
@@ -69,7 +70,7 @@ defmodule HistoraWeb.UserController do
   def unfavorite(conn, %{"favorite_user_id" => favorite_user_id}) do
     user_favorite = Users.get_user_favorite!(favorite_user_id, conn.assigns.current_user.id)
     {:ok, _user_favorite} = Users.delete_user_favorite(user_favorite)
-
+    Histora.Data.event(conn.assigns.current_user, "Unfavorited A User")
     conn
     |> redirect(to: Routes.settings_path(conn, :organization))
   end

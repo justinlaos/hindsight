@@ -48,6 +48,7 @@ defmodule WebhooksController do
         organization = Organizations.get_organization_by_subscription_id!(stripe_event["data"]["object"]["id"])
         if stripe_event["data"]["object"]["pause_collection"] != nil do
             Organizations.update_organization(organization, %{"status" => "paused"})
+            Histora.Data.event(organization.billing_email, "Subscription Paused")
         else
             Organizations.update_organization(organization, %{
                 "status" => "active",
@@ -56,12 +57,14 @@ defmodule WebhooksController do
                 "stripe_subscription_id" => stripe_event["data"]["object"]["id"],
                 "user_limit" => String.to_integer(stripe_event["data"]["object"]["plan"]["metadata"]["user_limit"]),
             })
+            Histora.Data.event(organization.billing_email, "Subscription Updated")
         end
     end
 
     defp handle_webhook(%{"type" => "customer.subscription.deleted"} = stripe_event) do
         organization = Organizations.get_organization_by_subscription_id!(stripe_event["data"]["object"]["id"])
         Organizations.update_organization(organization, %{"status" => "cancled"})
+        Histora.Data.event(organization.billing_email, "Subscription Canceled")
     end
 
     # defp handle_webhook(%{"type" => "order.payment_failed"} = stripe_event) do
@@ -94,7 +97,11 @@ defmodule WebhooksController do
                     "role" => "admin",
                     "organization_id" => organization.id
                 }) do
-                    {:ok, user} -> {:ok, user.email}
+                    {:ok, user} ->
+                        Histora.Data.identify(user)
+                        Histora.Data.group(user)
+                        Histora.Data.event(user, "Subscription Created")
+                        {:ok, user.email}
                     {:error, error} -> {:error, error}
                 end
             {:error, error} -> {:error, error}
@@ -120,6 +127,8 @@ defmodule WebhooksController do
 
         Histora.Email.new_subscribe(user.email, url)
         |> Histora.Mailer.deliver_now()
+
+        Histora.Data.event(user, "Sent Welcome Email")
     end
 
     defp reset_password_url(token) do

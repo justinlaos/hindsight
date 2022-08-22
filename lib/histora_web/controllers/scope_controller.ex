@@ -9,6 +9,8 @@ defmodule HistoraWeb.ScopeController do
     scopes = Scopes.list_organization_scopes(conn.assigns.organization)
     scope_changeset = Scopes.change_scope(%Scope{})
     users = Users.get_organization_users(conn.assigns.organization)
+    Histora.Data.page(conn.assigns.current_user, "Scope Index")
+
     render(conn, "index.html", scopes: scopes, scope_changeset: scope_changeset, users: users)
   end
 
@@ -30,6 +32,8 @@ defmodule HistoraWeb.ScopeController do
           Scopes.create_scope_users(users_list, scope.id)
         end
 
+        Histora.Data.event(conn.assigns.current_user, "Created Scope")
+
         conn
         |> put_flash(:info, "Scope created successfully.")
         |> redirect(to: Routes.scope_path(conn, :show, scope))
@@ -44,6 +48,7 @@ defmodule HistoraWeb.ScopeController do
     decisions = Scopes.get_decisions_for_scope(id)
     current_scope_users = Scopes.get_scope_users(id)
     users = Users.get_organization_users(conn.assigns.organization)
+    Histora.Data.page(conn.assigns.current_user, "Scope Show")
 
     changeset = Scopes.change_scope(scope)
     render(conn, "show.html", scope: scope, decisions: decisions, changeset: changeset, users: users, current_scope_users: current_scope_users)
@@ -66,6 +71,8 @@ defmodule HistoraWeb.ScopeController do
           Scopes.update_scope_users(users_list, scope.id)
         end
 
+        Histora.Data.event(conn.assigns.current_user, "Updated Scope")
+
         conn
         |> put_flash(:info, "Scope updated successfully.")
         |> redirect(to: Routes.scope_path(conn, :show, scope))
@@ -82,6 +89,8 @@ defmodule HistoraWeb.ScopeController do
       {:ok, scope} ->
 
         Scopes.update_scope_users([], scope.id)
+
+        Histora.Data.event(conn.assigns.current_user, "Updated Scope")
 
         conn
         |> put_flash(:info, "Scope updated successfully.")

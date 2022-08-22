@@ -59,6 +59,8 @@ defmodule HistoraWeb.ReflectionController do
           "user_id" => conn.assigns.current_user.id,
           "event" => "created a reflection" })
 
+        Histora.Data.event(conn.assigns.current_user, "Created Reflection")
+
         conn
         |> put_flash(:info, "Reflection created successfully.")
         |> redirect(to: Routes.decision_path(conn, :show, reflection.decision_id))
@@ -90,6 +92,8 @@ defmodule HistoraWeb.ReflectionController do
           "decision_id" => reflection.draft_id,
           "user_id" => conn.assigns.current_user.id,
           "event" => "updated a reflection" })
+
+        Histora.Data.event(conn.assigns.current_user, "Updated Reflection")
 
         conn
         |> put_flash(:info, "Reflection updated successfully.")

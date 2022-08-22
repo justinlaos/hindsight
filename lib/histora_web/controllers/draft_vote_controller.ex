@@ -28,6 +28,8 @@ defmodule HistoraWeb.Draft_voteController do
           "user_id" => conn.assigns.current_user.id,
           "event" => "voted on a draft option" })
 
+        Histora.Data.event(conn.assigns.current_user, "Voted On Draft Option")
+
         conn
         |> put_flash(:info, "vote was casted")
         |> redirect(to: Routes.draft_path(conn, :show, draft_option.draft_id))

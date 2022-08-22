@@ -7,8 +7,16 @@ defmodule HistoraWeb.Admin.InvitationController do
   def create(conn, params) do
     case Plug.create_user(conn, params["user"]) do
       {:ok, user, conn} ->
+        Histora.Data.identify(user)
+        Histora.Data.group(user)
+
         if params["role"] == "admin" do
           Users.set_admin_role(user)
+          Histora.Data.event(user, "Invited As Admin")
+          Histora.Data.event(conn.assigns.current_user, "Sent Invite To Admin")
+        else
+          Histora.Data.event(user, "Invited As User")
+          Histora.Data.event(conn.assigns.current_user, "Sent Invite To User")
         end
 
         deliver_email(conn, user)

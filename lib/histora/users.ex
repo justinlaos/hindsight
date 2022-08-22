@@ -19,6 +19,13 @@ defmodule Histora.Users do
     |> Repo.update()
   end
 
+  def create_admin(params) do
+    %User{}
+    |> User.changeset(params)
+    |> User.changeset_role(%{role: "admin", organization_id: params["organization_id"]})
+    |> Repo.insert()
+  end
+
   def is_admin?(%{role: "admin"}), do: true
   def is_admin?(_any), do: false
 

@@ -15,6 +15,7 @@ defmodule HistoraWeb.DraftController do
     scope_drafts = Drafts.list_scope_drafts(conn.assigns.current_user.id, conn.assigns.organization.id)
     connected_drafts = Drafts.list_connected_drafts(conn.assigns.current_user.id, conn.assigns.organization.id)
     draft_changeset = Drafts.change_draft(%Draft{})
+    Histora.Data.page(conn.assigns.current_user, "Draft Index")
     render(conn, "index.html", your_drafts: your_drafts, scope_drafts: scope_drafts, connected_drafts: connected_drafts, draft_changeset: draft_changeset)
   end
 
@@ -50,6 +51,7 @@ defmodule HistoraWeb.DraftController do
           "event" => "converted draft into a decision" })
 
         Drafts.convert_draft_logs(decision)
+        Histora.Data.event(conn.assigns.current_user, "Converted Draft")
 
         case Drafts.update_draft(draft, %{"converted" => true}) do
           {:ok, draft} ->
@@ -92,6 +94,8 @@ defmodule HistoraWeb.DraftController do
           "user_id" => conn.assigns.current_user.id,
           "event" => "created draft" })
 
+        Histora.Data.event(conn.assigns.current_user, "Created Draft")
+
         conn
         |> put_flash(:info, "Draft created successfully.")
         |> redirect(to: Routes.draft_path(conn, :show, draft))
@@ -108,6 +112,7 @@ defmodule HistoraWeb.DraftController do
     changeset = Drafts.change_draft(draft)
     current_draft_users = Drafts.get_draft_connected_users(draft.id)
     draft_option_changeset = Drafts.change_draft_option(%Draft_option{})
+    Histora.Data.page(conn.assigns.current_user, "Draft Show")
 
     render(conn, "show.html", draft: draft, changeset: changeset, current_draft_users: current_draft_users, draft_option_changeset: draft_option_changeset)
   end
@@ -146,6 +151,8 @@ defmodule HistoraWeb.DraftController do
           "draft_id" => draft.id,
           "user_id" => conn.assigns.current_user.id,
           "event" => "updated draft" })
+
+        Histora.Data.event(conn.assigns.current_user, "Updated Draft")
 
         conn
         |> put_flash(:info, "Draft updated successfully.")

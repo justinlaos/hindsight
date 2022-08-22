@@ -44,6 +44,7 @@ defmodule HistoraWeb.DecisionController do
     selected_filtered_tags = if Map.has_key?(params, "tag_list"), do: Tags.selected_filtered_tags(conn.assigns.organization, params["tag_list"]), else: %{}
     selected_filtered_users = if Map.has_key?(params, "users"), do: Users.selected_filtered_users(conn.assigns.organization, params["users"]), else: %{}
 
+    Histora.Data.page(conn.assigns.current_user, "Decision Index")
 
     render(conn, "index.html",
       decisions: decisions,
@@ -92,6 +93,8 @@ defmodule HistoraWeb.DecisionController do
           "user_id" => conn.assigns.current_user.id,
           "event" => "created decision" })
 
+        Histora.Data.decision_event(conn.assigns.current_user, decision)
+
         conn
           |> put_flash(:info, "Decision created.")
           |> redirect(to: redirect_to)
@@ -112,6 +115,8 @@ defmodule HistoraWeb.DecisionController do
 
     draft = if decision.draft_id, do: Drafts.get_draft!(decision.draft_id), else: nil
     current_draft_users = if decision.draft_id, do: Drafts.get_draft_connected_users(draft.id), else: nil
+
+    Histora.Data.page(conn.assigns.current_user, "Decision Show")
 
     render(conn, "show.html",
       decision: decision,
@@ -163,6 +168,8 @@ defmodule HistoraWeb.DecisionController do
           "decision_id" => decision.id,
           "user_id" => conn.assigns.current_user.id,
           "event" => "updated decision" })
+
+        Histora.Data.event(conn.assigns.current_user, "Updated Decision")
 
         conn
         |> put_flash(:info, "Decision updated successfully.")

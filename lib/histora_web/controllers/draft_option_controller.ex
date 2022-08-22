@@ -24,6 +24,8 @@ defmodule HistoraWeb.Draft_optionController do
           "user_id" => conn.assigns.current_user.id,
           "event" => "created a draft option" })
 
+        Histora.Data.event(conn.assigns.current_user, "Create Draft Option")
+
         conn
         |> put_flash(:info, "Option created successfully.")
         |> redirect(to: Routes.draft_path(conn, :show, draft_option.draft_id))
@@ -55,6 +57,8 @@ defmodule HistoraWeb.Draft_optionController do
           "draft_id" => draft_option.draft_id,
           "user_id" => conn.assigns.current_user.id,
           "event" => "updated a draft option" })
+
+        Histora.Data.event(conn.assigns.current_user, "Updated Draft Option")
 
         conn
         |> put_flash(:info, "Draft option updated successfully.")

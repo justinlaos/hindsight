@@ -21,11 +21,14 @@ defmodule HistoraWeb.SearchController do
     |> Repo.all()
     |> Repo.preload([:tags, :scopes, :users, user: :user_favorites])
 
+    Histora.Data.page(conn.assigns.current_user, "Search Results")
+
     render(conn, "results.html", organization: organization, search_term: search_term, search_results: search_results)
   end
 
   def results(conn, _search_term) do
     %{organization: organization} = conn.assigns
+    Histora.Data.page(conn.assigns.current_user, "Search No Results")
 
     render(conn, "no_results.html", organization: organization)
   end

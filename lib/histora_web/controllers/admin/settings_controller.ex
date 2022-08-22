@@ -14,8 +14,8 @@ defmodule HistoraWeb.Admin.SettingsController do
   end
 
   def tags(conn, _params) do
-
     tags = Tags.list_organization_tags(conn.assigns.organization)
+    Histora.Data.page(conn.assigns.current_user, "Settings Tags")
     render(conn, "tags.html", settings: true, tags: tags)
   end
 
@@ -27,6 +27,7 @@ defmodule HistoraWeb.Admin.SettingsController do
     user_favorites = Users.current_user_user_favorites(conn.assigns.current_user)
 
     new_user_changeset = User.invite_changeset(%User{}, conn.assigns.current_user, %{"email" => nil})
+    Histora.Data.page(conn.assigns.current_user, "Settings Organization")
 
     render(conn, "organization.html", organization: organization, managed_users: managed_users, changeset: changeset, new_user_changeset: new_user_changeset, user_favorites: user_favorites, settings: true)
   end
@@ -36,6 +37,8 @@ defmodule HistoraWeb.Admin.SettingsController do
 
     case Organizations.update_organization(organization, organization_params) do
       {:ok, _organization} ->
+
+        Histora.Data.event(conn.assigns.current_user, "Updated Organization Info")
         conn
         |> put_flash(:info, "organization updated successfully.")
         |> redirect(to: Routes.settings_path(conn, :organization))
@@ -47,6 +50,7 @@ defmodule HistoraWeb.Admin.SettingsController do
 
   def create_customer_portal_session(conn, %{"id" => id}) do
     {:ok, portal} = Stripe.BillingPortal.Session.create(%{:customer => id})
+    Histora.Data.page(conn.assigns.current_user, "Billing")
     redirect(conn, external: portal.url)
   end
 end

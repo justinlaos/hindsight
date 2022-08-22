@@ -57,7 +57,9 @@ defmodule Histora.MixProject do
       {:elixir_uuid, "~> 1.2"},
       {:timex, "~> 3.0"},
       {:pow, "~> 1.0.27"},
-      {:bamboo, "~> 1.6"}
+      {:bamboo, "~> 1.6"},
+      {:httpoison, "~> 1.8"},
+      {:segment, "~> 0.2.6"}
     ]
   end
 
