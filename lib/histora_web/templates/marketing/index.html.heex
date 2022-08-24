@@ -12,7 +12,7 @@
             </div>
             <div class="mt-4">
               <a href="https://buy.stripe.com/test_9AQ2bQ0J8cK72vm5kk">
-                <button type="submit" class="block w-full rounded-md px-5 py-3 bg-white text-base font-bold text-black shadow hover:bg-dark-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">Start Free <span class="font-extrabold">30</span> Day Trial</button>
+                <button type="submit" class="block w-full rounded-md px-5 py-3 bg-white text-base font-bold text-black shadow hover:bg-dark-primary dark:hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">Start Free <span class="font-extrabold">30</span> Day Trial</button>
               </a>
             </div>
           </div>
@@ -33,36 +33,10 @@
             </svg>
           </div>
           <div class="relative pl-4 -mr-40 sm:mx-auto sm:max-w-3xl sm:px-0 lg:max-w-none lg:h-full lg:pl-12">
-            <img class="w-full rounded-md shadow-xl ring-1 ring-primary ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none" src="/images/screen.png" alt="">
+            <img class="w-full rounded-md shadow-xl ring-1 ring-primary ring-opacity-5 lg:h-full lg:w-auto lg:max-w-none" src="/images/marketing_screen_shot.png" alt="">
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="my-24 mx-auto text-center text-2xl font-extrabold text-black dark:text-grey ">
-     Businesses Make Impactful Decisions Every day That Could Determine <span class="text-primary">Success</span>
-    </div>
-
-    <div class="mx-auto text-center text-4xl mt-8 font-extrabold text-black dark:text-white ">
-      Create a Decision of Success
-    </div>
-
-    <div class="mx-auto my-8 text-center text-black dark:text-grey">
-      Changing a current process? pivoting on product? expanding to something new? Whatever it may be, decision it. 
-    </div>
-
-    
-
-
-
-    <div class="mx-auto w-7/12">
-
-      <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: %Histora.Decisions.Decision{id: 1, what: "Better understand and reflect on the decisions being made within our company", scopes: [], users: [], user: %Histora.Users.User{id: 1, email: "Justin@histora.app"}, tags: [%Histora.Tags.Tag{ id: 1, name: "product"}, %Histora.Tags.Tag{ id: 1, name: "processes"}, %Histora.Tags.Tag{ id: 1, name: "operations"}]} %>
-
-      <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: %Histora.Decisions.Decision{id: 1, what: "Create more transparency so different teams can understand what's happening in the company", scopes: [%Histora.Scopes.Scope{id: 1, name: "leadership"}], users: [], user: %Histora.Users.User{id: 1, email: "Lauren@histora.app"}, tags: [%Histora.Tags.Tag{ id: 1, name: "Human Resources"}, %Histora.Tags.Tag{ id: 1, name: "Team"}]} %>
-
-      <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: %Histora.Decisions.Decision{id: 1, what: "Provide historical context to new hires", user: %Histora.Users.User{id: 1, email: "Mila@histora.app"}, scopes: [], users: [], tags: [%Histora.Tags.Tag{ id: 1, name: "hiring"}, %Histora.Tags.Tag{ id: 1, name: "people"}]} %>
-
     </div>
 
 
@@ -76,12 +50,12 @@
   </main>
 
   <!-- Footer section -->
-  <footer class="mt-36 p-4 bg-white rounded-lg shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800">
+  <footer class="mt-36 p-4 bg-dark-primary rounded-lg shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-primary">
     <div>
-      <p class="text-base text-black dark:text-white">&copy; 2022 Histora Inc. All rights reserved.</p>
-      <div class="text-sm text-grey mt-1">Made In Arizona, USA</div>
+      <p class="text-base text-white">&copy; 2022 Histora Inc. All rights reserved.</p>
+      <div class="text-sm text-light-grey mt-1">Made In Arizona, USA</div>
     </div>
-    <ul class="flex flex-wrap items-center mt-3 text-sm text-gray-500 dark:text-gray-400 sm:mt-0">
+    <ul class="flex flex-wrap items-center mt-3 text-sm text-white sm:mt-0">
         <li>
             <a href="https://histora.crunch.help" class="mr-4 hover:underline md:mr-6 ">Help Center</a>
         </li>
