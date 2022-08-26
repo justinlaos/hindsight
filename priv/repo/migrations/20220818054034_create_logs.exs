@@ -12,5 +12,7 @@ defmodule Histora.Repo.Migrations.CreateLogs do
 
       timestamps()
     end
+
+    create index(:logs, [:decision_id, :organization_id, :draft_id])
   end
 end

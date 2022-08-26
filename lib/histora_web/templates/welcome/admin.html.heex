@@ -1,0 +1,54 @@
+<div class="ml-6 mt-4 mb-16 flex flex-col items-center min-h-screen">
+    <div class="mb-12 text-4xl mt-4 text-center dark:text-white"> First Steps! <span class="text-2xl mt-2 text-grey">as an admin.</span></div>
+
+    <div class="mt-2 text-center text-dark-grey dark:text-grey mb-8">Histora allows you and your company to Draft, Record, and Reflect on impactful decisions.</div>
+
+    <img class="w-10/12 sm:w-5/12 mb-8 object-center rounded-md shadow-xl ring-1 ring-primary ring-opacity-5" src="/images/marketing_screen_shot.png" alt="">
+
+    <div class="mt-6 text-2xl text-dark-grey dark:text-primary text-center">Decisions made every day drive the direction of your company. </div>
+
+    <div class="mt-2 w-10/12 sm:w-5/12 text-center dark:text-grey">Knowing what, when, and why decisions are being made, helps provide context to the team and lead to better decisions moving forward</div>
+
+    <div class="mt-16 mb-2 text-center text-3xl font-bold text-black dark:text-white">What is a decision?</div>
+    <div class="w-10/12 sm:w-10/12 p-4 rounded-md">
+        <div class="text-center text-dark-grey dark:text-grey">Defined by the fields <span class="font-extrabold text-primary">what</span> and the <span class="font-extrabold text-primary">why</span>, to provide structured context, along with other data fields </div>
+        <div class="text-center text-dark-grey dark:text-grey">Decisions can be scoped, and catagoriezed with tags allowing for easy seach or filter to find past decisions.</div>
+    </div>
+
+    <img class="w-10/12 sm:w-5/12 mt-4 mb-8 object-center rounded-md shadow-xl ring-1 ring-primary ring-opacity-5" src="/images/sample_decision_one.png" alt="">
+
+
+    <div class="w-10/12 mt-6 flex items-center justify-between flex-wrap sm:flex-nowrap">
+        <div class="my-2 p-6 m-4">
+            <div class="flex flex-row items-center mb-2">
+                <Heroicons.LiveView.icon name="pencil-alt" type="solid" class="h-10 w-10 mr-3 text-dark-grey dark:text-primary" />
+                Drafts
+            </div>
+            <div class="text-grey">Drafts allow you and your team to make decisions together. Connect a users from a scope or specific users and describe what you need to make a decision on. Users can create options and vote on which one is the best</div>
+        </div>
+        <div class="my-2 p-6 m-4">
+            <div class="flex flex-row items-center mb-2">
+                <Heroicons.LiveView.icon name="user-group" type="solid" class="h-10 w-10 mr-3 text-dark-grey dark:text-primary" />
+                Scopes
+            </div>
+            <div class="text-grey">Scopes allow you to well "scope" decision in whatever works best for your company, like departments, projects, or anything that might hold many decisions </div>
+        </div>
+        <div class="my-2 p-6 m-4">
+            <div class="flex flex-row items-center mb-2">
+                <Heroicons.LiveView.icon name="eye" type="solid" class="h-10 w-10 mr-3 text-dark-grey dark:text-primary" />
+                Reflections
+            </div>
+            <div class="text-grey">share and document what decisions worked and which ones didnt. Schedule a reflection for a decision so you dont forget about it and start to map out your growth in decision making </div>
+        </div>
+    </div>  
+
+    <div class="mt-8 mb-2 text-center text-3xl font-bold text-black dark:text-white">Extra Pointers</div>
+    <div class="w-10/12 sm:w-8/12 p-4 rounded-md">
+        <div class="text-center text-dark-grey dark:text-grey">Only users connected to scopes or decision can view them if they are made privant. Decisions can also have tags, which should be used for ways to effictently filter and search.</div>
+        <div class="text-center text-black dark:text-white mt-6">If you have any issues or questions, please visit our help center to review our docs or reach out to us.</div>
+    </div>
+
+    <button class="bg-primary dark:bg-primary dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-white font-bold py-4 px-16 mx-3 mt-6 rounded">
+        <%= link "Lets Go!", to: Routes.welcome_path(@conn, :complete_admin) %>
+    </button>
+</div>

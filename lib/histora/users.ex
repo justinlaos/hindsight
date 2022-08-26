@@ -2,6 +2,7 @@ defmodule Histora.Users do
   alias Histora.{Repo, Users.User}
   alias Histora.Users.User_favorite
   alias Histora.Decisions.Decision
+  import Ecto.Changeset
 
   import Ecto.Query, warn: false
 
@@ -111,5 +112,105 @@ defmodule Histora.Users do
 
   def delete_user_favorite(%User_favorite{} = user_favorite) do
     Repo.delete(user_favorite)
+  end
+
+  alias Histora.Users.User_data
+
+  @doc """
+  Returns the list of user_data.
+
+  ## Examples
+
+      iex> list_user_data()
+      [%User_data{}, ...]
+
+  """
+  def list_user_data do
+    Repo.all(User_data)
+  end
+
+  @doc """
+  Gets a single user_data.
+
+  Raises `Ecto.NoResultsError` if the User data does not exist.
+
+  ## Examples
+
+      iex> get_user_data!(123)
+      %User_data{}
+
+      iex> get_user_data!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_user_data!(id), do: Repo.get!(User_data, id)
+
+  @doc """
+  Creates a user_data.
+
+  ## Examples
+
+      iex> create_user_data(%{field: value})
+      {:ok, %User_data{}}
+
+      iex> create_user_data(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_user_data(attrs \\ %{}) do
+    %User_data{}
+    |> User_data.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def get_user_data_from_user(user) do
+    (Repo.one Ecto.assoc(Repo.get(User, user.id), :user_data))
+  end
+
+  @doc """
+  Updates a user_data.
+
+  ## Examples
+
+      iex> update_user_data(user_data, %{field: new_value})
+      {:ok, %User_data{}}
+
+      iex> update_user_data(user_data, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_user_data(%User_data{} = user_data, attrs) do
+    user_data
+    |> User_data.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a user_data.
+
+  ## Examples
+
+      iex> delete_user_data(user_data)
+      {:ok, %User_data{}}
+
+      iex> delete_user_data(user_data)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_user_data(%User_data{} = user_data) do
+    Repo.delete(user_data)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking user_data changes.
+
+  ## Examples
+
+      iex> change_user_data(user_data)
+      %Ecto.Changeset{data: %User_data{}}
+
+  """
+  def change_user_data(%User_data{} = user_data, attrs \\ %{}) do
+    User_data.changeset(user_data, attrs)
   end
 end

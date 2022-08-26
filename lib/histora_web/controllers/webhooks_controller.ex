@@ -98,6 +98,7 @@ defmodule WebhooksController do
                     "organization_id" => organization.id
                 }) do
                     {:ok, user} ->
+                        Users.create_user_data(%{user_id: user.id})
                         Histora.Data.identify(user)
                         Histora.Data.group(user)
                         Histora.Data.event(user, "Subscription Created")

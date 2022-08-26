@@ -11,6 +11,7 @@ defmodule Histora.Users.User do
     belongs_to(:organization, Histora.Organizations.Organization)
     has_many(:decisions, Histora.Decisions.Decision)
     has_many(:user_favorites, Histora.Users.User_favorite)
+    has_many(:user_data, Histora.Users.User_data)
 
     has_many(:scope_users, Histora.Scopes.Scope_user)
     has_many(:scopes, through: [:scope_users, :scope])

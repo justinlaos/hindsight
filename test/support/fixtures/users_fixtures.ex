@@ -17,4 +17,18 @@ defmodule Histora.UsersFixtures do
 
     user_favorite
   end
+
+  @doc """
+  Generate a user_data.
+  """
+  def user_data_fixture(attrs \\ %{}) do
+    {:ok, user_data} =
+      attrs
+      |> Enum.into(%{
+
+      })
+      |> Histora.Users.create_user_data()
+
+    user_data
+  end
 end

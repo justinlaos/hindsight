@@ -20,6 +20,7 @@ defmodule HistoraWeb.Admin.InvitationController do
         end
 
         deliver_email(conn, user)
+        Users.create_user_data(%{user_id: user.id})
 
         conn
         |> put_flash(:info, "Invitation sent")

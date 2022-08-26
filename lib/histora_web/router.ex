@@ -26,6 +26,10 @@ defmodule HistoraWeb.Router do
     plug HistoraWeb.EnsureRolePlug, :admin
   end
 
+  pipeline :completed_welcome do
+    plug HistoraWeb.EnsureUserWelcomeCompletePlug
+  end
+
   pipeline :authorized do
     plug Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
@@ -61,7 +65,7 @@ defmodule HistoraWeb.Router do
 
    # Authorized Active Routes
    scope "/", HistoraWeb do
-    pipe_through [:browser, :authorized, :activeUser, :scope_resources]
+    pipe_through [:browser, :authorized, :completed_welcome, :activeUser, :scope_resources]
 
     post "/results", SearchController, :results
     get "/results", SearchController, :results
@@ -81,6 +85,15 @@ defmodule HistoraWeb.Router do
     post "/user/favorite", UserController, :favorite
     post "/user/unfavorite", UserController, :unfavorite
     delete "/logout", SessionController, :delete, as: :logout
+  end
+
+  scope "/", HistoraWeb do
+    pipe_through [:browser, :authorized, :activeUser]
+
+    get "welcome/getting-started", WelcomeController, :getting_started
+    get "welcome/admin", WelcomeController, :admin
+    get "welcome/complete_welcome", WelcomeController, :complete_welcome
+    get "welcome/complete_admin", WelcomeController, :complete_admin
   end
 
   # Authorized Active Admin Routes
