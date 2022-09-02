@@ -32,7 +32,7 @@ defmodule HistoraWeb.Router do
 
   pipeline :authorized do
     plug Pow.Plug.RequireAuthenticated,
-      error_handler: Pow.Phoenix.PlugErrorHandler
+      error_handler: HistoraWeb.AuthErrorHandler
   end
 
   pipeline :not_authenticated do

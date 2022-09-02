@@ -1,4 +1,6 @@
-<div class="text-sm text-grey mb-1"> <%= if @scope.private, do: "Private", else: "" %></div>
+<div class="flex text-sm text-grey mb-1"> 
+  <div x-data x-tooltip="When enabled, all decisions in a private scope can only be seen by users connected to the scope or admins"><%= if @scope.private, do: "Private", else: "" %></div>
+</div>
 <div class="flex flex-row justify-between">
     <div class="text-2xl font-bold mr-5 text-primary"><%= String.capitalize(@scope.name) %></div>
     <%= render "edit_scope_slide_modal.html", Map.put(assigns, :action, Routes.scope_path(@conn, :update, @scope.id)) %>    

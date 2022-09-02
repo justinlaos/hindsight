@@ -51,22 +51,22 @@
                             <%= if @decision_changeset.action do %> <div class="alert alert-danger"> <p>Oops, something went wrong! Please check the errors below.</p></div><% end %>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">What</label>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1" x-data x-tooltip="what is the actionable decision being made">What</label>
                                 <%= textarea f, :what, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none", placeholder: "What decision is being made" %>
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Why</label>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1" x-data x-tooltip="provide context behind why the decision is being made">Why</label>
                                 <%= textarea f, :why, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none", placeholder: "Why is this decision beimg made" %>
                             </div>
                             
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1">Tags</label>
+                                <label for="name" class="block text-sm font-medium dark:text-light-grey mb-1" x-data x-tooltip="add any key word or words to tags to help index and catagorize the decision">Tags</label>
                                 <%= text_input f, :tag_list, placeholder: "operations, accounting, office, pricing", class: "mt-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none" %>
                             </div>
                             
                             <div class="mt-1 my-4">
-                                <label for="reference" class="block text-sm font-medium dark:text-light-grey mb-1">Reference</label>
+                                <label for="reference" class="block text-sm font-medium dark:text-light-grey mb-1" x-data x-tooltip="add any extrernal reference that can help provide context to the decision">Reference</label>
                                 <%= text_input f, :reference, placeholder: "optional: www.link-to-something-important.com", class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none" %>
                             </div>
                             

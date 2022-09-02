@@ -20,7 +20,7 @@
 
     <div class="flex flex-row text-xs mt-6">
         <%= if Ecto.assoc_loaded?(@decision.user) do %>
-            <%= link to: Routes.user_path(@conn, :show, @decision.user) do %> 
+            <%= link to: Routes.decision_path(@conn, :index, users: [@decision.user.id]) do %> 
                 <div class="inline-flex flex-row items-center mx-0.5 px-2.5 dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md py-1.5 hover:bg-grey-ish"> 
                     <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
                     <%= @decision.user.email %>

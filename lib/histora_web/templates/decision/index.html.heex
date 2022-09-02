@@ -1,8 +1,8 @@
-<div class="text-2xl font-bold mb-2 dark:text-white">Decisions:<span class="text-base text-primary font-bold ml-4"><%= Enum.count(@decisions_count) %></span>
+<div class="text-2xl font-bold mb-2 dark:text-white">Decisions:<span x-data x-tooltip="This number is not the total but the amount after select filters and date range" class="text-base text-primary font-bold ml-4"><%= Enum.count(@decisions_count) %></span>
 </div>
 
 <div class="flex items-center py-0.5 rounded-full text-sm font-medium text-black dark:text-grey"> 
-    <%= Histora.Users.formate_time_stamp(@formated_start_date) %> - <%= Histora.Users.formate_time_stamp(@formated_end_date) %>
+  <div x-data x-tooltip="Change these dates in filter modal to view more decisions"> <%= Histora.Users.formate_time_stamp(@formated_start_date) %> - <%= Histora.Users.formate_time_stamp(@formated_end_date) %> </div>
 </div>
 
 <div class="font-bold items-center py-2 my-1 dark:text-white "></div>

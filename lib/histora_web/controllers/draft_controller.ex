@@ -14,9 +14,15 @@ defmodule HistoraWeb.DraftController do
     your_drafts = Drafts.list_your_drafts(conn.assigns.current_user.id, conn.assigns.organization.id)
     scope_drafts = Drafts.list_scope_drafts(conn.assigns.current_user.id, conn.assigns.organization.id)
     connected_drafts = Drafts.list_connected_drafts(conn.assigns.current_user.id, conn.assigns.organization.id)
+    admin_all_drafts = Drafts.list_organization_drafts(conn.assigns.organization)
     draft_changeset = Drafts.change_draft(%Draft{})
     Histora.Data.page(conn.assigns.current_user, "Draft Index")
-    render(conn, "index.html", your_drafts: your_drafts, scope_drafts: scope_drafts, connected_drafts: connected_drafts, draft_changeset: draft_changeset)
+    render(conn, "index.html",
+      your_drafts: your_drafts,
+      scope_drafts: scope_drafts,
+      connected_drafts: connected_drafts,
+      draft_changeset: draft_changeset,
+      admin_all_drafts: admin_all_drafts)
   end
 
   def convert(conn, params) do

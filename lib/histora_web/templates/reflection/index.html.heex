@@ -16,7 +16,7 @@
 <div class="text-sm font-bold mb-2 text-grey">Up Coming</div>
 
 <div class="flex items-center py-0.5 rounded-full text-sm font-medium text-black dark:text-grey"> 
-    <%= Histora.Users.formate_time_stamp(@formated_start_date) %> - <%= Histora.Users.formate_time_stamp(@formated_end_date) %>
+  <div x-data x-tooltip="Change these dates in filter modal to view more upcoming scheduled reflections"> <%= Histora.Users.formate_time_stamp(@formated_start_date) %> - <%= Histora.Users.formate_time_stamp(@formated_end_date) %> </div>
 </div>
 
 <div>
