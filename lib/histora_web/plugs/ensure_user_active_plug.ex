@@ -33,7 +33,7 @@ defmodule HistoraWeb.EnsureUserActivePlug do
     conn
     |> Plug.delete()
     |> Controller.put_flash(:error, "Sorry, your were archived. Speak to your admin to regain access")
-    |> Controller.redirect(to: Routes.login_path(conn, :new))
+    |> Controller.redirect(to: Routes.pow_session_path(conn, :new))
     |> halt()
   end
   defp maybe_halt(_any, conn), do: conn
