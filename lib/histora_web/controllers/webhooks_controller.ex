@@ -85,7 +85,7 @@ defmodule WebhooksController do
             "stripe_subscription_id" => stripe_event["data"]["object"]["id"],
             "billing_email" => email,
             "user_limit" => String.to_integer(stripe_event["data"]["object"]["plan"]["metadata"]["user_limit"]),
-            "name" => "New Organization",
+            "name" => create_new_organization_name(email),
             "status" => "active",
         }) do
             {:ok, organization} ->
@@ -119,6 +119,12 @@ defmodule WebhooksController do
 
     defp maybe_send_email({:error, _, _}, email_address) do
         {:ok, %{email: email_address}}
+    end
+
+    defp create_new_organization_name(email) do
+        [_, domain] = String.split(email, "@")
+        [name, _] = String.split(domain, ".")
+        name
     end
 
     defp conn(), do: Pow.Plug.put_config(%Plug.Conn{}, otp_app: :golf)
