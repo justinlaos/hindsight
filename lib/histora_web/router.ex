@@ -30,6 +30,10 @@ defmodule HistoraWeb.Router do
     plug HistoraWeb.EnsureUserWelcomeCompletePlug
   end
 
+  pipeline :is_active do
+    plug HistoraWeb.EnsureOrganizationIsActivePlug
+  end
+
   pipeline :authorized do
     plug Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
@@ -57,9 +61,9 @@ defmodule HistoraWeb.Router do
     get "/terms_and_conditions", PolicyController, :terms_and_conditions
   end
 
-   # Authorized Active Routes
-   scope "/", HistoraWeb do
-    pipe_through [:browser, :authorized, :completed_welcome, :activeUser, :scope_resources]
+  # Authorized Active Routes
+  scope "/", HistoraWeb do
+    pipe_through [:browser, :authorized, :completed_welcome, :activeUser, :scope_resources, :is_active]
 
     post "/results", SearchController, :results
     get "/results", SearchController, :results
@@ -87,11 +91,12 @@ defmodule HistoraWeb.Router do
     get "welcome/admin", WelcomeController, :admin
     get "welcome/complete_welcome", WelcomeController, :complete_welcome
     get "welcome/complete_admin", WelcomeController, :complete_admin
+    get "/paused", PausedController, :paused
   end
 
   # Authorized Active Admin Routes
   scope "/admin", HistoraWeb do
-    pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources]
+    pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources, :is_active]
 
     get "/settings/organization", Admin.SettingsController, :organization
     put "/settings/organization/:id", Admin.SettingsController, :update
@@ -104,7 +109,6 @@ defmodule HistoraWeb.Router do
     post "/users/:id/cancel_invite", Admin.UserController, :cancel_invite
     post "/users/:id/archive", Admin.UserController, :archive
     post "/users/:id/unarchive", Admin.UserController, :unarchive
-
   end
 
   scope "/admin", PowInvitation.Phoenix, as: "pow_invitation" do
@@ -123,7 +127,7 @@ defmodule HistoraWeb.Router do
 
   # Authorization Routes
   scope "/", Pow.Phoenix, as: "pow" do
-    pipe_through [:browser, :authorized, :activeUser, :scope_resources]
+    pipe_through [:browser, :authorized, :activeUser, :scope_resources, :is_active]
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update, :delete]
   end
