@@ -53,6 +53,8 @@ defmodule HistoraWeb.Router do
     pipe_through [:browser]
 
     get "/", MarketingController, :index
+    get "/privacy_policy", PolicyController, :privacy_policy
+    get "/terms_and_conditions", PolicyController, :terms_and_conditions
   end
 
    # Authorized Active Routes

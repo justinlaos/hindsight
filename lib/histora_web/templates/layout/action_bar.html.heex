@@ -29,5 +29,7 @@
         <% end %>
     <% end %>
 
-    <%= render HistoraWeb.DecisionView, "new_decision_slide_modal.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
+    <%= if assigns.conn.request_path != "/privacy_policy" do %>
+        <%= render HistoraWeb.DecisionView, "new_decision_slide_modal.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
+    <% end %>
 </div>
