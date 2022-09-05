@@ -37,14 +37,6 @@
 
     <div class="w-40 text-grey">
 
-      <%= link to: Routes.pow_registration_path(@conn, :edit) do %>
-        <div class={"#{String.contains?(@conn.request_path, "registration") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
-          <Heroicons.LiveView.icon name="user" type="solid" class="h-5 w-5 mr-3" />
-          Profile
-        </div>  
-      <% end %>
-     
-
       <%= if Histora.Users.is_admin?(@current_user) do %>         
         <%= link to: Routes.settings_path(@conn, :organization) do %>
           <div class={"#{String.contains?(@conn.request_path, "admin") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>

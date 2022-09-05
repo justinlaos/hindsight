@@ -48,11 +48,7 @@
     <% end %>
   <% else %>
     <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
-      <div class="text-2xl">Welcome!</div>
-      <br>
-      <div>Get started by adding team members <span><%= link "Here", to: Routes.settings_path(@conn, :organization), method: :get, class: "text-blue" %></span> </div>
-      <br>
-      <div>Add your first decision by clicking "New Decision" on the top right</div>
+      <div>No current decisions in this timeframe. Adjust date range and filters</div>
     </div>
   <% end %>
 </div>
