@@ -3,9 +3,11 @@
   </head>
   <body>
     <div class="container">
-        <h4>Welcome to Histora</h4>
-        <p>Get Started by clicking this link to set your password</p>
-        <a href={@url}>Set Password</a>
+        <h4>Join <%= @organization.name %> on Histora</h4>
+        <p><%= @invited_by %> sent you an invite to join their team.</p>
+        <p> Histora helps companies draft, record, and reflect in impactfull decisions made at every level </p>
+        <p> Get started by clicking the link below</p>
+        <a href={@url}>Join Team</a>
     </div>
   </body>
 </html>

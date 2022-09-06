@@ -10,11 +10,13 @@ defmodule Histora.Email do
         |> render("new_subscribe.html")
     end
 
-    def new_invite(email, url) do
+    def new_invite(email, url, invited_by, organization) do
         base_email() # Build your default email then customize for welcome
         |> to(email)
-        |> subject("Welcome to Histora")
+        |> subject("Join #{organization.name} on Histora")
         |> assign(:url, url)
+        |> assign(:invited_by, invited_by)
+        |> assign(:organization, organization)
         |> render("new_invite.html")
     end
         # |> put_header("Reply-To", "4jlaos@gmail.com")

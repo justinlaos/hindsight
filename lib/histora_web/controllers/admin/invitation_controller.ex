@@ -38,7 +38,7 @@ defmodule HistoraWeb.Admin.InvitationController do
     url        = Routes.pow_invitation_invitation_url(conn, :edit, token)
     invited_by = Pow.Plug.current_user(conn)
 
-    Histora.Email.new_invite(user.email, url)
+    Histora.Email.new_invite(user.email, url, conn.assigns.current_user.email, conn.assigns.organization)
       |> Histora.Mailer.deliver_now()
   end
 end

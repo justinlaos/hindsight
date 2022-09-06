@@ -2,6 +2,7 @@ defmodule Histora.Users do
   alias Histora.{Repo, Users.User}
   alias Histora.Users.User_favorite
   alias Histora.Decisions.Decision
+  alias Histora.Users.User_data
   import Ecto.Changeset
 
   import Ecto.Query, warn: false
@@ -31,6 +32,7 @@ defmodule Histora.Users do
   def is_admin?(_any), do: false
 
   def cancel_invite(user) do
+    (from ud in User_data, where: ud.user_id == ^user.id) |> Repo.delete_all
     (from u in User, where: u.id == ^user.id) |> Repo.delete_all
   end
 
@@ -114,7 +116,7 @@ defmodule Histora.Users do
     Repo.delete(user_favorite)
   end
 
-  alias Histora.Users.User_data
+
 
   @doc """
   Returns the list of user_data.

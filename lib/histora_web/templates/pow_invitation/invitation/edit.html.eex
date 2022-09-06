@@ -1,28 +1,39 @@
-<h1>Register</h1>
+<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-md w-full space-y-8">
+    <div>
+      <h2 class="mt-6 text-center text-3xl font-extrabold text-primary">Welcome</h2>
+      <p class="mt-2 text-center text-sm text-gray-600">
+        You were invited to join a team on Histora. Set your password to get started.
+      </p>
 
-<%= form_for @changeset, @action, [as: :user], fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
     </div>
-  <% end %>
+    <%= form_for @changeset, @action, [as: :user], fn f -> %>
+      <div class="rounded-md shadow-sm -space-y-px">
+        <div>
+          <label for="email-address" class="sr-only">Email address</label>
+          <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), type: "email", autocomplete: "email", class: "appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-black dark:text-white border-gray-300 placeholder-grey text-black rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Email address" %>
+          <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+        </div>
+        <div>
+          <label for="password" class="sr-only">Password</label>
+          <%= password_input f, :password, type: "password", autocomplete: "current-password", class: "appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-black dark:text-white border-gray-300 placeholder-grey text-black rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Password" %>
+          <%= error_tag f, :password %>
+        </div>
 
-  <%= label f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset) %>
-  <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
+        <div>
+          <label for="password" class="sr-only">Password Confirmation</label>
+          <%= password_input f, :password_confirmation, type: "password", autocomplete: "current-password", class: "appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-black dark:text-white border-gray-300 placeholder-grey text-black rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Password" %>
+          <%= error_tag f, :password_confirmation%>
+        </div>
+      </div>
 
-  <%= label f, :password %>
-  <%= password_input f, :password %>
-  <%= error_tag f, :password %>
-
-  <%= label f, :password_confirmation %>
-  <%= password_input f, :password_confirmation %>
-  <%= error_tag f, :password_confirmation %>
-
-  <div>
-    <%= submit "Submit" %>
+      <div>    
+        <%= submit do %>
+          <button type="submit" class="group relative w-full flex justify-center py-2 px-4 text-sm font-medium rounded-md text-white bg-primary hover:bg-dark-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue">
+            Join
+          </button>
+        <% end %>
+      </div>
+    <% end %>
   </div>
-<% end %>
-
-
-<span><%= link "Sign in", to: Routes.pow_session_path(@conn, :new) %></span>
+</div>
