@@ -3,12 +3,20 @@
 </div>
 
 <div class="flex flex-row ">
-<%= for scope <- @scopes do %>
-    <%= link to: Routes.scope_path(@conn, :show, scope) do %>
-      <div class="flex flex-col h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
-        <div class="dark:text-white"><%= String.capitalize(scope.name) %></div>
-        <div class="text-xs text-grey mb-1"> <%= if scope.private, do: "Private", else: "" %></div>
-      </div>
-    <% end %>
-<% end %>
+  <%= for scope <- @scopes do %>
+      <%= link to: Routes.scope_path(@conn, :show, scope) do %>
+        <div class="flex flex-col h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
+          <div class="dark:text-white"><%= String.capitalize(scope.name) %></div>
+          <div class="text-xs text-grey mb-1"> <%= if scope.private, do: "Private", else: "" %></div>
+        </div>
+      <% end %>
+  <% end %>
+</div>
+
+<div>
+  <%= if Enum.any?(@scopes) do %>
+    <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
+      <div>No active scopes. Create a scope to represent a department, team, or project</div>
+    </div>
+  <% end %>
 </div>
