@@ -1,32 +1,41 @@
-<%# Enum.any?(tag.tag_favorites, & &1.user_id == @conn.assigns.current_user.id) %>
-
-
-
 <%= if assigns[:settings] || assigns.conn.request_path == "/registration/edit" do %>
-    <div class="flex flex-col items-start w-60 pt-20 px-1 py-3 text-sm border-light-grey text-dark-grey dark:border-dark-grey border-r">
-        <%= link to: Routes.pow_registration_path(@conn, :edit) do %>
-            <div class={"#{String.contains?(@conn.request_path, "registration") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
-                <Heroicons.LiveView.icon name="user" type="solid" class="h-5 w-5 mr-3" />
-                Profile
-            </div>  
-        <% end %>
 
-        <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary'} w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
-            <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-2" />
-            <%= link "tags", to: Routes.settings_path(@conn, :tags), method: :get %>
-        </div> 
+    <div class="mt-6 flex flex-col items-start justify-between w-fit px-4 py-3 border-light-grey dark:border-dark-grey border-r">
+        <div class="grow w-40 mt-8 text-dark-grey">
+            
+            <%= link to: Routes.pow_registration_path(@conn, :edit) do %>
+                <div class={"#{String.contains?(@conn.request_path, "registration") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
+                    <Heroicons.LiveView.icon name="user" type="solid" class="h-5 w-5 mr-3" />
+                    Profile
+                </div>  
+            <% end %>
+
+            <%= link to: Routes.settings_path(@conn, :tags), method: :get do %>
+                <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary'} w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
+                    <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-2" />
+                    Tags
+                </div>
+            <% end %>
 
         <%= if Histora.Users.is_admin?(@current_user) do %>         
             <div class="px-3 py-2 mt-5 mb-2 text-black font-bold">Admin</div>
-            <div class={"#{String.contains?(@conn.request_path, "organization") && 'text-primary'} w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
-                <Heroicons.LiveView.icon name="identification" type="solid" class="h-5 w-5 mr-2" />
-                <%= link "Organization", to: Routes.settings_path(@conn, :organization), method: :get %>
-            </div>  
 
-            <div class="w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey">
-                <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-2" />
-                <%= link "Billing", to: Routes.settings_path(@conn, :create_customer_portal_session, Histora.Organizations.get_organization_by_current_user(@current_user).stripe_customer_id), method: :post %>
-            </div>  
+            <%= link to: Routes.settings_path(@conn, :organization), method: :get do %>
+                <div class={"#{String.contains?(@conn.request_path, "organization") && 'text-primary'} w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
+                    <Heroicons.LiveView.icon name="identification" type="solid" class="h-5 w-5 mr-2" />
+                    Organization
+                </div>  
+            <% end %>
+
+            <%= link to: Routes.settings_path(@conn, :create_customer_portal_session, Histora.Organizations.get_organization_by_current_user(@current_user).stripe_customer_id), method: :post do %>
+                <div class="w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey">
+                    <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-2" />
+                    Billing
+                </div>  
+            <% end %>
         <% end %>
+        </div>
     </div>
+
 <% end %>
+

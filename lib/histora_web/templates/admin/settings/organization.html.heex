@@ -1,4 +1,4 @@
-<div class="text-xs mb-1"> 
+<div class="text-primary text-xs mb-1"> 
   <%= @organization.status %> 
 </div>
 
@@ -49,7 +49,7 @@
           </th>
           <th scope="row" class="px-6 py-2 font-medium text-dark-grey dark:text-white whitespace-nowrap">
             <%= link to: Routes.decision_path(@conn, :index, users: [user.id]) do %> 
-              <div class="flex flex-row text-xs rounded-md py-2 hover:bg-light-grey dark:hover:bg-darkest-grey">
+              <div class="w-full flex flex-row items-center text-sm rounded-md px-3 py-2 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey">
                 <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
                 <%= user.email %>
               </div> 
