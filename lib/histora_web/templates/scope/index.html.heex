@@ -14,9 +14,9 @@
 </div>
 
 <div>
-  <%= if Enum.any?(@scopes) do %>
+  <%= if not Enum.any?(@scopes) do %>
     <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
-      <div>No active scopes. Create a scope to represent a department, team, or project</div>
+      <div>No active scopes. Create a scope for a department, team, or project</div>
     </div>
   <% end %>
 </div>
