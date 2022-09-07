@@ -7,11 +7,12 @@ defmodule HistoraWeb.ScopeController do
 
   def index(conn, _params) do
     scopes = Scopes.list_organization_scopes(conn.assigns.organization, conn.assigns.current_user)
+    users_scopes = Scopes.list_user_scopes(conn.assigns.current_user)
     scope_changeset = Scopes.change_scope(%Scope{})
     users = Users.get_organization_users(conn.assigns.organization)
     Histora.Data.page(conn.assigns.current_user, "Scope Index")
 
-    render(conn, "index.html", scopes: scopes, scope_changeset: scope_changeset, users: users)
+    render(conn, "index.html", scopes: scopes, scope_changeset: scope_changeset, users: users, users_scopes: users_scopes)
   end
 
   def new(conn, _params) do

@@ -36,6 +36,10 @@ defmodule Histora.Scopes do
     end
   end
 
+  def list_user_scopes(current_user) do
+    Ecto.assoc(Repo.get(User, current_user.id), :scopes) |> Repo.all
+  end
+
   def delete_scope_from_decision(decision_id) do
     Ecto.assoc(Repo.get(Decision, decision_id), :scope_decisions) |> Repo.delete_all
   end
