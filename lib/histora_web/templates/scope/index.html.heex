@@ -2,7 +2,7 @@
   <div x-data x-tooltip="Scopes are a way to collect decisions into a relevent catagory. Private scopes you arent connected to wont show">Scopes</div>
 </div>
 
-<div class="flex flex-row flex-wrap: wrap">
+<div class="flex flex-row flex-wrap">
   <%= for scope <- @scopes do %>
       <%= link to: Routes.scope_path(@conn, :show, scope) do %>
         <div class="flex flex-col h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
