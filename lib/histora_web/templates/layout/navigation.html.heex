@@ -46,6 +46,13 @@
             Settings
           </div>  
         <% end %>
+      <% else %>
+        <%= link to: Routes.pow_registration_path(@conn, :edit) do %>
+          <div class={"#{String.contains?(@conn.request_path, "admin") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
+            <Heroicons.LiveView.icon name="cog" type="solid" class="h-5 w-5 mr-3" />
+            Settings
+          </div>  
+        <% end %>
       <% end %>
 
         <%# <%= link "Help", to: Routes.marketing_path(@conn, :index), method: :post %>

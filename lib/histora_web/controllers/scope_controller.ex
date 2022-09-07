@@ -6,7 +6,7 @@ defmodule HistoraWeb.ScopeController do
   alias Histora.Scopes.Scope
 
   def index(conn, _params) do
-    scopes = Scopes.list_organization_scopes(conn.assigns.organization)
+    scopes = Scopes.list_organization_scopes(conn.assigns.organization, conn.assigns.current_user)
     scope_changeset = Scopes.change_scope(%Scope{})
     users = Users.get_organization_users(conn.assigns.organization)
     Histora.Data.page(conn.assigns.current_user, "Scope Index")
@@ -24,12 +24,13 @@ defmodule HistoraWeb.ScopeController do
     scope = params["scope"]
     private = params["private"]
 
-    %{"users_list" => users_list} = params
+    scopeusers = if Map.has_key?(params, "scopeusers"), do: params["scopeusers"], else: ""
+
     case Scopes.create_scope(%{"private" => private, "name" => scope["name"], "organization_id" => conn.assigns.organization.id}) do
       {:ok, scope} ->
 
-        if Map.has_key?(params, "users_list") && users_list != "" do
-          Scopes.create_scope_users(users_list, scope.id)
+        if Map.has_key?(params, "scopeusers") && scopeusers != "" do
+          Scopes.create_scope_users(scopeusers, scope.id)
         end
 
         Histora.Data.event(conn.assigns.current_user, "Created Scope")

@@ -111,12 +111,6 @@ defmodule HistoraWeb.Router do
     post "/users/:id/unarchive", Admin.UserController, :unarchive
   end
 
-  scope "/admin", PowInvitation.Phoenix, as: "pow_invitation" do
-    pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources]
-
-    # resources "/invitations", InvitationController, only: [:new, :show]
-
-  end
 
   # Authorized Admin Active-Agnostic Routes
   scope "/admin", HistoraWeb do

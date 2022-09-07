@@ -6,7 +6,7 @@ defmodule Histora.Repo.Migrations.AddUsersDetails do
       add :role, :string, null: false, default: "user"
       add :archived_at, :utc_datetime
       add :invited_by_id, :integer
-      add :invitation_accepted_at, :string
+      add :invitation_accepted_at, :utc_datetime
       add :invitation_token, :string
 
       add :organization_id, references(:organizations, on_delete: :nothing), null: false

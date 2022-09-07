@@ -4,7 +4,7 @@
   <div x-data x-tooltip="These are drafts you authored">Yours</div>
 </div>
 
-<div class="flex flex-row ">
+<div class="flex flex-row mb-4">
   <%= for draft <- @your_drafts do %>
       <%= link to: Routes.draft_path(@conn, :show, draft) do %>
         <div class="flex flex-col justify-between h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
@@ -26,7 +26,7 @@
   </div>
 </div>
 
-<div class="flex flex-row ">
+<div class="flex flex-row mb-4">
   <%= for draft <- @scope_drafts do %>
       <%= link to: Routes.draft_path(@conn, :show, draft) do %>
         <div class="flex flex-col justify-between h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
@@ -46,7 +46,7 @@
   <div x-data x-tooltip="Drafts that you were connected to directly">Connected</div>
 </div>
 
-<div class="flex flex-row ">
+<div class="flex flex-row mb-4">
   <%= for draft <- @connected_drafts do %>
       <%= link to: Routes.draft_path(@conn, :show, draft) do %>
         <div class="flex flex-col justify-between h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
@@ -66,7 +66,7 @@
   <div class="flex items-center text-primary text-2xl mx-4 mb-2"> 
     <div x-data x-tooltip="All drafts in your organization">All</div>
   </div>
-  <div class="flex flex-row ">
+  <div class="flex flex-row mb-4">
     <%= for draft <- @admin_all_drafts do %>
         <%= link to: Routes.draft_path(@conn, :show, draft) do %>
           <div class="flex flex-col justify-between h-28 w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">

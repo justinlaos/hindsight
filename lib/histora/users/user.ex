@@ -8,6 +8,7 @@ defmodule Histora.Users.User do
   schema "users" do
     field :role, :string, default: "user"
     field :archived_at, :utc_datetime
+
     belongs_to(:organization, Histora.Organizations.Organization)
     has_many(:decisions, Histora.Decisions.Decision)
     has_many(:user_favorites, Histora.Users.User_favorite)

@@ -11,6 +11,7 @@ defmodule Histora.Scopes do
   alias Histora.Decisions
   alias Histora.Decisions.Decision
   alias Histora.Decisions.Decision_user
+  alias Histora.Scopes.Scope_user
 
   @doc """
   Returns the list of scopes.
@@ -25,8 +26,14 @@ defmodule Histora.Scopes do
     Repo.all(Scope)
   end
 
-  def list_organization_scopes(organization) do
-    (from s in Scope, where: s.organization_id == ^organization.id ) |> Repo.all()
+  def list_organization_scopes(organization, current_user) do
+    if current_user.role == "admin" do
+      (from s in Scope, where: s.organization_id == ^organization.id ) |> Repo.all()
+    else
+      user_scope = (from su in Scope_user, where: su.user_id == ^current_user.id, select: su.scope_id) |> Repo.all()
+      (from s in Scope, where: s.id in ^user_scope and s.organization_id == ^organization.id or s.private == false)
+      |> Repo.all()
+    end
   end
 
   def delete_scope_from_decision(decision_id) do
@@ -237,8 +244,6 @@ defmodule Histora.Scopes do
   def change_scope_decision(%Scope_decision{} = scope_decision, attrs \\ %{}) do
     Scope_decision.changeset(scope_decision, attrs)
   end
-
-  alias Histora.Scopes.Scope_user
 
 
   def create_scope_users(users, scope) do

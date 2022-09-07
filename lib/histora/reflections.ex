@@ -22,11 +22,12 @@ defmodule Histora.Reflections do
     Repo.all(Reflection)
   end
 
-  def list_upcoming_reflection_decisions(organization, formated_start_date, formated_end_date) do
+  def list_upcoming_reflection_decisions(organization, formated_start_date, formated_end_date, current_user) do
     (from d in Decision,
     left_join: r in assoc(d, :reflections),
       where: is_nil(r.decision_id) and
         d.organization_id == ^organization.id and
+        d.user_id == ^current_user.id and
         is_nil(d.reflection_date) == false and
         is_nil(r) == true and
         d.reflection_date >= ^formated_start_date and
@@ -38,11 +39,12 @@ defmodule Histora.Reflections do
     |> Enum.sort_by(&(&1.reflection_date), {:asc, Date})
   end
 
-  def list_past_due_reflection_decisions(organization) do
+  def list_past_due_reflection_decisions(organization, current_user) do
     (from d in Decision,
       left_join: r in assoc(d, :reflections),
       where: is_nil(r.decision_id) and
         d.organization_id == ^organization.id and
+        d.user_id == ^current_user.id and
         is_nil(d.reflection_date) == false and
         d.reflection_date < ^todays_date(),
       preload: [:user, :tags, :users, :scopes] )
@@ -52,11 +54,12 @@ defmodule Histora.Reflections do
     |> Enum.sort_by(&(&1.reflection_date), {:asc, Date})
   end
 
-  def list_all_reflection_decisions(organization) do
+  def list_all_reflection_decisions(organization, current_user) do
     (from d in Decision,
     left_join: r in assoc(d, :reflections),
     where: is_nil(r.decision_id) and
       d.organization_id == ^organization.id and
+      d.user_id == ^current_user.id and
       is_nil(d.reflection_date) == false and
       is_nil(r) == true,
       preload: [:user, :tags, :users, :scopes] )

@@ -37,7 +37,7 @@ defmodule HistoraWeb.DecisionController do
       |> Decisions.filter_dates(formated_start_date, formated_end_date)
 
     decisions =  Decisions.formate_decisions(sorted_decisions, conn.assigns.current_user)
-    decisions_count =  Decisions.formate_decisions_count(sorted_decisions)
+    decisions_count =  Decisions.formate_decisions_count(sorted_decisions, conn.assigns.current_user)
 
     filterable_tags = Tags.list_organization_tags(conn.assigns.organization)
     filterable_users = Users.get_organization_users(conn.assigns.organization)
@@ -111,7 +111,7 @@ defmodule HistoraWeb.DecisionController do
     decision = Decisions.get_decision!(id)
     edit_decision_changeset = Decisions.change_decision(decision)
     reflection_changeset = Reflections.change_reflection(%Reflection{})
-    scopes = Scopes.list_organization_scopes(conn.assigns.organization)
+    scopes = Scopes.list_organization_scopes(conn.assigns.organization, conn.assigns.current_user)
 
     draft = if decision.draft_id, do: Drafts.get_draft!(decision.draft_id), else: nil
     current_draft_users = if decision.draft_id, do: Drafts.get_draft_connected_users(draft.id), else: nil

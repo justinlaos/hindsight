@@ -1,11 +1,48 @@
-<div class="text-2xl font-bold dark:text-white">Tags</div>
+<div class="flex content-center">
+    <div class="text-2xl font-bold mr-5 dark:text-white">
+        Tags
+    </div>
+</div>
 
-<%= if Enum.any?(@all_tags) do %>
-  <%= for tag <- @all_tags do %>
-    <%= render HistoraWeb.ComponentView, "decision_section.html", conn: @conn, decision_section: tag, header: tag.name %>
-  <% end %>
-<% else %>
-  <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
-    <div>Tags are created in the "tags" field when making a new decision, add one or many like "product, engineering, operations". On this page you can view decisions by tag and favorite tags you'd like to follow</div>
-  </div>
-<% end %>
+
+<div class="overflow-x-auto sm:rounded-lg mr-4 mt-5 z-0">
+  <table class="w-full text-sm text-left text-light-grey dark:text-dark-grey">
+    <thead class="text-xs text-grey uppercase bg-light-grey dark:bg-darkest-grey dark:text-white">
+      <tr>
+        <th scope="col" class="px-6 py-3">
+          Name
+        </th>
+        <th scope="col" class="px-6 py-3">
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= for tag <- @tags do %>
+
+        <tr class="bg-white border-b dark:bg-black dark:border-dark-grey text-left">
+           
+          <th scope="row" class="px-6 py-2 font-medium text-dark-grey dark:text-white whitespace-nowrap">
+            <div class="flex flex-row text-xs rounded-md px-3 py-2 dark:hover:bg-darkest-grey">
+                <%= if tag.tag_favorites != [] && Enum.any?(tag.tag_favorites, & &1.user_id == @conn.assigns.current_user.id) do %>
+                    <%= link to: Routes.tag_path(@conn, :unfavorite, tag: tag.id), method: :post do %>
+                        <Heroicons.LiveView.icon name="star" type="solid" class="h-5 w-5 mr-2 text-yellow" />
+                    <% end %>
+                <% else %>
+                    <%= link to: Routes.tag_path(@conn, :favorite, tag: tag.id), method: :post do %>
+                        <Heroicons.LiveView.icon name="star" type="outline" class="h-5 w-5 mr-2 text-yellow" />
+                    <% end %>
+                <% end %>
+
+                <%= link to: Routes.decision_path(@conn, :index, tag_list: [tag.id]), method: :get do %>
+                    <div class="ml-2"><%= tag.name %> </div>
+                <% end %>
+            </div> 
+          </th>
+          <td scope="row" class="px-6 py-2 font-medium text-dark-grey dark:text-white whitespace-nowrap text-right">
+                <%= render "edit_tag_slide_modal.html", Map.merge(Map.put(assigns, :action, Routes.tag_path(@conn, :update, tag.id)), Map.put(assigns, :tag, tag)) %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

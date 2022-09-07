@@ -3,7 +3,9 @@
 </div>
 <div class="flex flex-row justify-between">
     <div class="text-2xl font-bold mr-5 text-primary"><%= String.capitalize(@scope.name) %></div>
-    <%= render "edit_scope_slide_modal.html", Map.put(assigns, :action, Routes.scope_path(@conn, :update, @scope.id)) %>    
+    <%= if Histora.Users.is_admin?(@current_user) do %>
+      <%= render "edit_scope_slide_modal.html", Map.put(assigns, :action, Routes.scope_path(@conn, :update, @scope.id)) %>  
+    <% end %>  
 </div>
 
 <div class="dark:text-grey"><%= Enum.count(@current_scope_users) %> users connected</div>

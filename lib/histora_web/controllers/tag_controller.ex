@@ -6,39 +6,8 @@ defmodule HistoraWeb.TagController do
 
   def index(conn, _params) do
     tags = Tags.list_organization_tags(conn.assigns.organization)
-    all_tags = Tags.list_organization_tags_with_2_decisions(conn.assigns.organization)
-    render(conn, "index.html", tags: tags, all_tags: all_tags)
-  end
-
-  def new(conn, _params) do
-    changeset = Tags.change_tag(%Tag{})
-    render(conn, "new.html", changeset: changeset)
-  end
-
-  def create(conn, %{"tag" => tag_params}) do
-    case Tags.create_tag(tag_params) do
-      {:ok, tag} ->
-        conn
-        |> put_flash(:info, "Tag created successfully.")
-        |> redirect(to: Routes.tag_path(conn, :show, tag))
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
-    end
-  end
-
-  def show(conn, %{"id" => id}) do
-    tags = Tags.list_organization_tags(conn.assigns.organization)
-    tag = Tags.get_tag!(id)
-    decisions = Tags.get_decisions_for_tag(id)
-
-    render(conn, "show.html", tag: tag, tags: tags, decisions: decisions)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    tag = Tags.get_tag!(id)
-    changeset = Tags.change_tag(tag)
-    render(conn, "edit.html", tag: tag, changeset: changeset)
+    Histora.Data.page(conn.assigns.current_user, "Settings Tags")
+    render(conn, "index.html", settings: true, tags: tags)
   end
 
   def update(conn, %{"id" => id, "tag" => tag_params}) do

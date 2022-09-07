@@ -23,8 +23,8 @@ defmodule HistoraWeb.ReflectionController do
     end
 
     reflections = Reflections.list_reflections()
-    decisions = Reflections.list_upcoming_reflection_decisions(conn.assigns.organization, formated_start_date, formated_end_date)
-    past_due_decisions = Reflections.list_past_due_reflection_decisions(conn.assigns.organization)
+    decisions = Reflections.list_upcoming_reflection_decisions(conn.assigns.organization, formated_start_date, formated_end_date, conn.assigns.current_user)
+    past_due_decisions = Reflections.list_past_due_reflection_decisions(conn.assigns.organization, conn.assigns.current_user)
 
     render(conn, "index.html",
       reflections: reflections,
@@ -35,12 +35,12 @@ defmodule HistoraWeb.ReflectionController do
   end
 
   def past_due(conn, _params) do
-    past_due_decisions = Reflections.list_past_due_reflection_decisions(conn.assigns.organization)
+    past_due_decisions = Reflections.list_past_due_reflection_decisions(conn.assigns.organization, conn.assigns.current_user)
     render(conn, "past_due.html", past_due_decisions: past_due_decisions)
   end
 
   def all_reflection_decsions(conn, _params) do
-    all_reflection_decisions = Reflections.list_all_reflection_decisions(conn.assigns.organization)
+    all_reflection_decisions = Reflections.list_all_reflection_decisions(conn.assigns.organization, conn.assigns.current_user)
     render(conn, "all_reflection_decsions.html", all_reflection_decisions: all_reflection_decisions)
   end
 

@@ -80,8 +80,15 @@ defmodule Histora.Decisions do
     formated_end_date
   end
 
-  def formate_decisions_count(decisions) do
-    decisions |> Repo.all()
+  def formate_decisions_count(decisions, current_user) do
+    scope_list = Scopes.get_user_scopes(current_user.id)
+
+    decisions = (from r in subquery(decisions), preload: [:user, :tags, :users, :scopes]) |> Repo.all()
+
+    Enum.filter(decisions, fn x -> x.private == false or
+      x.user_id == current_user.id or
+      filter_scope(x, scope_list) == true
+    end)
   end
 
 

@@ -32,14 +32,12 @@ defmodule HistoraWeb.EnsureUserWelcomeCompletePlug do
         |> Controller.redirect(to: Routes.welcome_path(conn, :getting_started))
         |> halt()
       end
-      if user_data.welcome_admin_completed == false do
+      if user.role == "admin" && user_data.welcome_admin_completed == false do
         conn
         |> Controller.redirect(to: Routes.welcome_path(conn, :admin))
         |> halt()
       end
-      if user_data.getting_started_completed == true && user_data.welcome_admin_completed == true do
-        conn
-      end
+      conn
     end
   end
 end

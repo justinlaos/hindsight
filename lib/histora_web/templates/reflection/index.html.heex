@@ -5,7 +5,7 @@
 <% end %>
 
 <div class="flex flex-row justify-between">
-  <div class="text-2xl font-bold mb-2 dark:text-white">Reflections</div>
+  <div x-data x-tooltip="Youll only see reflections on decisions you own" class="text-2xl font-bold mb-2 dark:text-white">Reflections</div>
   <%= link to: Routes.reflection_path(@conn, :all_reflection_decsions) do %>
     <button class="cursor-pointer rounded-md px-3 py-2 hover:bg-light-grey dark:bg-darkest-grey dark:text-light-grey dark:hover:bg-primary">
       View All

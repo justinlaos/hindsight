@@ -48,11 +48,7 @@
 
                         <!-- Content -->
                         <div class="form_content">
-                            <%= if @decision_changeset.action do %>
-                                <div class="alert alert-danger">
-                                    <p>Oops, something went wrong! Please check the errors below.</p>
-                                </div>
-                            <% end %>
+                           
 
                             <div class="mt-1 my-4">
                                 <%= text_input f, :content, class: "mb-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:border-none", placeholder: "what is a possible decision" %>

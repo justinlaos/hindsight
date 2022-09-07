@@ -13,12 +13,6 @@ defmodule HistoraWeb.Admin.SettingsController do
     render(conn, "integrations.html", organization: organization, settings: true)
   end
 
-  def tags(conn, _params) do
-    tags = Tags.list_organization_tags(conn.assigns.organization)
-    Histora.Data.page(conn.assigns.current_user, "Settings Tags")
-    render(conn, "tags.html", settings: true, tags: tags)
-  end
-
   def organization(conn, _params) do
     %{organization: organization} = conn.assigns
 

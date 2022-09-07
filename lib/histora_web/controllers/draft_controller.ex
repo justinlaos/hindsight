@@ -90,7 +90,7 @@ defmodule HistoraWeb.DraftController do
           Drafts.create_draft_users(users_list, draft.id)
         end
 
-        if scopes != nil do
+        if scopes != nil && scopes != "" do
           Drafts.assign_scopes_to_draft(scopes, draft.id)
         end
 

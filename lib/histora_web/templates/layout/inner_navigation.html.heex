@@ -10,7 +10,7 @@
                 </div>  
             <% end %>
 
-            <%= link to: Routes.settings_path(@conn, :tags), method: :get do %>
+            <%= link to: Routes.tag_path(@conn, :index), method: :get do %>
                 <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary'} w-full flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey hover:text-primary dark:hover:bg-darkest-grey"}>
                     <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-2" />
                     Tags
