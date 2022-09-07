@@ -12,7 +12,7 @@ config :histora,
 
 # Configures the endpoint
 config :histora, HistoraWeb.Endpoint,
-  url: [host: "localhost"],
+  url: [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
   secret_key_base: "z34502VtAmc07Oc0Pq4JgEqkF+o3yiYSVWIjZXLJq5qhZSIeTwIrXbRDOrF7rsg7",
   render_errors: [view: HistoraWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Histora.PubSub,
