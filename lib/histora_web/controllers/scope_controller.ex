@@ -62,11 +62,11 @@ defmodule HistoraWeb.ScopeController do
     render(conn, "edit.html", scope: scope, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "scope" => scope_params, "users_list" => users_list}) do
+  def update(conn, %{"id" => id, "scope" => scope_params, "users_list" => users_list, "private" => private}) do
     # %{"id" => id, "scope" => scope_params, "users_list" => users_list}
     scope = Scopes.get_scope!(id)
 
-    case Scopes.update_scope(scope, scope_params) do
+    case Scopes.update_scope(scope, Map.merge(scope_params, %{"private" => private})) do
       {:ok, scope} ->
 
         if users_list != "" do

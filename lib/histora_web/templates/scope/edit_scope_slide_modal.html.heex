@@ -107,6 +107,43 @@
                                     <select x-ref="select" data-placeholder="click to select" name="users_list[]" id="users_list[]" multiple class="w-full" ></select>
                                 </div>
                             </div>
+
+                            <!-- Toggle -->
+                            <div
+                                x-data={"{ value: #{@scope.private} }"}
+                                class="flex items-center mt-6 mb-2"
+                                x-id="['toggle-label']"
+                            >
+                                <input type="hidden" name="private" :value={"value"}>
+
+                                <!-- Label -->
+                                <label
+                                    @click="$refs.toggle.click(); $refs.toggle.focus()"
+                                    :id="$id('toggle-label')"
+                                    class="text-black font-bold dark:text-white mr-2"
+                                >
+                                    Private
+                                </label>
+
+                                <!-- Button -->
+                                <button
+                                    x-ref="toggle"
+                                    @click="value = ! value"
+                                    type="button"
+                                    role="switch"
+                                    :aria-checked="value"
+                                    :aria-labelledby="$id('toggle-label')"
+                                    :class="value ? 'bg-white border-2 border-primary' : 'bg-white border-2 border-gray'"
+                                    class="ml-4 relative w-14 py-1 px-0 inline-flex rounded-full"
+                                >
+                                    <span
+                                        :class="value ? 'bg-primary translate-x-6' : 'bg-grey translate-x-1'"
+                                        class="w-6 h-6 rounded-full transition"
+                                        aria-hidden="true"
+                                    ></span>
+                                </button>
+                            </div>
+                            <div class="text-xs text-grey">when enabled, decision will only show to those who share its scope or to only you </div>
                         </div>
                     </div>
 
