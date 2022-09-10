@@ -31,7 +31,9 @@ defmodule Histora.Scopes do
       (from s in Scope, where: s.organization_id == ^organization.id ) |> Repo.all()
     else
       user_scope = (from su in Scope_user, where: su.user_id == ^current_user.id, select: su.scope_id) |> Repo.all()
-      (from s in Scope, where: s.id in ^user_scope and s.organization_id == ^organization.id or s.private == false)
+      (from s in Scope,
+        where: s.organization_id == ^organization.id,
+        where: s.id in ^user_scope or s.private == false)
       |> Repo.all()
     end
   end
