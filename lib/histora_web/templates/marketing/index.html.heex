@@ -1,7 +1,7 @@
 <div class="bg-primary dark:bg-dark-primary font-poppins">
   <main>
     <!-- Hero section -->
-    <div class="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48">
+    <div class="pt-8 overflow-hidden sm:pt-12 lg:relative lg:py-48 mb-32">
       <div class="mx-auto max-w-md px-4 sm:max-w-3xl sm:px-6 lg:px-8 lg:max-w-7xl lg:grid lg:grid-cols-2 lg:gap-24">
         <div>
           <div class="mt-20">
@@ -39,6 +39,60 @@
       </div>
     </div>
 
+
+    <div class="ml-6 mt-4 mb-16 flex flex-col items-center ">
+
+      <%# Main Reflections %>
+
+      <div class="text-3xl text-white mb-2 text-center">Decisions happen everyday at every level</div>
+      <div class="text-light-grey text-center">They effect all aspects of your business and determine growth or decline</div>
+
+      <img class="w-10/12 sm:w-5/12 my-16 object-center rounded-md shadow-xl ring-1 ring-primary ring-opacity-5" src="/images/sample_decision_one.png" alt="">
+
+      <div class="flex justify-evenly">
+        <div class="w-6/12">
+          <div class="text-3xl text-white mb-2 text-center sm:mx-48">Knowing and analyzing these impactful deicsions empowers you to know what worked and what didnt.</div>
+          <div class="text-light-grey text-center">Give your business or team the edge by better understanding the cause and effect of everyday decisions</div>
+        </div>
+        <div class="w-6/12">
+          <div class="text-3xl text-white mb-2 text-center sm:mx-48">Create better transperency across teams </div>
+          <div class="text-light-grey text-center">let everyone in your company get an insignt into what is happening. Get new hires up to date and provide historaical context they wouldnt have</div>
+        </div>
+      </div>
+      <%# Scope Section %>
+      <div class="">
+        <div class="mt-20 text-3xl text-white mb-2 text-center">Catagorize and Scope Your Decisions</div>
+        <div class="text-light-grey text-center">Tag your decisions and also put them into scopes where you can assigns team members and make private to that scope</div>
+
+        <div class="flex flex-row flex-wrap mb-33">
+          <%= for item <- ["Product", "Humand Resources", "Sales", "Leadership", "Customer Service"] do  %>
+            <div class="flex flex-col h-28 w-60 m-4 bg-light-grey rounded-md p-4 font-bold">
+              <div class="text-black"><%= String.capitalize(item) %></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+
+
+      <%# Reflections Section %>
+      <div class="">
+        <div class="mt-20 mb-6 text-light-grey text-center text-2xl px-22">Schedule Reflections for decisions to help understand if they were the right move </div>
+
+        <div class="ml-8 bg-white p-10 rounded-md">
+          <div class="text-orange mb-2">Scheduled Reflection on September 13, 2023 </div>
+          <button class="bg-orange hover:bg-orange hover:text-black text-white font-bold py-2 px-3 rounded">
+            Add Reflection
+          </button>
+        </div>
+      </div>
+
+      <%# Drafts Section %>
+        <div class="mt-20 text-3xl text-white mb-2 text-center">Draft Decisions with your team</div>
+        <div class="text-light-grey text-center">Have some decisions made collabritively. Ensure your entire team is aware. Have team vote on what to do. Serve has sign off from team</div>
+
+        <img class="w-10/12 sm:w-5/12 mt-4 object-center rounded-md shadow-xl ring-1 ring-primary ring-opacity-5" src="/images/sample_draft.png" alt="">
+     
+    </div>
 
     <!-- Testimonial/stats section -->
   
