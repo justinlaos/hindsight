@@ -57,6 +57,7 @@ defmodule HistoraWeb.Router do
     pipe_through [:browser]
 
     get "/", MarketingController, :index
+    post "/select_plan", MarketingController, :select_plan
     get "/privacy_policy", PolicyController, :privacy_policy
     get "/terms_and_conditions", PolicyController, :terms_and_conditions
   end

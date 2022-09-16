@@ -45,9 +45,6 @@
     </script>
   </head>
     <%= if Pow.Plug.current_user(@conn) do %>
-
-  
-
       <%= if String.contains?(assigns.conn.request_path, ["/welcome", "/paused"]) do %>
         <body class="marketing flex flex-col bg-white dark:bg-slate font-poppins">
           <%= render "welcome_navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>

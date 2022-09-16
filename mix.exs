@@ -51,7 +51,7 @@ defmodule Histora.MixProject do
       {:cors_plug, "~> 3.0"},
       {:plug_cowboy, "~> 2.5"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev},
-      {:ex_heroicons, "~> 0.6.0"},
+      {:ex_heroicons, "~> 2.0.0"},
       {:stripity_stripe, "~> 2.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:elixir_uuid, "~> 1.2"},

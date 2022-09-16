@@ -1,0 +1,18 @@
+<div class="py-14 lg:w-6/12 bg-primary flex flex-col items-center ">
+    <div class="text-3xl text-white mb-2 text-center">Scopes</div>
+    <div class="text-white text-center font-bold mt-2 lg:w-9/12">Decisions can be company wide or reletive to a project or deportment</div>
+
+    <div class="text-light-grey text-center mt-2 lg:w-9/12">Create scopes to house your decisions and organize your team members.</div>
+
+    <div class="flex my-12 lg:w-9/12 flex-row flex-wrap justify-evenly">
+        <%= for item <- ["Product", "Humand Resources", "Sales", "Leadership", "Customer Service", "Product", "Humand Resources", "Sales", "Leadership", "Customer Service"] do  %>
+            <div class="flex flex-col min-h-14 min-w-33 m-2 bg-light-grey rounded-md p-4 font-bold">
+                <div class="text-black text-xs"><%= String.capitalize(item) %></div>
+            </div>
+        <% end %>
+    </div>
+    <div class="text-light-grey text-center mt-2 lg:w-9/12">
+        Scopes can be made private to keep scoped decisions viewable to only users within that scope. 
+        Scopes also allow team members to keep decisions focused and reletive to their role.
+    </div>
+</div>

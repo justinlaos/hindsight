@@ -31,6 +31,7 @@ defmodule HistoraWeb do
     quote do
       use Phoenix.View,
         root: "lib/histora_web/templates",
+        pattern: "**/*",
         namespace: HistoraWeb
 
       # Import convenience functions from controllers
