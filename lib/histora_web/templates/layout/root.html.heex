@@ -52,7 +52,7 @@
           <%= @inner_content %>
         </body>
       <% else %>
-        <body class="mr-0.5 ml-0.5 flex flex-row bg-primary dark:bg-slate font-poppins ">
+        <body class="mr-0.5 ml-0.5 flex flex-row dark:bg-slate font-poppins ">
           <%= render "navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
           <%= render "inner_navigation.html", Map.merge(@conn.assigns, %{conn: @conn}) %>
 

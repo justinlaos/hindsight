@@ -22,7 +22,7 @@
 
       <%= link to: Routes.draft_path(@conn, :index) do %>
         <div class={"#{String.contains?(@conn.request_path, "drafts") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
-          <Heroicons.LiveView.icon name="pencil-alt" type="solid" class="h-5 w-5 mr-3" />
+          <Heroicons.LiveView.icon name="pencil-square" type="solid" class="h-5 w-5 mr-3" />
           Drafts
         </div>
       <% end %>
@@ -58,14 +58,14 @@
         <%# <%= link "Help", to: Routes.marketing_path(@conn, :index), method: :post %>
       <a href="https://histora.crunch.help">
         <div class={"#{String.contains?(@conn.request_path, "help") && 'text-primary'} flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary"}>
-          <Heroicons.LiveView.icon name="support" type="solid" class="h-5 w-5 mr-3" />
+          <Heroicons.LiveView.icon name="lifebuoy" type="solid" class="h-5 w-5 mr-3" />
           Help Center
         </div> 
       </a>
        
 
       <div class="flex flex-row items-center text-sm rounded-md px-3 py-2 mb-5 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary">
-        <Heroicons.LiveView.icon name="logout" type="solid" class="h-5 w-5 mr-3" />
+        <Heroicons.LiveView.icon name="arrow-left-on-rectangle" type="solid" class="h-5 w-5 mr-3" />
         <%= link "Log out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
       </div>  
     </div>
