@@ -29,7 +29,7 @@
                 x-transition:leave-end="translate-x-full"
                 class="h-full w-full"
             >
-                <div class="h-full flex flex-col justify-between bg-really-light-grey shadow-lg overflow-y-auto">
+                <div class="h-full flex flex-col justify-between bg-really-light-grey dark:bg-darkest-grey shadow-lg overflow-y-auto">
                     <!-- Close Button -->
                     <div class="absolute top-0 right-0 pt-4 pr-4">
                         <button type="button" @click="$dialog.close()" class="bg-gray-50 rounded-lg p-2 text-gray-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2">
@@ -44,29 +44,29 @@
                     <!-- Body -->
                     <div class="p-8">
                         <!-- Title -->
-                        <h2 x-dialog:title class="text-3xl mb-8 font-bold">New Draft</h2>
+                        <h2 x-dialog:title class="text-3xl mb-8 font-bold dark:text-white">New Draft</h2>
 
                         <!-- Content -->
                         <div class="form_content">
                          
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Title</label>
-                                <%= text_input f, :title, class: "mb-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "summry of this draft" %>
+                                <label for="name" class="block text-sm font-medium dark:text-white my-2">Title</label>
+                                <%= text_input f, :title, class: "mb-2 shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md", placeholder: "summry of this draft" %>
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Description</label>
-                                <%= textarea f, :description, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "describe what a decision needs to be made on " %>
+                                <label for="name" class="block text-sm font-medium dark:text-white my-2">Description</label>
+                                <%= textarea f, :description, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md", placeholder: "describe what a decision needs to be made on " %>
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="reference" class="block text-sm font-medium text-gray-700">Reference Link</label>
-                                <%= text_input f, :reference, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md dark:bg-black dark:text-light-grey dark:border-none", placeholder: "a link to help provide some context" %>
+                                <label for="reference" class="block text-sm font-medium dark:text-white my-2">Reference Link</label>
+                                <%= text_input f, :reference, class: "shadow-sm focus:ring-primary focus:border-primary block w-full sm:text-sm border-light-grey rounded-md", placeholder: "a link to help provide some context" %>
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Target Date <span class="ml-2 text-xs text-grey">optional</span></label>
+                                <label for="name" class="block text-sm font-medium dark:text-white my-2">Target Date <span class="ml-2 text-xs text-grey">optional</span></label>
                                 <div
                                     x-data={"{
                                         value: [],
@@ -87,12 +87,12 @@
                                     }"}
                                     
                                 >
-                                    <input name="target_date" id="target_date" class="bg-transparent focus:ring-primary border-none w-full focus:border-primary hover:border-primary hover:text-prmiary dark:text-white rounded bg-transparent" x-ref="picker" type="text">
+                                    <input name="target_date" id="target_date" class="bg-transparent focus:ring-primary border-none w-full focus:border-primary hover:border-primary hover:text-prmiary rounded bg-transparent" x-ref="picker" type="text">
                                 </div>
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Scope</label>
+                                <label for="name" class="block text-sm font-medium dark:text-white my-2">Scope</label>
                                                     
                                 <div
                                     x-data={"{
@@ -144,7 +144,7 @@
                             </div>
 
                             <div class="mt-1 my-4">
-                                <label for="name" class="block text-sm font-medium text-gray-700">Users <span class="ml-2 text-xs text-grey">outside of scopes</span></label>
+                                <label for="name" class="block text-sm font-medium dark:text-white my-2">Users <span class="ml-2 text-xs text-grey">outside of scopes</span></label>
                                 <div
                                     x-data={"{
                                         multiple: true,

@@ -21,7 +21,7 @@
 
       <div class="flex items-center justify-between mt-4">
         <div class="text-sm">
-          <%= link "Forget Password?", to: Routes.pow_reset_password_reset_password_path(@conn, :new), class: "font-medium text-black dark:text-white hover:text-primary" %>
+          <%= link "Forgot Password?", to: Routes.pow_reset_password_reset_password_path(@conn, :new), class: "font-medium text-black dark:text-white hover:text-primary" %>
         </div>
       </div>
 

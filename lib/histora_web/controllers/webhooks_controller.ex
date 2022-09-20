@@ -124,7 +124,11 @@ defmodule WebhooksController do
     defp create_new_organization_name(email) do
         [_, domain] = String.split(email, "@")
         [name, _] = String.split(domain, ".")
-        name
+        if name == "gmail" || "yahoo" do
+          "New Organization"
+        else
+            name
+        end
     end
 
     defp conn(), do: Pow.Plug.put_config(%Plug.Conn{}, otp_app: :golf)

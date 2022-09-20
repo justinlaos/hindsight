@@ -1,7 +1,5 @@
 <div class="ml-6 mt-4 mb-16 flex flex-col items-center min-h-screen">
-    <div class="mb-12 text-4xl mt-4 text-center dark:text-white">Permissions <span class="text-2xl mt-2 text-grey">as an admin.</span></div>
-
-    <div class="w-10/12 sm:w-8/12 mt-2 text-center text-dark-grey dark:text-grey mb-8">Users added to your organization can be admins. An admin has a lot of permissions and who gets made an admin should be well consirdered.</div>
+    <div class="mb-12 text-4xl mt-4 text-center dark:text-white">Admin <span class="text-2xl mt-2 text-grey"> permissions</span></div>
 
     <div class="w-10/12 mt-4 flex items-center justify-between flex-wrap sm:flex-nowrap">
         <div class="my-2 p-6 m-4">
@@ -9,39 +7,51 @@
                 <Heroicons.LiveView.icon name="eye" type="solid" class="h-10 w-10 mr-3 text-dark-grey dark:text-primary" />
                 View
             </div>
-            <div class="text-grey">Admins have the ability to view all decisions, drafts, scopes, and reflections even if they are private or if they arent connected.</div>
+            <div class="text-grey">
+                Admins can view all decisions, drafts, scopes, and reflections even if they are not connected or private.
+            </div>
         </div>
         <div class="my-2 p-6 m-4">
             <div class="flex flex-row items-center mb-2">
                 <Heroicons.LiveView.icon name="pencil-square" type="solid" class="h-10 w-10 mr-3 text-dark-grey dark:text-primary" />
                 Edit
             </div>
-            <div class="text-grey">They also have the ability to edit anything even if they dont arent the author. A log will still be created showing any edit to keep record.</div>
+            <div class="text-grey">
+                They can also edit anything even if they are not the author. A log will still be created showing any edit to keep a record.
+            </div>
         </div>
         <div class="my-2 p-6 m-4">
             <div class="flex flex-row items-center mb-2">
                 <Heroicons.LiveView.icon name="user-group" type="solid" class="h-10 w-10 mr-3 text-dark-grey dark:text-primary" />
                 Users
             </div>
-            <div class="text-grey">Admins can add or archive users. They can make also add or remove admin permissions. The Oranization owner cant be archived and will always be an admin</div>
+            <div class="text-grey">
+                Admins can add or archive users. They can make also add or remove admin permissions. The Organization owner cant be archived and will always be an admin
+            </div>
         </div>
     </div> 
 
     <div class="mt-12 mb-2 text-center text-3xl font-bold text-black dark:text-white">Billing</div>
     <div class="w-10/12 sm:w-8/12 p-4 rounded-md">
-        <div class="text-center mb-2 text-dark-grey dark:text-grey">Billing info can be accessed in settings under "Billing". Here you can view billing statments, pause your account, updating payment details, or upgrade plan to add more users. </div>
-        <div class="text-center text-dark-grey dark:text-grey">Prices are set how user seats. If you need more user seats you can upgrade in billing. Any user can also be archived and once a user is archived they arent counted towards the user seat limit.</div>
+        <div class="text-center mb-2 text-dark-grey dark:text-grey">
+            Billing info can be found in settings under "Billing". Here you can view billing statements, pause your account, update payment details, or upgrade your plan to add more users.
+        </div>
+        <div class="text-center text-dark-grey dark:text-grey">
+            If you need more user seats, you can upgrade in billing. Archived users are not counted towards the user seat limit.
+        </div>
     </div>
 
     <div class="mt-12 mb-2 text-center text-3xl font-bold text-black dark:text-white">Start Your Organization</div>
     <div class="w-10/12 sm:w-8/12 p-4 rounded-md">
         <div class="text-center text-dark-grey dark:text-grey">1. Start by adding users from your organization under "users" in the settings.</div>
-        <div class="text-center text-dark-grey dark:text-grey">2. Create a few scopes that represent either departments or current projects and add users to them who are associated</div>
+        <div class="text-center text-dark-grey dark:text-grey">2. Create a few scopes that represent either departments or current projects and add users to them who are associated.</div>
 
-        <div class="text-center text-black dark:text-white mt-6">If you have any issues or questions, please visit our help center to review our docs or reach out to us.</div>
+        <div class="text-center text-md text-black dark:text-white mt-6">If you have any issues or questions, please visit our help center to review our docs or reach out to us.</div>
     </div>
 
-    <button class="bg-primary dark:bg-primary dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-white font-bold py-4 px-16 mx-3 mt-6 rounded">
-        <%= link "Lets Go!", to: Routes.welcome_path(@conn, :complete_admin) %>
-    </button>
+        <%= link to: Routes.welcome_path(@conn, :complete_admin) do %>
+            <button class="bg-primary dark:bg-primary dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-white font-bold py-4 px-16 mx-3 mt-6 rounded">
+                Lets Go!
+            </button>
+        <% end %>
 </div>

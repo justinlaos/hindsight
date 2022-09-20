@@ -32,12 +32,12 @@
             </div>
         <% end %>
 
-        <%= if Enum.count(@decision.users) >= 1 do %> 
+        <%= if Enum.count(@decision.users) > 1 do %> 
             <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
             <div class="text-xs mx-1 px-2.5 py-1.5 dark:text-grey">
                 <%= Enum.count(@decision.users) %> connected users
             </div>  
-        <% end %>   
+        <% end %>    
 
         <%= if @decision.reference != nil do %>
             <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
