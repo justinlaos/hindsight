@@ -72,7 +72,15 @@
         </div>
 
     </div>
+    <script>
+        function trackRedirect() {
+            var e = document.getElementById("user_size");
+            var value = e.value;
+            var text = e.options[e.selectedIndex].text;
+            plausible('Trial Link', {props: {size: text}});
+        }
+    </script>
     <%= submit do  %>
-        <button type="submit" class="mt-12 w-full rounded-md px-5 py-3 bg-primary text-base font-bold text-white shadow hover:bg-dark-primary dark:hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">Start Free <span class="font-extrabold">30</span> Day Trial</button>
+        <button onclick="trackRedirect()" type="submit" class="mt-12 w-full rounded-md px-5 py-3 bg-primary text-base font-bold text-white shadow hover:bg-dark-primary dark:hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">Start Free <span class="font-extrabold">30</span> Day Trial</button>
     <% end %> 
 <% end %>
