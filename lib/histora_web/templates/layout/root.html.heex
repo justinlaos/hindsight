@@ -34,21 +34,16 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5VFPTN6XMY"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    <%= unless Pow.Plug.current_user(@conn) do %>
+      <!-- Start of HubSpot Embed Code -->
+        <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/22733857.js"></script>
+      <!-- End of HubSpot Embed Code -->
 
-      gtag('config', 'G-5VFPTN6XMY');
-    </script>
-    <!-- Start of HubSpot Embed Code -->
-      <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/22733857.js"></script>
-    <!-- End of HubSpot Embed Code -->
-
-    <script defer data-domain="histora.app" src="https://plausible.io/js/plausible.js"></script>
-    <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+      <!-- Start of Plausible Embed Code -->
+        <script defer data-domain="histora.app" src="https://plausible.io/js/plausible.js"></script>
+        <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+      <!-- End of Plausible Embed Code -->
+    <% end %>
 
   </head>
     <%= if Pow.Plug.current_user(@conn) do %>
