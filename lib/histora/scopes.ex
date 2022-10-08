@@ -102,10 +102,10 @@ defmodule Histora.Scopes do
   """
   def create_scope(attrs \\ %{}) do
     cleaned_scope = (attrs["name"] |> String.downcase(:ascii) |> String.trim(" "))
-    case Repo.get_by(Scope, name: cleaned_scope) do
-      nil -> %Scope{} |> Scope.changeset(Map.merge(attrs, %{"name" => cleaned_scope})) |> Repo.insert()
-      scope -> {:ok, scope}
-      end
+    case Repo.exists?((from s in Scope, where: s.organization_id == ^attrs["organization_id"] and s.name == ^cleaned_scope )) do
+      false -> %Scope{} |> Scope.changeset(Map.merge(attrs, %{"name" => cleaned_scope})) |> Repo.insert()
+      true -> {:error, "Scope already exists."}
+    end
   end
 
   @doc """

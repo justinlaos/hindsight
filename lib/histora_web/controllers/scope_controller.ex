@@ -40,8 +40,10 @@ defmodule HistoraWeb.ScopeController do
         |> put_flash(:info, "Scope created successfully.")
         |> redirect(to: Routes.scope_path(conn, :show, scope))
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "new.html", changeset: changeset)
+      {:error, message} ->
+        conn
+        |> put_flash(:error, message)
+        |> redirect(to: Routes.scope_path(conn, :index))
     end
   end
 
