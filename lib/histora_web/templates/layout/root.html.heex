@@ -35,18 +35,10 @@
     <script src="https://unpkg.com/tippy.js@6"></script>
 
     <%= unless Pow.Plug.current_user(@conn) do %>
-      <!-- Start of HubSpot Embed Code -->
-        <script type="text/javascript" id="hs-script-loader" async defer src="//js.hs-scripts.com/22733857.js"></script>
-      <!-- End of HubSpot Embed Code -->
-
       <!-- Start of Plausible Embed Code -->
         <script defer data-domain="histora.app" src="https://plausible.io/js/plausible.js"></script>
         <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
       <!-- End of Plausible Embed Code -->
-
-      <!-- Start of Pipedrive Chat Embed Code -->
-      <script>window.pipedriveLeadboosterConfig = {base: 'leadbooster-chat.pipedrive.com',companyId: 12187131,playbookUuid: '790a63a1-2151-4b69-9659-6ae480a78163',version: 2};(function () {var w = window;if (w.LeadBooster) {console.warn('LeadBooster already exists');} else {w.LeadBooster = {q: [],on: function (n, h) {this.q.push({ t: 'o', n: n, h: h });},trigger: function (n) {this.q.push({ t: 't', n: n });},};}})();</script><script src="https://leadbooster-chat.pipedrive.com/assets/loader.js" async></script>
-      <!-- End of Pipedrive Chat Embed Code -->
 
       <!--  Clickcease.com tracking-->
         <script type='text/javascript'>var script = document.createElement('script');
