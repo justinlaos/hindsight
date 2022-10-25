@@ -7,25 +7,25 @@
     <div class="text-dark-grey dark:text-grey text-lg font-bold text-center my-6">Select plan by user seats</div>
 
     <script>
-        function trackRedirect(plan) {
-            plausible('select plan', {props: {size: plan}});
+        function trackPlanSelect(plan) {
+            plausible('Select Plan', {props: {size: plan}});
         }
     </script>
 
     <div class="flex justify-center w-full sm:w-8/12 lg:w-6/12 px-1">
-        <a href="https://buy.stripe.com/5kA7t5aRI2B9a9qcMM" onclick="trackRedirect('10 users')" class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
+        <a href="https://buy.stripe.com/5kA7t5aRI2B9a9qcMM" onclick="trackPlanSelect('10 users')" class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
             <div class="font-bold text-md">10 users</div>
             <div class="font-grey">$100/mo</div>
             <div class="text-primary">Start Now</div>
         </a>
 
-        <a href="https://buy.stripe.com/bIY00DcZQ2B92GY145" onclick="trackRedirect('15 users')" class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
+        <a href="https://buy.stripe.com/bIY00DcZQ2B92GY145" onclick="trackPlanSelect('15 users')" class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
             <div class="font-bold text-md">15 users</div>
             <div>$150/mo</div>
             <div class="text-primary">Start Now</div>
         </a>
 
-        <a href="https://buy.stripe.com/00g7t56BsdfNchybIK" onclick="trackRedirect('20 users')" class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
+        <a href="https://buy.stripe.com/00g7t56BsdfNchybIK" onclick="trackPlanSelect('20 users')" class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
             <div class="font-bold text-md">20 users</div>
             <div>$200/mo</div>
             <div class="text-primary">Start Now</div>
