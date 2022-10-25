@@ -1,9 +1,43 @@
 <div class="py-14 bg-white dark:bg-darkest-grey flex flex-col items-center text-center">
-    <div class="text-4xl text-primary mb-2 text-center">Get Started For Free With A <span class="font-extrabold">30</span> Day Trial </div>
-    <div class="mt-2 dark:text-grey w-10/12 lg:w-6/12">
-        Your subscription is billed monthly. You can cancel anytime for any reason. We charge by user seats on your account. You can update your user seats anytime.
+    <div class="text-4xl text-white mb-2 text-center"></div>
+    <div class="text-4xl text-darkest-grey dark:text-white mb-2 text-center">Free <span class="font-extrabold text-primary">30</span> Day Trial</div>
+    <div class="text-grey">cancel anytime</div>
+
+
+    <div class="text-dark-grey dark:text-grey text-lg font-bold text-center my-6">Select plan by user seats</div>
+
+    <script>
+        function trackRedirect(plan) {
+            plausible('select plan', {props: {size: plan}});
+        }
+    </script>
+
+    <div class="flex justify-center w-10/12 sm:w-8/12 lg:w-6/12">
+        <a href="https://buy.stripe.com/5kA7t5aRI2B9a9qcMM" onclick="trackRedirect('10 users')" class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
+            <div class="font-bold text-lg">10 users</div>
+            <div class="font-grey">$100/mo</div>
+            <div class="text-primary">Start Now</div>
+        </a>
+
+        <a href="https://buy.stripe.com/bIY00DcZQ2B92GY145" onclick="trackRedirect('15 users')" class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
+            <div class="font-bold text-lg">15 users</div>
+            <div>$150/mo</div>
+            <div class="text-primary">Start Now</div>
+        </a>
+
+        <a href="https://buy.stripe.com/00g7t56BsdfNchybIK" onclick="trackRedirect('20 users')" class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
+            <div class="font-bold text-lg">20 users</div>
+            <div>$200/mo</div>
+            <div class="text-primary">Start Now</div>
+        </a>
     </div>
-    <div class="text-dark-grey dark:text-grey text-lg font-bold text-center my-8">Select how many users you'll need</div>
+
+    <div class="my-6 text-grey">or select larger plan</div>
 
     <%= render "sections/usersize_form.html", conn: @conn %> 
+    
+
+    <div class="mt-14 mt-2 dark:text-grey w-10/12 lg:w-6/12">
+        Subscriptions are billed monthly. You can cancel anytime for any reason. Price is by user seats. You can update your user seats anytime.
+    </div>
 </div>

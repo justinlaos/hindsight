@@ -1,10 +1,17 @@
+<script>
+    function trackRedirect(plan) {
+        plausible('splash plan', {props: {size: "10 users"}});
+    }
+</script>
+
 <div class="bg-primary dark:bg-dark-primary px-6 lg:px-20 pb-28">
     <div class="justify-between flex flex-col lg:flex-row flex-wrap lg:flex-nowrap">
         <div class="lg:w-5/12 self-center mt-16 lg:mt-32">
             
-            <div class="text-4xl lg:text-5xl font-extrabold text-white dark:text-white">Decision Platform For Your Business</div>
-            <a href="https://buy.stripe.com/bIY00DcZQ2B92GY145">
-                <button type="submit" class="mt-8 w-full lg:w-8/12 rounded-md px-5 py-3 bg-white text-base font-bold text-dark-primary shadow hover:bg-dark-primary dark:hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">Start Free <span class="font-extrabold">30</span> Day Trial</button>
+            <div class="text-5xl sm:text-7xl font-extrabold text-white dark:text-white">Supercharge Decision-Making In Your Business </div>
+            <div class="mt-4 text-base lg:text-base text-white dark:text-white">The Decision Platform For Your Team </div>
+            <a href="https://buy.stripe.com/5kA7t5aRI2B9a9qcMM" onclick="trackRedirect()">
+                <button type="submit" class="mt-8 w-full lg:w-8/12 rounded-md px-5 py-3 bg-dark-primary dark:bg-primary text-base font-bold text-white shadow hover:bg-white hover:text-dark-primary dark:hover:bg-dark-primary dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">Start Free <span class="font-extrabold">30</span> Day Trial</button>
             </a>
         </div>
 
