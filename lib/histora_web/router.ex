@@ -34,6 +34,10 @@ defmodule HistoraWeb.Router do
     plug HistoraWeb.EnsureOrganizationIsActivePlug
   end
 
+  pipeline :has_trial_expired do
+    plug HistoraWeb.CheckIfTrialHasExpiredPlug
+  end
+
   pipeline :authorized do
     plug Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
@@ -57,14 +61,15 @@ defmodule HistoraWeb.Router do
     pipe_through [:browser]
 
     get "/", MarketingController, :index
-    post "/select_plan", MarketingController, :select_plan
+    get "/signup", SignupController, :signup
+    post "/create_organization_trial", SignupController, :create_organization_trial
     get "/privacy_policy", PolicyController, :privacy_policy
     get "/terms_and_conditions", PolicyController, :terms_and_conditions
   end
 
   # Authorized Active Routes
   scope "/", HistoraWeb do
-    pipe_through [:browser, :authorized, :completed_welcome, :activeUser, :scope_resources, :is_active]
+    pipe_through [:browser, :authorized, :completed_welcome, :activeUser, :scope_resources, :is_active, :has_trial_expired]
 
     post "/results", SearchController, :results
     get "/results", SearchController, :results
@@ -92,37 +97,38 @@ defmodule HistoraWeb.Router do
     get "welcome/admin", WelcomeController, :admin
     get "welcome/complete_welcome", WelcomeController, :complete_welcome
     get "welcome/complete_admin", WelcomeController, :complete_admin
-    get "/paused", PausedController, :paused
+    get "/paused", InactiveController, :paused
+    get "/trial_expired", InactiveController, :trial_expired
   end
 
   # Authorized Active Admin Routes
   scope "/admin", HistoraWeb do
-    pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources, :is_active]
+    pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources, :is_active, :has_trial_expired]
 
-    get "/settings/organization", Admin.SettingsController, :organization
-    put "/settings/organization/:id", Admin.SettingsController, :update
     get "/settings/integrations", Admin.SettingsController, :integrations
     get "/settings/tags", Admin.SettingsController, :tags
-
-    post "/settings/invitations", Admin.InvitationController, :create
-
-
-    post "/users/:id/cancel_invite", Admin.UserController, :cancel_invite
-    post "/users/:id/archive", Admin.UserController, :archive
-    post "/users/:id/unarchive", Admin.UserController, :unarchive
   end
-
 
   # Authorized Admin Active-Agnostic Routes
   scope "/admin", HistoraWeb do
-    pipe_through [:browser, :admin, :authorized]
+    pipe_through [:browser, :admin, :authorized, :scope_resources]
 
     post "/create_customer_portal_session/:id", Admin.SettingsController, :create_customer_portal_session
+    get "/settings/convert_trial", Admin.SettingsController, :convert_trial
+
+    get "/settings/organization", Admin.SettingsController, :organization
+    put "/settings/organization/:id", Admin.SettingsController, :update
+    post "/settings/invitations", Admin.InvitationController, :create
+    post "/users/:id/cancel_invite", Admin.UserController, :cancel_invite
+    post "/users/:id/archive", Admin.UserController, :archive
+    post "/users/:id/unarchive", Admin.UserController, :unarchive
+
+    post "/select_plan", Admin.SettingsController, :select_plan
   end
 
   # Authorization Routes
   scope "/", Pow.Phoenix, as: "pow" do
-    pipe_through [:browser, :authorized, :activeUser, :scope_resources, :is_active]
+    pipe_through [:browser, :authorized, :activeUser, :scope_resources, :is_active, :has_trial_expired]
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update, :delete]
   end

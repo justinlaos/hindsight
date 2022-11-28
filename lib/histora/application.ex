@@ -15,9 +15,10 @@ defmodule Histora.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Histora.PubSub},
       # Start the Endpoint (http/https)
-      HistoraWeb.Endpoint
+      HistoraWeb.Endpoint,
       # Start a worker by calling: Histora.Worker.start_link(arg)
       # {Histora.Worker, arg}
+      Histora.Scheduler
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -61,11 +61,11 @@ config :tailwind,
     cd: Path.expand("../assets", __DIR__)
   ]
 
-  # STRIPE CONFIG
+# STRIPE CONFIG
 config :stripity_stripe,
   api_key: System.get_env("STRIPE_SECRET_API")
 
-  # POW USER AUTH
+# POW USER AUTH
 config :histora, :pow,
   user: Histora.Users.User,
   repo: Histora.Repo,
@@ -76,14 +76,24 @@ config :histora, :pow,
   web_mailer_module: HistoraWeb,
   routes_backend: HistoraWeb.Pow.Routes
 
+# POW EMAIL SENDER
 config :histora, HistoraWeb.Pow.Mailer,
   adapter: Bamboo.SendGridAdapter,
   api_key: System.get_env("SEND_GRID_API")
 
+# BAMBOO EMAIL SENDER
 config :histora, Histora.Mailer,
   adapter: Bamboo.SendGridAdapter,
   api_key: System.get_env("SEND_GRID_API")
 
+# CRON JOB SCHEDULER
+config :histora, Histora.Scheduler,
+  jobs: [
+   application_task: [
+    schedule: "@daily",
+    task: {Histora.Job.Organizations, :update_expired_trials, []}
+   ]
+  ]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

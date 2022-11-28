@@ -1,13 +1,13 @@
 <div class="font-poppins">
     <!-- Hero section -->
-    <%= render "sections/splash.html" %>
+    <%= render "sections/splash.html", conn: @conn %>
 
     <%= render "sections/why_histora.html" %>
 
     <%= render "sections/scopes_outline.html" %>
 
     <%= render "sections/decisions_outline.html" %>
-    
+
     <div class="flex justify-between flex-wrap lg:flex-nowrap">
       <%= render "sections/drafts_outline.html" %>
       <%= render "sections/reflections_outline.html" %>
@@ -19,7 +19,7 @@
 
 
     <!-- Testimonial/stats section -->
-  
+
 
     <!-- Logo cloud section -->
 
@@ -52,6 +52,3 @@
   </footer>
 
 </div>
-
-
-

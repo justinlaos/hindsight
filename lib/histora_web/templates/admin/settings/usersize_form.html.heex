@@ -1,0 +1,91 @@
+<div class="dark:bg-white bg-light-grey p-5 rounded-md w-11/12 sm:w-8/12 lg:w-6/12">
+    <%= form_for @conn, Routes.settings_path(@conn, :select_plan), fn _ -> %>
+
+        <div>
+            <!--
+                Notice: We have to use jQuery 3.5.1 instead of 3.6.0 because select2's
+                input field won't autofocus on open in that version for this reason:
+                https://github.com/select2/select2/issues/5993
+            -->
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+            <script>
+                const all_plans = [
+                    { value: 10, label: '10 users plan' },
+                    { value: 15, label: '15 users plan' },
+                    { value: 20, label: '20 users plan' },
+                    { value: 25, label: '25 users plan' },
+                    { value: 30, label: '30 users plan' },
+                    { value: 35, label: '35 users plan' },
+                    { value: 40, label: '40 users plan' },
+                    { value: 45, label: '45 users plan' },
+                    { value: 50, label: '50 users plan' },
+                    { value: 60, label: '60 users plan' },
+                    { value: 70, label: '70 users plan' },
+                    { value: 80, label: '80 users plan' },
+                    { value: 90, label: '90 users plan' },
+                    { value: 100, label: '100 users plan' },
+                ]
+                const available_plans = all_plans.filter(plan => plan.value >= <%= @managed_users_count %>);
+            </script>
+
+            <div
+                x-data="{
+                    multiple: false,
+                    value: available_plans[0].value,
+                    options: available_plans,
+                    init() {
+                        let bootSelect2 = () => {
+                            let selections = this.multiple ? this.value : [this.value]
+
+                            $(this.$refs.select).select2({
+                                multiple: this.multiple,
+                                data: this.options.map(i => ({
+                                    id: i.value,
+                                    text: i.label,
+                                    selected: selections.map(i => String(i)).includes(String(i.value)),
+                                })),
+                            })
+                        }
+
+                        let refreshSelect2 = () => {
+                            $(this.$refs.select).select2('destroy')
+                            this.$refs.select.innerHTML = ''
+                            bootSelect2()
+                        }
+
+                        bootSelect2()
+
+                        $(this.$refs.select).on('change', () => {
+                            let currentSelection = $(this.$refs.select).select2('data')
+
+                            this.value = this.multiple
+                                ? currentSelection.map(i => i.id)
+                                : currentSelection[0].id
+                        })
+
+                        this.$watch('value', () => refreshSelect2())
+                        this.$watch('options', () => refreshSelect2())
+                    },
+                }"
+                class="w-full"
+            >
+                <select x-ref="select" name="user_size" id="user_size" class="w-full text-center"></select>
+            </div>
+        </div>
+
+        <script>
+            function trackRedirect() {
+                var e = document.getElementById("user_size");
+                var value = e.value;
+                var text = e.options[e.selectedIndex].text;
+                plausible('Trial Link', {props: {size: text}});
+            }
+        </script>
+        <%= submit do  %>
+            <button onclick="trackRedirect()" type="submit" class="mt-6 w-full rounded-md p-3 bg-primary text-base font-bold text-white shadow hover:bg-dark-primary dark:hover:bg-primary hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">Start Now</button>
+        <% end %>
+    <% end %>
+</div>

@@ -59,7 +59,8 @@ defmodule Histora.MixProject do
       {:pow, "~> 1.0.27"},
       {:bamboo, "~> 1.6"},
       {:httpoison, "~> 1.8"},
-      {:segment, "~> 0.2.6"}
+      {:segment, "~> 0.2.6"},
+      {:quantum, "~> 3.0"}
     ]
   end
 

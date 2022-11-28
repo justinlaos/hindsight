@@ -28,7 +28,7 @@ defmodule WebhooksController do
         case Stripe.Customer.retrieve(stripe_event["data"]["object"]["customer"]) do
             {:ok, %{email: email}} -> {
                 if Organizations.get_organization_by_billing_email(email) == nil do
-                    create_organization(stripe_event, email)
+                    # create_organization(stripe_event, email)
                 else
                     Organizations.update_organization(Organizations.get_organization_by_billing_email(email), %{
                         "stripe_price_id" => stripe_event["data"]["object"]["plan"]["id"],
@@ -38,6 +38,7 @@ defmodule WebhooksController do
                         "user_limit" => String.to_integer(stripe_event["data"]["object"]["plan"]["metadata"]["user_limit"]),
                         "status" => "active",
                     })
+                    Histora.Data.event(email, "Subscription Created")
                 end
             }
             {:error, error} -> {:error, error}

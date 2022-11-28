@@ -1,0 +1,21 @@
+<div class="py-14 flex flex-col items-center text-center">
+    <div class="text-grey dark:text-grey text-lg font-bold text-center my-6">
+        Your trial <%= if Date.compare(@organization.trial_expire_date, Date.utc_today) == :lt, do: "ended", else: "ends" %> on
+        <span class="text-primary"><%= Histora.Users.formate_time_stamp(@organization.trial_expire_date) %></span>
+    </div>
+
+    <div class="text-4xl dark:text-white text text-center">Select a plan to continue </div>
+
+    <div class="dark:text-white text-lg text-center my-4">
+        Your organization has <span class="text-bold text-primary"><%= Enum.count(@managed_users) %></span> active user.
+    </div>
+
+    <div class="text-grey text-center mt-6">Cancel anytime. Select plan by needed user seats. </div>
+    <div class="text-grey text-center mb-6">Archive users if you need a smaller plan</div>
+
+    <%= render "usersize_form.html", conn: @conn, managed_users_count: Enum.count(@managed_users) %>
+
+    <div class="mt-6 mt-2 dark:text-grey w-10/12 lg:w-6/12">
+        Subscriptions are billed monthly. You can cancel anytime for any reason. You can update or downgrade your plan anytime.
+    </div>
+</div>

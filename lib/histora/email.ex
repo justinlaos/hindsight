@@ -19,12 +19,22 @@ defmodule Histora.Email do
         |> assign(:organization, organization)
         |> render("new_invite.html")
     end
-        # |> put_header("Reply-To", "4jlaos@gmail.com")
-        # |> html_body("<strong>Welcome to Histora</strong> <br>
-        #     <p>Get Started by clicking this link to set your password</p> <br>
-        #     <a href=`"#{ url }"`>Set Password</a>
-        # ")
 
+    def trial_expired(email, organization) do
+        base_email() # Build your default email then customize for welcome
+        |> to(email)
+        |> subject("#{organization.name}'s Histora trial has ended")
+        |> assign(:organization, organization)
+        |> render("trial_expired.html")
+    end
+
+    def new_trial(email, organization) do
+        base_email() # Build your default email then customize for welcome
+        |> to(email)
+        |> subject("New Trial: #{organization.billing_email}")
+        |> assign(:organization, organization)
+        |> render("admin/new_trial.html")
+    end
 
     defp base_email do
         new_email()

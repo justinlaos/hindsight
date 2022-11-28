@@ -21,6 +21,17 @@ defmodule Histora.Organizations do
     Repo.all(Organization)
   end
 
+  def update_expired_trials do
+    trialing_organizations = (from o in Organization, where: o.status == "trialing" ) |> Repo.all()
+    Enum.map(trialing_organizations, fn organization ->
+      if Date.compare(organization.trial_expire_date, Date.utc_today) == :lt do
+        Histora.Organizations.update_organization(organization, %{"status" => "trial_expired"})
+        Histora.Email.trial_expired(organization.billing_email, organization)
+          |> Histora.Mailer.deliver_now()
+      end
+    end)
+  end
+
   @doc """
   Gets a single organization.
 
@@ -45,6 +56,10 @@ defmodule Histora.Organizations do
 
   def get_organization_by_billing_email(email) do
     Repo.get_by(Organization, billing_email: email)
+  end
+
+  def check_if_billing_email_exists(email) do
+    Repo.exists?(from o in Organization, where: o.billing_email == ^email)
   end
 
   @doc """

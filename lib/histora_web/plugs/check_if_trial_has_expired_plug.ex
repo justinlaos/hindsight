@@ -1,4 +1,4 @@
-defmodule HistoraWeb.EnsureOrganizationIsActivePlug do
+defmodule HistoraWeb.CheckIfTrialHasExpiredPlug do
   @moduledoc """
   This plug ensures that a user is active by not being archived.
 
@@ -27,12 +27,12 @@ defmodule HistoraWeb.EnsureOrganizationIsActivePlug do
     |> maybe_halt(conn)
   end
 
-  defp active?(%{status: status}), do: Enum.member?(["paused", "cancled"], status)
+  defp active?(%{status: status}), do: Enum.member?(["trial_expired"], status)
   defp active?(_user), do: false
 
   defp maybe_halt(true, conn) do
     conn
-    |> Controller.redirect(to: Routes.inactive_path(conn, :paused))
+    |> Controller.redirect(to: Routes.inactive_path(conn, :trial_expired))
     |> halt()
   end
   defp maybe_halt(_any, conn), do: conn
