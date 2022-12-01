@@ -28,10 +28,10 @@ defmodule Histora.Email do
         |> render("trial_expired.html")
     end
 
-    def new_trial(email, organization) do
+    def new_trial(email, organization, promo) do
         base_email() # Build your default email then customize for welcome
         |> to(email)
-        |> subject("New Trial: #{organization.billing_email}")
+        |> subject("New Trial: #{organization.billing_email} #{promo}")
         |> assign(:organization, organization)
         |> render("admin/new_trial.html")
     end

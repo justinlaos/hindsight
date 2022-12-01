@@ -10,7 +10,7 @@ defmodule Histora.Signup do
           {:ok, organization} -> case create_user(organization, email, password) do
             {:ok, user} -> case create_user_data(user) do
               {:ok, _user} ->
-                Histora.Email.new_trial("team@histora.app", organization)
+                Histora.Email.new_trial("team@histora.app", organization, promo)
                   |> Histora.Mailer.deliver_now()
                 {:ok, %{email: email, password: password}}
             end
