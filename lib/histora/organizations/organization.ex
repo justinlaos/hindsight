@@ -12,6 +12,7 @@ defmodule Histora.Organizations.Organization do
     field :stripe_price_id, :string
     field :stripe_customer_id, :string
     field :stripe_subscription_id, :string
+    field :promo_code, :string
 
     has_many :users, Histora.Users.User
     has_many :decisions, Histora.Decisions.Decision
@@ -22,7 +23,7 @@ defmodule Histora.Organizations.Organization do
   @doc false
   def changeset(organization, attrs) do
     organization
-    |> cast(attrs, [:name, :status, :user_limit, :trial_expire_date, :billing_email, :stripe_product_id, :stripe_price_id, :stripe_customer_id, :stripe_subscription_id])
+    |> cast(attrs, [:name, :status, :user_limit, :trial_expire_date, :billing_email, :stripe_product_id, :stripe_price_id, :stripe_customer_id, :stripe_subscription_id, :promo_code])
     |> validate_required([])
   end
 end

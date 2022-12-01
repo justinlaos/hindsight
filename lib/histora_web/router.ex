@@ -62,6 +62,7 @@ defmodule HistoraWeb.Router do
 
     get "/", MarketingController, :index
     get "/signup", SignupController, :signup
+    get "/signup-email", SignupController, :signupEmail
     post "/create_organization_trial", SignupController, :create_organization_trial
     get "/privacy_policy", PolicyController, :privacy_policy
     get "/terms_and_conditions", PolicyController, :terms_and_conditions

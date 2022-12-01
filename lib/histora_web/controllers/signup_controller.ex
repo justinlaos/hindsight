@@ -7,12 +7,20 @@ defmodule HistoraWeb.SignupController do
     render(conn, "signup.html", plan: plan, changeset: changeset)
   end
 
+  def signupEmail(conn, params) do
+    plan = if Map.has_key?(params, "plan"), do: params["plan"], else: "10"
+    promo = if Map.has_key?(params, "promo"), do: params["promo"], else: nil
+    changeset = Pow.Plug.change_user(conn)
+    render(conn, "signup_email.html", plan: plan, changeset: changeset, promo: promo)
+  end
+
   def create_organization_trial(conn, params) do
     email = if Map.has_key?(params["user"], "email"), do: params["user"]["email"], else: nil
     password = if Map.has_key?(params["user"], "password"), do: params["user"]["password"], else: nil
     plan = if Map.has_key?(params, "plan"), do: params["plan"], else: "10"
+    promo = if Map.has_key?(params, "promo"), do: params["promo"], else: nil
 
-    case Histora.Signup.create_organization_trial(email, password, plan) do
+    case Histora.Signup.create_organization_trial(email, password, plan, promo) do
       {:ok, _user} ->
         conn
         |> Pow.Plug.authenticate_user(params["user"])

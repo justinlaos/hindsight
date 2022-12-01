@@ -1,6 +1,6 @@
 <script>
   function trackTrial() {
-    plausible('Signup');
+    plausible('SignupEmail');
   }
 </script>
 
@@ -10,7 +10,7 @@
       <h2 class="mt-6 text-center text-3xl font-extrabold text-primary">Get Started Now</h2>
       <p class="mt-2 text-center text-gray-600 dark:text-light-grey">Free 30 day trial <span class="text-xs text-blue">( no credit card )</span></p>
     </div>
-    <%= form_for @changeset, Routes.signup_path(@conn, :create_organization_trial, plan: @plan), fn f -> %>
+    <%= form_for @changeset, Routes.signup_path(@conn, :create_organization_trial, plan: @plan, promo: @promo), fn f -> %>
 
       <div class="rounded-md shadow-sm -space-y-px">
         <div>

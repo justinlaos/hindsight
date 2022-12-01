@@ -2,11 +2,11 @@ defmodule Histora.Signup do
   alias Histora.Organizations
   alias Histora.Users
 
-  def create_organization_trial(email, password, plan) do
+  def create_organization_trial(email, password, plan, promo) do
     case Organizations.check_if_billing_email_exists(email) do
       true -> {:error, "email already exists"}
       false ->
-        case create_organization(email, plan) do
+        case create_organization(email, plan, promo) do
           {:ok, organization} -> case create_user(organization, email, password) do
             {:ok, user} -> case create_user_data(user) do
               {:ok, _user} ->
@@ -21,7 +21,7 @@ defmodule Histora.Signup do
     end
   end
 
-  def create_organization(email, _plan) do
+  def create_organization(email, _plan, promo) do
     case Organizations.create_organization(%{
       "stripe_price_id" => "trialing",
       "stripe_product_id" => "trialing",
@@ -29,6 +29,7 @@ defmodule Histora.Signup do
       "stripe_subscription_id" => "trialing",
       "billing_email" => email,
       "user_limit" => 1000,
+      "promo_code" => promo,
       "trial_expire_date" => Date.utc_today,
       "name" => create_new_organization_name(email),
       "status" => "trialing"
