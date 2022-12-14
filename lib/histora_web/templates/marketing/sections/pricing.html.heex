@@ -1,10 +1,13 @@
 <div class="py-14 bg-white dark:bg-darkest-grey flex flex-col items-center text-center">
     <div class="text-4xl text-white mb-2 text-center"></div>
     <div class="text-4xl text-darkest-grey dark:text-white mb-2 text-center">Free <span class="font-extrabold text-primary">30</span> Day Trial</div>
-    <div class="text-grey">No credit card to start trial. Cancel anytime</div>
+    <div class="text-grey">
+        <span class="text-blue">( No credit card )</span>
+        to start trial. Cancel anytime
+    </div>
 
 
-    <div class="text-grey dark:text-grey text-lg font-bold text-center mt-8 mb-2">Example Pricing</div>
+    <div class="text-grey dark:text-grey text-center mt-8 mb-2">Example Pricing</div>
 
     <script> function trackPlanSelect(plan) { plausible('Pricing trial Button', {props: {size: plan}}); }</script>
 
@@ -26,9 +29,8 @@
     </div>
 
     <%= link to: Routes.signup_path(@conn, :signup) do %>
-        <button type="submit" class="mt-8 w-full rounded-md px-5 py-3 bg-dark-primary dark:bg-primary text-base font-bold text-white shadow hover:bg-white hover:text-dark-primary dark:hover:bg-dark-primary dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">
+        <button type="submit" class="mt-8 w-full rounded-md px-5 py-3 bg-primary dark:bg-primary text-base font-bold text-white shadow hover:bg-dark-primary focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">
             Start Free <span class="font-extrabold">30</span> Day Trial
-            <div class="text-xs text-blue dark:text-black">( no credit card )</div>
         </button>
     <% end %>
 
