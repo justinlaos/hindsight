@@ -25,6 +25,7 @@ defmodule Histora.Organizations do
     trialing_organizations = (from o in Organization, where: o.status == "trialing" ) |> Repo.all()
     Enum.map(trialing_organizations, fn organization ->
       if Date.compare(organization.trial_expire_date, Date.utc_today) == :lt do
+        IO.inspect("Organization #{organization.name} trial expired on #{organization.trial_expire_date} and its currently #{Date.utc_today}")
         Histora.Organizations.update_organization(organization, %{"status" => "trial_expired"})
         Histora.Email.trial_expired(organization.billing_email, organization)
           |> Histora.Mailer.deliver_now()
