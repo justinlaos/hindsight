@@ -16,7 +16,7 @@ defmodule HistoraWeb.DecisionController do
     formated_start_date = if Map.has_key?(params, "dates") && params["dates"] != "" do
       Decisions.get_param_start_date(params)
     else
-      date_string = Date.to_string(Date.utc_today |> Date.add(-7))
+      date_string = Date.to_string(Date.utc_today |> Date.add(-30))
       {:ok, formated_start_date} = NaiveDateTime.new Date.from_iso8601!(date_string), ~T[00:00:00]
       formated_start_date
     end
