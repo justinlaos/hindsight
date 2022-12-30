@@ -30,7 +30,7 @@ defmodule Histora.Signup do
       "billing_email" => email,
       "user_limit" => 1000,
       "promo_code" => promo,
-      "trial_expire_date" => Date.utc_today,
+      "trial_expire_date" => Date.add(Date.utc_today, 30),
       "name" => create_new_organization_name(email),
       "status" => "trialing"
     }) do
