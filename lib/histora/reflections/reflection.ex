@@ -10,6 +10,8 @@ defmodule Histora.Reflections.Reflection do
     belongs_to :decision, Histora.Decisions.Decision
     belongs_to :user, Histora.Users.User
 
+    has_many(:decisions, Histora.Decisions.Decision)
+
     timestamps()
   end
 

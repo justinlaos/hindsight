@@ -28,7 +28,7 @@ defmodule Histora.Scopes do
 
   def list_organization_scopes(organization, current_user) do
     if current_user.role == "admin" do
-      (from s in Scope, where: s.organization_id == ^organization.id ) |> Repo.all()
+      (from s in Scope, where: s.organization_id == ^organization.id, preload: [:users, :decisions] ) |> Repo.all()
     else
       user_scope = (from su in Scope_user, where: su.user_id == ^current_user.id, select: su.scope_id) |> Repo.all()
       (from s in Scope,
@@ -36,6 +36,14 @@ defmodule Histora.Scopes do
         where: s.id in ^user_scope or s.private == false)
       |> Repo.all()
     end
+  end
+
+  def selected_filtered_scopes(organization, scope) do
+    (from s in Scope,
+      where: s.organization_id == ^organization.id,
+      where: s.id == ^(String.to_integer(scope))
+    )
+    |> Repo.one()
   end
 
   def list_user_scopes(current_user) do
@@ -46,11 +54,9 @@ defmodule Histora.Scopes do
     Ecto.assoc(Repo.get(Decision, decision_id), :scope_decisions) |> Repo.delete_all
   end
 
-  def assign_scopes_to_decision(scopes, decision_id) do
-    for scope <- scopes do
-      case Repo.get(Scope, scope) do
-        scope -> create_scope_decision(%{"scope_id" => scope.id, "decision_id" => decision_id})
-      end
+  def assign_scopes_to_decision(scope, decision_id) do
+    case Repo.get(Scope, scope) do
+      scope -> create_scope_decision(%{"scope_id" => scope.id, "decision_id" => decision_id})
     end
   end
 

@@ -21,11 +21,10 @@ defmodule Histora.Decisions do
 
   def filter_tags(decisions, params) do
     if Map.has_key?(params, "tag_list") do
-      filtered_tags = params["tag_list"] |> Enum.map(&String.to_integer/1)
       (from r in subquery(decisions),
       join: t in Tag_decision, on: r.id == t.decision_id,
       join: tt in Tag, on: tt.id == t.tag_id,
-      where: tt.id in ^filtered_tags )
+      where: tt.id == ^String.to_integer(params["tag_list"]) )
     else
       decisions
     end
@@ -33,9 +32,20 @@ defmodule Histora.Decisions do
 
   def filter_users(decisions, params) do
     if Map.has_key?(params, "filter_users") do
-      filtered_users = params["filter_users"] |> Enum.map(&String.to_integer/1)
       (from r in subquery(decisions),
-      where: r.user_id in ^filtered_users )
+      where: r.user_id == ^String.to_integer(params["filter_users"]) )
+    else
+      decisions
+    end
+  end
+
+  def filter_teams(decisions, params) do
+    if Map.has_key?(params, "teams") do
+      filtered_team = String.to_integer(params["teams"])
+      (from r in subquery(decisions),
+      join: t in Scope_decision, on: r.id == t.decision_id,
+      join: tt in Scope, on: tt.id == t.scope_id,
+      where: tt.id == ^filtered_team )
     else
       decisions
     end
@@ -55,9 +65,6 @@ defmodule Histora.Decisions do
       x.user_id == current_user.id or
       filter_scope(x, scope_list) == true
     end)
-    |> Enum.group_by(& &1.date)
-    |> Enum.map(fn {date, decisions_collection} -> %{date: date, decisions: decisions_collection} end)
-    |> Enum.sort_by(&(&1.date), {:desc, Date})
   end
 
   defp filter_scope(decision, scope_list) do
@@ -107,7 +114,7 @@ defmodule Histora.Decisions do
 
   """
   def get_decision!(id) do
-    Repo.get!(Decision, id) |> Repo.preload([:user, :tags, :users, :scopes, reflections: [:user], logs: [:user]])
+    Repo.get!(Decision, id) |> Repo.preload([:user, :tags, :users, :scopes, reflections: [:user, :decisions], logs: [:user]])
   end
 
   @doc """
@@ -301,5 +308,52 @@ defmodule Histora.Decisions do
 
   def connected_users(decision_id) do
     (from ru in Decision_user, where: ru.decision_id == ^decision_id) |> Repo.all
+  end
+
+  def get_timeline_for_decision(decision_id) do
+    decision = Repo.get!(Decision, decision_id) |> Repo.preload([:user, :tags, :users, :scopes, :reflections])
+    pre_timeline = get_pre_timeline(decision, [])
+    post_timeline = Enum.reverse(get_post_timeline(decision, []))
+    pre_timeline ++ [decision | post_timeline]
+  end
+
+  defp get_pre_timeline(decision = %Histora.Decisions.Decision{}, list) when decision.reflection_id == nil, do: list
+  defp get_pre_timeline(decision = %Histora.Decisions.Decision{}, list) when decision.reflection_id != nil do
+    try do
+      reflection = Histora.Reflections.get_reflection!(decision.reflection_id) |> Repo.preload([:user])
+      get_pre_timeline(reflection, [reflection | list])
+    rescue
+      Ecto.NoResultsError -> list
+    end
+  end
+
+  defp get_pre_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decision_id == nil, do: list
+  defp get_pre_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decision_id != nil do
+    try do
+      decision = Repo.get!(Decision, reflection.decision_id) |> Repo.preload([:user, :tags, :users, :scopes])
+      get_pre_timeline(decision, [decision | list])
+    rescue
+      Ecto.NoResultsError -> list
+    end
+  end
+
+  defp get_post_timeline(decision = %Histora.Decisions.Decision{}, list) when decision.reflections == [], do: list
+  defp get_post_timeline(decision = %Histora.Decisions.Decision{}, list) when decision.reflections != [] do
+    try do
+      reflection = Histora.Reflections.get_reflection!(List.first(decision.reflections).id) |> Repo.preload([:decisions, :user])
+      get_post_timeline(reflection, [reflection | list])
+    rescue
+      Ecto.NoResultsError -> list
+    end
+  end
+
+  defp get_post_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decisions == [], do: list
+  defp get_post_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decisions != [] do
+    try do
+      decision = Repo.get!(Decision, List.first(reflection.decisions).id) |> Repo.preload([:user, :tags, :users, :scopes, :reflections])
+      get_post_timeline(decision, [decision | list])
+    rescue
+      Ecto.NoResultsError -> list
+    end
   end
 end

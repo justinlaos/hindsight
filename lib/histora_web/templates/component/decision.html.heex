@@ -1,57 +1,54 @@
-<div class="ml-8 px-2 pl-2 pt-4 pb-2 my-8 dark:bg-darkest-grey bg-really-light-grey rounded-md">
-    <%= if Enum.count(@decision.scopes) >= 1 and String.contains?(@conn.request_path, "scope") == false do %> 
-      <div class="flex flex-row dark:text-black ml-2 mb-4">
-        <%= for scope <- @decision.scopes do %>
-          <%= link to: Routes.scope_path(@conn, :show, scope) do %> 
-            <div class="mr-2 font-bold inline-flex items-center text-xs px-2.5 py-1.5 rounded-md text-primary dark:hover:bg-darkest-grey hover:bg-grey-ish dark:hover:text-primar">
-              <%= scope.name %> 
-            </div>
-          <% end %>
-        <% end %>
-      </div>
-    <% end %>
+<div class="py-2 px-4 my-2">
 
-    <%= link to: Routes.decision_path(@conn, :show, @decision) do %>
-        <div class="ml-4">
-            <div class="text-base dark:text-light-grey"><%= @decision.what %></div>
-            <div class="text-base mt-2 text-dark-grey dark:text-grey"><%= @decision.why %></div>
+    <div class="flex flex-row text-xs mb-2">
+        <div class="inline-flex flex-row items-center dark:text-grey py-1.5 mr-4">
+            <%= Histora.Users.formate_time_stamp(@decision.inserted_at) %>
         </div>
-    <% end %>
 
-    <div class="flex flex-row text-xs mt-6">
         <%= if Ecto.assoc_loaded?(@decision.user) do %>
-            <%= link to: Routes.decision_path(@conn, :index, users: [@decision.user.id]) do %> 
-                <div class="inline-flex flex-row items-center mx-0.5 px-2.5 dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md py-1.5 hover:bg-grey-ish"> 
+            <%= link to: Routes.decision_path(@conn, :index, users: @decision.user.id) do %>
+                <div class="inline-flex flex-row items-center dark:text-dark-grey dark:hover:text-blue rounded-md py-1.5 hover:text-blue">
                     <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
                     <%= @decision.user.email %>
                 </div>
             <% end %>
-        <% else %>
-            <div class="items-center mx-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-black dark:text-grey"> 
-                <%= Histora.Users.formate_time_stamp(@decision.inserted_at) %> 
+        <% end %>
+    </div>
+
+    <%= link to: Routes.decision_path(@conn, :show, @decision) do %>
+        <div class="">
+            <div class="text-base dark:text-light-grey"><%= @decision.what %></div>
+            <div class="text-xs mt-2 text-dark-grey dark:text-grey"><%= @decision.why %></div>
+        </div>
+    <% end %>
+
+    <div class="flex flex-row text-xs mt-2 center-items">
+
+        <%= if Enum.count(@decision.scopes) >= 1 and String.contains?(@conn.request_path, "scope") == false do %>
+            <div class="flex flex-row dark:text-black">
+                <%= for scope <- @decision.scopes do %>
+                    <%= link to: Routes.decision_path(@conn, :index, teams: scope.id) do %>
+                        <div class="mr-2 font-bold inline-flex items-center text-xs py-1.5 rounded-md text-primary hover:text-blue">
+                            <%= scope.name %>
+                        </div>
+                    <% end %>
+                <% end %>
             </div>
         <% end %>
 
-        <%= if Enum.count(@decision.users) > 1 do %> 
-            <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
-            <div class="text-xs mx-1 px-2.5 py-1.5 dark:text-grey">
-                <%= Enum.count(@decision.users) %> connected users
-            </div>  
-        <% end %>    
 
         <%= if @decision.reference != nil do %>
-            <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
-            <a class="inline-flex items-center text-xs py-1.5 text-blue dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md px-3 hover:bg-grey-ish" href={"#{ @decision.reference }"} target="_blank">Reference</a>
+            <a class="inline-flex items-center text-xs text-blue dark:text-dark-grey dark:hover:text-light-grey rounded-md px-3 hover:text-blue" href={"#{ @decision.reference }"} target="_blank">Reference</a>
         <% end %>
-       
-        <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
 
-        <%= for tag <- @decision.tags do %>
-            <%= link to: Routes.decision_path(@conn, :index, tag_list: [tag.id]) do %> 
-                <div class="inline-flex items-center mx-0.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-darkest-grey dark:text-grey hover:text-primary dark:hover:bg-darkest-grey hover:bg-grey-ish dark:hover:text-primary"> 
-                    <%= tag.name %>
-                </div>
+        <%= if @decision.tags != nil do %>
+            <%= for tag <- @decision.tags do %>
+                <%= link to: Routes.decision_path(@conn, :index, tag_list: tag.id) do %>
+                    <div class="inline-flex items-center mx-0.5 px-2.5 py-1.5 rounded-md text-xs font-medium text-darkest-grey dark:text-grey hover:text-blue dark:hover:text-blue">
+                        <%= tag.name %>
+                    </div>
+                <% end %>
             <% end %>
         <% end %>
-    </div>     
+    </div>
 </div>

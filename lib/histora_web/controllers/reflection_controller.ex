@@ -81,15 +81,16 @@ defmodule HistoraWeb.ReflectionController do
     render(conn, "edit.html", reflection: reflection, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "reflection" => reflection_params}) do
+  def update(conn, %{"id" => id, "reflection" => reflection_params, "status" => status}) do
+    IO.inspect(reflection_params)
     reflection = Reflections.get_reflection!(id)
 
-    case Reflections.update_reflection(reflection, reflection_params) do
+    case Reflections.update_reflection(reflection, Map.merge(reflection_params, %{"status" => status})) do
       {:ok, reflection} ->
 
         Histora.Logs.create_log(%{
           "organization_id" => conn.assigns.organization.id,
-          "decision_id" => reflection.draft_id,
+          "decision_id" => reflection.decision_id,
           "user_id" => conn.assigns.current_user.id,
           "event" => "updated a reflection" })
 

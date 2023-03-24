@@ -15,6 +15,7 @@ defmodule Histora.Decisions.Decision do
     belongs_to :organization, Histora.Organizations.Organization
     belongs_to :draft, Histora.Drafts.Draft
     belongs_to :user, Histora.Users.User
+    belongs_to :reflection, Histora.Reflections.Reflection
 
     has_many(:tag_decisions, Histora.Tags.Tag_decision)
     has_many(:tags, through: [:tag_decisions, :tag])
@@ -34,7 +35,7 @@ defmodule Histora.Decisions.Decision do
   @doc false
   def changeset(decision, attrs) do
     decision
-    |> cast(attrs, [:user_id, :organization_id, :what, :why, :source, :reference, :private, :draft_id, :date, :reflection_date, :reflection_type])
+    |> cast(attrs, [:user_id, :organization_id, :what, :why, :source, :reference, :private, :draft_id, :date, :reflection_date, :reflection_type, :reflection_id])
     |> validate_required([])
   end
 end

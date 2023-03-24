@@ -25,7 +25,9 @@ defmodule HistoraWeb.ScopeController do
     scope = params["scope"]
     private = params["private"]
 
-    scopeusers = if Map.has_key?(params, "scopeusers"), do: params["scopeusers"], else: ""
+    scopeusers = if Map.has_key?(params, "users_list"), do: params["users_list"], else: ""
+
+    IO.inspect(scopeusers)
 
     case Scopes.create_scope(%{"private" => private, "name" => scope["name"], "organization_id" => conn.assigns.organization.id}) do
       {:ok, scope} ->
@@ -37,8 +39,8 @@ defmodule HistoraWeb.ScopeController do
         Histora.Data.event(conn.assigns.current_user, "Created Scope")
 
         conn
-        |> put_flash(:info, "Scope created successfully.")
-        |> redirect(to: Routes.scope_path(conn, :show, scope))
+        |> put_flash(:info, "Team created successfully.")
+        |> redirect(to: Routes.scope_path(conn, :index))
 
       {:error, message} ->
         conn
@@ -49,13 +51,12 @@ defmodule HistoraWeb.ScopeController do
 
   def show(conn, %{"id" => id}) do
     scope = Scopes.get_scope!(id)
-    decisions = Scopes.get_decisions_for_scope(id)
     current_scope_users = Scopes.get_scope_users(id)
     users = Users.get_organization_users(conn.assigns.organization)
     Histora.Data.page(conn.assigns.current_user, "Scope Show")
 
     changeset = Scopes.change_scope(scope)
-    render(conn, "show.html", scope: scope, decisions: decisions, changeset: changeset, users: users, current_scope_users: current_scope_users)
+    render(conn, "show.html", scope: scope, changeset: changeset, users: users, current_scope_users: current_scope_users)
   end
 
   def edit(conn, %{"id" => id}) do
@@ -79,10 +80,12 @@ defmodule HistoraWeb.ScopeController do
 
         conn
         |> put_flash(:info, "Scope updated successfully.")
-        |> redirect(to: Routes.scope_path(conn, :show, scope))
+        |> redirect(to: Routes.scope_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", scope: scope, changeset: changeset)
+        conn
+        |> put_flash(:info, "Error updating team")
+        |> redirect(to: Routes.scope_path(conn, :index))
     end
   end
 
@@ -98,7 +101,7 @@ defmodule HistoraWeb.ScopeController do
 
         conn
         |> put_flash(:info, "Scope updated successfully.")
-        |> redirect(to: Routes.scope_path(conn, :show, scope))
+        |> redirect(to: Routes.scope_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", scope: scope, changeset: changeset)

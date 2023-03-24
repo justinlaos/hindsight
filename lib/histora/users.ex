@@ -65,11 +65,9 @@ defmodule Histora.Users do
   end
 
   def selected_filtered_users(organization, users) do
-    cleaned_user_list = users |> Enum.map(&String.to_integer/1)
-
     (from u in User,
       where: u.organization_id == ^organization.id,
-      where: u.id in ^cleaned_user_list
+      where: u.id == ^String.to_integer(users)
     )
     |> Repo.all()
   end

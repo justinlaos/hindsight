@@ -14,7 +14,7 @@ defmodule Histora.Tags do
   def list_organization_tags(organization) do
     (from t in Tag,
       where: t.organization_id == ^organization.id,
-      preload: [:tag_favorites],
+      preload: [:tag_favorites, :decisions],
       left_join: fav in assoc(t, :tag_favorites),
       order_by: [desc: count(fav.id), desc: (t.id)],
       group_by: t.id,
@@ -37,11 +37,9 @@ defmodule Histora.Tags do
 
 
   def selected_filtered_tags(organization, tag_list) do
-    cleaned_tag_list = tag_list |> Enum.map(&String.to_integer/1)
-
     (from t in Tag,
       where: t.organization_id == ^organization.id,
-      where: t.id in ^cleaned_tag_list
+      where: t.id == ^String.to_integer(tag_list)
     )
     |> Repo.all()
   end

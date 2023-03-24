@@ -1,0 +1,23 @@
+<div class="cursor-pointer border-b-[.5px] border-light-grey dark:border-dark-grey py-4 px-4">
+    <%= if @scope.private do %>
+      <div class="text-xs mb-1 text-orange">Private</div>
+    <% end %>
+
+    <div class="text-base dark:text-light-grey"><%= String.capitalize(@scope.name) %></div>
+
+    <div class="flex flex-row text-xs text-dark-grey mt-1 center-items">
+      <%= if Enum.count(@scope.decisions) > 1 || Enum.count(@scope.decisions) == 0 do %>
+        <div><%= Enum.count(@scope.decisions) %> decisions connected</div>
+      <% else %>
+        <div><%= Enum.count(@scope.decisions) %> decision connected</div>
+      <% end %>
+    </div>
+
+    <div class="flex flex-row text-xs text-grey mt-1 center-items">
+      <%= if Enum.count(@scope.users) > 1 || Enum.count(@scope.users) == 0 do %>
+        <div><%= Enum.count(@scope.users) %> team members</div>
+      <% else %>
+        <div><%= Enum.count(@scope.users) %> team member</div>
+      <% end %>
+    </div>
+</div>

@@ -1,41 +1,11 @@
-<div class="flex text-2xl mb-8 font-bold dark:text-white">
-  <div x-data x-tooltip="Scopes are a way to collect decisions into a relevent catagory. Private scopes you arent connected to wont show">Scopes</div>
+<div class="sticky pt-4 bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
+  <div class="flex flex-row justify-between text-1xl ml-4 pb-4 font-bold dark:text-white">
+    Teams
+      <%= render HistoraWeb.ScopeView, "new_scope_slide_modal.html", Map.put(assigns, :action, Routes.scope_path(@conn, :create)) %>
+  </div>
+
 </div>
 
-<div class="flex items-center text-primary text-2xl mx-4 mb-2"> 
-  <div x-data x-tooltip="Drafts that you were connected to directly">Connected</div>
-</div>
-
-<div class="flex flex-row flex-wrap">
-  <%= for scope <- @users_scopes do %>
-      <%= link to: Routes.scope_path(@conn, :show, scope) do %>
-        <div class="flex flex-col h-28 w-60 m-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
-          <div class="dark:text-white"><%= String.capitalize(scope.name) %></div>
-          <div class="text-xs text-grey mb-1"> <%= if scope.private, do: "Private", else: "" %></div>
-        </div>
-      <% end %>
-  <% end %>
-</div>
-
-<div class="flex items-center text-primary text-2xl mx-4 mb-2"> 
-  <div x-data x-tooltip="Drafts that you arent connected to and are not private">All</div>
-</div>
-
-<div class="flex flex-row flex-wrap">
-  <%= for scope <- @scopes do %>
-      <%= link to: Routes.scope_path(@conn, :show, scope) do %>
-        <div class="flex flex-col h-28 w-60 m-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
-          <div class="dark:text-white"><%= String.capitalize(scope.name) %></div>
-          <div class="text-xs text-grey mb-1"> <%= if scope.private, do: "Private", else: "" %></div>
-        </div>
-      <% end %>
-  <% end %>
-</div>
-
-<div>
-  <%= if not Enum.any?(@scopes) do %>
-    <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
-      <div>No active scopes. Create a scope for a department, team, or project</div>
-    </div>
-  <% end %>
-</div>
+<%= for scope <- @scopes do %>
+  <%= render "edit_scope_slide_modal.html", Map.merge(Map.put(assigns, :action, Routes.scope_path(@conn, :update, scope.id)), Map.put(assigns, :scope, scope)) %>
+<% end %>
