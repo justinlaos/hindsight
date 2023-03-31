@@ -12,6 +12,7 @@ defmodule Histora.Decisions do
   alias Histora.Scopes.Scope_user
   alias Histora.Scopes.Scope_decision
   alias Histora.Decisions.Decision
+  alias Histora.Decisions.Approval
   alias Histora.Tags.Tag
 
   def list_organization_decisions(organization) do
@@ -30,10 +31,14 @@ defmodule Histora.Decisions do
     end
   end
 
+  def organization_decision_count(organization) do
+    Repo.aggregate(from(r in Decision, where: r.organization_id == ^organization.id), :count, :id)
+  end
+
   def filter_users(decisions, params) do
-    if Map.has_key?(params, "filter_users") do
+    if Map.has_key?(params, "users") do
       (from r in subquery(decisions),
-      where: r.user_id == ^String.to_integer(params["filter_users"]) )
+      where: r.user_id == ^String.to_integer(params["users"]) )
     else
       decisions
     end
@@ -98,6 +103,36 @@ defmodule Histora.Decisions do
     end)
   end
 
+  def create_decision_approval(organization_id, user_id, decision_id) do
+    existing_approval = Repo.get_by(Approval, decision_id: decision_id)
+
+    if existing_approval == nil do
+      %Approval{}
+        |> Approval.changeset(%{"user_id" => user_id, "decision_id" => decision_id, "organization_id" => organization_id })
+        |> Repo.insert()
+    else
+      update_approval(existing_approval, %{"user_id" => user_id})
+    end
+
+  end
+
+  def update_decision_approval(decision_id, approved, note) do
+    Repo.get_by(Approval, decision_id: decision_id)
+      |> Approval.changeset(%{"approved" => approved, "note" => note})
+      |> Repo.update()
+
+  end
+
+  def reset_decision_approval(organization_id, user_id, decision_id) do
+    (from a in Approval, where: a.decision_id == ^decision_id )|> Repo.delete_all
+    Histora.Decisions.create_decision_approval(organization_id, user_id, decision_id)
+  end
+
+  def users_active_approvals(organization, current_user) do
+    (from r in Approval, where: is_nil(r.approved) and r.organization_id == ^organization.id and r.user_id == ^current_user.id, preload: [decision: [:user, :tags, :users, :scopes]] )
+    |> Repo.all()
+  end
+
 
   @doc """
   Gets a single decision.
@@ -114,7 +149,7 @@ defmodule Histora.Decisions do
 
   """
   def get_decision!(id) do
-    Repo.get!(Decision, id) |> Repo.preload([:user, :tags, :users, :scopes, reflections: [:user, :decisions], logs: [:user]])
+    Repo.get!(Decision, id) |> Repo.preload([:user, :tags, :users, :scopes, reflections: [:user, :decisions], logs: [:user], approval: [:user]])
   end
 
   @doc """
@@ -355,5 +390,15 @@ defmodule Histora.Decisions do
     rescue
       Ecto.NoResultsError -> list
     end
+  end
+
+  def update_approval(%Approval{} = approval, attrs) do
+    approval
+    |> Approval.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def change_approval(%Approval{} = approval, attrs \\ %{}) do
+    Approval.changeset(approval, attrs)
   end
 end

@@ -1,5 +1,5 @@
 <div class="bg-white dark:bg-slate pt-4">
-    <div class="flex flex-row justify-between text-1xl ml-4 font-bold dark:text-white">
+    <div class="flex flex-row justify-between text-1xl ml-6 font-bold dark:text-white">
         Decision
         <%= if @decision.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
             <%= render "edit_decision_slide_modal.html", Map.put(assigns, :action, Routes.decision_path(@conn, :update, @decision.id)) %>
@@ -9,6 +9,38 @@
 
     <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: @decision %>
 
+    <%= if @decision.approval != nil && @decision.approval.approved == nil  do %>
+        <%= if @decision.approval.user.id == @conn.assigns.current_user.id do %>
+            <div class="flex items-center py-4 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
+                <%= render "approval_slide_modal.html", decision: @decision, conn: @conn %>
+            </div>
+        <% else %>
+            <div class="py-4 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
+                <div class="flex items-center text-xs ml-6">
+                    <span class=""><%= @decision.approval.user.email %></span>'s approval was requested
+                </div>
+            </div>
+        <% end %>
+    <% end %>
+
+    <%= if @decision.approval != nil && @decision.approval.approved != nil  do %>
+        <div class="flex justify-between items-center py-4 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
+            <div class="text-xs ml-6">
+                <span class="mr-1"><%= @decision.approval.user.email %></span> <%= if @decision.approval.approved, do: raw("<span class='text-primary mr-1'>approved</span>"), else: raw("<span class='text-red mr-1'>denied</span>") %>
+                <div class="mt-2 text-grey">
+                    <%= @decision.approval.note %>
+                </div>
+            </div>
+
+            <%= if @decision.user_id == @conn.assigns.current_user.id do %>
+                <%= link to: Routes.decision_path(@conn, :reset_decision_approval, id: @decision.id, user_id: @decision.approval.user_id) do %>
+                    <button class="mr-4 text-xs text-blue">re-request</button>
+                <% end %>
+            <% end %>
+        </div>
+    <% end %>
+
+
     <div class="flex justify-between items-center py-4 text-sm border-y-[.5px] border-light-grey dark:border-dark-grey font-medium">
         <div class="flex items-center">
             <%= render "timeline_slide_modal.html", timeline: @timeline, decision: @decision, conn: @conn %>
@@ -17,15 +49,15 @@
             <%= for instance <- @timeline do %>
                 <%= if instance.__struct__ == Histora.Decisions.Decision do %>
                     <%= if instance.id == @decision.id do %>
-                        <div x-data x-tooltip="This Decision" class="w-3 h-3 mx-4 bg-black dark:bg-white rounded-full"></div>
+                        <div x-data x-tooltip="This Decision" class="w-3 h-3 mx-6 bg-black dark:bg-white rounded-full"></div>
                     <% else %>
-                        <div x-data x-tooltip={"decision on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-4 bg-grey rounded-full"></div>
+                        <div x-data x-tooltip={"decision on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-grey rounded-full"></div>
                     <% end %>
                 <% else %>
                     <%= if instance.status == "continuation" do %>
-                        <div x-data x-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-4 bg-primary rounded-full"></div>
+                        <div x-data x-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-primary rounded-full"></div>
                     <% else %>
-                        <div x-data x-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-4 bg-red rounded-full"></div>
+                        <div x-data x-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-red rounded-full"></div>
                     <% end %>
                 <% end %>
             <% end %>
@@ -36,15 +68,15 @@
     </div>
 
 
-    <div class="flex flex-row justify-between ml-4 mb-4 pt-4 text-xs text-grey">
+    <div class="flex flex-row justify-between ml-6 mb-4 pt-4 text-xs text-grey">
         <%= if Enum.count(@decision.reflections) >= 1 do %>
             Reflection
         <% else %>
             <%= if @decision.user_id == @conn.assigns.current_user.id && Enum.count(@decision.reflections) <= 0 do %>
                 <%= if is_nil(@decision.reflection_date) do %>
-                    <div class="text-orange">No Reflection</div>
+                    <div class="">No reflection scheduled</div>
                 <% else %>
-                    <div class="text-orange">Reflection Scheduled on <%= Histora.Users.formate_time_stamp(@decision.reflection_date) %></div>
+                    <div class="">Reflection scheduled on <%= Histora.Users.formate_time_stamp(@decision.reflection_date) %></div>
                 <% end %>
                 <%= render "new_reflection_slide_modal.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :create, decision: @decision.id)) %>
             <% end %>
@@ -55,12 +87,12 @@
         <%= if Enum.count(@decision.reflections) >= 1 do %>
             <%= for reflection <- @decision.reflections do %>
                 <%= render HistoraWeb.ComponentView, "reflection.html", conn: @conn, reflection: reflection %>
-                <div class="flex center-items ml-4 mt-4">
+                <div class="flex center-items ml-6 mt-4">
                     <%= if reflection.decisions == [] do %>
                         <%= render HistoraWeb.DecisionView, "new_decision_from_reflection_slide_modal.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
                     <% end %>
                     <%= if reflection.decisions == [] && ( reflection.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" ) do %>
-                        <div class="mx-4 text-grey">|</div>
+                        <div class="mx-6 text-grey">|</div>
                     <% end %>
                     <%= if reflection.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
                         <%= render HistoraWeb.DecisionView, "edit_reflection_slide_modal.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :update, reflection.id)) %>

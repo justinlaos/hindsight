@@ -49,6 +49,29 @@
                                 <input name="reflection_date" id="reflection_date" class="block w-full mb-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate" x-ref="picker" type="text">
                             </div>
 
+
+                            <%= if @decision.approval != nil && @decision.approval.approved != nil  do %>
+                                <div class="text-xs text-grey my-2 pb-2">Requested Approval </div>
+                                <div class="my-2 text-sm dark:border-dark-grey font-medium">
+                                    <div class="text-xs">
+                                        <span class="mr-1"><%= @decision.approval.user.email %></span> <%= if @decision.approval.approved, do: raw("<span class='text-primary mr-1'>approved</span>"), else: raw("<span class='text-red mr-1'>denied</span>") %>
+                                        <div class="mt-2 text-grey">
+                                            <%= @decision.approval.note %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% else %>
+                                <div class="text-xs text-grey my-2">Request Approval </div>
+                                <select id="approval_user" name="approval_user" class="block w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
+                                    <option disabled selected>Team Members</option>
+                                    <%= for user <- @users do %>
+                                        <option value={"#{user.id}"}><%= user.email %></option>
+                                    <% end %>
+                                </select>
+                            <% end %>
+
+
+
                             <%= hidden_input f, :redirect_to, value: @conn.request_path %>
                         </div>
                     </div>

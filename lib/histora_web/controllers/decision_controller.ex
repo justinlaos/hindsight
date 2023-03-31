@@ -75,9 +75,9 @@ defmodule HistoraWeb.DecisionController do
   def create(conn, params) do
     %{"tag_list" => tag_list} = params["decision"]
     scopes = params["new_scopes"]
-    users = params["new_users"]
     date = if Map.has_key?(params, "date"), do: params["date"], else: Date.to_string(Date.utc_today)
     reflection_date = if Map.has_key?(params, "reflection_date"), do: params["reflection_date"], else: nil
+    approval_user = if Map.has_key?(params, "approval_user"), do: params["approval_user"], else: nil
     %{"redirect_to" => redirect_to} = params["decision"]
 
     case Decisions.create_decision(Map.merge(params["decision"], %{"user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id, "date" => date, "reflection_date" => reflection_date})) do
@@ -91,15 +91,15 @@ defmodule HistoraWeb.DecisionController do
           Scopes.assign_scopes_to_decision(scopes, decision.id)
         end
 
-        if Map.has_key?(params, "new_users") && users != "" do
-          Decisions.create_decision_users(users, decision.id)
+        if approval_user != nil do
+          Decisions.create_decision_approval(decision.organization_id, approval_user, decision.id)
         end
 
         Histora.Logs.create_log(%{
           "organization_id" => conn.assigns.organization.id,
           "decision_id" => decision.id,
           "user_id" => conn.assigns.current_user.id,
-          "event" => "created decision" })
+          "event" => "created a decision" })
 
         Histora.Data.decision_event(conn.assigns.current_user, decision)
 
@@ -151,6 +151,8 @@ defmodule HistoraWeb.DecisionController do
     users = if Map.has_key?(params, "users"), do:  params["users"], else: nil
     date = if Map.has_key?(params, "date"), do: params["date"], else: Date.to_string(Date.utc_today)
     reflection_date = if Map.has_key?(params, "reflection_date"), do: params["reflection_date"], else: nil
+    approval_user = if Map.has_key?(params, "approval_user"), do: params["approval_user"], else: nil
+
     decision = Decisions.get_decision!(id)
 
     case Decisions.update_decision(decision, Map.merge(decision_params, %{"date" => date, "reflection_date" => reflection_date})) do
@@ -162,6 +164,10 @@ defmodule HistoraWeb.DecisionController do
 
         if decision_params["tag_list"] != "" do
           Tags.assign_tags_to_decision(decision_params["tag_list"], decision.id, decision.organization_id, decision.user_id)
+        end
+
+        if approval_user != nil do
+          Decisions.create_decision_approval(decision.organization_id, approval_user, decision.id)
         end
 
         if scope != nil do
@@ -176,7 +182,7 @@ defmodule HistoraWeb.DecisionController do
           "organization_id" => conn.assigns.organization.id,
           "decision_id" => decision.id,
           "user_id" => conn.assigns.current_user.id,
-          "event" => "updated decision" })
+          "event" => "updated a decision" })
 
         Histora.Data.event(conn.assigns.current_user, "Updated Decision")
 
@@ -187,6 +193,20 @@ defmodule HistoraWeb.DecisionController do
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", decision: decision, changeset: changeset)
     end
+  end
+
+  def update_decision_approval(conn, params) do
+    Decisions.update_decision_approval(params["decision_id"], params["approved"], params["note"])
+    conn
+    |> put_flash(:info, "Decision was approved")
+    |> redirect(to: Routes.decision_path(conn, :show, params["decision_id"]))
+  end
+
+  def reset_decision_approval(conn, params) do
+    Decisions.reset_decision_approval(conn.assigns.organization.id, params["user_id"], params["id"])
+    conn
+    |> put_flash(:info, "Approval was approved")
+    |> redirect(to: Routes.decision_path(conn, :show, params["id"]))
   end
 
   def delete(conn, %{"id" => id}) do

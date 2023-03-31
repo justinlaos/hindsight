@@ -1,13 +1,13 @@
 <div class="text-2xl mb-8 font-bold dark:text-white">Drafts</div>
 
-<div class="flex items-center text-primary text-2xl mx-4 mb-2"> 
+<div class="flex items-center text-primary text-2xl mx-6 mb-2">
   <div x-data x-tooltip="These are drafts you authored">Yours</div>
 </div>
 
 <div class="flex flex-row mb-4">
   <%= for draft <- @your_drafts do %>
       <%= link to: Routes.draft_path(@conn, :show, draft) do %>
-        <div class="flex flex-col justify-between w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
+        <div class="flex flex-col justify-between w-60 mx-6 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
           <div class="dark:text-white flex-wrap"><%= String.capitalize(draft.title) %></div>
           <%= if draft.target_date != nil do %>
             <div class="text-orange text-xs font-bold"><%= Histora.Users.formate_time_stamp(draft.target_date) %></div>
@@ -20,7 +20,7 @@
   <% end %>
 </div>
 
-<div class="flex items-center text-primary text-2xl mx-4 mb-2"> 
+<div class="flex items-center text-primary text-2xl mx-6 mb-2">
   <div x-data x-tooltip="Drafts that have a scope connected to it that you are also connected to">
     From Scope
   </div>
@@ -29,7 +29,7 @@
 <div class="flex flex-row mb-4">
   <%= for draft <- @scope_drafts do %>
       <%= link to: Routes.draft_path(@conn, :show, draft) do %>
-        <div class="flex flex-col justify-between w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
+        <div class="flex flex-col justify-between w-60 mx-6 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
           <div class="dark:text-white flex-wrap"><%= String.capitalize(draft.title) %></div>
           <%= if draft.target_date != nil do %>
             <div class="text-orange text-xs font-bold"><%= Histora.Users.formate_time_stamp(draft.target_date) %></div>
@@ -42,14 +42,14 @@
   <% end %>
 </div>
 
-<div class="flex items-center text-primary text-2xl mx-4 mb-2"> 
+<div class="flex items-center text-primary text-2xl mx-6 mb-2">
   <div x-data x-tooltip="Drafts that you were connected to directly">Connected</div>
 </div>
 
 <div class="flex flex-row mb-4">
   <%= for draft <- @connected_drafts do %>
       <%= link to: Routes.draft_path(@conn, :show, draft) do %>
-        <div class="flex flex-col justify-between w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
+        <div class="flex flex-col justify-between w-60 mx-6 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
           <div class="dark:text-white flex-wrap"><%= String.capitalize(draft.title) %></div>
           <%= if draft.target_date != nil do %>
             <div class="text-orange text-xs font-bold"><%= Histora.Users.formate_time_stamp(draft.target_date) %></div>
@@ -63,13 +63,13 @@
 </div>
 
 <%= if @current_user.role == "admin" do %>
-  <div class="flex items-center text-primary text-2xl mx-4 mb-2"> 
+  <div class="flex items-center text-primary text-2xl mx-6 mb-2">
     <div x-data x-tooltip="All drafts in your organization">All</div>
   </div>
   <div class="flex flex-row mb-4">
     <%= for draft <- @admin_all_drafts do %>
         <%= link to: Routes.draft_path(@conn, :show, draft) do %>
-          <div class="flex flex-col justify-between w-60 mx-4 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
+          <div class="flex flex-col justify-between w-60 mx-6 bg-light-grey dark:bg-darkest-grey rounded-md p-4 font-bold">
             <div class="dark:text-white flex-wrap"><%= String.capitalize(draft.title) %></div>
             <%= if draft.target_date != nil do %>
               <div class="text-orange text-xs font-bold"><%= Histora.Users.formate_time_stamp(draft.target_date) %></div>

@@ -8,20 +8,20 @@
 
 <div class="ml-8 px-2 pl-2 pt-4 pb-2 mb-8 mt-2 dark:bg-darkest-grey bg-really-light-grey rounded-md">
 
-    <div class="text-grey text-xs mb-4 ml-4">  
+    <div class="text-grey text-xs mb-4 ml-6">
         <%= Enum.count(@option.draft_votes) %> votes
     </div>
 
-    <div class="text-base dark:text-light-grey ml-4 "><%= @option.content %></div>
+    <div class="text-base dark:text-light-grey ml-6 "><%= @option.content %></div>
 
     <div class="flex flex-row text-xs mt-2">
-        <div class="inline-flex flex-row items-center mx-0.5 px-2.5 dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md py-1.5"> 
+        <div class="inline-flex flex-row items-center mx-0.5 px-2.5 dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md py-1.5">
             <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
             <%= @option.user.email %>
 
             <%= if @option.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
-                <%= render HistoraWeb.DraftView, "edit_draft_option_slide_modal.html", Map.put(assigns, :action, Routes.draft_option_path(@conn, :update, @option.id)) %>    
+                <%= render HistoraWeb.DraftView, "edit_draft_option_slide_modal.html", Map.put(assigns, :action, Routes.draft_option_path(@conn, :update, @option.id)) %>
             <% end %>
         </div>
-    </div>     
+    </div>
 </div>

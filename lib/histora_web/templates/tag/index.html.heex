@@ -1,11 +1,11 @@
 <div class="sticky bg-white dark:bg-slate pt-4 top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
-  <div class="flex flex-row justify-between pb-4 text-1xl ml-4 py-2 font-bold dark:text-white">
+  <div class="flex flex-row justify-between pb-4 text-1xl ml-6 py-2 font-bold dark:text-white">
     Tags
   </div>
 </div>
 
 <%= for tag <- @tags do %>
-  <div class="pl-4 cursor-pointer flex justify-between bg-white dark:bg-slate border-b-[.5px] py-4 border-light-grey dark:border-dark-grey">
+  <div class="pl-6 cursor-pointer flex justify-between bg-white dark:bg-slate border-b-[.5px] py-4 border-light-grey dark:border-dark-grey">
     <%= render "edit_tag_slide_modal.html", Map.merge(Map.put(assigns, :action, Routes.tag_path(@conn, :update, tag.id)), Map.put(assigns, :tag, tag)) %>
   </div>
 <% end %>

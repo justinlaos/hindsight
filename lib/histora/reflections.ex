@@ -22,6 +22,45 @@ defmodule Histora.Reflections do
     Repo.all(Reflection)
   end
 
+  def organization_reflection_count(organization) do
+    Repo.aggregate(from(r in Reflection, where: r.organization_id == ^organization.id), :count, :id)
+  end
+
+  def organization_reflection_percentage_by_status(organization, status) do
+    status_count = Repo.aggregate(from(r in Reflection, where: r.organization_id == ^organization.id and r.status == ^status), :count, :id)
+    organization_count = Repo.aggregate(from(r in Reflection, where: r.organization_id == ^organization.id), :count, :id)
+    (status_count / organization_count) * 100
+    |> trunc()
+  end
+
+  def users_scheduled_reflections(organization, current_user) do
+    (from d in Decision,
+    left_join: r in assoc(d, :reflections),
+      where: is_nil(r.decision_id) and
+        d.organization_id == ^organization.id and
+        d.user_id == ^current_user.id and
+        is_nil(d.reflection_date) == false and
+        is_nil(r) == true and
+        d.reflection_date > ^todays_date(),
+        preload: [:user, :tags, :users, :scopes] )
+    |> Repo.all()
+
+  end
+
+  def users_past_due_reflections(organization, current_user) do
+    (from d in Decision,
+    left_join: r in assoc(d, :reflections),
+      where: is_nil(r.decision_id) and
+        d.organization_id == ^organization.id and
+        d.user_id == ^current_user.id and
+        is_nil(d.reflection_date) == false and
+        is_nil(r) == true and
+        d.reflection_date <= ^todays_date(),
+        preload: [:user, :tags, :users, :scopes] )
+    |> Repo.all()
+
+  end
+
   def list_upcoming_reflection_decisions(organization, formated_start_date, formated_end_date, current_user) do
     (from d in Decision,
     left_join: r in assoc(d, :reflections),

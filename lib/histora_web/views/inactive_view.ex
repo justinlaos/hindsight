@@ -1,3 +1,3 @@
-defmodule HistoraWeb.InactiveView do
+defmodule HistoraWeb.HomeView do
   use HistoraWeb, :view
 end

@@ -51,6 +51,16 @@
                                 <input name="reflection_date" id="reflection_date" class="block w-full mb-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate" x-ref="picker" type="text">
                             </div>
 
+                            <div class="text-xs text-grey my-2">Request Approval </div>
+                            <select id="approval_user" name="approval_user" class="block w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
+                                <option disabled selected>Team Members</option>
+                                <%= for user <- @users do %>
+                                    <option value={"#{user.id}"}><%= user.email %></option>
+                                <% end %>
+                            </select>
+
+
+
                             <%= hidden_input f, :redirect_to, value: "" %>
                             <%= hidden_input f, :reflection_id, value: List.first(@decision.reflections).id %>
 

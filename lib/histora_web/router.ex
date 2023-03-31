@@ -74,7 +74,10 @@ defmodule HistoraWeb.Router do
 
     post "/results", SearchController, :results
     get "/results", SearchController, :results
+    get "/home", HomeController, :index
     resources "/decisions", DecisionController
+    get "/update_decision_approval", DecisionController, :update_decision_approval
+    get "/reset_decision_approval", DecisionController, :reset_decision_approval
     resources "/scopes", ScopeController
     resources "/reflections", ReflectionController
     get "/past_due", ReflectionController, :past_due

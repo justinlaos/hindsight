@@ -29,6 +29,8 @@ defmodule Histora.Decisions.Decision do
     has_many(:reflections, Histora.Reflections.Reflection)
     has_many(:logs, Histora.Logs.Log)
 
+    has_one(:approval, Histora.Decisions.Approval)
+
     timestamps()
   end
 
