@@ -1,0 +1,10 @@
+<html>
+  <head>
+    <style>
+        <%= Phoenix.HTML.raw HistoraWeb.EmailStyles.utility_classes() %>
+    </style>
+  </head>
+  <body>
+    <%= @inner_content %>
+  </body>
+</html>

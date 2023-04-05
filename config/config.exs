@@ -92,6 +92,14 @@ config :histora, Histora.Scheduler,
    application_task: [
     schedule: "@daily",
     task: {Histora.Job.Organizations, :update_expired_trials, []}
+   ],
+   application_task: [
+    schedule: "@weekly",
+    task: {Histora.Job.Organizations, :run_weekly_roundup, []}
+   ],
+   application_task: [
+    schedule: "@daily",
+    task: {Histora.Job.Organizations, :run_daily_scheduled_reflections, []}
    ]
   ]
 

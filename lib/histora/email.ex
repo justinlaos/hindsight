@@ -1,5 +1,4 @@
 defmodule Histora.Email do
-    import Bamboo.Email
     use Bamboo.Phoenix, view: HistoraWeb.EmailView
 
     def new_subscribe(email, url) do
@@ -28,6 +27,51 @@ defmodule Histora.Email do
         |> render("trial_expired.html")
     end
 
+    def request_approval(user, decision) do
+        base_email() # Build your default email then customize for welcome
+        |> to(user.email)
+        |> subject("Decision Approval Requested")
+        |> assign(:decision, decision)
+        |> render("request_approval.html")
+        |> premail()
+    end
+
+    def request_approval_response(approval) do
+        base_email() # Build your default email then customize for welcome
+        |> to(approval.decision.user.email)
+        |> subject("Decision Approval Response")
+        |> assign(:approval, approval)
+        |> render("request_approval_response.html")
+        |> premail()
+    end
+
+    def scheduled_reflection(decision) do
+        base_email() # Build your default email then customize for welcome
+        |> to(decision.user.email)
+        |> subject("Scheduled Reflection")
+        |> assign(:decision, decision)
+        |> render("scheduled_reflection.html")
+        |> premail()
+    end
+
+    def weekly_roundup(email, scopes_with_decisions) do
+        base_email() # Build your default email then customize for welcome
+        |> to(email)
+        |> subject("Histora Weekly Roundup")
+        |> assign(:scopes_with_decisions, scopes_with_decisions)
+        |> render("weekly_roundup.html")
+        |> premail()
+    end
+
+    defp premail(email) do
+        html = Premailex.to_inline_css(email.html_body)
+        text = Premailex.to_text(email.html_body)
+
+        email
+        |> html_body(html)
+        |> text_body(text)
+    end
+
     def new_trial(email, organization, promo) do
         base_email() # Build your default email then customize for welcome
         |> to(email)
@@ -39,7 +83,6 @@ defmodule Histora.Email do
     defp base_email do
         new_email()
         |> from("team@histora.app") # Set a default from
-        # |> put_html_layout({MyApp.LayoutView, "email.html"}) # Set default layout
-        # |> put_text_layout({MyApp.LayoutView, "email.text"}) # Set default text layout
+        |> put_html_layout({HistoraWeb.LayoutView, "email.html"})
     end
 end

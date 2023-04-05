@@ -61,6 +61,14 @@ defmodule Histora.Reflections do
 
   end
 
+  def run_daily_scheduled_reflections do
+    decisions = (from r in Decision, where: r.reflection_date == ^todays_date(), preload: [:users, :tags, :scopes] ) |> Repo.all()
+    Enum.map(decisions, fn decision ->
+      Histora.Email.scheduled_reflection(decision)
+      |> Histora.Mailer.deliver_now()
+    end)
+  end
+
   def list_upcoming_reflection_decisions(organization, formated_start_date, formated_end_date, current_user) do
     (from d in Decision,
     left_join: r in assoc(d, :reflections),

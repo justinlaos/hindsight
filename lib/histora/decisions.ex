@@ -114,6 +114,9 @@ defmodule Histora.Decisions do
       update_approval(existing_approval, %{"user_id" => user_id})
     end
 
+    Histora.Email.request_approval(Histora.Users.get_user!(user_id), get_decision!(decision_id))
+      |> Histora.Mailer.deliver_now()
+
   end
 
   def update_decision_approval(decision_id, approved, note) do
@@ -121,6 +124,10 @@ defmodule Histora.Decisions do
       |> Approval.changeset(%{"approved" => approved, "note" => note})
       |> Repo.update()
 
+    approval = Repo.get_by(Approval, decision_id: decision_id) |> Repo.preload([:user, decision: [:user, :tags, :users, :scopes]])
+
+    Histora.Email.request_approval_response(approval)
+      |> Histora.Mailer.deliver_now()
   end
 
   def reset_decision_approval(organization_id, user_id, decision_id) do
@@ -131,6 +138,12 @@ defmodule Histora.Decisions do
   def users_active_approvals(organization, current_user) do
     (from r in Approval, where: is_nil(r.approved) and r.organization_id == ^organization.id and r.user_id == ^current_user.id, preload: [decision: [:user, :tags, :users, :scopes]] )
     |> Repo.all()
+  end
+
+  def get_weeky_decisions_for_user(user) do
+    (Repo.all Ecto.assoc(Repo.get(Histora.Users.User, user.id), :scopes))
+    |> Repo.preload(decisions: from(r in Decision, where: r.date > ago(7, "day"),
+      order_by: [desc: r.inserted_at], preload: [:users, :tags, :scopes]))
   end
 
 
