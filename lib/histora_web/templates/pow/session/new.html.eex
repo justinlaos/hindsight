@@ -9,12 +9,12 @@
       <div class="rounded-md shadow-sm -space-y-px">
         <div>
           <label for="email-address" class="sr-only">Email address</label>
-          <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), type: "email", autocomplete: "email", class: "appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-black dark:text-white border-gray-300 placeholder-grey text-black rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Email address" %>
+          <%= text_input f, Pow.Ecto.Schema.user_id_field(@changeset), type: "email", autocomplete: "email", class: "appearance-none rounded-none relative block w-full px-3 py-2 mt-6 border dark:bg-black dark:text-white text-black border-t-[.5px] border-light-grey dark:border-dark-grey sm:text-sm", placeholder: "Email address" %>
           <%= error_tag f, Pow.Ecto.Schema.user_id_field(@changeset) %>
         </div>
         <div>
           <label for="password" class="sr-only">Password</label>
-          <%= password_input f, :password, type: "password", autocomplete: "current-password", class: "appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-black dark:text-white border-gray-300 placeholder-grey text-black rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Password" %>
+          <%= password_input f, :password, type: "password", autocomplete: "current-password", class: "appearance-none rounded-none relative block w-full px-3 py-2 mt-6 border dark:bg-black dark:text-white text-black border-t-[.5px] border-light-grey dark:border-dark-grey sm:text-sm", placeholder: "Password" %>
           <%= error_tag f, :password %>
         </div>
       </div>

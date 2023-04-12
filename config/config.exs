@@ -89,15 +89,15 @@ config :histora, Histora.Mailer,
 # CRON JOB SCHEDULER
 config :histora, Histora.Scheduler,
   jobs: [
-   application_task: [
+    update_expired_trials: [
     schedule: "@daily",
     task: {Histora.Job.Organizations, :update_expired_trials, []}
    ],
-   application_task: [
+   run_weekly_roundup: [
     schedule: "@weekly",
     task: {Histora.Job.Organizations, :run_weekly_roundup, []}
    ],
-   application_task: [
+   run_daily_scheduled_reflections: [
     schedule: "@daily",
     task: {Histora.Job.Organizations, :run_daily_scheduled_reflections, []}
    ]

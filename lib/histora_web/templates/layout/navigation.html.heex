@@ -23,8 +23,8 @@
         </div>
       <% end %>
 
-      <%= link to: Routes.scope_path(@conn, :index), method: :get do %>
-        <div class={"#{String.contains?(@conn.request_path, "scope") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
+      <%= link to: Routes.team_path(@conn, :index), method: :get do %>
+        <div class={"#{String.contains?(@conn.request_path, "team") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
           <Heroicons.LiveView.icon name="user-group" type="solid" class="h-4 w-4 mr-2" />
           Teams
         </div>

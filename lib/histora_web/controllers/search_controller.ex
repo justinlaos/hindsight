@@ -19,7 +19,7 @@ defmodule HistoraWeb.SearchController do
       order_by: [desc: r.updated_at]
     )
     |> Repo.all()
-    |> Repo.preload([:tags, :scopes, :users, user: :user_favorites])
+    |> Repo.preload([:tags, :teams, :users])
 
     Histora.Data.page(conn.assigns.current_user, "Search Results")
 

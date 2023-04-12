@@ -1,19 +1,23 @@
-<div class="px-6 lg:px-20 flex flex-row justify-between content-center bg-primary dark:bg-dark-primary py-4">
+<div class="px-4 lg:px-12 flex flex-row justify-between content-center bg-primary dark:bg-dark-primary py-4">
   <%= link to: Routes.marketing_path(@conn, :index) do %>
     <img class="w-16" src={ Routes.static_path(@conn, "/images/historawhite.png")} alt="Histora Logo">
   <% end %>
 
-  <div>
+  <div class="flex">
     <%= if assigns.conn.request_path != "/signup" do %>
       <%= link to: Routes.signup_path(@conn, :signup) do %>
-        <button type="submit" class="hidden sm:inline dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-xs sm:text-sm text-white font-bold px-6 mx-1 rounded">Start Free <span class="font-extrabold">30</span> Day Trial</button>
+        <div type="submit" class="hidden sm:inline dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-xs sm:text-sm text-white font-bold">Start Free 30 Day Trial</div>
       <% end %>
     <% end %>
 
+    <div class="mr-12"></div>
+
     <%= if assigns.conn.request_path != "/session/new" do %>
-      <button class="bg-dark-primary dark:bg-primary dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-white text-xs font-bold px-6 py-2 mx-2 rounded">
-        <%= link "Login", to: Routes.pow_session_path(@conn, :new) %>
-      </button>
+      <%= link to: Routes.pow_session_path(@conn, :new) do %>
+        <div class="hidden sm:inline dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-xs sm:text-sm text-white">
+          Login
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>

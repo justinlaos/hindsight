@@ -15,8 +15,7 @@ defmodule Histora.Repo.Migrations.CreateReflections do
     create index(:reflections, [:decision_id, :user_id])
 
     alter table(:decisions) do
-      add :reflection_date, :date
-      add :reflection_type, :string
+      add :reflection_id, references(:reflections, on_delete: :nothing)
     end
   end
 end

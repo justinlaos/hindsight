@@ -1,20 +1,20 @@
-defmodule Histora.ScopeFixtures do
+defmodule Histora.TeamFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Scope` context.
+  entities via the `Histora.Team` context.
   """
 
   @doc """
-  Generate a scopes.
+  Generate a teams.
   """
-  def scopes_fixture(attrs \\ %{}) do
-    {:ok, scopes} =
+  def teams_fixture(attrs \\ %{}) do
+    {:ok, teams} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Scope.create_scopes()
+      |> Histora.Team.create_teams()
 
-    scopes
+    teams
   end
 end

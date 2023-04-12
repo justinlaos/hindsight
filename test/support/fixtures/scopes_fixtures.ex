@@ -1,48 +1,48 @@
-defmodule Histora.ScopesFixtures do
+defmodule Histora.TeamsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Scopes` context.
+  entities via the `Histora.Teams` context.
   """
 
   @doc """
-  Generate a scope.
+  Generate a team.
   """
-  def scope_fixture(attrs \\ %{}) do
-    {:ok, scope} =
+  def team_fixture(attrs \\ %{}) do
+    {:ok, team} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Scopes.create_scope()
+      |> Histora.Teams.create_team()
 
-    scope
+    team
   end
 
   @doc """
-  Generate a scope_decision.
+  Generate a team_decision.
   """
-  def scope_decision_fixture(attrs \\ %{}) do
-    {:ok, scope_decision} =
+  def team_decision_fixture(attrs \\ %{}) do
+    {:ok, team_decision} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Scopes.create_scope_decision()
+      |> Histora.Teams.create_team_decision()
 
-    scope_decision
+    team_decision
   end
 
   @doc """
-  Generate a scope_user.
+  Generate a team_user.
   """
-  def scope_user_fixture(attrs \\ %{}) do
-    {:ok, scope_user} =
+  def team_user_fixture(attrs \\ %{}) do
+    {:ok, team_user} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Scopes.create_scope_user()
+      |> Histora.Teams.create_team_user()
 
-    scope_user
+    team_user
   end
 end

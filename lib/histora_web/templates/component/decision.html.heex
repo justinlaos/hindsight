@@ -24,12 +24,12 @@
 
     <div class="flex flex-row text-xs mt-2 center-items">
 
-        <%= if Enum.count(@decision.scopes) >= 1 and String.contains?(@conn.request_path, "scope") == false do %>
+        <%= if Enum.count(@decision.teams) >= 1 and String.contains?(@conn.request_path, "team") == false do %>
             <div class="flex flex-row dark:text-black">
-                <%= for scope <- @decision.scopes do %>
-                    <%= link to: Routes.decision_path(@conn, :index, teams: scope.id) do %>
+                <%= for team <- @decision.teams do %>
+                    <%= link to: Routes.decision_path(@conn, :index, teams: team.id) do %>
                         <div class="mr-4 font-bold inline-flex items-center text-xs py-1.5 rounded-md text-primary hover:text-blue">
-                            <%= scope.name %>
+                            <%= team.name %>
                         </div>
                     <% end %>
                 <% end %>

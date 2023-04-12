@@ -27,7 +27,6 @@ defmodule Histora.Data do
         why_string_count: String.length(decision.what),
         has_source: (if decision.source != nil, do: true, else: false),
         has_reference: (if decision.reference != nil, do: true, else: false),
-        is_private: decision.private,
         has_draft: (if decision.draft_id != nil, do: true, else: false),
         has_reflection_date: (if decision.draft_id != nil, do: true, else: false)
       }

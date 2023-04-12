@@ -1,0 +1,23 @@
+<div class="cursor-pointer border-b-[.5px] border-light-grey dark:border-dark-grey py-4 px-6">
+    <%= if @team.private do %>
+      <div class="text-xs mb-1 text-orange">Private</div>
+    <% end %>
+
+    <div class="text-base dark:text-light-grey"><%= String.capitalize(@team.name) %></div>
+
+    <div class="flex flex-row text-xs text-dark-grey mt-1 center-items">
+      <%= if Enum.count(@team.decisions) > 1 || Enum.count(@team.decisions) == 0 do %>
+        <div><%= Enum.count(@team.decisions) %> decisions connected</div>
+      <% else %>
+        <div><%= Enum.count(@team.decisions) %> decision connected</div>
+      <% end %>
+    </div>
+
+    <div class="flex flex-row text-xs text-grey mt-1 center-items">
+      <%= if Enum.count(@team.users) > 1 || Enum.count(@team.users) == 0 do %>
+        <div><%= Enum.count(@team.users) %> team members</div>
+      <% else %>
+        <div><%= Enum.count(@team.users) %> team member</div>
+      <% end %>
+    </div>
+</div>

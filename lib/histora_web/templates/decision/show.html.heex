@@ -2,7 +2,7 @@
     <div class="flex flex-row justify-between text-1xl ml-6 font-bold dark:text-white">
         Decision
         <%= if @decision.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
-            <%= render "edit_decision_slide_modal.html", Map.put(assigns, :action, Routes.decision_path(@conn, :update, @decision.id)) %>
+            <%= render HistoraWeb.SidebarView,"decision_edit.html", Map.put(assigns, :action, Routes.decision_path(@conn, :update, @decision.id)) %>
         <% end %>
     </div>
 
@@ -12,7 +12,7 @@
     <%= if @decision.approval != nil && @decision.approval.approved == nil  do %>
         <%= if @decision.approval.user.id == @conn.assigns.current_user.id do %>
             <div class="flex items-center py-4 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
-                <%= render "approval_slide_modal.html", decision: @decision, conn: @conn %>
+                <%= render HistoraWeb.SidebarView,"approval.html", decision: @decision, conn: @conn %>
             </div>
         <% else %>
             <div class="py-4 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
@@ -43,7 +43,7 @@
 
     <div class="flex justify-between items-center py-4 text-sm border-y-[.5px] border-light-grey dark:border-dark-grey font-medium">
         <div class="flex items-center">
-            <%= render "timeline_slide_modal.html", timeline: @timeline, decision: @decision, conn: @conn %>
+            <%= render HistoraWeb.SidebarView,"timeline.html", timeline: @timeline, decision: @decision, conn: @conn %>
 
 
             <%= for instance <- @timeline do %>
@@ -78,7 +78,7 @@
                 <% else %>
                     <div class="">Reflection scheduled on <%= Histora.Users.formate_time_stamp(@decision.reflection_date) %></div>
                 <% end %>
-                <%= render "new_reflection_slide_modal.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :create, decision: @decision.id)) %>
+                <%= render HistoraWeb.SidebarView,"reflection_new.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :create, decision: @decision.id)) %>
             <% end %>
         <% end %>
     </div>
@@ -89,13 +89,13 @@
                 <%= render HistoraWeb.ComponentView, "reflection.html", conn: @conn, reflection: reflection %>
                 <div class="flex center-items ml-6 mt-4">
                     <%= if reflection.decisions == [] do %>
-                        <%= render HistoraWeb.DecisionView, "new_decision_from_reflection_slide_modal.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
+                        <%= render HistoraWeb.SidebarView, "reflection_decision_new.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
                     <% end %>
                     <%= if reflection.decisions == [] && ( reflection.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" ) do %>
                         <div class="mx-6 text-grey">|</div>
                     <% end %>
                     <%= if reflection.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
-                        <%= render HistoraWeb.DecisionView, "edit_reflection_slide_modal.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :update, reflection.id)) %>
+                        <%= render HistoraWeb.SidebarView, "reflection_edit.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :update, reflection.id)) %>
                     <% end %>
                 </div>
             <% end %>

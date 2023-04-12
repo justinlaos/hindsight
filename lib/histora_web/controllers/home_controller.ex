@@ -16,12 +16,15 @@ defmodule HistoraWeb.HomeController do
 
 
     render(conn, "index.html",
+      decision_changeset: Decisions.change_decision(%Decisions.Decision{}),
       decision_count: decision_count,
       reflection_count: reflection_count,
       reflection_continuation_percentage: reflection_continuation_percentage,
       reflection_reversal_percentage: reflection_reversal_percentage,
       users_scheduled_reflections: users_scheduled_reflections,
       users_past_due_reflections: users_past_due_reflections,
+      teams: Histora.Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
+      users: Histora.Users.get_organization_users(conn.assigns.organization),
       logs: logs,
       users_active_approvals: users_active_approvals
     )

@@ -2,17 +2,17 @@
   <div class="text-xs text-primary ml-6"> <%= @organization.status %></div>
   <div class="flex flex-row pb-4 justify-between text-1xl ml-6 py-2 font-bold dark:text-white">
     <%= @organization.name %>
-    <%= render "edit_organization_slide_modal.html", Map.put(assigns, :action, Routes.settings_path(@conn, :update, @organization.id)) %>
+    <%= render HistoraWeb.SidebarView, "organization_edit.html", Map.put(assigns, :action, Routes.settings_path(@conn, :update, @organization.id)) %>
   </div>
 
   <div class="flex justify-between items-center py-2 pl-6 text-sm border-y-[.5px] border-light-grey dark:border-dark-grey">
-      <div class="flex items-center">
+      <div class="flex items-center dark:text-grey">
         <div class="text-sm"> <%= Enum.count(@managed_users) %> /  <%= if Enum.member?(["trialing", "trial_expired"], @organization.status), do: "unlimited in trial", else: "#{@organization.user_limit} seats" %></div>
       </div>
 
     <%= if assigns.conn.request_path == "/admin/settings/organization" do %>
       <%= if Enum.count(@managed_users) <= @organization.user_limit do %>
-          <%= render HistoraWeb.Admin.SettingsView, "new_user_slide_modal.html", action: Routes.invitation_path(@conn, :create), changeset: @new_user_changeset %>
+          <%= render HistoraWeb.SidebarView, "user_new.html", action: Routes.invitation_path(@conn, :create), changeset: @new_user_changeset %>
       <% else %>
           <button disabled class="bg-dark-grey hover:text-white text-white font-bold py-3 px-3 rounded" data-modal-toggle="defaultModal">
               Upgrade or Archive to add new users
@@ -22,13 +22,12 @@
   </div>
 
   <%= for user <- @managed_users do %>
-    <div class="pl-6 flex justify-between bg-white border-b-[.5px] py-4 border-light-grey dark:border-dark-grey">
+    <div class="pl-6 flex justify-between border-b-[.5px] py-4 border-light-grey dark:border-dark-grey">
       <div class="items-center text-sm">
-        <div class="w-full flex flex-row items-center pb-2 ">
+        <div class="w-full dark:text-white flex flex-row items-center pb-2 ">
           <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-2" />
           <%= user.email %>
         </div>
-
 
         <div class="flex">
           <div class="items-center pr-4">

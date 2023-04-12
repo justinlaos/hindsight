@@ -54,11 +54,11 @@ defmodule Histora.Email do
         |> premail()
     end
 
-    def weekly_roundup(email, scopes_with_decisions) do
+    def weekly_roundup(email, teams_with_decisions) do
         base_email() # Build your default email then customize for welcome
         |> to(email)
         |> subject("Histora Weekly Roundup")
-        |> assign(:scopes_with_decisions, scopes_with_decisions)
+        |> assign(:teams_with_decisions, teams_with_decisions)
         |> render("weekly_roundup.html")
         |> premail()
     end

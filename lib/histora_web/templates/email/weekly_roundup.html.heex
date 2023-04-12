@@ -1,10 +1,10 @@
 
 <div class="container no-link-styles">
     <p>Here are the newest decisions being made from the teams you are on </p>
-    <%= for scope <- @scopes_with_decisions do  %>
-        <h2 class="text-primary"> <%= scope.name %> </h2>
-        <%= unless Enum.empty?(scope.decisions) do %>
-            <%= for decision <- scope.decisions do  %>
+    <%= for team <- @teams_with_decisions do  %>
+        <h2 class="text-primary"> <%= team.name %> </h2>
+        <%= unless Enum.empty?(team.decisions) do %>
+            <%= for decision <- team.decisions do  %>
                 <a href={"https://www.histora.app/decisions/#{decision.id}"} >
                     <div class="border-b border-light-grey dark:border-dark-grey">
                         <%= render HistoraWeb.ComponentView, "email_decision.html", decision: decision %>

@@ -6,6 +6,13 @@
 
 <%= for tag <- @tags do %>
   <div class="pl-6 cursor-pointer flex justify-between bg-white dark:bg-slate border-b-[.5px] py-4 border-light-grey dark:border-dark-grey">
-    <%= render "edit_tag_slide_modal.html", Map.merge(Map.put(assigns, :action, Routes.tag_path(@conn, :update, tag.id)), Map.put(assigns, :tag, tag)) %>
+    <%= render HistoraWeb.SidebarView, "tag_edit.html", Map.merge(Map.put(assigns, :action, Routes.tag_path(@conn, :update, tag.id)), Map.put(assigns, :tag, tag)) %>
   </div>
+<% end %>
+
+<%= if Enum.empty?(@tags) do %>
+  <%= for _ <- Enum.to_list 1..10 do  %>
+    <div class="m-6 dark:bg-darkest-grey bg-really-light-grey h-8 w-100">
+    </div>
+  <% end %>
 <% end %>
