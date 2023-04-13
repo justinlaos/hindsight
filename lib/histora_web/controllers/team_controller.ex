@@ -18,13 +18,13 @@ defmodule HistoraWeb.TeamController do
   def create(conn, params) do
     team = params["team"]
     private = params["private"]
-    teamusers = if Map.has_key?(params, "users_list"), do: params["users_list"], else: ""
+    team_users = if Map.has_key?(params, "users_list"), do: params["users_list"], else: ""
 
     case Teams.create_team(%{"private" => private, "name" => team["name"], "organization_id" => conn.assigns.organization.id}) do
       {:ok, team} ->
 
-        if Map.has_key?(params, "teamusers") && teamusers != "" do
-          Teams.create_team_users(teamusers, team.id)
+        if team_users != "" do
+          Teams.create_team_users(team_users, team.id)
         end
 
         Histora.Data.event(conn.assigns.current_user, "Created Team")

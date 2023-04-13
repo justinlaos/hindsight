@@ -47,7 +47,7 @@ defmodule Histora.Reflections do
         is_nil(d.reflection_date) == false and
         is_nil(r) == true and
         d.reflection_date > ^todays_date(),
-        preload: [:user, :tags, :users, :teams] )
+        preload: [:user, :tags, :teams] )
     |> Repo.all()
 
   end
@@ -61,13 +61,13 @@ defmodule Histora.Reflections do
         is_nil(d.reflection_date) == false and
         is_nil(r) == true and
         d.reflection_date <= ^todays_date(),
-        preload: [:user, :tags, :users, :teams] )
+        preload: [:user, :tags, :teams] )
     |> Repo.all()
 
   end
 
   def run_daily_scheduled_reflections do
-    decisions = (from r in Decision, where: r.reflection_date == ^todays_date(), preload: [:users, :tags, :teams] ) |> Repo.all()
+    decisions = (from r in Decision, where: r.reflection_date == ^todays_date(), preload: [:tags, :teams] ) |> Repo.all()
     Enum.map(decisions, fn decision ->
       Histora.Email.scheduled_reflection(decision)
       |> Histora.Mailer.deliver_now()
@@ -84,7 +84,7 @@ defmodule Histora.Reflections do
         is_nil(r) == true and
         d.reflection_date >= ^formated_start_date and
         d.reflection_date <= ^formated_end_date,
-        preload: [:user, :tags, :users, :teams] )
+        preload: [:user, :tags, :teams] )
     |> Repo.all()
     |> Enum.group_by(& &1.reflection_date)
     |> Enum.map(fn {reflection_date, decisions_collection} -> %{reflection_date: reflection_date, decisions: decisions_collection} end)
@@ -99,7 +99,7 @@ defmodule Histora.Reflections do
         d.user_id == ^current_user.id and
         is_nil(d.reflection_date) == false and
         d.reflection_date < ^todays_date(),
-      preload: [:user, :tags, :users, :teams] )
+      preload: [:user, :tags, :teams] )
     |> Repo.all()
     |> Enum.group_by(& &1.reflection_date)
     |> Enum.map(fn {reflection_date, decisions_collection} -> %{reflection_date: reflection_date, decisions: decisions_collection} end)
@@ -114,7 +114,7 @@ defmodule Histora.Reflections do
       d.user_id == ^current_user.id and
       is_nil(d.reflection_date) == false and
       is_nil(r) == true,
-      preload: [:user, :tags, :users, :teams] )
+      preload: [:user, :tags, :teams] )
     |> Repo.all()
     |> Enum.group_by(& &1.reflection_date)
     |> Enum.map(fn {reflection_date, decisions_collection} -> %{reflection_date: reflection_date, decisions: decisions_collection} end)

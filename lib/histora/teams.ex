@@ -258,10 +258,10 @@ defmodule Histora.Teams do
   end
 
 
-  def create_team_users(users, team) do
+  def create_team_users(users, team_id) do
     for user_item <- users |> Enum.map(&String.to_integer/1) do
       %Team_user{}
-        |> Team_user.changeset(%{"user_id" => user_item, "team_id" => team})
+        |> Team_user.changeset(%{"user_id" => user_item, "team_id" => team_id})
         |> Repo.insert()
     end
   end

@@ -12,61 +12,25 @@ defmodule HistoraWeb.DecisionController do
   alias Histora.Reflections.Reflection
 
   def index(conn, params) do
-    formated_start_date = if Map.has_key?(params, "dates") && params["dates"] != "" do
-      Decisions.get_param_start_date(params)
-    else
-      date_string = Date.to_string(Date.utc_today |> Date.add(-30))
-      {:ok, formated_start_date} = NaiveDateTime.new Date.from_iso8601!(date_string), ~T[00:00:00]
-      formated_start_date
-    end
-
-
-    formated_end_date = if Map.has_key?(params, "dates") && params["dates"] != "" do
-      Decisions.get_param_end_date(params)
-    else
-      date_string = Date.to_string(Date.utc_today)
-      {:ok, formated_end_date} = NaiveDateTime.new Date.from_iso8601!(date_string), ~T[23:59:59]
-      formated_end_date
-    end
-
-    sorted_decisions =
+    filtered_decisions =
       Decisions.list_organization_decisions(conn.assigns.organization)
       |> Decisions.filter_tags(params)
       |> Decisions.filter_users(params)
       |> Decisions.filter_teams(params)
-      # |> Decisions.filter_dates(formated_start_date, formated_end_date)
-
-    decisions =  Decisions.formate_decisions(sorted_decisions, conn.assigns.current_user)
-    decisions_count =  Decisions.formate_decisions_count(sorted_decisions, conn.assigns.current_user)
-
-    users_teams = Teams.list_user_teams(conn.assigns.current_user)
-
-    filterable_tags = Tags.list_organization_tags(conn.assigns.organization)
-    selected_filtered_tags = if Map.has_key?(params, "tag_list"), do: Tags.selected_filtered_tags(conn.assigns.organization, params["tag_list"]), else: [%{}]
-
-    filterable_users = Users.get_organization_users(conn.assigns.organization)
-    selected_filtered_users = if Map.has_key?(params, "users"), do: Users.selected_filtered_users(conn.assigns.organization, params["users"]), else: [%{}]
-
-    filterable_teams = Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user)
-    selected_filtered_teams = if Map.has_key?(params, "teams"), do: Teams.selected_filtered_teams(conn.assigns.organization, params["teams"]), else: %{}
-
-
 
     render(conn, "index.html",
       decision_changeset: Decisions.change_decision(%Decision{}),
-      decisions: decisions,
-      decisions_count: decisions_count,
-      filterable_tags: filterable_tags,
-      filterable_users: filterable_users,
-      users: filterable_users,
-      filterable_teams: filterable_teams,
-      selected_filtered_tags: selected_filtered_tags,
-      selected_filtered_users: selected_filtered_users,
-      selected_filtered_teams: selected_filtered_teams,
-      formated_start_date: formated_start_date,
-      formated_end_date: formated_end_date,
+      decisions: Decisions.formate_decisions(filtered_decisions, conn.assigns.current_user),
+      decisions_count: Decisions.formate_decisions_count(filtered_decisions, conn.assigns.current_user),
+      users: Users.get_organization_users(conn.assigns.organization),
+      filterable_tags: Tags.list_organization_tags(conn.assigns.organization),
+      filterable_users: Users.get_organization_users(conn.assigns.organization),
+      filterable_teams: Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
+      selected_filtered_tags: (if Map.has_key?(params, "tag_list"), do: Tags.selected_filtered_tags(conn.assigns.organization, params["tag_list"]), else: [%{}]),
+      selected_filtered_users: (if Map.has_key?(params, "users"), do: Users.selected_filtered_users(conn.assigns.organization, params["users"]), else: [%{}]),
+      selected_filtered_teams: (if Map.has_key?(params, "teams"), do: Teams.selected_filtered_teams(conn.assigns.organization, params["teams"]), else: %{}),
       teams: Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
-      users_teams: users_teams
+      users_teams: Teams.list_user_teams(conn.assigns.current_user)
       )
   end
 
@@ -111,25 +75,16 @@ defmodule HistoraWeb.DecisionController do
   end
 
   def show(conn, %{"id" => id}) do
-    decision = Decisions.get_decision!(id)
-    edit_decision_changeset = Decisions.change_decision(decision)
-    reflection_changeset = Reflections.change_reflection(%Reflection{})
-    teams = Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user)
-    timeline = Decisions.get_timeline_for_decision(id)
-
-    draft = if decision.draft_id, do: Drafts.get_draft!(decision.draft_id), else: nil
-    current_draft_users = if decision.draft_id, do: Drafts.get_draft_connected_users(draft.id), else: nil
-
     Histora.Data.page(conn.assigns.current_user, "Decision Show")
 
     render(conn, "show.html",
-      decision: decision,
-      edit_decision_changeset: edit_decision_changeset,
-      teams: teams,
-      draft: draft,
-      current_draft_users: current_draft_users,
-      reflection_changeset: reflection_changeset,
-      timeline: timeline
+      decision: Decisions.get_decision!(id),
+      decision_changeset: Decisions.change_decision(%Decision{}),
+      edit_decision_changeset: Decisions.change_decision(Decisions.get_decision!(id)),
+      teams: Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
+      users: Users.get_organization_users(conn.assigns.organization),
+      reflection_changeset: Reflections.change_reflection(%Reflection{}),
+      timeline: Decisions.get_timeline_for_decision(id)
     )
   end
 
@@ -149,7 +104,6 @@ defmodule HistoraWeb.DecisionController do
 
         Tags.delete_decision_tag_list(decision.id)
         Teams.delete_team_from_decision(decision.id)
-        Decisions.delete_decision_users(decision.id)
 
         if decision_params["tag_list"] != "" do
           Tags.assign_tags_to_decision(decision_params["tag_list"], decision.id, decision.organization_id, decision.user_id)

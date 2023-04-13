@@ -72,6 +72,7 @@ defmodule HistoraWeb.Router do
     get "/update_decision_approval", DecisionController, :update_decision_approval
     get "/reset_decision_approval", DecisionController, :reset_decision_approval
     resources "/decisions", DecisionController
+    resources "/reflections", ReflectionController
     resources "/teams", TeamController
     resources "/tags", TagController
   end

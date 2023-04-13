@@ -20,9 +20,6 @@ defmodule Histora.Decisions.Decision do
     has_many(:team_decisions, Histora.Teams.Team_decision)
     has_many(:teams, through: [:team_decisions, :team])
 
-    has_many(:decision_users, Histora.Decisions.Decision_user)
-    has_many(:users, through: [:decision_users, :user])
-
     has_many(:reflections, Histora.Reflections.Reflection)
     has_many(:logs, Histora.Logs.Log)
 

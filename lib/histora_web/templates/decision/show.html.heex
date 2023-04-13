@@ -49,15 +49,17 @@
             <%= for instance <- @timeline do %>
                 <%= if instance.__struct__ == Histora.Decisions.Decision do %>
                     <%= if instance.id == @decision.id do %>
-                        <div x-data x-tooltip="This Decision" class="w-3 h-3 mx-6 bg-black dark:bg-white rounded-full"></div>
+                        <div data-css-only-tooltip-props="top" data-css-only-tooltip="This Decision" class="w-3 h-3 mx-6 bg-black dark:bg-white rounded-full">
+                        </div>
                     <% else %>
-                        <div x-data x-tooltip={"decision on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-grey rounded-full"></div>
+                        <div data-css-only-tooltip-props="top" data-css-only-tooltip={"decision on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-grey rounded-full">
+                        </div>
                     <% end %>
                 <% else %>
                     <%= if instance.status == "continuation" do %>
-                        <div x-data x-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-primary rounded-full"></div>
+                        <div data-css-only-tooltip-props="top" data-css-only-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-primary rounded-full"></div>
                     <% else %>
-                        <div x-data x-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-red rounded-full"></div>
+                        <div data-css-only-tooltip-props="top" data-css-only-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-red rounded-full"></div>
                     <% end %>
                 <% end %>
             <% end %>
@@ -78,7 +80,7 @@
                 <% else %>
                     <div class="">Reflection scheduled on <%= Histora.Users.formate_time_stamp(@decision.reflection_date) %></div>
                 <% end %>
-                <%= render HistoraWeb.SidebarView,"reflection_new.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :create, decision: @decision.id)) %>
+                <%= render HistoraWeb.SidebarView, "reflection_new.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :create, decision: @decision.id)) %>
             <% end %>
         <% end %>
     </div>
