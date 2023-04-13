@@ -21,6 +21,13 @@ defmodule Histora.Logs do
     Repo.all(Log)
   end
 
+  def list_organization_decisions(organization) do
+    (from l in Log, where: l.organization_id == ^organization.id, preload: [:user])
+    |> limit(10)
+    |> order_by(desc: :inserted_at)
+    |> Repo.all()
+  end
+
   def list_decision_log(decision_id) do
     (from l in Log, where: l.decision_id == ^decision_id ) |> Repo.all()
   end

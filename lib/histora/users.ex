@@ -1,6 +1,5 @@
 defmodule Histora.Users do
   alias Histora.{Repo, Users.User}
-  alias Histora.Users.User_favorite
   alias Histora.Decisions.Decision
   alias Histora.Users.User_data
   import Ecto.Changeset
@@ -55,9 +54,8 @@ defmodule Histora.Users do
   def get_organization_users(organization) do
     (from u in User,
       where: u.organization_id == ^organization.id,
-      preload: [:user_favorites, decisions: ^from(r in Decision, order_by: [desc: r.inserted_at], limit: 3, preload: [:tags, :user])],
-      left_join: fav in assoc(u, :user_favorites),
-      order_by: [desc: count(fav.id), desc: (u.id)],
+      preload: [decisions: ^from(r in Decision, order_by: [desc: r.inserted_at], limit: 3, preload: [:tags, :user])],
+      order_by: [desc: (u.id)],
       group_by: u.id,
       select: u
     )
@@ -65,22 +63,20 @@ defmodule Histora.Users do
   end
 
   def selected_filtered_users(organization, users) do
-    cleaned_user_list = users |> Enum.map(&String.to_integer/1)
-
     (from u in User,
       where: u.organization_id == ^organization.id,
-      where: u.id in ^cleaned_user_list
+      where: u.id == ^String.to_integer(users)
     )
     |> Repo.all()
   end
 
   def get_organization_users_for_settings(organization) do
-    (from u in User, where: u.organization_id == ^organization.id, preload: :user_favorites )
+    (from u in User, where: u.organization_id == ^organization.id )
     |> Repo.all()
   end
 
   def get_user!(id) do
-    Repo.get!(User, id) |> Repo.preload(:user_favorites)
+    Repo.get!(User, id)
   end
 
   def get_decisions_for_user(id) do
@@ -98,67 +94,12 @@ defmodule Histora.Users do
     end
   end
 
-  def current_user_user_favorites(current_user) do
-    (from uf in User_favorite, where: uf.user_id == ^current_user.id ) |> Repo.all()
-  end
-
-  def get_user_favorite!(favorite_user_id, user_id) do
-    (from uf in User_favorite, where: uf.favorite_user_id == ^favorite_user_id and uf.user_id == ^user_id) |> Repo.one()
-  end
-
-  def create_user_favorite(attrs \\ %{}) do
-    %User_favorite{}
-    |> User_favorite.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  def delete_user_favorite(%User_favorite{} = user_favorite) do
-    Repo.delete(user_favorite)
-  end
-
-
-
-  @doc """
-  Returns the list of user_data.
-
-  ## Examples
-
-      iex> list_user_data()
-      [%User_data{}, ...]
-
-  """
   def list_user_data do
     Repo.all(User_data)
   end
 
-  @doc """
-  Gets a single user_data.
-
-  Raises `Ecto.NoResultsError` if the User data does not exist.
-
-  ## Examples
-
-      iex> get_user_data!(123)
-      %User_data{}
-
-      iex> get_user_data!(456)
-      ** (Ecto.NoResultsError)
-
-  """
   def get_user_data!(id), do: Repo.get!(User_data, id)
 
-  @doc """
-  Creates a user_data.
-
-  ## Examples
-
-      iex> create_user_data(%{field: value})
-      {:ok, %User_data{}}
-
-      iex> create_user_data(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def create_user_data(attrs \\ %{}) do
     %User_data{}
     |> User_data.changeset(attrs)
@@ -169,49 +110,16 @@ defmodule Histora.Users do
     (Repo.one Ecto.assoc(Repo.get(User, user.id), :user_data))
   end
 
-  @doc """
-  Updates a user_data.
-
-  ## Examples
-
-      iex> update_user_data(user_data, %{field: new_value})
-      {:ok, %User_data{}}
-
-      iex> update_user_data(user_data, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def update_user_data(%User_data{} = user_data, attrs) do
     user_data
     |> User_data.changeset(attrs)
     |> Repo.update()
   end
 
-  @doc """
-  Deletes a user_data.
-
-  ## Examples
-
-      iex> delete_user_data(user_data)
-      {:ok, %User_data{}}
-
-      iex> delete_user_data(user_data)
-      {:error, %Ecto.Changeset{}}
-
-  """
   def delete_user_data(%User_data{} = user_data) do
     Repo.delete(user_data)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking user_data changes.
-
-  ## Examples
-
-      iex> change_user_data(user_data)
-      %Ecto.Changeset{data: %User_data{}}
-
-  """
   def change_user_data(%User_data{} = user_data, attrs \\ %{}) do
     User_data.changeset(user_data, attrs)
   end

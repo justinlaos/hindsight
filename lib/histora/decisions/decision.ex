@@ -8,25 +8,22 @@ defmodule Histora.Decisions.Decision do
     field :date, :date
     field :source, :string
     field :reference, :string
-    field :private, :boolean
     field :reflection_date, :date
-    field :reflection_type, :string
 
     belongs_to :organization, Histora.Organizations.Organization
-    belongs_to :draft, Histora.Drafts.Draft
     belongs_to :user, Histora.Users.User
+    belongs_to :reflection, Histora.Reflections.Reflection
 
     has_many(:tag_decisions, Histora.Tags.Tag_decision)
     has_many(:tags, through: [:tag_decisions, :tag])
 
-    has_many(:scope_decisions, Histora.Scopes.Scope_decision)
-    has_many(:scopes, through: [:scope_decisions, :scope])
-
-    has_many(:decision_users, Histora.Decisions.Decision_user)
-    has_many(:users, through: [:decision_users, :user])
+    has_many(:team_decisions, Histora.Teams.Team_decision)
+    has_many(:teams, through: [:team_decisions, :team])
 
     has_many(:reflections, Histora.Reflections.Reflection)
     has_many(:logs, Histora.Logs.Log)
+
+    has_one(:approval, Histora.Decisions.Approval)
 
     timestamps()
   end
@@ -34,7 +31,7 @@ defmodule Histora.Decisions.Decision do
   @doc false
   def changeset(decision, attrs) do
     decision
-    |> cast(attrs, [:user_id, :organization_id, :what, :why, :source, :reference, :private, :draft_id, :date, :reflection_date, :reflection_type])
+    |> cast(attrs, [:user_id, :organization_id, :what, :why, :source, :reference, :date, :reflection_date, :reflection_id])
     |> validate_required([])
   end
 end

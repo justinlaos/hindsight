@@ -1,163 +1,116 @@
-<div class="my-6 mb-12">
-    <div class="text-sm text-grey mb-1"> <%= if @decision.private, do: "Private", else: "" %></div>
-
-    <div class="flex flex-row justify-between">
-      <div class="text-lg font-bold text-primary"><%= Histora.Users.formate_time_stamp(@decision.date) %></div>
-      <%= if @decision.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
-        <%= render "edit_decision_slide_modal.html", Map.put(assigns, :action, Routes.decision_path(@conn, :update, @decision.id)) %>
-      <% end %>
-    </div>
-
-    <%= if @decision.source != nil do %>
-      <div class="text-xs text-grey"> source: <%= @decision.source %> </div>
-    <% end %>
-
-    <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
-      <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: @decision %>
-    </div>
-
-    <div class="ml-8">
-        <%= if @decision.user_id == @conn.assigns.current_user.id && Enum.count(@decision.reflections) <= 0 do %>
-            <%= if is_nil(@decision.reflection_date) do %>
-                <div class="text-orange">No Scheduled Reflection</div>
-            <% else %>
-                <div class="text-orange">Scheduled Reflection on <%= Histora.Users.formate_time_stamp(@decision.reflection_date) %></div>
-            <% end %>
-            <%= render "new_reflection_slide_modal.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :create, decision: @decision.id)) %>
+<div class="bg-white dark:bg-slate pt-4">
+    <div class="flex flex-row justify-between text-1xl ml-6 font-bold dark:text-white">
+        Decision
+        <%= if @decision.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
+            <%= render HistoraWeb.SidebarView,"decision_edit.html", Map.put(assigns, :action, Routes.decision_path(@conn, :update, @decision.id)) %>
         <% end %>
     </div>
 
-</div>
 
+    <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: @decision %>
 
-<!-- Tabs -->
-<div
-    x-data="{
-        selectedId: null,
-        init() {
-            // Set the first available tab on the page on page load.
-            this.$nextTick(() => this.select(this.$id('tab', 1)))
-        },
-        select(id) {
-            this.selectedId = id
-        },
-        isSelected(id) {
-            return this.selectedId === id
-        },
-        whichChild(el, parent) {
-            return Array.from(parent.children).indexOf(el) + 1
-        }
-    }"
-    x-id="['tab']"
-    class="ml-8"
->
-    <!-- Tab List -->
-    <ul
-        x-ref="tablist"
-        @keydown.right.prevent.stop="$focus.wrap().next()"
-        @keydown.home.prevent.stop="$focus.first()"
-        @keydown.page-up.prevent.stop="$focus.first()"
-        @keydown.left.prevent.stop="$focus.wrap().prev()"
-        @keydown.end.prevent.stop="$focus.last()"
-        @keydown.page-down.prevent.stop="$focus.last()"
-        role="tablist"
-        class="-mb-px flex items-stretch"
-    >
-        <!-- Tab -->
-
-        <li>
-            <button
-                :id="$id('tab', whichChild($el.parentElement, $refs.tablist))"
-                @click="select($el.id)"
-                @mousedown.prevent
-                @focus="select($el.id)"
-                type="button"
-                :tabindex="isSelected($el.id) ? 0 : -1"
-                :aria-selected="isSelected($el.id)"
-                :class="isSelected($el.id) ? 'border-primary bg-white' : ' border-light-grey border-transparent'"
-                class="dark:bg-black dark:text-white inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
-                role="tab"
-            >Reflections</button>
-        </li>
-     
-        <li>
-            <button
-                :id="$id('tab', whichChild($el.parentElement, $refs.tablist))"
-                @click="select($el.id)"
-                @mousedown.prevent
-                @focus="select($el.id)"
-                type="button"
-                :tabindex="isSelected($el.id) ? 0 : -1"
-                :aria-selected="isSelected($el.id)"
-                :class="isSelected($el.id) ? 'border-primary bg-white' : ' border-light-grey border-transparent'"
-                class="dark:bg-black dark:text-white inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
-                role="tab"
-            >Draft</button>
-        </li>
-
-        <li>
-            <button
-                :id="$id('tab', whichChild($el.parentElement, $refs.tablist))"
-                @click="select($el.id)"
-                @mousedown.prevent
-                @focus="select($el.id)"
-                type="button"
-                :tabindex="isSelected($el.id) ? 0 : -1"
-                :aria-selected="isSelected($el.id)"
-                :class="isSelected($el.id) ? 'border-primary bg-white' : 'border-light-grey border-transparent'"
-                class="dark:bg-black dark:text-white inline-flex rounded-t-md border-t border-l border-r px-5 py-2.5"
-                role="tab"
-            >Logs</button>
-        </li>
-    </ul>
-
-    <!-- Panels -->
-    <div role="tabpanels" class="rounded-b-md border border-light-grey bg-white">
-        <!-- Panel -->
-        <section
-            x-show="isSelected($id('tab', whichChild($el, $el.parentElement)))"
-            :aria-labelledby="$id('tab', whichChild($el, $el.parentElement))"
-            role="tabpanel"
-            class="p-8 dark:bg-black"
-        >
-            <%= if Enum.count(@decision.reflections) >= 1 do %>
-                <%= for reflection <- @decision.reflections do %>
-                    <%= render HistoraWeb.ComponentView, "reflection.html", conn: @conn, reflection: reflection %>
-                <% end %>
-            <% else %>
-                <div class="dark:text-white">no reflections</div>
-            <% end %>
-        </section>
-
-        <section
-            x-show="isSelected($id('tab', whichChild($el, $el.parentElement)))"
-            :aria-labelledby="$id('tab', whichChild($el, $el.parentElement))"
-            role="tabpanel"
-            class="p-8 dark:bg-black"
-        >
-            <%= if @decision.draft_id != nil do %> 
-                <div class="ml-8 mt-20">
-                    <%= render HistoraWeb.DecisionView, "decision_draft.html", conn: @conn, draft: @draft, current_draft_users: @current_draft_users %>
+    <%= if @decision.approval != nil && @decision.approval.approved == nil  do %>
+        <%= if @decision.approval.user.id == @conn.assigns.current_user.id do %>
+            <div class="flex items-center py-4 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
+                <%= render HistoraWeb.SidebarView,"approval.html", decision: @decision, conn: @conn %>
+            </div>
+        <% else %>
+            <div class="py-4 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
+                <div class="flex items-center text-xs ml-6">
+                    <span class=""><%= @decision.approval.user.email %></span>'s approval was requested
                 </div>
-            <% else %>
-                <div class="dark:text-white">No connected draft</div>
-            <% end %>
-        </section>
+            </div>
+        <% end %>
+    <% end %>
 
-        <section
-            x-show="isSelected($id('tab', whichChild($el, $el.parentElement)))"
-            :aria-labelledby="$id('tab', whichChild($el, $el.parentElement))"
-            role="tabpanel"
-            class="p-8 dark:bg-black"
-        >
-            <%= if Enum.count(@decision.logs) >= 1 do %> 
-                <%= for log <- Enum.reverse(@decision.logs) do %>
+    <%= if @decision.approval != nil && @decision.approval.approved != nil  do %>
+        <div class="flex justify-between items-center py-4 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
+            <div class="text-xs ml-6">
+                <span class="mr-1"><%= @decision.approval.user.email %></span> <%= if @decision.approval.approved, do: raw("<span class='text-primary mr-1'>approved</span>"), else: raw("<span class='text-red mr-1'>denied</span>") %>
+                <div class="mt-2 text-grey">
+                    <%= @decision.approval.note %>
+                </div>
+            </div>
 
-                    <div class="my-4 dark:text-grey text-dark-grey text-xs"><%= Histora.Users.formate_time_stamp(log.updated_at) %> <span class="text-primary ml-2"><%= log.user.email %> <span class="ml-2 dark:text-white text-black"><%= log.event %></span></span></div>
+            <%= if @decision.user_id == @conn.assigns.current_user.id do %>
+                <%= link to: Routes.decision_path(@conn, :reset_decision_approval, id: @decision.id, user_id: @decision.approval.user_id) do %>
+                    <button class="mr-4 text-xs text-blue">re-request</button>
                 <% end %>
-            <% else %>
-                <div class="dark:text-white">No Logs</div>
             <% end %>
-        </section>
+        </div>
+    <% end %>
+
+
+    <div class="flex justify-between items-center py-4 text-sm border-y-[.5px] border-light-grey dark:border-dark-grey font-medium">
+        <div class="flex items-center">
+            <%= render HistoraWeb.SidebarView,"timeline.html", timeline: @timeline, decision: @decision, conn: @conn %>
+
+
+            <%= for instance <- @timeline do %>
+                <%= if instance.__struct__ == Histora.Decisions.Decision do %>
+                    <%= if instance.id == @decision.id do %>
+                        <div data-css-only-tooltip-props="top" data-css-only-tooltip="This Decision" class="w-3 h-3 mx-6 bg-black dark:bg-white rounded-full">
+                        </div>
+                    <% else %>
+                        <div data-css-only-tooltip-props="top" data-css-only-tooltip={"decision on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-grey rounded-full">
+                        </div>
+                    <% end %>
+                <% else %>
+                    <%= if instance.status == "continuation" do %>
+                        <div data-css-only-tooltip-props="top" data-css-only-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-primary rounded-full"></div>
+                    <% else %>
+                        <div data-css-only-tooltip-props="top" data-css-only-tooltip={"reflection on #{Histora.Users.formate_time_stamp(instance.inserted_at)}"} class="w-3 h-3 mx-6 bg-red rounded-full"></div>
+                    <% end %>
+                <% end %>
+            <% end %>
+
+
+
+        </div>
+    </div>
+
+
+    <div class="flex flex-row justify-between ml-6 mb-4 pt-4 text-xs text-grey">
+        <%= if Enum.count(@decision.reflections) >= 1 do %>
+            Reflection
+        <% else %>
+            <%= if @decision.user_id == @conn.assigns.current_user.id && Enum.count(@decision.reflections) <= 0 do %>
+                <%= if is_nil(@decision.reflection_date) do %>
+                    <div class="">No reflection scheduled</div>
+                <% else %>
+                    <div class="">Reflection scheduled on <%= Histora.Users.formate_time_stamp(@decision.reflection_date) %></div>
+                <% end %>
+                <%= render HistoraWeb.SidebarView, "reflection_new.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :create, decision: @decision.id)) %>
+            <% end %>
+        <% end %>
+    </div>
+
+    <div>
+        <%= if Enum.count(@decision.reflections) >= 1 do %>
+            <%= for reflection <- @decision.reflections do %>
+                <%= render HistoraWeb.ComponentView, "reflection.html", conn: @conn, reflection: reflection %>
+                <div class="flex center-items ml-6 mt-4">
+                    <%= if reflection.decisions == [] do %>
+                        <%= render HistoraWeb.SidebarView, "reflection_decision_new.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
+                    <% end %>
+                    <%= if reflection.decisions == [] && ( reflection.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" ) do %>
+                        <div class="mx-6 text-grey">|</div>
+                    <% end %>
+                    <%= if reflection.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
+                        <%= render HistoraWeb.SidebarView, "reflection_edit.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :update, reflection.id)) %>
+                    <% end %>
+                </div>
+            <% end %>
+        <% end %>
     </div>
 </div>
+
+
+
+<%= if false && Enum.count(@decision.logs) >= 1 do %>
+    <%= for log <- Enum.reverse(@decision.logs) do %>
+        <div class="my-4 dark:text-grey text-dark-grey text-xs"><%= Histora.Users.formate_time_stamp(log.updated_at) %> <span class="text-primary ml-2"><%= log.user.email %> <span class="ml-2 dark:text-white text-black"><%= log.event %></span></span></div>
+    <% end %>
+<% else %>
+    <div class="dark:text-white"></div>
+<% end %>

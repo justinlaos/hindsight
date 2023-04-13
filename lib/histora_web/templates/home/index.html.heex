@@ -1,0 +1,89 @@
+
+<%#
+      whats working / whats not working
+      States on number of decisions. reflections. radito chart of good/bad reflections
+      active log selection
+%>
+
+<div class="pt-4 bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
+  <div class="flex flex-row justify-between text-1xl ml-6 pb-4 font-bold dark:text-white">
+    Home
+    <%= render HistoraWeb.SidebarView, "decision_new.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
+  </div>
+</div>
+
+<div class="flex bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
+
+    <div class="text-sm mr-4 ml-6 py-4 text-grey dark:text-white">
+        Reflections
+    </div>
+
+    <%= render HistoraWeb.SidebarView, "reflections_scheduled.html", users_scheduled_reflections: @users_scheduled_reflections, conn: @conn %>
+
+    <%= unless Enum.empty?(@users_past_due_reflections) do %>
+        <%= render HistoraWeb.SidebarView, "reflections_past_due.html", users_past_due_reflections: @users_past_due_reflections, conn: @conn %>
+    <% end %>
+
+    <%= unless Enum.empty?(@users_active_approvals) do %>
+        <%= render HistoraWeb.SidebarView, "approvals_active.html", users_active_approvals: @users_active_approvals, conn: @conn %>
+    <% end %>
+</div>
+
+<div class="border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
+    <div class="flex">
+        <div class="py-46 px-10 flex flex-col justify-center items-center">
+            <div class="text-xs mb-6 text-grey dark:text-white">
+                All Organization
+            </div>
+            <div class="flex">
+                <div class="flex flex-col justify-center items-center">
+                    <div class="mb-2"><%= @decision_count %></div>
+                    <div class="font-bold text-sm">Decisions</div>
+
+                </div>
+                <div class="flex flex-col justify-center items-center ml-8">
+                    <div class="mb-2"><%= @reflection_count %></div>
+                    <div class="font-bold text-sm">Reflections</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-6 px-10 flex flex-col justify-center items-center border-x-[.5px] border-light-grey dark:border-dark-grey">
+            <div class="text-xs mb-6 text-grey dark:text-white">
+                Reflection Rate
+            </div>
+            <div class="flex">
+                <div class="flex flex-col justify-center items-center">
+                    <div class="mb-2"><%= @reflection_continuation_percentage %>%</div>
+                    <div class="font-bold text-sm text-primary">Continuation</div>
+                </div>
+                <div class="flex flex-col justify-center items-center ml-8">
+                    <div class="mb-2"><%= @reflection_reversal_percentage %>%</div>
+                    <div class="font-bold text-sm text-red">Reversal</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
+
+    <div class="text-xs mx-6 py-4 dark:text-white">
+        Activity
+    </div>
+
+    <div class="text-xs mx-6">
+        <%= for log <- @logs do %>
+            <%= link to: Routes.decision_path(@conn, :show, log.decision_id) do %>
+                <div class="mb-4 text-dark-grey">
+                    <%= log.user.email %>
+                        <%= log.event %>
+                    on <%= Histora.Users.formate_time_stamp(log.updated_at) %>
+                </div>
+            <% end %>
+        <% end %>
+
+    </div>
+
+
+</div>

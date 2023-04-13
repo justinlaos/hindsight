@@ -33,6 +33,16 @@ defmodule Histora.Organizations do
     end)
   end
 
+  def run_weekly_roundup do
+    organizations = (from o in Organization, where: o.status == "active", preload: :users ) |> Repo.all()
+    Enum.map(organizations, fn organization ->
+      Enum.map(organization.users, fn user ->
+        Histora.Email.weekly_roundup(user.email, Histora.Decisions.get_weeky_decisions_for_user(user))
+        |> Histora.Mailer.deliver_now()
+      end)
+    end)
+  end
+
   @doc """
   Gets a single organization.
 

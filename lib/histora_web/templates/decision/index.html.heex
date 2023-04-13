@@ -1,55 +1,85 @@
-<div class="text-2xl font-bold mb-2 dark:text-white">Decisions:<span x-data x-tooltip="This number is not the total but the amount after select filters and date range" class="text-md text-primary font-bold ml-4"><%= Enum.count(@decisions_count) %></span>
-</div>
+<div class="sticky bg-white dark:bg-slate pt-4 top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
+  <div class="flex flex-row justify-between text-1xl ml-6 pb-4 font-bold dark:text-white">
+    Decisions
+    <%= render HistoraWeb.SidebarView, "decision_new.html", action: Routes.decision_path(@conn, :create), conn: @conn %>
+  </div>
 
-<div class="flex items-center py-0.5 rounded-full text-sm font-medium text-black dark:text-grey"> 
-  <div x-data x-tooltip="Change these dates in filter modal to view more decisions"> <%= Histora.Users.formate_time_stamp(@formated_start_date) %> - <%= Histora.Users.formate_time_stamp(@formated_end_date) %> </div>
-</div>
-
-<div class="font-bold items-center py-2 my-1 dark:text-white "></div>
-
-
-<div class="flex flex-row text-xs my-4">
-
-  <%= if assigns[:selected_filtered_users] != %{} || assigns[:selected_filtered_tags] != %{} do %>
-    <%= link to: Routes.decision_path(@conn, :index) do %> 
-      <div class="text-xs font-medium mr-4 text-blue"> 
-        clear
+    <div class="flex justify-between items-center py-0.5 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
+      <div class="flex flex-wrap items-center">
+        <%= if Enum.member?(@selected_filtered_users, @conn.assigns.current_user) do %>
+          <%= link to: Routes.decision_path(@conn, :index) do %>
+            <div class="ml-6 mr-4 py-2 text-xs text-blue">
+              <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4" />
+            </div>
+          <% end %>
+        <% else %>
+            <%= link to: Routes.decision_path(@conn, :index, users: @conn.assigns.current_user.id) do %>
+              <div class="ml-6 mr-4 py-2 text-xs text-grey">
+                <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4" />
+              </div>
+            <% end %>
+        <% end %>
+        <%= for team <- @users_teams do %>
+          <%= link to: Routes.decision_path(@conn, :index, teams: team.id) do %>
+              <div class="mr-2 px-2 font-bold inline-flex items-center text-xs py-1.5 rounded-md text-black dark:text-light-grey dark:hover:text-blue">
+                <%= if @selected_filtered_teams != %{} do %>
+                  <%= if @selected_filtered_teams.id == team.id do %>
+                    <div class="text-blue">
+                      <%= link to: Routes.decision_path(@conn, :index) do %>
+                        <%= team.name %>
+                      <% end %>
+                    </div>
+                  <% else %>
+                    <%= link to: Routes.decision_path(@conn, :index, teams: team.id) do %>
+                      <%= team.name %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <%= link to: Routes.decision_path(@conn, :index, teams: team.id) do %>
+                    <%= team.name %>
+                  <% end %>
+                <% end %>
+              </div>
+          <% end %>
+        <% end %>
       </div>
-    <% end %>
-  <% end %>
 
-  <%= if assigns[:selected_filtered_tags] do %>
-    <%= for tag <- @selected_filtered_tags do %>
-      <div class="flex items-center mx-0.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-light-grey dark:bg-darkest-grey text-darkest-grey dark:text-grey"> 
-          <%= tag.name %> 
+      <%= render HistoraWeb.SidebarView, "decisions_filter.html", conn: @conn, filterable_tags: @filterable_tags, filterable_teams: @filterable_teams, filterable_users: @filterable_users, selected_filtered_tags: @selected_filtered_tags, selected_filtered_teams: @selected_filtered_teams, selected_filtered_users: @selected_filtered_users %>
+    </div>
+
+  <%= if ( @selected_filtered_teams != %{} && @selected_filtered_teams in @users_teams == false ) || ( List.first(@selected_filtered_users) != %{} && Enum.member?(@selected_filtered_users, @conn.assigns.current_user) != true ) || List.first(@selected_filtered_tags) != %{} do %>
+    <div class="flex justify-between items-center py-0.5 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
+      <div class="flex items-center">
+        <div class="ml-6 py-2 text-xs text-grey mr-2">Current Filters</div>
+
+        <%= if @selected_filtered_teams != %{} && (Enum.member?(@users_teams, @selected_filtered_teams) != true) do %>
+          <div class="ml-6 py-2 text-xs mr-2 text-blue"><%= @selected_filtered_teams.name %></div>
+        <% end %>
+
+        <%= if List.first(@selected_filtered_users) != %{} && Enum.member?(@selected_filtered_users, @conn.assigns.current_user) != true do %>
+          <div class="ml-6 py-2 text-xs mr-2 text-blue"><%= List.first(@selected_filtered_users).email %></div>
+        <% end %>
+
+        <%= if List.first(@selected_filtered_tags) != %{} do %>
+          <div class="ml-6 py-2 text-xs mr-2 text-blue"><%= List.first(@selected_filtered_tags).name %></div>
+        <% end %>
       </div>
-    <% end %>
-  <% end %>
-
-  <%= if assigns[:selected_filtered_users] != %{} && assigns[:selected_filtered_tags] != %{} do %>
-    <div class="flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium text-dark-grey dark:text-grey"> 
-      |
+        <%= link to: Routes.decision_path(@conn, :index) do %>
+          <div class="mx-6 py-2 text-grey">Clear</div>
+        <% end %>
     </div>
   <% end %>
-
-  <%= if assigns[:selected_filtered_users] do %>
-    <%= for user <- @selected_filtered_users do %>
-      <div class="flex items-center mx-0.5 px-2.5 py-0.5 rounded-full text-xs font-medium bg-light-grey dark:bg-darkest-grey text-darkest-grey dark:text-grey"> 
-          <%= user.email %> 
-      </div>
-    <% end %>
-  <% end %>
 </div>
 
-<div>
-  <%= if Enum.any?(@decisions) do %>
-    <%= for decision_section <- @decisions do %>
-      <%= render HistoraWeb.ComponentView, "decision_section.html", conn: @conn, decision_section: decision_section, header: decision_section.date %>
-    <% end %>
-  <% else %>
-    <div class="mt-10 min p-4 bg-really-light-grey dark:bg-darkest-grey dark:text-light-grey rounded">
-      <div>No current non private decisions in this timeframe. Adjust date range and filters</div>
+<%= for decision <- @decisions do %>
+  <div class="border-b-[.5px] border-light-grey dark:border-dark-grey">
+    <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: decision %>
+  </div>
+<% end %>
+
+<%= if Enum.empty?(@decisions) do %>
+  <%= for _ <- Enum.to_list 1..10 do  %>
+    <div class="m-6 dark:bg-darkest-grey bg-really-light-grey h-8 w-100">
     </div>
   <% end %>
-</div>
-
+<% end %>

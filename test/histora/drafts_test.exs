@@ -107,55 +107,55 @@ defmodule Histora.DraftsTest do
     end
   end
 
-  describe "draft_scopes" do
-    alias Histora.Drafts.Draft_scope
+  describe "draft_teams" do
+    alias Histora.Drafts.Draft_team
 
     import Histora.DraftsFixtures
 
     @invalid_attrs %{}
 
-    test "list_draft_scopes/0 returns all draft_scopes" do
-      draft_scope = draft_scope_fixture()
-      assert Drafts.list_draft_scopes() == [draft_scope]
+    test "list_draft_teams/0 returns all draft_teams" do
+      draft_team = draft_team_fixture()
+      assert Drafts.list_draft_teams() == [draft_team]
     end
 
-    test "get_draft_scope!/1 returns the draft_scope with given id" do
-      draft_scope = draft_scope_fixture()
-      assert Drafts.get_draft_scope!(draft_scope.id) == draft_scope
+    test "get_draft_team!/1 returns the draft_team with given id" do
+      draft_team = draft_team_fixture()
+      assert Drafts.get_draft_team!(draft_team.id) == draft_team
     end
 
-    test "create_draft_scope/1 with valid data creates a draft_scope" do
+    test "create_draft_team/1 with valid data creates a draft_team" do
       valid_attrs = %{}
 
-      assert {:ok, %Draft_scope{} = draft_scope} = Drafts.create_draft_scope(valid_attrs)
+      assert {:ok, %Draft_team{} = draft_team} = Drafts.create_draft_team(valid_attrs)
     end
 
-    test "create_draft_scope/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Drafts.create_draft_scope(@invalid_attrs)
+    test "create_draft_team/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Drafts.create_draft_team(@invalid_attrs)
     end
 
-    test "update_draft_scope/2 with valid data updates the draft_scope" do
-      draft_scope = draft_scope_fixture()
+    test "update_draft_team/2 with valid data updates the draft_team" do
+      draft_team = draft_team_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Draft_scope{} = draft_scope} = Drafts.update_draft_scope(draft_scope, update_attrs)
+      assert {:ok, %Draft_team{} = draft_team} = Drafts.update_draft_team(draft_team, update_attrs)
     end
 
-    test "update_draft_scope/2 with invalid data returns error changeset" do
-      draft_scope = draft_scope_fixture()
-      assert {:error, %Ecto.Changeset{}} = Drafts.update_draft_scope(draft_scope, @invalid_attrs)
-      assert draft_scope == Drafts.get_draft_scope!(draft_scope.id)
+    test "update_draft_team/2 with invalid data returns error changeset" do
+      draft_team = draft_team_fixture()
+      assert {:error, %Ecto.Changeset{}} = Drafts.update_draft_team(draft_team, @invalid_attrs)
+      assert draft_team == Drafts.get_draft_team!(draft_team.id)
     end
 
-    test "delete_draft_scope/1 deletes the draft_scope" do
-      draft_scope = draft_scope_fixture()
-      assert {:ok, %Draft_scope{}} = Drafts.delete_draft_scope(draft_scope)
-      assert_raise Ecto.NoResultsError, fn -> Drafts.get_draft_scope!(draft_scope.id) end
+    test "delete_draft_team/1 deletes the draft_team" do
+      draft_team = draft_team_fixture()
+      assert {:ok, %Draft_team{}} = Drafts.delete_draft_team(draft_team)
+      assert_raise Ecto.NoResultsError, fn -> Drafts.get_draft_team!(draft_team.id) end
     end
 
-    test "change_draft_scope/1 returns a draft_scope changeset" do
-      draft_scope = draft_scope_fixture()
-      assert %Ecto.Changeset{} = Drafts.change_draft_scope(draft_scope)
+    test "change_draft_team/1 returns a draft_team changeset" do
+      draft_team = draft_team_fixture()
+      assert %Ecto.Changeset{} = Drafts.change_draft_team(draft_team)
     end
   end
 

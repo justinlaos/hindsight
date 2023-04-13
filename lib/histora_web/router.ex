@@ -1,8 +1,7 @@
 defmodule HistoraWeb.Router do
   use HistoraWeb, :router
   use Pow.Phoenix.Router
-  use Pow.Extension.Phoenix.Router,
-    extensions: [PowResetPassword, PowInvitation]
+  use Pow.Extension.Phoenix.Router, extensions: [PowResetPassword, PowInvitation]
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -43,12 +42,8 @@ defmodule HistoraWeb.Router do
       error_handler: Pow.Phoenix.PlugErrorHandler
   end
 
-  pipeline :scope_resources do
-    plug HistoraWeb.ScopeOrganization
-    plug HistoraWeb.AddDecisionChangesetPlug
-    plug HistoraWeb.AddScopesPlug
-    plug HistoraWeb.AddUsersPlug
-    plug HistoraWeb.AddTagsPlug
+  pipeline :get_organization do
+    plug HistoraWeb.GetOrganization
   end
 
   pipeline :activeUser do
@@ -57,12 +52,11 @@ defmodule HistoraWeb.Router do
   end
 
   # Open Routes
-    scope "/", HistoraWeb do
+  scope "/", HistoraWeb do
     pipe_through [:browser]
 
     get "/", MarketingController, :index
     get "/signup", SignupController, :signup
-    get "/signup-email", SignupController, :signupEmail
     post "/create_organization_trial", SignupController, :create_organization_trial
     get "/privacy_policy", PolicyController, :privacy_policy
     get "/terms_and_conditions", PolicyController, :terms_and_conditions
@@ -70,25 +64,17 @@ defmodule HistoraWeb.Router do
 
   # Authorized Active Routes
   scope "/", HistoraWeb do
-    pipe_through [:browser, :authorized, :completed_welcome, :activeUser, :scope_resources, :is_active, :has_trial_expired]
+    pipe_through [:browser, :authorized, :completed_welcome, :activeUser, :get_organization, :is_active, :has_trial_expired]
 
+    get "/home", HomeController, :index
     post "/results", SearchController, :results
     get "/results", SearchController, :results
+    get "/update_decision_approval", DecisionController, :update_decision_approval
+    get "/reset_decision_approval", DecisionController, :reset_decision_approval
     resources "/decisions", DecisionController
-    resources "/scopes", ScopeController
     resources "/reflections", ReflectionController
-    get "/past_due", ReflectionController, :past_due
-    get "/all_reflection_decsions", ReflectionController, :all_reflection_decsions
-    resources "/drafts", DraftController
-    post "/draft_vote", Draft_voteController, :create
-    resources "/draftoptions", Draft_optionController
-    post "/draft/convert", DraftController, :convert
+    resources "/teams", TeamController
     resources "/tags", TagController
-    resources "/users", UserController
-    post "/tag/favorite", TagController, :favorite
-    post "/tag/unfavorite", TagController, :unfavorite
-    post "/user/favorite", UserController, :favorite
-    post "/user/unfavorite", UserController, :unfavorite
   end
 
   scope "/", HistoraWeb do
@@ -104,7 +90,7 @@ defmodule HistoraWeb.Router do
 
   # Authorized Active Admin Routes
   scope "/admin", HistoraWeb do
-    pipe_through [:browser, :admin, :authorized, :activeUser, :scope_resources, :is_active, :has_trial_expired]
+    pipe_through [:browser, :admin, :authorized, :activeUser, :get_organization, :is_active, :has_trial_expired]
 
     get "/settings/integrations", Admin.SettingsController, :integrations
     get "/settings/tags", Admin.SettingsController, :tags
@@ -112,24 +98,22 @@ defmodule HistoraWeb.Router do
 
   # Authorized Admin Active-Agnostic Routes
   scope "/admin", HistoraWeb do
-    pipe_through [:browser, :admin, :authorized, :scope_resources]
+    pipe_through [:browser, :admin, :authorized, :get_organization]
 
     post "/create_customer_portal_session/:id", Admin.SettingsController, :create_customer_portal_session
     get "/settings/convert_trial", Admin.SettingsController, :convert_trial
-
     get "/settings/organization", Admin.SettingsController, :organization
     put "/settings/organization/:id", Admin.SettingsController, :update
     post "/settings/invitations", Admin.InvitationController, :create
     post "/users/:id/cancel_invite", Admin.UserController, :cancel_invite
     post "/users/:id/archive", Admin.UserController, :archive
     post "/users/:id/unarchive", Admin.UserController, :unarchive
-
     post "/select_plan", Admin.SettingsController, :select_plan
   end
 
   # Authorization Routes
   scope "/", Pow.Phoenix, as: "pow" do
-    pipe_through [:browser, :authorized, :activeUser, :scope_resources, :is_active, :has_trial_expired]
+    pipe_through [:browser, :authorized, :activeUser, :is_active, :has_trial_expired]
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update, :delete]
   end
@@ -139,8 +123,8 @@ defmodule HistoraWeb.Router do
     post "/", WebhooksController, :webhooks
   end
 
-   # Pow Routes
-   scope "/" do
+  # Pow Routes
+  scope "/" do
     pipe_through [:browser]
 
     pow_session_routes()
@@ -149,23 +133,14 @@ defmodule HistoraWeb.Router do
 
   scope "/api/v1", HistoraWeb.API.V1, as: :api_v1 do
     pipe_through :api
-
     resources "/session", SessionController, singleton: true, only: [:create, :delete]
     post "/session/renew", SessionController, :renew
   end
 
   scope "/api/v1", HistoraWeb.API.V1, as: :api_v1 do
     pipe_through [:api, :api_protected]
-
     post "/decision", DecisionController, :create
-
-    # Your protected API endpoints here
   end
-
-  # Other scopes may use custom stacks.
-  # scope "/api", HistoraWeb do
-  #   pipe_through :api
-  # end
 
   # Enables LiveDashboard only for development
   #

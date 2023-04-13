@@ -1,84 +1,84 @@
-defmodule HistoraWeb.Scope_userControllerTest do
+defmodule HistoraWeb.Team_userControllerTest do
   use HistoraWeb.ConnCase
 
-  import Histora.ScopesFixtures
+  import Histora.TeamsFixtures
 
   @create_attrs %{}
   @update_attrs %{}
   @invalid_attrs %{}
 
   describe "index" do
-    test "lists all scope_users", %{conn: conn} do
-      conn = get(conn, Routes.scope_user_path(conn, :index))
-      assert html_response(conn, 200) =~ "Listing Scope users"
+    test "lists all team_users", %{conn: conn} do
+      conn = get(conn, Routes.team_user_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Team users"
     end
   end
 
-  describe "new scope_user" do
+  describe "new team_user" do
     test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.scope_user_path(conn, :new))
-      assert html_response(conn, 200) =~ "New Scope user"
+      conn = get(conn, Routes.team_user_path(conn, :new))
+      assert html_response(conn, 200) =~ "New Team user"
     end
   end
 
-  describe "create scope_user" do
+  describe "create team_user" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.scope_user_path(conn, :create), scope_user: @create_attrs)
+      conn = post(conn, Routes.team_user_path(conn, :create), team_user: @create_attrs)
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.scope_user_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.team_user_path(conn, :show, id)
 
-      conn = get(conn, Routes.scope_user_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Scope user"
+      conn = get(conn, Routes.team_user_path(conn, :show, id))
+      assert html_response(conn, 200) =~ "Show Team user"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
-      conn = post(conn, Routes.scope_user_path(conn, :create), scope_user: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Scope user"
+      conn = post(conn, Routes.team_user_path(conn, :create), team_user: @invalid_attrs)
+      assert html_response(conn, 200) =~ "New Team user"
     end
   end
 
-  describe "edit scope_user" do
-    setup [:create_scope_user]
+  describe "edit team_user" do
+    setup [:create_team_user]
 
-    test "renders form for editing chosen scope_user", %{conn: conn, scope_user: scope_user} do
-      conn = get(conn, Routes.scope_user_path(conn, :edit, scope_user))
-      assert html_response(conn, 200) =~ "Edit Scope user"
+    test "renders form for editing chosen team_user", %{conn: conn, team_user: team_user} do
+      conn = get(conn, Routes.team_user_path(conn, :edit, team_user))
+      assert html_response(conn, 200) =~ "Edit Team user"
     end
   end
 
-  describe "update scope_user" do
-    setup [:create_scope_user]
+  describe "update team_user" do
+    setup [:create_team_user]
 
-    test "redirects when data is valid", %{conn: conn, scope_user: scope_user} do
-      conn = put(conn, Routes.scope_user_path(conn, :update, scope_user), scope_user: @update_attrs)
-      assert redirected_to(conn) == Routes.scope_user_path(conn, :show, scope_user)
+    test "redirects when data is valid", %{conn: conn, team_user: team_user} do
+      conn = put(conn, Routes.team_user_path(conn, :update, team_user), team_user: @update_attrs)
+      assert redirected_to(conn) == Routes.team_user_path(conn, :show, team_user)
 
-      conn = get(conn, Routes.scope_user_path(conn, :show, scope_user))
+      conn = get(conn, Routes.team_user_path(conn, :show, team_user))
       assert html_response(conn, 200)
     end
 
-    test "renders errors when data is invalid", %{conn: conn, scope_user: scope_user} do
-      conn = put(conn, Routes.scope_user_path(conn, :update, scope_user), scope_user: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Scope user"
+    test "renders errors when data is invalid", %{conn: conn, team_user: team_user} do
+      conn = put(conn, Routes.team_user_path(conn, :update, team_user), team_user: @invalid_attrs)
+      assert html_response(conn, 200) =~ "Edit Team user"
     end
   end
 
-  describe "delete scope_user" do
-    setup [:create_scope_user]
+  describe "delete team_user" do
+    setup [:create_team_user]
 
-    test "deletes chosen scope_user", %{conn: conn, scope_user: scope_user} do
-      conn = delete(conn, Routes.scope_user_path(conn, :delete, scope_user))
-      assert redirected_to(conn) == Routes.scope_user_path(conn, :index)
+    test "deletes chosen team_user", %{conn: conn, team_user: team_user} do
+      conn = delete(conn, Routes.team_user_path(conn, :delete, team_user))
+      assert redirected_to(conn) == Routes.team_user_path(conn, :index)
 
       assert_error_sent 404, fn ->
-        get(conn, Routes.scope_user_path(conn, :show, scope_user))
+        get(conn, Routes.team_user_path(conn, :show, team_user))
       end
     end
   end
 
-  defp create_scope_user(_) do
-    scope_user = scope_user_fixture()
-    %{scope_user: scope_user}
+  defp create_team_user(_) do
+    team_user = team_user_fixture()
+    %{team_user: team_user}
   end
 end

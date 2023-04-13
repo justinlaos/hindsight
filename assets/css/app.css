@@ -152,3 +152,37 @@ body {
   0% { opacity: 1; }
   100% { opacity: 0; }
 }
+
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-options {
+  display: none;
+  position: absolute;
+  overflow: auto;
+}
+
+.dropdown:hover .dropdown-options {
+  display: block;
+  bottom: 100%;
+}
+
+button:focus { outline: none; }
+
+
+.choices__item {
+  background-color: #f2f3f4 !important;
+  border: #2b9455 !important;
+  color: black !important;
+}
+
+.choices__inner {
+  background-color: white !important;
+  border-radius: 0 !important;
+}
+
+.choices__input {
+  background-color: white !important;
+}

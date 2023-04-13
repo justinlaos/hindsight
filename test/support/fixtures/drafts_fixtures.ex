@@ -33,17 +33,17 @@ defmodule Histora.DraftsFixtures do
   end
 
   @doc """
-  Generate a draft_scope.
+  Generate a draft_team.
   """
-  def draft_scope_fixture(attrs \\ %{}) do
-    {:ok, draft_scope} =
+  def draft_team_fixture(attrs \\ %{}) do
+    {:ok, draft_team} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Drafts.create_draft_scope()
+      |> Histora.Drafts.create_draft_team()
 
-    draft_scope
+    draft_team
   end
 
   @doc """

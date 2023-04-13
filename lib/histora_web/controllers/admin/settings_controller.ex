@@ -7,11 +7,6 @@ defmodule HistoraWeb.Admin.SettingsController do
   alias Histora.Organizations
   alias Histora.Organizations.Organization
 
-  def integrations(conn, _params) do
-    %{organization: organization} = conn.assigns
-    render(conn, "integrations.html", organization: organization, settings: true)
-  end
-
   def convert_trial(conn, _params) do
     %{organization: organization} = conn.assigns
     managed_users = Users.get_organization_users_for_settings(organization)
@@ -24,12 +19,17 @@ defmodule HistoraWeb.Admin.SettingsController do
 
     changeset = Organizations.change_organization(organization)
     managed_users = Users.get_organization_users_for_settings(organization)
-    user_favorites = Users.current_user_user_favorites(conn.assigns.current_user)
 
     new_user_changeset = User.invite_changeset(%User{}, conn.assigns.current_user, %{"email" => nil})
     Histora.Data.page(conn.assigns.current_user, "Settings Organization")
 
-    render(conn, "organization.html", organization: organization, managed_users: managed_users, changeset: changeset, new_user_changeset: new_user_changeset, user_favorites: user_favorites, settings: true)
+    render(conn, "organization.html",
+      organization: organization,
+      managed_users: managed_users,
+      changeset: changeset,
+      new_user_changeset: new_user_changeset,
+      settings: true
+    )
   end
 
   def update(conn, %{"id" => id, "organization" => organization_params}) do

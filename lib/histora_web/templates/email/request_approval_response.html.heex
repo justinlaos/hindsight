@@ -1,0 +1,17 @@
+
+<div class="container no-link-styles">
+    <div class="text-xs ml-6">
+        <span class="mr-1"><%= @approval.user.email %></span> <%= if @approval.approved, do: raw("<span class='text-primary mr-1'>approved</span>"), else: raw("<span class='text-red mr-1'>denied</span>") %>
+        <div class="mt-2 text-grey">
+            <%= @approval.note %>
+        </div>
+    </div>
+
+    <div class="border-solid border-light-grey font-extralight space"></div>
+
+    <a href={"https://www.histora.app/decisions/#{@approval.decision.id}"} >
+        <div class="border-b border-light-grey dark:border-dark-grey">
+            <%= render HistoraWeb.ComponentView, "email_decision.html", decision: @approval.decision %>
+        </div>
+    </a>
+</div>

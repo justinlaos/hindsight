@@ -1,32 +1,19 @@
-<div class="ml-8 px-2 pl-2 pt-4 pb-2 my-8 border-2 border-grey rounded-md">
-    <div class="ml-4">
-        <%= if @reflection.status == "good" do %>
-            <div class="text-primary"><%= @reflection.status %></div>
-        <% else %>
-            <div class="text-red"><%= @reflection.status %></div>
-        <% end %>
-        <div class="text-base mt-4 dark:text-white"><%= @reflection.content %></div>
-    </div>
+<div class="bg-really-light-grey dark:bg-darkest-grey mx-6 p-4 rounded max-w-4xl min-w-fit">
+    <%= if @reflection.status == "continuation" do %>
+        <div class="text-primary"><%= @reflection.status %></div>
+    <% else %>
+        <div class="text-red"><%= @reflection.status %></div>
+    <% end %>
 
-    <div class="flex flex-row text-xs mt-4">
-        <%= link to: Routes.user_path(@conn, :show, @reflection.user) do %> 
-            <div class="inline-flex flex-row items-center mx-0.5 px-2.5 dark:text-dark-grey dark:hover:text-light-grey dark:hover:bg-darkest-grey rounded-md py-1.5 hover:bg-grey-ish"> 
-                <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
-                <%= @reflection.user.email %>
-            </div>
-        <% end %>
+    <div class="text-base my-2 dark:text-white"><%= @reflection.content %></div>
 
-        <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
-
-        <div class="items-center mx-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-black dark:text-grey"> 
-            <%= Histora.Users.formate_time_stamp(@reflection.inserted_at) %> 
+    <div class="flex flex-row items-center  text-xs mt-4">
+        <div class="mr-1 text-xs font-medium text-black dark:text-grey">
+            <%= Histora.Users.formate_time_stamp(@reflection.inserted_at) %>
         </div>
-
-        <%= if @reflection.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
-            <div class="inline-flex items-center px-2.5 py-1.5 rounded-md text-xs font-medium text-dark-grey dark:text-grey"> | </div>
-            <div class="items-center mx-1 px-2.5 py-1.5 rounded-md text-xs font-medium text-black dark:text-grey"> 
-                <%= render HistoraWeb.DecisionView, "edit_reflection_slide_modal.html", Map.put(assigns, :action, Routes.reflection_path(@conn, :update, @reflection.id)) %>
-            </div>
-        <% end %>
+        <div class="inline-flex flex-row mx-0.5 px-2.5 dark:text-dark-grey py-1.5">
+            <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
+            <%= @reflection.user.email %>
+        </div>
     </div>
 </div>

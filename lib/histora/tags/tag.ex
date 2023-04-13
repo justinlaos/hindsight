@@ -10,7 +10,6 @@ defmodule Histora.Tags.Tag do
     belongs_to :user, Histora.Users.User
 
     has_many(:tag_decisions, Histora.Tags.Tag_decision)
-    has_many(:tag_favorites, Histora.Tags.Tag_favorite)
     has_many(:decisions, through: [:tag_decisions, :decision])
 
     timestamps()

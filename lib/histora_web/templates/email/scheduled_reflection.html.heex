@@ -1,0 +1,11 @@
+
+<div class="container no-link-styles">
+    <p> You scheduled to reflect on this decision today. click to continue</p>
+
+    <a href={"https://www.histora.app/decisions/#{@decision.id}"} >
+        <div class="border-b border-light-grey dark:border-dark-grey">
+            <%= render HistoraWeb.ComponentView, "email_decision.html", decision: @decision %>
+        </div>
+        <div class="border-solid border-light-grey font-extralight space"></div>
+    </a>
+</div>
