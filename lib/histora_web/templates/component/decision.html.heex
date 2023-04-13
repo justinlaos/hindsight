@@ -2,7 +2,7 @@
 
     <div class="flex flex-row text-xs mb-2">
         <div class="inline-flex flex-row items-center dark:text-grey py-1.5 mr-4">
-            <%= Histora.Users.formate_time_stamp(@decision.inserted_at) %>
+            <%= Histora.Users.formate_time_stamp(@decision.date) %>
         </div>
 
         <%= if Ecto.assoc_loaded?(@decision.user) do %>
