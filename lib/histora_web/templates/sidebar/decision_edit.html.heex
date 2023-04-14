@@ -19,7 +19,7 @@
                             <select id="new_teams" name="new_teams" class="block w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
                                 <option disabled selected>Teams</option>
                                 <%= for team <- @teams do %>
-                                    <option value={"#{team.id}"} selected={List.first(@decision.teams).id == team.id}><%= team.name %></option>
+                                    <option value={"#{team.id}"} selected={List.first(@decision.teams) == team}><%= team.name %></option>
                                 <% end %>
                             </select>
 
