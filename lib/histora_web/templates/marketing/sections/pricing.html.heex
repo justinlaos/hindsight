@@ -1,41 +1,36 @@
-<div class="py-14 bg-white dark:bg-darkest-grey flex flex-col items-center text-center">
+<div class="py-8 bg-white dark:bg-darkest-grey flex flex-col items-center text-center">
     <div class="text-4xl text-white mb-2 text-center"></div>
-    <div class="text-4xl text-darkest-grey dark:text-white mb-2 text-center">Free <span class="font-extrabold text-primary">30</span> Day Trial</div>
-    <div class="text-grey">
-        <span class="text-blue">( No credit card )</span>
-        to start trial. Cancel anytime
-    </div>
+    <div class="text-2xl text-darkest-grey dark:text-white mb-2 text-center">Free <span class="font-extrabold text-primary">30</span> Day Trial <span class="text-blue text-base">( No credit card )</span> </div>
 
-
-    <div class="text-grey dark:text-grey text-center mt-8 mb-2">Example Pricing</div>
+    <div class="text-black text-xs dark:text-white text-center mt-4 mb-2">Example Pricing</div>
 
     <script> function trackPlanSelect(plan) { plausible('Pricing trial Button', {props: {size: plan}}); }</script>
 
     <div class="flex justify-center w-full sm:w-8/12 lg:w-6/12 px-1">
-        <div class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
-            <div class="font-bold text-md">10 users</div>
+        <div class="border-[.5px] border-light-grey dark:border-dark-grey m-2 p-3 w-full">
+            <div class="font-bold">10 users</div>
             <div class="font-grey">$100/mo</div>
         </div>
 
-        <div class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
-            <div class="font-bold text-md">15 users</div>
+        <div class="border-[.5px] border-light-grey dark:border-dark-grey m-2 p-3 w-full">
+            <div class="font-bold">15 users</div>
             <div>$150/mo</div>
         </div>
 
-        <div class="dark:bg-white bg-light-grey m-2 p-3 rounded-md w-full">
-            <div class="font-bold text-md">20 users</div>
+        <div class="border-[.5px] border-light-grey dark:border-dark-grey m-2 p-3 w-full">
+            <div class="font-bold">20 users</div>
             <div>$200/mo</div>
         </div>
     </div>
 
     <%= link to: Routes.signup_path(@conn, :signup) do %>
-        <button type="submit" class="mt-8 w-full rounded-md px-5 py-3 bg-primary dark:bg-primary text-base font-bold text-white shadow hover:bg-dark-primary focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">
-            Start Free <span class="font-extrabold">30</span> Day Trial
+        <button type="submit" class="mt-8 w-full px-5 py-3 bg-primary dark:bg-primary text-base font-bold text-white shadow hover:bg-dark-primary focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2 sm:px-10">
+            Start Now
         </button>
     <% end %>
 
 
-    <div class="mt-14 mt-2 dark:text-grey w-10/12 lg:w-6/12">
+    <div class="mt-10 text-grey text-xs w-10/12 lg:w-6/12">
         Subscriptions are billed monthly. You can cancel anytime for any reason. Price is by user seats. You can update your user seats anytime.
     </div>
 </div>
