@@ -15,10 +15,6 @@
 
 <div style="white-space:nowrap;" class="flex bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
 
-    <div class="text-sm mr-4 ml-6 py-4 text-grey dark:text-white">
-        Reflections
-    </div>
-
     <%= render HistoraWeb.SidebarView, "reflections_scheduled.html", users_scheduled_reflections: @users_scheduled_reflections, conn: @conn %>
 
     <%= unless Enum.empty?(@users_past_due_reflections) do %>
