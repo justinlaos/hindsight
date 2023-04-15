@@ -1,6 +1,7 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
     <!-- Trigger -->
-    <span @click="toggle"> <button class="text-sm ml-8 py-4 px-6 text-orange hover:text-primary border-x-[.5px] border-light-grey dark:border-dark-grey">
+    <span @click="toggle">
+        <button class="text-sm text-orange hover:text-primary">
         <%= Enum.count(@users_active_approvals) %> approval requests
     </button></span>
 
@@ -11,7 +12,7 @@
                 <div>
                     <!-- Header -->
                     <div class="flex justify-between items-center mb-10">
-                        <h2 x-dialog:title class="text-lg font-bold text-black dark:text-light-grey">Your Past Due Reflections</h2>
+                        <h2 x-dialog:title class="text-lg font-bold text-black dark:text-light-grey">Your Requested Approvals</h2>
                         <button type="button" @click="$dialog.close()" class="focus:ring-0 focus:ring-offset-0"> <Heroicons.LiveView.icon name="x-mark" type="solid" class="h-4 w-4" /></button>
                     </div>
 
