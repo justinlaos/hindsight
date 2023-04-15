@@ -1,7 +1,8 @@
 <div class="sticky bg-white dark:bg-slate pt-4 top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
   <div class="text-xs text-primary ml-6"> <%= @organization.status %></div>
   <div class="flex flex-row pb-4 justify-between text-1xl ml-6 py-2 font-bold dark:text-white">
-    <%= @organization.name %>
+    <div class="hidden sm:flex"><%= @organization.name %></div>
+    <%= render HistoraWeb.LayoutView, "mobile_navigation.html", conn: @conn, name: @organization.name %>
     <%= render HistoraWeb.SidebarView, "organization_edit.html", Map.put(assigns, :action, Routes.settings_path(@conn, :update, @organization.id)) %>
   </div>
 
