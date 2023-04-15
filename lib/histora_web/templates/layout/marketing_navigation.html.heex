@@ -14,7 +14,7 @@
 
     <%= if assigns.conn.request_path != "/session/new" do %>
       <%= link to: Routes.pow_session_path(@conn, :new) do %>
-        <div class="hidden sm:inline dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-xs sm:text-sm text-white">
+        <div class="dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-xs sm:text-sm text-white">
           Login
         </div>
       <% end %>
