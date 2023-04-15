@@ -1,6 +1,7 @@
 <div class="sticky bg-white dark:bg-slate pt-4 top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
   <div class="flex flex-row justify-between pb-4 text-1xl ml-6 py-2 font-bold dark:text-white">
-    Tags
+    <div class="hidden sm:flex">Tags</div>
+    <%= render HistoraWeb.LayoutView, "mobile_navigation.html", conn: @conn, name: "Tags" %>
   </div>
 </div>
 

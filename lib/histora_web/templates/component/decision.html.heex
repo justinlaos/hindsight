@@ -25,10 +25,10 @@
     <div class="flex flex-row text-xs mt-2 center-items">
 
         <%= if Enum.count(@decision.teams) >= 1 and String.contains?(@conn.request_path, "team") == false do %>
-            <div class="flex flex-row dark:text-black">
+            <div class="flex dark:text-black">
                 <%= for team <- @decision.teams do %>
                     <%= link to: Routes.decision_path(@conn, :index, teams: team.id) do %>
-                        <div class="mr-4 font-bold inline-flex items-center text-xs py-1.5 rounded-md text-primary hover:text-blue">
+                        <div style="white-space:nowrap;" class="mr-4 font-bold inline-flex items-center text-xs py-1.5 rounded-md text-primary hover:text-blue">
                             <%= team.name %>
                         </div>
                     <% end %>
@@ -41,14 +41,16 @@
             <a class="inline-flex items-center text-xs text-blue dark:text-dark-grey dark:hover:text-light-grey rounded-md mr-4 hover:text-blue" href={"#{ @decision.reference }"} target="_blank">Reference</a>
         <% end %>
 
-        <%= if @decision.tags != nil do %>
-            <%= for tag <- @decision.tags do %>
-                <%= link to: Routes.decision_path(@conn, :index, tag_list: tag.id) do %>
-                    <div class="inline-flex items-center mr-4 py-1.5 rounded-md text-xs font-medium text-darkest-grey dark:text-grey hover:text-blue dark:hover:text-blue">
-                        <%= tag.name %>
-                    </div>
+        <div class="flex overflow-x-scroll">
+            <%= if @decision.tags != nil do %>
+                <%= for tag <- @decision.tags do %>
+                    <%= link to: Routes.decision_path(@conn, :index, tag_list: tag.id) do %>
+                        <div class="inline-flex items-center mr-4 py-1.5 rounded-md text-xs font-medium text-darkest-grey dark:text-grey hover:text-blue dark:hover:text-blue">
+                            <%= tag.name %>
+                        </div>
+                    <% end %>
                 <% end %>
             <% end %>
-        <% end %>
+        </div>
     </div>
 </div>

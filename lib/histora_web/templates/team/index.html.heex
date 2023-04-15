@@ -1,7 +1,8 @@
 <div class="sticky pt-4 bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
   <div class="flex flex-row justify-between text-1xl ml-6 pb-4 font-bold dark:text-white">
-    Teams
-      <%= render HistoraWeb.SidebarView, "team_new.html", Map.put(assigns, :action, Routes.team_path(@conn, :create)) %>
+    <div class="hidden sm:flex">Teams</div>
+    <%= render HistoraWeb.LayoutView, "mobile_navigation.html", conn: @conn, name: "Teams" %>
+    <%= render HistoraWeb.SidebarView, "team_new.html", Map.put(assigns, :action, Routes.team_path(@conn, :create)) %>
   </div>
 
 </div>
