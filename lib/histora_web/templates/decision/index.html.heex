@@ -6,6 +6,8 @@
   </div>
 
     <div class="flex justify-between items-center py-0.5 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
+
+      <div class="flex overflow-x-scroll items-center">
         <%= if Enum.member?(@selected_filtered_users, @conn.assigns.current_user) do %>
           <%= link to: Routes.decision_path(@conn, :index) do %>
             <div class="ml-6 mr-4 py-2 text-xs text-blue">
@@ -19,7 +21,6 @@
               </div>
             <% end %>
         <% end %>
-      <div class="flex overflow-x-scroll items-center">
         <%= for team <- @users_teams do %>
           <%= link to: Routes.decision_path(@conn, :index, teams: team.id) do %>
               <div style="white-space:nowrap;" class="mr-2 px-2 font-bold inline-flex items-center text-xs py-1.5 rounded-md text-black dark:text-light-grey dark:hover:text-blue">
@@ -50,19 +51,19 @@
 
   <%= if ( @selected_filtered_teams != %{} && @selected_filtered_teams in @users_teams == false ) || ( List.first(@selected_filtered_users) != %{} && Enum.member?(@selected_filtered_users, @conn.assigns.current_user) != true ) || List.first(@selected_filtered_tags) != %{} do %>
     <div class="flex justify-between items-center py-0.5 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
-      <div class="flex items-center">
+      <div class="flex overflow-x-scroll items-center">
         <div class="ml-6 py-2 text-xs text-grey mr-2">Current Filters</div>
 
         <%= if @selected_filtered_teams != %{} && (Enum.member?(@users_teams, @selected_filtered_teams) != true) do %>
-          <div class="ml-6 py-2 text-xs mr-2 text-blue"><%= @selected_filtered_teams.name %></div>
+          <div style="white-space:nowrap;" class="ml-6 py-2 text-xs mr-2 text-blue"><%= @selected_filtered_teams.name %></div>
         <% end %>
 
         <%= if List.first(@selected_filtered_users) != %{} && Enum.member?(@selected_filtered_users, @conn.assigns.current_user) != true do %>
-          <div class="ml-6 py-2 text-xs mr-2 text-blue"><%= List.first(@selected_filtered_users).email %></div>
+          <div style="white-space:nowrap;" class="ml-6 py-2 text-xs mr-2 text-blue"><%= List.first(@selected_filtered_users).email %></div>
         <% end %>
 
         <%= if List.first(@selected_filtered_tags) != %{} do %>
-          <div class="ml-6 py-2 text-xs mr-2 text-blue"><%= List.first(@selected_filtered_tags).name %></div>
+          <div style="white-space:nowrap;" class="ml-6 py-2 text-xs mr-2 text-blue"><%= List.first(@selected_filtered_tags).name %></div>
         <% end %>
       </div>
         <%= link to: Routes.decision_path(@conn, :index) do %>

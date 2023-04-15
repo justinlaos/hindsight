@@ -13,7 +13,7 @@
   </div>
 </div>
 
-<div class="flex bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
+<div style="white-space:nowrap;" class="flex bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
 
     <div class="text-sm mr-4 ml-6 py-4 text-grey dark:text-white">
         Reflections
@@ -25,12 +25,55 @@
         <%= render HistoraWeb.SidebarView, "reflections_past_due.html", users_past_due_reflections: @users_past_due_reflections, conn: @conn %>
     <% end %>
 
-    <%= unless Enum.empty?(@users_active_approvals) do %>
-        <%= render HistoraWeb.SidebarView, "approvals_active.html", users_active_approvals: @users_active_approvals, conn: @conn %>
-    <% end %>
+    <div class="hidden sm:flex ml-8 py-4 px-6  border-x-[.5px] border-light-grey dark:border-dark-grey">
+        <%= unless Enum.empty?(@users_active_approvals) do %>
+            <%= render HistoraWeb.SidebarView, "approvals_active.html", users_active_approvals: @users_active_approvals, conn: @conn %>
+        <% end %>
+    </div>
 </div>
 
-<div class="border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
+<%= unless Enum.empty?(@users_active_approvals) do %>
+    <div class="flex sm:hidden pl-6 py-4 border-b-[.5px] border-light-grey dark:border-dark-grey">
+        <%= render HistoraWeb.SidebarView, "approvals_active.html", users_active_approvals: @users_active_approvals, conn: @conn %>
+    </div>
+<% end %>
+
+<div class="sm:hidden">
+    <div class="py-6 px-10 flex flex-col justify-center items-center border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
+        <div class="text-xs mb-6 text-grey dark:text-white">
+            All Organization
+        </div>
+        <div class="flex">
+            <div class="flex flex-col justify-center items-center">
+                <div class="mb-2"><%= @decision_count %></div>
+                <div class="font-bold text-sm">Decisions</div>
+
+            </div>
+            <div class="flex flex-col justify-center items-center ml-8">
+                <div class="mb-2"><%= @reflection_count %></div>
+                <div class="font-bold text-sm">Reflections</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-6 px-10 flex flex-col justify-center items-center border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
+        <div class="text-xs mb-6 text-grey dark:text-white">
+            Reflection Rate
+        </div>
+        <div class="flex text-white">
+            <div class="flex flex-col justify-center items-center">
+                <div class="mb-2"><%= @reflection_continuation_percentage %>%</div>
+                <div class="font-bold text-sm text-primary">Continuation</div>
+            </div>
+            <div class="flex flex-col justify-center items-center ml-8">
+                <div class="mb-2"><%= @reflection_reversal_percentage %>%</div>
+                <div class="font-bold text-sm text-red">Reversal</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hidden sm:flex border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
     <div class="flex">
         <div class="py-46 px-10 flex flex-col justify-center items-center">
             <div class="text-xs mb-6 text-grey dark:text-white">

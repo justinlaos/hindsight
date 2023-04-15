@@ -1,6 +1,8 @@
 <div class="bg-white dark:bg-slate pt-4">
     <div class="flex flex-row justify-between text-1xl ml-6 font-bold dark:text-white">
-        Decision
+        <div class="hidden sm:flex">Decision</div>
+        <%= render HistoraWeb.LayoutView, "mobile_navigation.html", conn: @conn, name: "Decision" %>
+
         <%= if @decision.user_id == @conn.assigns.current_user.id || @conn.assigns.current_user.role == "admin" do %>
             <%= render HistoraWeb.SidebarView,"decision_edit.html", Map.put(assigns, :action, Routes.decision_path(@conn, :update, @decision.id)) %>
         <% end %>
