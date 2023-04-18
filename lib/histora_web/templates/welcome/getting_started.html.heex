@@ -1,80 +1,42 @@
-<div class="ml-6 mt-4 mb-16 flex flex-col items-center min-h-screen">
-    <div class="mb-12 text-4xl mt-4 text-center dark:text-white"> Welcome! <span class="text-2xl mt-2 text-grey">Let's get you started.</span></div>
+<div class="px-6 mt-4 mb-16 flex flex-col items-center min-h-screen">
+    <div class="mb-6 text-2xl mt-4 text-center dark:text-white"> Welcome! <span class="text-base mt-2 text-grey">Let's get you started.</span></div>
 
-    <div class="mt-2 text-center text-dark-grey dark:text-grey mb-8">
-        Histora allows you to Draft, Record, and Reflect on impactful decisions.
+    <div class="text-lg text-center text-dark-white dark:text-grey mb-4">
+        We want to help your company make better decisions.
     </div>
 
-    <img class="w-10/12 sm:w-5/12 mb-8 object-center rounded-md shadow-xl ring-1 ring-primary ring-opacity-5" src="/images/marketing_screen_shot.png" alt="">
-
-    <div class="mt-6 text-2xl text-dark-grey dark:text-primary text-center">
-        Decisions made every day drive the direction of your company.
+    <div class="mt-1 w-11/12 sm:w-8/12 text-center dark:text-white mb-8">
+        As organizations scale, it becomes challenging to keep track of and comprehend the numerous impactful decisions made every day. As a result, teams can fall out of sync, repeat mistakes, lose meaningful context, and fail to identify bad decisions until it's too late. We want to make decision-making your new superpower.
     </div>
 
-    <div class="mt-2 w-10/12 sm:w-5/12 text-center dark:text-grey">Knowing what, when, and why decisions are being made, helps provide context to the team and lead to better decisions moving forward</div>
+    <div class="mt-4 mb-2 text-2xl font-bold text-primary"> The Decision Page </div>
 
-    <div class="mt-16 mb-2 text-center text-3xl font-bold text-black dark:text-white">What is a decision?</div>
-    <div class="w-10/12 sm:w-10/12 p-4 rounded-md dark:text-grey text-center">
-        A decision's core is
-        <span class="text-primary font-bold">What</span> and <span class="text-primary font-bold">Why</span> to provide structural context.
-        Attach one or many <span class="text-blue font-bold">tags</span> to link mutual decisions. Connect team members who are involved.
-        Add an external reference to provide more information. House inside one or many <span class="text-orange font-bold">teams</span> for better catagoriztion.
+    <img class="w-11/12 sm:w-6/12 mb-8 object-center shadow-xl ring-1 ring-primary ring-opacity-5" src="/images/marketing_screenshot.png" alt="">
+
+    <div class="mt-2 w-11/12 sm:w-8/12 text-center dark:text-light-grey">
+        On this page, you can easily see what is happening in your company and get an idea of the decisions being made. If you've been added to any teams, they will be displayed at the top, serving as a quick filter for viewing decisions from specific teams. The icon on the left allows you to filter decisions made by you. On the right, there is a filter button that enables you to filter by team, user, or tag. Additionally, you can click on teams, users, or tags on individual decisions for fast filtering.
     </div>
 
-    <img class="w-10/12 sm:w-5/12 mt-4 mb-8 object-center rounded-md shadow-xl ring-1 ring-primary ring-opacity-5" src="/images/sample_decision_one.png" alt="">
 
+    <div class="mt-10 mb-3 text-2xl font-bold text-primary"> Viewing a Decision </div>
 
-    <div class="w-10/12 mt-6 flex items-center justify-between flex-wrap sm:flex-nowrap">
-        <div class="my-2 p-6 m-4">
-            <div class="flex flex-row items-center mb-2">
-                <Heroicons.LiveView.icon name="pencil-square" type="solid" class="h-10 w-10 mr-3 text-dark-grey dark:text-primary" />
-                Drafts
-            </div>
-            <div class="text-grey">
-                Drafts allow you and your team to make decisions together. Connect users from teams or individually. Provide a title and details of the problem in the description. Users can create options and vote on which one is the best
-            </div>
-        </div>
-        <div class="my-2 p-6 m-4">
-            <div class="flex flex-row items-center mb-2">
-                <Heroicons.LiveView.icon name="user-group" type="solid" class="h-10 w-10 mr-3 text-dark-grey dark:text-primary" />
-                Teams
-            </div>
-            <div class="text-grey">
-                Teams allow you to "team" decisions in whatever context works best for your company, like departments, projects, or anything that might hold decisions.
-            </div>
-        </div>
-        <div class="my-2 p-6 m-4">
-            <div class="flex flex-row items-center mb-2">
-                <Heroicons.LiveView.icon name="eye" type="solid" class="h-10 w-10 mr-3 text-dark-grey dark:text-primary" />
-                Reflections
-            </div>
-            <div class="text-grey">
-                Make a Reflection on any decision you author or schedule one down the line. Scheduling Reflections when making a decision creates a feedback cycle that allows you to build on your decisions and track your progress.
-            </div>
-        </div>
+    <img class="w-12/12 sm:w-8/12 mb-8 object-center shadow-xl ring-1 ring-primary ring-opacity-5" src="/images/decision_full.png" alt="">
+
+    <div class="mt-2 w-11/12 sm:w-8/12 text-center dark:text-light-grey">
+        Here, you can view decisions in detail. Decisions include a general "what" and "why" and can be categorized by team and various tags. Decisions can also be requested for approval by team members. By clicking on "timeline," you can track the history of decision progression, also represented by the dots. You can also see if a reflection has been added or scheduled.
     </div>
 
-    <div class="mt-8 mb-2 text-center text-3xl font-bold text-black dark:text-white">Extra</div>
-    <div class="w-10/12 sm:w-8/12 p-4 rounded-md">
-        <div class="text-center text-dark-grey dark:text-grey">
-            Only users connected to teams or decisions can view them if they are made private. Decisions can also have "tags" to efficiently filter and search.
-        </div>
-        <div class="text-center text-black dark:text-white mt-6">If you have any issues or questions, please visit our support page to review our docs or reach out to us.</div>
-    </div>
-
-        <%= if @current_user.role == "admin" do %>
-            <%= link to: Routes.welcome_path(@conn, :complete_welcome) do %>
-                <button class="bg-primary dark:bg-primary dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-white font-bold py-4 px-16 mx-3 mt-6 rounded">
-                    Next
-                </button>
-            <% end %>
-
-        <% else %>
-            <%= link to: Routes.welcome_path(@conn, :complete_welcome) do %>
-                <button class="bg-primary dark:bg-primary dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-white font-bold py-4 px-16 mx-3 mt-6 rounded">
-                    Lets Go!
-                </button>
-            <% end %>
-
+    <%= if @current_user.role == "admin" do %>
+        <%= link to: Routes.welcome_path(@conn, :complete_welcome) do %>
+            <button class="bg-primary dark:bg-primary dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-white font-bold py-4 px-16 mx-3 mt-6 rounded">
+                Next
+            </button>
         <% end %>
+    <% else %>
+        <%= link to: Routes.welcome_path(@conn, :complete_welcome) do %>
+            <button class="bg-primary dark:bg-primary dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-white font-bold py-4 px-16 mx-3 mt-6 rounded">
+                Lets Go!
+            </button>
+        <% end %>
+    <% end %>
 </div>
