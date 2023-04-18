@@ -1,6 +1,6 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
     <!-- Trigger -->
-    <span @click="toggle"> <button class="text-primary mx-6 py-2"> Filter </button></span>
+    <span @click="toggle"> <button class="text-primary mx-4 py-2"> Filter </button></span>
 
     <!-- Slideover -->
     <div x-dialog x-model="open" style="display: none" class="fixed inset-0 overflow-hidden z-10" >

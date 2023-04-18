@@ -58,11 +58,15 @@ defmodule Histora.Decisions do
   def formate_decisions(decisions, current_user) do
     team_list = Teams.get_user_teams(current_user.id)
     decisions = (from r in subquery(decisions), preload: [:user, :tags, :teams]) |> Repo.all()
-    Enum.filter(decisions, fn x -> x.user_id == current_user.id or filter_team(x, team_list) == true end)
+    if Histora.Users.is_admin?(current_user) do
+      decisions
+    else
+      Enum.filter(decisions, fn x -> Enum.empty?(x.teams) or List.first(x.teams).private == false or filter_team(x, team_list) == true end)
+    end
   end
 
   defp filter_team(decision, team_list) do
-    Enum.any?(decision.teams, fn x -> x in team_list end)
+    Enum.any?(decision.teams, fn x -> (x in team_list) end)
   end
 
   def get_param_start_date(params) do

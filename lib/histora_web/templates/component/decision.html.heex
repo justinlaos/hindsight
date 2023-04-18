@@ -1,5 +1,9 @@
 <div class="py-2 px-6 my-2">
 
+    <%= if Enum.empty?(@decision.teams) != true && List.first(@decision.teams).private do %>
+        <div class="text-orange text-xs mb-2">Private</div>
+    <% end %>
+
     <div class="flex flex-row text-xs mb-2">
         <div class="inline-flex flex-row items-center dark:text-grey py-1.5 mr-4">
             <%= Histora.Users.formate_time_stamp(@decision.date) %>
