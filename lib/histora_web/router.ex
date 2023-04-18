@@ -75,6 +75,7 @@ defmodule HistoraWeb.Router do
     resources "/reflections", ReflectionController
     resources "/teams", TeamController
     resources "/tags", TagController
+    get "/organization", OrganizationController, :index
   end
 
   scope "/", HistoraWeb do
@@ -92,8 +93,6 @@ defmodule HistoraWeb.Router do
   scope "/admin", HistoraWeb do
     pipe_through [:browser, :admin, :authorized, :activeUser, :get_organization, :is_active, :has_trial_expired]
 
-    get "/settings/integrations", Admin.SettingsController, :integrations
-    get "/settings/tags", Admin.SettingsController, :tags
   end
 
   # Authorized Admin Active-Agnostic Routes
@@ -102,7 +101,6 @@ defmodule HistoraWeb.Router do
 
     post "/create_customer_portal_session/:id", Admin.SettingsController, :create_customer_portal_session
     get "/settings/convert_trial", Admin.SettingsController, :convert_trial
-    get "/settings/organization", Admin.SettingsController, :organization
     put "/settings/organization/:id", Admin.SettingsController, :update
     post "/settings/invitations", Admin.InvitationController, :create
     post "/users/:id/cancel_invite", Admin.UserController, :cancel_invite

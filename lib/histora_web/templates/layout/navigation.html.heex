@@ -32,17 +32,19 @@
   </div>
 
     <div>
-      <%= if Histora.Users.is_admin?(@current_user) && Enum.member?(["trialing", "trial_expired"], @organization.status) do %>
-        <%= link to: Routes.settings_path(@conn, :convert_trial), method: :get do %>
-          <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
-            <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-2" /> Billing
-          </div>
-        <% end %>
-      <% else %>
-        <%= link to: Routes.settings_path(@conn, :create_customer_portal_session, Histora.Organizations.get_organization_by_current_user(@current_user).stripe_customer_id), method: :post do%>
-          <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
-            <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-2" /> Billing
-          </div>
+      <%= if Histora.Users.is_admin?(@current_user) do %>
+        <%= if Enum.member?(["trialing", "trial_expired"], @organization.status) do %>
+          <%= link to: Routes.settings_path(@conn, :convert_trial), method: :get do %>
+            <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
+              <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-2" /> Billing
+            </div>
+          <% end %>
+        <% else %>
+          <%= link to: Routes.settings_path(@conn, :create_customer_portal_session, Histora.Organizations.get_organization_by_current_user(@current_user).stripe_customer_id), method: :post do%>
+            <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
+              <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-2" /> Billing
+            </div>
+          <% end %>
         <% end %>
       <% end %>
 
@@ -53,7 +55,7 @@
         </div>
       <% end %>
 
-      <%= link to: Routes.settings_path(@conn, :organization), method: :get do %>
+      <%= link to: Routes.organization_path(@conn, :index), method: :get do %>
         <div class={"#{String.contains?(@conn.request_path, "organization") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
           <Heroicons.LiveView.icon name="identification" type="solid" class="h-4 w-4 mr-2" />
           Account

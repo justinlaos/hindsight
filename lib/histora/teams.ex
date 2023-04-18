@@ -26,6 +26,10 @@ defmodule Histora.Teams do
     Repo.all(Team)
   end
 
+  def list_all_organization_teams(organization, current_user) do
+    (from s in Team, where: s.organization_id == ^organization.id, preload: [:users, :decisions] ) |> Repo.all()
+  end
+
   def list_organization_teams(organization, current_user) do
     if current_user.role == "admin" do
       (from s in Team, where: s.organization_id == ^organization.id, preload: [:users, :decisions] ) |> Repo.all()

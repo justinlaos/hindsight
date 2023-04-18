@@ -3,7 +3,9 @@
   <div class="flex flex-row pb-4 justify-between text-1xl ml-6 py-2 font-bold dark:text-white">
     <div class="hidden sm:flex"><%= @organization.name %></div>
     <%= render HistoraWeb.LayoutView, "mobile_navigation.html", conn: @conn, name: @organization.name %>
-    <%= render HistoraWeb.SidebarView, "organization_edit.html", Map.put(assigns, :action, Routes.settings_path(@conn, :update, @organization.id)) %>
+    <%= if Histora.Users.is_admin?(@current_user) do %>
+      <%= render HistoraWeb.SidebarView, "organization_edit.html", Map.put(assigns, :action, Routes.settings_path(@conn, :update, @organization.id)) %>
+    <% end %>
   </div>
 
   <div class="flex justify-between items-center py-2 pl-6 text-sm border-y-[.5px] border-light-grey dark:border-dark-grey">
@@ -11,7 +13,7 @@
         <div class="text-sm"> <%= Enum.count(@managed_users) %> /  <%= if Enum.member?(["trialing", "trial_expired"], @organization.status), do: "unlimited in trial", else: "#{@organization.user_limit} seats" %></div>
       </div>
 
-    <%= if assigns.conn.request_path == "/admin/settings/organization" do %>
+    <%= if Histora.Users.is_admin?(@current_user) do %>
       <%= if Enum.count(@managed_users) <= @organization.user_limit do %>
           <%= render HistoraWeb.SidebarView, "user_new.html", action: Routes.invitation_path(@conn, :create), changeset: @new_user_changeset %>
       <% else %>
@@ -25,13 +27,9 @@
   <%= for user <- @managed_users do %>
     <div class="pl-6 flex justify-between border-b-[.5px] py-4 border-light-grey dark:border-dark-grey">
       <div class="items-center text-sm">
-        <div class="w-full dark:text-white flex flex-row items-center pb-2 ">
-          <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-2" />
-          <%= user.email %>
-        </div>
 
-        <div class="flex">
-          <div class="items-center pr-4">
+        <div class="flex text-xs">
+          <div class="items-center pr-2">
             <%= if user.archived_at == nil do %>
               <%= if user.invitation_token != nil and user.invitation_accepted_at == nil do %>
                 <div class="text-orange">Pending</div>
@@ -43,23 +41,41 @@
             <% end %>
           </div>
 
-          <div class="items-center text-grey">
+          <div class="items-center dark:text-light-grey">
             <%= user.role %>
           </div>
         </div>
+
+        <div class="w-full dark:text-white flex flex-row items-center py-2 ">
+          <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-2" />
+          <%= user.email %>
+        </div>
+
+        <div class="items-center dark:text-light-grey">
+            <%= for team <- user.teams do %>
+              <%= link to: Routes.decision_path(@conn, :index, teams: team.id) do %>
+                <div style="white-space:nowrap;" class="mr-4 font-bold inline-flex items-center text-xs py-1.5 rounded-md text-grey dark:text-light-grey hover:text-blue">
+                    <%= team.name %>
+                </div>
+              <% end %>
+            <% end %>
+        </div>
+
       </div>
 
       <div class="items-center text-sm">
-        <%= if user.id != @current_user.id do %>
-          <%= if user.archived_at == nil do %>
-            <%= if user.invitation_token != nil and user.invitation_accepted_at == nil do %>
-              <%= link "Cancel Invite", to: Routes.user_path(@conn, :cancel_invite, user.id), method: :post, class: "text-red mr-4 hover:underline" %>
+        <%= if Histora.Users.is_admin?(@current_user) do %>
+          <%= if user.id != @current_user.id do %>
+            <%= if user.archived_at == nil do %>
+              <%= if user.invitation_token != nil and user.invitation_accepted_at == nil do %>
+                <%= link "Cancel Invite", to: Routes.user_path(@conn, :cancel_invite, user.id), method: :post, class: "text-red mr-4 hover:underline" %>
+              <% else %>
+                <%= link "Archive", to: Routes.user_path(@conn, :archive, user.id), method: :post, class: "text-red mr-4 hover:underline" %>
+              <% end %>
             <% else %>
-              <%= link "Archive", to: Routes.user_path(@conn, :archive, user.id), method: :post, class: "text-red mr-4 hover:underline" %>
-            <% end %>
-          <% else %>
-            <%= if Enum.count(@managed_users) <= @organization.user_limit do %>
-              <%= link "Unarchive", to: Routes.user_path(@conn, :unarchive, user.id), method: :post, class: "text-blue mr-4 hover:underline" %>
+              <%= if Enum.count(@managed_users) <= @organization.user_limit do %>
+                <%= link "Unarchive", to: Routes.user_path(@conn, :unarchive, user.id), method: :post, class: "text-blue mr-4 hover:underline" %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

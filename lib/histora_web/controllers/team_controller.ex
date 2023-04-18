@@ -6,7 +6,7 @@ defmodule HistoraWeb.TeamController do
   alias Histora.Teams.Team
 
   def index(conn, _params) do
-    teams = Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user)
+    teams = Teams.list_all_organization_teams(conn.assigns.organization, conn.assigns.current_user)
     users_teams = Teams.list_user_teams(conn.assigns.current_user)
     team_changeset = Teams.change_team(%Team{})
     users = Users.get_organization_users(conn.assigns.organization)

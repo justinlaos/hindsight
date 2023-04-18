@@ -71,7 +71,7 @@ defmodule Histora.Users do
   end
 
   def get_organization_users_for_settings(organization) do
-    (from u in User, where: u.organization_id == ^organization.id )
+    (from u in User, where: u.organization_id == ^organization.id, preload: [:teams] )
     |> Repo.all()
   end
 

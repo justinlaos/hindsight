@@ -7,8 +7,15 @@
 
 </div>
 
-<%= for team <- @teams do %>
-  <%= render HistoraWeb.SidebarView, "team_edit.html", Map.merge(Map.put(assigns, :action, Routes.team_path(@conn, :update, team.id)), Map.put(assigns, :team, team)) %>
+
+<%= if Histora.Users.is_admin?(@conn.assigns.current_user) do %>
+  <%= for team <- @teams do %>
+    <%= render HistoraWeb.SidebarView, "team_edit.html", Map.merge(Map.put(assigns, :action, Routes.team_path(@conn, :update, team.id)), Map.put(assigns, :team, team)) %>
+  <% end %>
+<% else %>
+  <%= for team <- @teams do %>
+    <%= render HistoraWeb.TeamView, "team_component.html", conn: @conn, team: team %>
+  <% end %>
 <% end %>
 
 <%= if Enum.empty?(@teams) do %>
