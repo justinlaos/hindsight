@@ -28,7 +28,7 @@
     <%= if @decision.approval != nil && @decision.approval.approved != nil  do %>
         <div class="flex justify-between items-center py-4 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
             <div class="text-xs ml-6">
-                <span class="mr-1 text-black dark:text-white"><%= @decision.approval.user.email %></span> <%= if @decision.approval.approved, do: raw("<span class='text-primary mr-1'>approved</span>"), else: raw("<span class='text-red mr-1'>denied</span>") %>
+                <span class="mr-1 text-black dark:text-white"><%= @decision.approval.user.email %></span> <%= if @decision.approval.approved, do: raw("<span class='text-primary mr-1'>approved</span>"), else: raw("<span class='text-red mr-1'>revise</span>") %>
                 <div class="mt-2 text-grey">
                     <%= @decision.approval.note %>
                 </div>
@@ -36,7 +36,7 @@
 
             <%= if @decision.user_id == @conn.assigns.current_user.id do %>
                 <%= link to: Routes.decision_path(@conn, :reset_decision_approval, id: @decision.id, user_id: @decision.approval.user_id) do %>
-                    <button class="mr-4 text-xs text-blue">re-request</button>
+                    <button style="white-space:nowrap;" class="mr-4 text-xs text-blue">re-request</button>
                 <% end %>
             <% end %>
         </div>
