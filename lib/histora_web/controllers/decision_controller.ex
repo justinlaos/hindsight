@@ -14,6 +14,8 @@ defmodule HistoraWeb.DecisionController do
   def index(conn, params) do
     filtered_decisions =
       Decisions.list_organization_decisions(conn.assigns.organization)
+      |> Decisions.filter_date(params)
+      |> Decisions.filter_search_term(params)
       |> Decisions.filter_tags(params)
       |> Decisions.filter_users(params)
       |> Decisions.filter_teams(params)
@@ -29,6 +31,8 @@ defmodule HistoraWeb.DecisionController do
       selected_filtered_tags: (if Map.has_key?(params, "tag_list"), do: Tags.selected_filtered_tags(conn.assigns.organization, params["tag_list"]), else: [%{}]),
       selected_filtered_users: (if Map.has_key?(params, "users"), do: Users.selected_filtered_users(conn.assigns.organization, params["users"]), else: [%{}]),
       selected_filtered_teams: (if Map.has_key?(params, "teams"), do: Teams.selected_filtered_teams(conn.assigns.organization, params["teams"]), else: %{}),
+      selected_filtered_date: (if Map.has_key?(params, "date"), do: params["date"], else: ""),
+      filtered_search_term: (if Map.has_key?(params, "search_term"), do: params["search_term"], else: nil),
       teams: Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
       users_teams: Teams.list_user_teams(conn.assigns.current_user)
       )

@@ -21,11 +21,11 @@
         <%= render HistoraWeb.SidebarView, "reflections_past_due.html", users_past_due_reflections: @users_past_due_reflections, conn: @conn %>
     <% end %>
 
-    <div class="hidden sm:flex ml-8 py-4 px-6  border-x-[.5px] border-light-grey dark:border-dark-grey">
-        <%= unless Enum.empty?(@users_active_approvals) do %>
+    <%= unless Enum.empty?(@users_active_approvals) do %>
+        <div class="hidden sm:flex ml-8 py-4 px-6  border-x-[.5px] border-light-grey dark:border-dark-grey">
             <%= render HistoraWeb.SidebarView, "approvals_active.html", users_active_approvals: @users_active_approvals, conn: @conn %>
-        <% end %>
-    </div>
+        </div>
+    <% end %>
 </div>
 
 <%= unless Enum.empty?(@users_active_approvals) do %>

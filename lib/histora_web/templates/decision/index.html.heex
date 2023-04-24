@@ -7,7 +7,7 @@
 
     <div class="flex justify-between items-center py-0.5 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
 
-      <div class="flex overflow-x-scroll items-center">
+      <div class="text-primary flex overflow-x-scroll items-center">
         <%= if Enum.member?(@selected_filtered_users, @conn.assigns.current_user) do %>
           <%= link to: Routes.decision_path(@conn, :index) do %>
             <div class="ml-6 mr-4 py-2 text-xs text-blue">
@@ -16,14 +16,14 @@
           <% end %>
         <% else %>
             <%= link to: Routes.decision_path(@conn, :index, users: @conn.assigns.current_user.id) do %>
-              <div class="ml-6 mr-4 py-2 text-xs text-grey">
+              <div class="ml-6 mr-4 py-2 text-xs text-primary hover:text-blue">
                 <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4" />
               </div>
             <% end %>
         <% end %>
         <%= for team <- @users_teams do %>
           <%= link to: Routes.decision_path(@conn, :index, teams: team.id) do %>
-              <div style="white-space:nowrap;" class="mr-2 px-2 font-bold inline-flex items-center text-xs py-1.5 rounded-md text-black dark:text-light-grey dark:hover:text-blue">
+              <div style="white-space:nowrap;" class="mr-2 px-2 font-bold inline-flex items-center text-xs py-1.5 rounded-md dark:text-light-grey hover:text-blue dark:hover:text-blue">
                 <%= if @selected_filtered_teams != %{} do %>
                   <%= if @selected_filtered_teams.id == team.id do %>
                     <div class="text-blue">
@@ -46,10 +46,15 @@
         <% end %>
       </div>
 
-      <%= render HistoraWeb.SidebarView, "decisions_filter.html", conn: @conn, filterable_tags: @filterable_tags, filterable_teams: @filterable_teams, filterable_users: @filterable_users, selected_filtered_tags: @selected_filtered_tags, selected_filtered_teams: @selected_filtered_teams, selected_filtered_users: @selected_filtered_users %>
+      <%= render HistoraWeb.SidebarView, "decisions_filter.html", conn: @conn, filterable_tags: @filterable_tags, filterable_teams: @filterable_teams, filterable_users: @filterable_users, selected_filtered_tags: @selected_filtered_tags, selected_filtered_teams: @selected_filtered_teams, selected_filtered_users: @selected_filtered_users, selected_filtered_date: @selected_filtered_date, filtered_search_term: @filtered_search_term %>
     </div>
 
-  <%= if ( @selected_filtered_teams != %{} && @selected_filtered_teams in @users_teams == false ) || ( List.first(@selected_filtered_users) != %{} && Enum.member?(@selected_filtered_users, @conn.assigns.current_user) != true ) || List.first(@selected_filtered_tags) != %{} do %>
+  <%= if ( @selected_filtered_teams != %{} && @selected_filtered_teams in @users_teams == false ) ||
+          ( List.first(@selected_filtered_users) != %{} && Enum.member?(@selected_filtered_users, @conn.assigns.current_user) != true ) ||
+          List.first(@selected_filtered_tags) != %{} ||
+          @selected_filtered_date != "" ||
+          @filtered_search_term != nil do %>
+
     <div class="flex justify-between items-center py-0.5 text-sm border-t-[.5px] border-light-grey dark:border-dark-grey font-medium">
       <div class="flex overflow-x-scroll items-center">
         <div class="ml-6 py-2 text-xs text-grey mr-2">Current Filters</div>
@@ -65,6 +70,15 @@
         <%= if List.first(@selected_filtered_tags) != %{} do %>
           <div style="white-space:nowrap;" class="ml-6 py-2 text-xs mr-2 text-blue"><%= List.first(@selected_filtered_tags).name %></div>
         <% end %>
+
+        <%= if @selected_filtered_date != "" do %>
+          <div style="white-space:nowrap;" class="ml-6 py-2 text-xs mr-2 text-blue"><%= Histora.Users.formate_time_stamp(@selected_filtered_date |> Timex.parse!("{YYYY}-{0M}-{D}") |> Timex.to_date()) %></div>
+        <% end %>
+
+        <%= if @filtered_search_term != nil do %>
+          <div style="white-space:nowrap;" class="ml-6 py-2 text-xs mr-2 text-blue"><%= @filtered_search_term %></div>
+        <% end %>
+
       </div>
         <%= link to: Routes.decision_path(@conn, :index) do %>
           <div class="mx-4 py-2 text-grey">Clear</div>

@@ -19,7 +19,7 @@
                     <div class="form_content -ml-6">
                         <%= for decision <- @users_scheduled_reflections do %>
                             <div class="border-b-[.5px] border-light-grey dark:border-dark-grey">
-                                <div class="ml-6 text-sm text-primary font-bold">
+                                <div class="ml-6 text-sm text-primary font-bold mt-4">
                                     scheduled for <%= Histora.Users.formate_time_stamp(decision.reflection_date) %>
                                 </div>
                                 <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: decision %>
