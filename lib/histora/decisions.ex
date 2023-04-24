@@ -52,7 +52,7 @@ defmodule Histora.Decisions do
   end
 
   def filter_date(decisions, params) do
-    if Map.has_key?(params, "date") and params["date"] != nil do
+    if Map.has_key?(params, "date") and params["date"] != "" do
       (from r in subquery(decisions), where: r.date == ^params["date"])
     else
       decisions
@@ -60,7 +60,7 @@ defmodule Histora.Decisions do
   end
 
   def filter_search_term(decisions, params) do
-    if Map.has_key?(params, "search_term") and params["search_term"] != nil do
+    if Map.has_key?(params, "search_term") and params["search_term"] != "" do
       search_str = params["search_term"]
         |> String.split(" ")
         |> Enum.intersperse("%")

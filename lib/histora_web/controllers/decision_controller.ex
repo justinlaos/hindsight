@@ -14,8 +14,8 @@ defmodule HistoraWeb.DecisionController do
   def index(conn, params) do
     filtered_decisions =
       Decisions.list_organization_decisions(conn.assigns.organization)
-      |> Decisions.filter_date(params)
       |> Decisions.filter_search_term(params)
+      |> Decisions.filter_date(params)
       |> Decisions.filter_tags(params)
       |> Decisions.filter_users(params)
       |> Decisions.filter_teams(params)
