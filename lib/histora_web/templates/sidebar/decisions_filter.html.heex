@@ -16,26 +16,35 @@
 
                         <!-- Content -->
                         <div class="form_content">
-                            <select id="teams" name="teams" class="block w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primaryblock w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
+                            <select id="teams" name="teams" class="block w-full my-4 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primaryblock w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
                                 <option disabled selected>Teams</option>
                                 <%= for team <- @filterable_teams do %>
                                     <option value={"#{team.id}"} selected={team == @selected_filtered_teams}><%= team.name %></option>
                                 <% end %>
                             </select>
 
-                            <select id="tag_list" name="tag_list" class="block w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primaryblock w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
+                            <select id="tag_list" name="tag_list" class="block w-full my-4 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primaryblock w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
                                 <option disabled selected>Tags</option>
                                 <%= for tag <- @filterable_tags do %>
                                     <option value={"#{tag.id}"} selected={List.first(@selected_filtered_tags) != %{} && List.first(@selected_filtered_tags).id == tag.id}><%= tag.name %></option>
                                 <% end %>
                             </select>
 
-                            <select id="users" name="users" class="block w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primaryblock w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
+                            <select id="users" name="users" class="block w-full my-4 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primaryblock w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
                                 <option disabled selected>Team Member</option>
                                 <%= for user <- @filterable_users do %>
                                     <option value={"#{user.id}"} selected={List.first(@selected_filtered_users) != %{} && List.first(@selected_filtered_users).id == user.id}><%= user.email %></option>
                                 <% end %>
                             </select>
+
+                            <div x-data={"{ value: ['#{ if @selected_filtered_date != 'N/A', do: @selected_filtered_date, else: nil }'], init() { let picker = flatpickr(this.$refs.picker, {
+                                    altInput: true, altFormat: 'F j, Y', dateFormat: 'Y-m-d', class: 'border-light-grey',
+                                    defaultDate: this.value, onChange: (date, dateString) => { this.value = dateString }}); this.$watch('value', () => picker.setDate(this.value))}}"} >
+                                <input name="date" id="date" class="block w-full mb-4 dark:text-white placeholder-black border-light-grey dark:border-dark-grey dark:bg-slate" x-ref="picker" type="text" placeholder="Date">
+                            </div>
+
+                            <input name="search_term" id="search_term" value={ @filtered_search_term } class="block w-full mb-4 dark:text-white placeholder-black border-light-grey dark:border-dark-grey dark:bg-slate" type="text" placeholder="Search Term">
+
 
                             <%= if @selected_filtered_teams != %{} || List.first(@selected_filtered_users) != %{} || List.first(@selected_filtered_tags) != %{} do %>
                                 <%= link to: Routes.decision_path(@conn, :index) do %>

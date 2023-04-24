@@ -51,8 +51,26 @@ defmodule Histora.Decisions do
     end
   end
 
-  def filter_dates(decisions, formated_start_date, formated_end_date) do
-      (from r in subquery(decisions), where: r.date >= ^formated_start_date and r.date <= ^formated_end_date )
+  def filter_date(decisions, params) do
+    if Map.has_key?(params, "date") and params["date"] != nil do
+      (from r in subquery(decisions), where: r.date == ^params["date"])
+    else
+      decisions
+    end
+  end
+
+  def filter_search_term(decisions, params) do
+    if Map.has_key?(params, "search_term") and params["search_term"] != nil do
+      search_str = params["search_term"]
+        |> String.split(" ")
+        |> Enum.intersperse("%")
+        |> Enum.join()
+        |> then(&"%#{&1}%")
+
+      from(r in Decision, where: ilike(fragment("CONCAT((?), ' ',(?))", r.why, r.what), ^search_str), order_by: [desc: r.date] )
+    else
+      decisions
+    end
   end
 
   def formate_decisions(decisions, current_user) do
