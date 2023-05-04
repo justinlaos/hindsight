@@ -196,7 +196,7 @@ defmodule Histora.Decisions do
   defp get_pre_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decision_id == nil, do: list
   defp get_pre_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decision_id != nil do
     try do
-      decision = Repo.get!(Decision, reflection.decision_id) |> Repo.preload([:user, :goals, :teams])
+      decision = Repo.get!(Decision, reflection.decision_id) |> Repo.preload([:user, :goals, :teams, reflection_goals: [:goal]])
       get_pre_timeline(decision, [decision | list])
     rescue
       Ecto.NoResultsError -> list
@@ -216,7 +216,7 @@ defmodule Histora.Decisions do
   defp get_post_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decisions == [], do: list
   defp get_post_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decisions != [] do
     try do
-      decision = Repo.get!(Decision, List.first(reflection.decisions).id) |> Repo.preload([:user, :goals, :teams, :reflections])
+      decision = Repo.get!(Decision, List.first(reflection.decisions).id) |> Repo.preload([:user, :goals, :teams, :reflections, reflection_goals: [:goal]])
       get_post_timeline(decision, [decision | list])
     rescue
       Ecto.NoResultsError -> list
