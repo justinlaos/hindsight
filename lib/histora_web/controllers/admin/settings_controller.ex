@@ -3,7 +3,7 @@ defmodule HistoraWeb.Admin.SettingsController do
 
   alias Histora.Users.User
   alias Histora.Users
-  alias Histora.Tags
+  alias Histora.Goals
   alias Histora.Organizations
   alias Histora.Organizations.Organization
 

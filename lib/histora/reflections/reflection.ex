@@ -12,6 +12,9 @@ defmodule Histora.Reflections.Reflection do
 
     has_many(:decisions, Histora.Decisions.Decision)
 
+    has_many(:reflection_goals, Histora.Reflections.Reflection_goal)
+
+
     timestamps()
   end
 

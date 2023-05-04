@@ -1,7 +1,7 @@
 defmodule HistoraWeb.DecisionController do
   use HistoraWeb, :controller
 
-  alias Histora.Tags
+  alias Histora.Goals
   alias Histora.Users
   alias Histora.Decisions
   alias Histora.Teams
@@ -16,7 +16,7 @@ defmodule HistoraWeb.DecisionController do
       Decisions.list_organization_decisions(conn.assigns.organization)
       |> Decisions.filter_search_term(params)
       |> Decisions.filter_date(params)
-      |> Decisions.filter_tags(params)
+      |> Decisions.filter_goals(params)
       |> Decisions.filter_users(params)
       |> Decisions.filter_teams(params)
 
@@ -25,21 +25,21 @@ defmodule HistoraWeb.DecisionController do
       decisions: Decisions.formate_decisions(filtered_decisions, conn.assigns.current_user),
       decisions_count: Decisions.formate_decisions_count(filtered_decisions, conn.assigns.current_user),
       users: Users.get_organization_users(conn.assigns.organization),
-      filterable_tags: Tags.list_organization_tags(conn.assigns.organization),
+      filterable_goals: Goals.list_organization_goals(conn.assigns.organization),
       filterable_users: Users.get_organization_users(conn.assigns.organization),
       filterable_teams: Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
-      selected_filtered_tags: (if Map.has_key?(params, "tag_list"), do: Tags.selected_filtered_tags(conn.assigns.organization, params["tag_list"]), else: [%{}]),
+      selected_filtered_goals: (if Map.has_key?(params, "tag_list"), do: Goals.selected_filtered_goals(conn.assigns.organization, params["tag_list"]), else: [%{}]),
       selected_filtered_users: (if Map.has_key?(params, "users"), do: Users.selected_filtered_users(conn.assigns.organization, params["users"]), else: [%{}]),
       selected_filtered_teams: (if Map.has_key?(params, "teams"), do: Teams.selected_filtered_teams(conn.assigns.organization, params["teams"]), else: %{}),
       selected_filtered_date: (if Map.has_key?(params, "date"), do: params["date"], else: ""),
       filtered_search_term: (if Map.has_key?(params, "search_term"), do: params["search_term"], else: nil),
       teams: Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
+      goals: Goals.list_organization_goals(conn.assigns.organization),
       users_teams: Teams.list_user_teams(conn.assigns.current_user)
       )
   end
 
   def create(conn, params) do
-    %{"tag_list" => tag_list} = params["decision"]
     teams = params["new_teams"]
     date = if Map.has_key?(params, "date"), do: params["date"], else: Date.to_string(Date.utc_today)
     reflection_date = if Map.has_key?(params, "reflection_date"), do: params["reflection_date"], else: nil
@@ -49,8 +49,8 @@ defmodule HistoraWeb.DecisionController do
     case Decisions.create_decision(Map.merge(params["decision"], %{"user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id, "date" => date, "reflection_date" => reflection_date})) do
       {:ok, decision} ->
 
-        if tag_list != "" do
-          Tags.assign_tags_to_decision(tag_list, decision.id, decision.organization_id, decision.user_id)
+        if Map.has_key?(params, "selected_goals") && params["selected_goals"] != "" do
+          Goals.assign_goals_to_decision(params["selected_goals"], decision.id)
         end
 
         if teams != nil do
@@ -86,6 +86,7 @@ defmodule HistoraWeb.DecisionController do
       decision_changeset: Decisions.change_decision(%Decision{}),
       edit_decision_changeset: Decisions.change_decision(Decisions.get_decision!(id)),
       teams: Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
+      goals: Goals.list_organization_goals(conn.assigns.organization),
       users: Users.get_organization_users(conn.assigns.organization),
       reflection_changeset: Reflections.change_reflection(%Reflection{}),
       timeline: Decisions.get_timeline_for_decision(id)
@@ -106,11 +107,11 @@ defmodule HistoraWeb.DecisionController do
     case Decisions.update_decision(decision, Map.merge(decision_params, %{"date" => date, "reflection_date" => reflection_date})) do
       {:ok, decision} ->
 
-        Tags.delete_decision_tag_list(decision.id)
+        Goals.delete_decision_goal_list(decision.id)
         Teams.delete_team_from_decision(decision.id)
 
-        if decision_params["tag_list"] != "" do
-          Tags.assign_tags_to_decision(decision_params["tag_list"], decision.id, decision.organization_id, decision.user_id)
+        if Map.has_key?(params, "selected_goals") && params["selected_goals"] != "" do
+          Goals.assign_goals_to_decision(params["selected_goals"], decision.id)
         end
 
         if approval_user != nil do

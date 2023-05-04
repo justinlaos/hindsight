@@ -1,6 +1,9 @@
 <div class="cursor-pointer border-b-[.5px] border-light-grey dark:border-dark-grey py-4 px-6">
     <%= if @team.private do %>
-      <div class="text-xs mb-1 text-orange">Private</div>
+      <div class="inline-flex items-center text-orange text-xs">
+        <Heroicons.LiveView.icon name="lock-closed" type="solid" class="h-3 w-3 mr-1.5" />
+        <div class="mt-0.5">Private</div>
+      </div>
     <% end %>
 
     <div class="text-base dark:text-light-grey"><%= String.capitalize(@team.name) %></div>

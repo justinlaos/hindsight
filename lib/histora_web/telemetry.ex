@@ -28,7 +28,7 @@ defmodule HistoraWeb.Telemetry do
         unit: {:native, :millisecond}
       ),
       summary("phoenix.router_dispatch.stop.duration",
-        tags: [:route],
+        goals: [:route],
         unit: {:native, :millisecond}
       ),
 

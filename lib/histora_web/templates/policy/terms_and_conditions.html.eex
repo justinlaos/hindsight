@@ -1,6 +1,6 @@
 <div name="termly-embed" data-id="6fdbe9b6-3620-4d58-9564-a21bf8ef7a77" data-type="iframe"></div>
 <script type="text/javascript">(function(d, s, id) {
-  var js, tjs = d.getElementsByTagName(s)[0];
+  var js, tjs = d.getElementsByGoalName(s)[0];
   if (d.getElementById(id)) return;
   js = d.createElement(s); js.id = id;
   js.src = "https://app.termly.io/embed-policy.min.js";

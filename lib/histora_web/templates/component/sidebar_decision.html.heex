@@ -1,13 +1,5 @@
 <div class="py-1.5 px-6 my-2">
     <div class="flex flex-row text-xs pb-1.5 items-center">
-        <%= if Enum.count(@decision.reflections) >= 1 do %>
-            <%= if List.first(@decision.reflections).status == "continuation" do %>
-                <div class="w-2 h-2 mr-4 bg-primary rounded-full"></div>
-            <% else %>
-                <div class="w-2 h-2 mr-4 bg-red rounded-full"></div>
-            <% end %>
-        <% end %>
-
         <%= if Enum.count(@decision.teams) >= 1 and String.contains?(@conn.request_path, "team") == false do %>
             <div class="flex dark:text-black mr-4">
                 <%= for team <- @decision.teams do %>
@@ -19,7 +11,7 @@
                                     <div class="mt-0.5"><%= String.capitalize(team.name) %></div>
                                 </div>
                             <% else %>
-                                <div class="text-black dark:text-white">
+                                <div class="text-black">
                                     <%= String.capitalize(team.name) %>
                                 </div>
                             <% end %>

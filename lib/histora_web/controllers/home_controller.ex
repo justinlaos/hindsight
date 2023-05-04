@@ -21,9 +21,12 @@ defmodule HistoraWeb.HomeController do
       reflection_count: reflection_count,
       reflection_continuation_percentage: reflection_continuation_percentage,
       reflection_reversal_percentage: reflection_reversal_percentage,
+      goal_achieved_percentage: Histora.Goals.goal_percentage(conn.assigns.organization, true),
+      goal_unachieved_percentage: Histora.Goals.goal_percentage(conn.assigns.organization, false),
       users_scheduled_reflections: users_scheduled_reflections,
       users_past_due_reflections: users_past_due_reflections,
       teams: Histora.Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
+      goals: Histora.Goals.list_organization_goals(conn.assigns.organization),
       users: Histora.Users.get_organization_users(conn.assigns.organization),
       logs: logs,
       users_active_approvals: users_active_approvals

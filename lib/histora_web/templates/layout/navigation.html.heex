@@ -11,7 +11,7 @@
       <%= link to: Routes.home_path(@conn, :index)  do %>
         <div class={"#{String.contains?(@conn.request_path, "home") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
           <Heroicons.LiveView.icon name="home" type="solid" class="h-4 w-4 mr-2" />
-          Home
+          Dashboard
         </div>
       <% end %>
 
@@ -20,6 +20,13 @@
         <div class={"#{String.contains?(@conn.request_path, "decisions") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
           <Heroicons.LiveView.icon name="archive-box" type="solid" class="h-4 w-4 mr-2" />
           Decisions
+        </div>
+      <% end %>
+
+      <%= link to: Routes.goal_path(@conn, :index), method: :get do %>
+        <div class={"#{String.contains?(@conn.request_path, "goals") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
+          <Heroicons.LiveView.icon name="trophy" type="solid" class="h-4 w-4 mr-2" />
+          Goals
         </div>
       <% end %>
 
@@ -46,13 +53,6 @@
             </div>
           <% end %>
         <% end %>
-      <% end %>
-
-      <%= link to: Routes.tag_path(@conn, :index), method: :get do %>
-        <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
-          <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-4 w-4 mr-2" />
-          Tags
-        </div>
       <% end %>
 
       <%= link to: Routes.organization_path(@conn, :index), method: :get do %>

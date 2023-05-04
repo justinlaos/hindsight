@@ -50,8 +50,12 @@ defmodule HistoraWeb.ReflectionController do
   end
 
   def create(conn, params) do
+
     case Reflections.create_reflection(Map.merge(params["reflection"], %{"decision_id" => params["decision"], "user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id, "status" => params["status"]})) do
       {:ok, reflection} ->
+
+        Reflections.create_reflection_goals(params["goals"], reflection.id, params["decision"], conn.assigns.current_user.id, conn.assigns.organization.id)
+
 
         Histora.Logs.create_log(%{
           "organization_id" => conn.assigns.organization.id,
@@ -63,7 +67,7 @@ defmodule HistoraWeb.ReflectionController do
 
         conn
         |> put_flash(:info, "Reflection created successfully.")
-        |> redirect(to: Routes.decision_path(conn, :show, reflection.decision_id))
+        |> redirect(to: Routes.decision_path(conn, :show, params["decision"]))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -81,12 +85,14 @@ defmodule HistoraWeb.ReflectionController do
     render(conn, "edit.html", reflection: reflection, changeset: changeset)
   end
 
-  def update(conn, %{"id" => id, "reflection" => reflection_params, "status" => status}) do
+  def update(conn, %{"id" => id, "reflection" => reflection_params, "status" => status, "goals" => goals}) do
     IO.inspect(reflection_params)
     reflection = Reflections.get_reflection!(id)
 
     case Reflections.update_reflection(reflection, Map.merge(reflection_params, %{"status" => status})) do
       {:ok, reflection} ->
+
+        Reflections.update_reflection_goals(goals)
 
         Histora.Logs.create_log(%{
           "organization_id" => conn.assigns.organization.id,

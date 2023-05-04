@@ -2,24 +2,24 @@ defmodule Histora.Decisions do
   import Ecto.Query, warn: false
   alias Histora.Repo
 
-  alias Histora.Tags.Tag_decision
+  alias Histora.Goals.Goal_decision
   alias Histora.Teams
   alias Histora.Teams.Team
   alias Histora.Teams.Team_decision
   alias Histora.Decisions.Decision
   alias Histora.Decisions.Approval
-  alias Histora.Tags.Tag
+  alias Histora.Goals.Goal
 
   def list_organization_decisions(organization) do
     (from r in Decision, where: r.organization_id == ^organization.id )
     |> order_by(desc: :date)
   end
 
-  def filter_tags(decisions, params) do
+  def filter_goals(decisions, params) do
     if Map.has_key?(params, "tag_list") do
       (from r in subquery(decisions),
-      join: t in Tag_decision, on: r.id == t.decision_id,
-      join: tt in Tag, on: tt.id == t.tag_id,
+      join: t in Goal_decision, on: r.id == t.decision_id,
+      join: tt in Goal, on: tt.id == t.goal_id,
       where: tt.id == ^String.to_integer(params["tag_list"]) )
     else
       decisions
@@ -75,7 +75,7 @@ defmodule Histora.Decisions do
 
   def formate_decisions(decisions, current_user) do
     team_list = Teams.get_user_teams(current_user.id)
-    decisions = (from r in subquery(decisions), preload: [:user, :tags, :teams]) |> Repo.all()
+    decisions = (from r in subquery(decisions), preload: [:user, :goals, :teams, :reflections, reflection_goals: [:goal]]) |> Repo.all()
     if Histora.Users.is_admin?(current_user) do
       decisions
     else
@@ -105,7 +105,7 @@ defmodule Histora.Decisions do
 
   def formate_decisions_count(decisions, current_user) do
     team_list = Teams.get_user_teams(current_user.id)
-    decisions = (from r in subquery(decisions), preload: [:user, :tags, :teams]) |> Repo.all()
+    decisions = (from r in subquery(decisions), preload: [:user, :goals, :teams]) |> Repo.all()
     Enum.filter(decisions, fn x -> x.user_id == current_user.id or filter_team(x, team_list) == true end)
   end
 
@@ -130,7 +130,7 @@ defmodule Histora.Decisions do
       |> Approval.changeset(%{"approved" => approved, "note" => note})
       |> Repo.update()
 
-    approval = Repo.get_by(Approval, decision_id: decision_id) |> Repo.preload([:user, decision: [:user, :tags, :teams]])
+    approval = Repo.get_by(Approval, decision_id: decision_id) |> Repo.preload([:user, decision: [:user, :goals, :teams]])
 
     Histora.Email.request_approval_response(approval)
       |> Histora.Mailer.deliver_now()
@@ -142,18 +142,18 @@ defmodule Histora.Decisions do
   end
 
   def users_active_approvals(organization, current_user) do
-    (from r in Approval, where: is_nil(r.approved) and r.organization_id == ^organization.id and r.user_id == ^current_user.id, preload: [decision: [:user, :tags, :teams]] )
+    (from r in Approval, where: is_nil(r.approved) and r.organization_id == ^organization.id and r.user_id == ^current_user.id, preload: [decision: [:user, :goals, :teams, reflection_goals: [:goal]]] )
     |> Repo.all()
   end
 
   def get_weeky_decisions_for_user(user) do
     (Repo.all Ecto.assoc(Repo.get(Histora.Users.User, user.id), :teams))
     |> Repo.preload(decisions: from(r in Decision, where: r.date > ago(7, "day"),
-      order_by: [desc: r.inserted_at], preload: [:user, :tags, :teams]))
+      order_by: [desc: r.inserted_at], preload: [:user, :goals, :teams]))
   end
 
   def get_decision!(id) do
-    Repo.get!(Decision, id) |> Repo.preload([:user, :tags, :teams, reflections: [:user, :decisions], logs: [:user], approval: [:user]])
+    Repo.get!(Decision, id) |> Repo.preload([:user, :goals, :teams, reflection_goals: [:goal], reflections: [:user, :decisions], logs: [:user], approval: [:user]])
   end
 
   def create_decision(attrs \\ %{}) do
@@ -177,7 +177,7 @@ defmodule Histora.Decisions do
   end
 
   def get_timeline_for_decision(decision_id) do
-    decision = Repo.get!(Decision, decision_id) |> Repo.preload([:user, :tags, :teams, :reflections])
+    decision = Repo.get!(Decision, decision_id) |> Repo.preload([:user, :goals, :teams, :reflections, reflection_goals: [:goal]])
     pre_timeline = get_pre_timeline(decision, [])
     post_timeline = Enum.reverse(get_post_timeline(decision, []))
     pre_timeline ++ [decision | post_timeline]
@@ -196,7 +196,7 @@ defmodule Histora.Decisions do
   defp get_pre_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decision_id == nil, do: list
   defp get_pre_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decision_id != nil do
     try do
-      decision = Repo.get!(Decision, reflection.decision_id) |> Repo.preload([:user, :tags, :teams])
+      decision = Repo.get!(Decision, reflection.decision_id) |> Repo.preload([:user, :goals, :teams])
       get_pre_timeline(decision, [decision | list])
     rescue
       Ecto.NoResultsError -> list
@@ -216,7 +216,7 @@ defmodule Histora.Decisions do
   defp get_post_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decisions == [], do: list
   defp get_post_timeline(reflection = %Histora.Reflections.Reflection{}, list) when reflection.decisions != [] do
     try do
-      decision = Repo.get!(Decision, List.first(reflection.decisions).id) |> Repo.preload([:user, :tags, :teams, :reflections])
+      decision = Repo.get!(Decision, List.first(reflection.decisions).id) |> Repo.preload([:user, :goals, :teams, :reflections])
       get_post_timeline(decision, [decision | list])
     rescue
       Ecto.NoResultsError -> list

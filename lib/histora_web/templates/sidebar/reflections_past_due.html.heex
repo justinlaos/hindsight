@@ -1,7 +1,10 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
     <!-- Trigger -->
     <span @click="toggle"> <button class="text-sm ml-8 py-4 text-orange hover:text-primary">
-        <%= Enum.count(@users_past_due_reflections) %> past due
+        <div class="inline-flex items-center">
+            <Heroicons.LiveView.icon name="clock" type="solid" class="h-4 w-4 mr-1.5" />
+            <%= Enum.count(@users_past_due_reflections) %> past due
+        </div>
     </button></span>
 
     <!-- Slideover -->
@@ -22,7 +25,7 @@
                                 <div class="ml-6 text-sm text-orange font-bold">
                                     Due on <%= Histora.Users.formate_time_stamp(decision.reflection_date) %>
                                 </div>
-                                <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: decision %>
+                                <%= render HistoraWeb.ComponentView, "sidebar_decision.html", conn: @conn, decision: decision %>
                             </div>
                         <% end %>
                         <%= if Enum.empty?(@users_past_due_reflections) do %>

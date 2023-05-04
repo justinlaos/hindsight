@@ -1,0 +1,14 @@
+<div class="cursor-pointer border-b-[.5px] border-light-grey dark:border-dark-grey py-4 px-6">
+    <div class="inline-flex items-center mr-4 py-1.5 rounded-md text-xs font-medium text-darkest-grey dark:text-grey">
+        <Heroicons.LiveView.icon name="trophy" type="solid" class="h-4 w-4 mr-2 text-gold" />
+        <div class="text-base dark:text-light-grey"><%= String.capitalize(@goal.name) %></div>
+    </div>
+
+    <div class="flex flex-row text-xs text-dark-grey mt-1 center-items">
+      <%= if Enum.count(@goal.decisions) > 1 || Enum.count(@goal.decisions) == 0 do %>
+        <div><%= Enum.count(@goal.decisions) %> decisions connected</div>
+      <% else %>
+        <div><%= Enum.count(@goal.decisions) %> decision connected</div>
+      <% end %>
+    </div>
+</div>

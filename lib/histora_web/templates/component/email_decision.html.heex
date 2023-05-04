@@ -24,10 +24,10 @@
             <div class="inline-flex items-center text-xs text-blue dark:text-dark-grey dark:hover:text-light-grey rounded-md mr-4 hover:text-blue">Reference</div>
         <% end %>
 
-        <%= if @decision.tags != nil do %>
-            <%= for tag <- @decision.tags do %>
+        <%= if @decision.goals != nil do %>
+            <%= for goal <- @decision.goals do %>
                 <div class="inline-flex items-center mr-4 py-1.5 rounded-md text-xs font-medium text-darkest-grey dark:text-grey hover:text-blue dark:hover:text-blue">
-                    <%= tag.name %>
+                    <%= goal.name %>
                 </div>
             <% end %>
         <% end %>

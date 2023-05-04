@@ -40,8 +40,8 @@
                                     ],
                                     options: [
                                         #{
-                                            for tag <- @users do
-                                                "{value: #{tag.id}, label: '#{tag.email}'}, "
+                                            for goal <- @users do
+                                                "{value: #{goal.id}, label: '#{goal.email}'}, "
                                             end
                                         }
                                     ],
@@ -122,7 +122,7 @@
                     <div class="flex justify-end space-x-2">
                         <button type="button" x-on:click="$dialog.close()" class="text-sm dark:text-light-grey rounded-lg px-5 py-2.5 focus:border-primary">Close</button>
                         <%= submit do  %>
-                            <button class="text-primary text-sm py-2 px-3 mx-2"> Update </button>
+                            <button class="text-white bg-primary py-2 px-6 font-bold mx-2"> Save </button>
                         <% end %>
                     </div>
                 </div>

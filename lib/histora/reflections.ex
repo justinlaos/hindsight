@@ -8,6 +8,7 @@ defmodule Histora.Reflections do
 
   alias Histora.Reflections.Reflection
   alias Histora.Decisions.Decision
+  alias Histora.Reflections.Reflection_goal
 
   @doc """
   Returns the list of reflections.
@@ -47,7 +48,7 @@ defmodule Histora.Reflections do
         is_nil(d.reflection_date) == false and
         is_nil(r) == true and
         d.reflection_date > ^todays_date(),
-        preload: [:user, :tags, :teams] )
+        preload: [:user, :goals, :teams, reflection_goals: [:goal]] )
     |> Repo.all()
 
   end
@@ -61,13 +62,13 @@ defmodule Histora.Reflections do
         is_nil(d.reflection_date) == false and
         is_nil(r) == true and
         d.reflection_date <= ^todays_date(),
-        preload: [:user, :tags, :teams] )
+        preload: [:user, :goals, :teams, reflection_goals: [:goal]] )
     |> Repo.all()
 
   end
 
   def run_daily_scheduled_reflections do
-    decisions = (from r in Decision, where: r.reflection_date == ^todays_date(), preload: [:tags, :teams] ) |> Repo.all()
+    decisions = (from r in Decision, where: r.reflection_date == ^todays_date(), preload: [:goals, :teams] ) |> Repo.all()
     Enum.map(decisions, fn decision ->
       Histora.Email.scheduled_reflection(decision)
       |> Histora.Mailer.deliver_now()
@@ -84,7 +85,7 @@ defmodule Histora.Reflections do
         is_nil(r) == true and
         d.reflection_date >= ^formated_start_date and
         d.reflection_date <= ^formated_end_date,
-        preload: [:user, :tags, :teams] )
+        preload: [:user, :goals, :teams] )
     |> Repo.all()
     |> Enum.group_by(& &1.reflection_date)
     |> Enum.map(fn {reflection_date, decisions_collection} -> %{reflection_date: reflection_date, decisions: decisions_collection} end)
@@ -99,7 +100,7 @@ defmodule Histora.Reflections do
         d.user_id == ^current_user.id and
         is_nil(d.reflection_date) == false and
         d.reflection_date < ^todays_date(),
-      preload: [:user, :tags, :teams] )
+      preload: [:user, :goals, :teams] )
     |> Repo.all()
     |> Enum.group_by(& &1.reflection_date)
     |> Enum.map(fn {reflection_date, decisions_collection} -> %{reflection_date: reflection_date, decisions: decisions_collection} end)
@@ -114,7 +115,7 @@ defmodule Histora.Reflections do
       d.user_id == ^current_user.id and
       is_nil(d.reflection_date) == false and
       is_nil(r) == true,
-      preload: [:user, :tags, :teams] )
+      preload: [:user, :goals, :teams] )
     |> Repo.all()
     |> Enum.group_by(& &1.reflection_date)
     |> Enum.map(fn {reflection_date, decisions_collection} -> %{reflection_date: reflection_date, decisions: decisions_collection} end)
@@ -207,4 +208,37 @@ defmodule Histora.Reflections do
   def change_reflection(%Reflection{} = reflection, attrs \\ %{}) do
     Reflection.changeset(reflection, attrs)
   end
+
+  def create_reflection_goal(attrs \\ %{}) do
+    %Reflection_goal{}
+    |> Reflection_goal.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  def update_reflection(%Reflection_goal{} = reflection_goal, attrs) do
+    reflection_goal
+    |> Reflection_goal.changeset(attrs)
+    |> Repo.update()
+  end
+
+  def get_reflection_goal!(id), do: Repo.get!(Reflection_goal, id)
+
+
+  def create_reflection_goals(goals, reflection_id, decision_id, user_id, organization_id) do
+    for goal <- goals do
+      Enum.each(goal, fn {id, achieved} ->
+        create_reflection_goal(%{"achieved" => achieved, "goal_id" => id, "reflection_id" => reflection_id, "decision_id" => decision_id, "user_id" => user_id, "organization_id" => organization_id})
+      end)
+    end
+  end
+
+  def update_reflection_goals(goals) do
+    for goal <- goals do
+      Enum.each(goal, fn {id, achieved} ->
+        get_reflection_goal!(id)
+        |> update_reflection(%{"achieved" => achieved})
+      end)
+    end
+  end
+
 end

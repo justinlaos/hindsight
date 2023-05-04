@@ -54,7 +54,7 @@ defmodule Histora.Users do
   def get_organization_users(organization) do
     (from u in User,
       where: u.organization_id == ^organization.id,
-      preload: [decisions: ^from(r in Decision, order_by: [desc: r.inserted_at], limit: 3, preload: [:tags, :user])],
+      preload: [decisions: ^from(r in Decision, order_by: [desc: r.inserted_at], limit: 3, preload: [:goals, :user])],
       order_by: [desc: (u.id)],
       group_by: u.id,
       select: u
@@ -81,7 +81,7 @@ defmodule Histora.Users do
 
   def get_decisions_for_user(id) do
     (Repo.all Ecto.assoc(Repo.get(User, id), :decisions))
-      |> Repo.preload(:tags)
+      |> Repo.preload(:goals)
       |> Enum.group_by(& formate_time_stamp(&1.inserted_at))
       |> Enum.map(fn {inserted_at, decisions_collection} -> %{date: inserted_at, decisions: decisions_collection} end)
       |> Enum.reverse()
