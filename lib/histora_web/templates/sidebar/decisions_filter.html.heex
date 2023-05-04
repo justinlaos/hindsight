@@ -1,6 +1,13 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
     <!-- Trigger -->
-    <span @click="toggle"> <button class="text-primary mx-4 py-2"> Filter </button></span>
+    <span @click="toggle">
+        <button class="text-darkest-grey mx-4 py-2">
+            <div class="inline-flex items-center">
+                <Heroicons.LiveView.icon name="funnel" type="solid" class="h-4 w-4 mr-1.5" />
+                Filter
+            </div>
+        </button>
+    </span>
 
     <!-- Slideover -->
     <div x-dialog x-model="open" style="display: none" class="fixed inset-0 overflow-hidden z-10" >
@@ -24,9 +31,9 @@
                             </select>
 
                             <select id="tag_list" name="tag_list" class="block w-full my-4 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primaryblock w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
-                                <option disabled selected>Tags</option>
-                                <%= for tag <- @filterable_tags do %>
-                                    <option value={"#{tag.id}"} selected={List.first(@selected_filtered_tags) != %{} && List.first(@selected_filtered_tags).id == tag.id}><%= tag.name %></option>
+                                <option disabled selected>Goals</option>
+                                <%= for goal <- @filterable_goals do %>
+                                    <option value={"#{goal.id}"} selected={List.first(@selected_filtered_goals) != %{} && List.first(@selected_filtered_goals).id == goal.id}><%= goal.name %></option>
                                 <% end %>
                             </select>
 
@@ -46,7 +53,7 @@
                             <input name="search_term" id="search_term" value={ @filtered_search_term } class="block w-full mb-4 dark:text-white placeholder-black border-light-grey dark:border-dark-grey dark:bg-slate" type="text" placeholder="Search Term">
 
 
-                            <%= if @selected_filtered_teams != %{} || List.first(@selected_filtered_users) != %{} || List.first(@selected_filtered_tags) != %{} do %>
+                            <%= if @selected_filtered_teams != %{} || List.first(@selected_filtered_users) != %{} || List.first(@selected_filtered_goals) != %{} do %>
                                 <%= link to: Routes.decision_path(@conn, :index) do %>
                                     <div class="py-2 text-grey">Clear</div>
                                 <% end %>
@@ -58,7 +65,7 @@
                     <div class="flex justify-end space-x-2">
                         <button type="button" x-on:click="$dialog.close()" class="text-sm dark:text-light-grey rounded-lg px-5 py-2.5 focus:border-primary">Close</button>
                         <%= submit do  %>
-                            <button class="text-primary font-bold py-2 px-3 mx-2"> Filter </button>
+                            <button class="text-white bg-primary py-2 px-6 font-bold mx-2"> Filter </button>
                         <% end %>
                     </div>
                 </div>

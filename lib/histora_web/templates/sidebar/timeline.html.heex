@@ -1,6 +1,13 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
     <!-- Trigger -->
-    <span @click="toggle"> <button class="ml-6 text-xs text-grey hover:text-primary mr-4"> Timeline </button></span>
+    <span @click="toggle">
+        <button class="ml-6 text-xs  hover:text-primary mr-4">
+            <div class="inline-flex items-center">
+                <Heroicons.LiveView.icon name="calendar" type="solid" class="h-3.5 w-3.5 mr-1" />
+                <div class="">Timeline</div>
+            </div>
+        </button>
+    </span>
 
     <!-- Slideover -->
     <div x-dialog x-model="open" style="display: none" class="fixed inset-0 overflow-hidden z-10" >
@@ -28,7 +35,7 @@
                                         <div class="h-fit bg-blue w-1"></div>
                                     </div>
                                     <div class="w-full ml-2">
-                                        <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: instance %>
+                                        <%= render HistoraWeb.ComponentView, "sidebar_decision.html", conn: @conn, decision: instance %>
                                     </div>
                                 </div>
                             <% else %>

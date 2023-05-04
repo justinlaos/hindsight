@@ -96,7 +96,7 @@ defmodule HistoraWeb do
 
   defp view_helpers do
     quote do
-      # Use all HTML functionality (forms, tags, etc)
+      # Use all HTML functionality (forms, goals, etc)
       use Phoenix.HTML
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)

@@ -27,16 +27,16 @@ defmodule Histora.DataCase do
     end
   end
 
-  setup tags do
-    Histora.DataCase.setup_sandbox(tags)
+  setup goals do
+    Histora.DataCase.setup_sandbox(goals)
     :ok
   end
 
   @doc """
-  Sets up the sandbox based on the test tags.
+  Sets up the sandbox based on the test goals.
   """
-  def setup_sandbox(tags) do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Histora.Repo, shared: not tags[:async])
+  def setup_sandbox(goals) do
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Histora.Repo, shared: not goals[:async])
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
   end
 

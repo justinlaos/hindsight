@@ -10,26 +10,26 @@
         <div>
           <label for="password" class="sr-only">Current Password</label>
           <%= text_input f, :current_password, type: "password", autocomplete: "current password", class: "appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-black dark:text-white border-gray-300 placeholder-grey text-black rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "Password" %>
-          <%= error_tag f, :current_password %>
+          <%= error_goal f, :current_password %>
         </div>
 
         <div>
           <label for="password" class="sr-only">Current Password</label>
           <%= text_input f, :password, type: "password", autocomplete: "password", class: "appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-black dark:text-white border-gray-300 placeholder-grey text-black rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "New Password" %>
-          <%= error_tag f, :password %>
+          <%= error_goal f, :password %>
         </div>
 
         <div>
           <label for="password" class="sr-only">Current Password</label>
           <%= text_input f, :password_confirmation, type: "password", autocomplete: "password", class: "appearance-none rounded-none relative block w-full px-3 py-2 border dark:bg-black dark:text-white border-gray-300 placeholder-grey text-black rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm", placeholder: "New Password Conformation" %>
-          <%= error_tag f, :password_confirmation %>
+          <%= error_goal f, :password_confirmation %>
         </div>
       </div>
 
       <div>    
         <%= submit do %>
           <button type="submit" class="group relative w-full flex justify-center py-2 px-6 text-sm font-medium rounded-md text-white bg-primary hover:bg-dark-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue">
-            Update
+            Save
           </button>
         <% end %>
       </div>

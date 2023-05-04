@@ -7,8 +7,8 @@
 
 <div class="pt-4 bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
   <div class="flex flex-row justify-between text-1xl ml-6 pb-4 font-bold dark:text-white">
-    <div class="hidden sm:flex">Home</div>
-    <%= render HistoraWeb.LayoutView, "mobile_navigation.html", conn: @conn, name: "Home" %>
+    <div class="hidden sm:flex">Dashboard</div>
+    <%= render HistoraWeb.LayoutView, "mobile_navigation.html", conn: @conn, name: "Dashboard" %>
     <%= render HistoraWeb.SidebarView, "decision_new.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
   </div>
 </div>
@@ -54,7 +54,7 @@
 
     <div class="py-6 px-10 flex flex-col justify-center items-center border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
         <div class="text-xs mb-6 text-grey dark:text-white">
-            Reflection Rate
+            Reflection Ratio
         </div>
         <div class="flex text-white">
             <div class="flex flex-col justify-center items-center">
@@ -64,6 +64,22 @@
             <div class="flex flex-col justify-center items-center ml-8">
                 <div class="mb-2"><%= @reflection_reversal_percentage %>%</div>
                 <div class="font-bold text-sm text-red">Reversal</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-6 px-10 flex flex-col justify-center items-center border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
+        <div class="text-xs mb-6 text-grey dark:text-white">
+            Goal Ratio
+        </div>
+        <div class="flex text-white">
+            <div class="flex flex-col justify-center items-center">
+                <div class="mb-2"><%= @goal_achieved_percentage %>%</div>
+                <div class="font-bold text-sm text-primary">Achieved</div>
+            </div>
+            <div class="flex flex-col justify-center items-center ml-8">
+                <div class="mb-2"><%= @goal_unachieved_percentage %>%</div>
+                <div class="font-bold text-sm text-red">Unachieved</div>
             </div>
         </div>
     </div>
@@ -103,22 +119,37 @@
                 </div>
             </div>
         </div>
+
+        <div class="py-6 px-10 flex flex-col justify-center items-center border-r-[.5px] border-light-grey dark:border-dark-grey">
+            <div class="text-xs mb-6 text-grey dark:text-white">
+                Goal Rate
+            </div>
+            <div class="flex">
+                <div class="flex flex-col justify-center items-center">
+                    <div class="mb-2"><%= @goal_achieved_percentage %>%</div>
+                    <div class="font-bold text-sm text-primary">Achieved</div>
+                </div>
+                <div class="flex flex-col justify-center items-center ml-8">
+                    <div class="mb-2"><%= @goal_unachieved_percentage %>%</div>
+                    <div class="font-bold text-sm text-red">Unachieved</div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
 <div class="bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
 
-    <div class="text-xs mx-6 py-4 dark:text-white">
+    <div class="text-xs text-grey px-6 pt-6 pb-2 dark:text-white">
         Activity
     </div>
 
-    <div class="text-xs mx-6">
+    <div class="text-xs ml-2">
         <%= for log <- @logs do %>
             <%= link to: Routes.decision_path(@conn, :show, log.decision_id) do %>
-                <div class="mb-4 text-dark-grey">
-                    <%= log.user.email %>
-                        <%= log.event %>
-                    on <%= Histora.Users.formate_time_stamp(log.updated_at) %>
+                <div class="p-4 border-b-[.5px] border-light-grey dark:border-dark-grey">
+                    <span class="font-bold mr-6"><%= Histora.Users.formate_time_stamp(log.updated_at) %></span>
+                    <%= log.user.email %> <%= log.event %>
                 </div>
             <% end %>
         <% end %>

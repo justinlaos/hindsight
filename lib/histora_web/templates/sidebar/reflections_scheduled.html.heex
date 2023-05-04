@@ -1,7 +1,10 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
     <!-- Trigger -->
     <span @click="toggle"> <button class="text-sm ml-6 py-4 dark:text-white hover:text-primary">
-        Scheduled reflections
+        <div class="inline-flex items-center">
+            <Heroicons.LiveView.icon name="calendar" type="solid" class="h-4 w-4 mr-1.5" />
+            Scheduled reflections
+        </div>
     </button></span>
 
     <!-- Slideover -->
@@ -22,7 +25,7 @@
                                 <div class="ml-6 text-sm text-primary font-bold mt-4">
                                     scheduled for <%= Histora.Users.formate_time_stamp(decision.reflection_date) %>
                                 </div>
-                                <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: decision %>
+                                <%= render HistoraWeb.ComponentView, "sidebar_decision.html", conn: @conn, decision: decision %>
                             </div>
                         <% end %>
                         <%= if Enum.empty?(@users_scheduled_reflections) do %>

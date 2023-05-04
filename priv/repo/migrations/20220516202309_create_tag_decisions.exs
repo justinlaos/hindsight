@@ -3,7 +3,7 @@ defmodule Histora.Repo.Migrations.CreateTagDecisions do
 
   def change do
     create table(:tag_decisions) do
-      add :tag_id, references(:tags, on_delete: :delete_all)
+      add :tag_id, references(:goals, on_delete: :delete_all)
       add :decision_id, references(:decisions, on_delete: :delete_all)
 
       timestamps()

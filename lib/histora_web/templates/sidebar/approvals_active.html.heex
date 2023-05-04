@@ -21,7 +21,7 @@
                         <%= for approval <- @users_active_approvals do %>
                             <div class="border-b-[.5px] border-light-grey dark:border-dark-grey">
 
-                                <%= render HistoraWeb.ComponentView, "decision.html", conn: @conn, decision: approval.decision %>
+                                <%= render HistoraWeb.ComponentView, "sidebar_decision.html", conn: @conn, decision: approval.decision %>
                             </div>
                         <% end %>
                         <%= if Enum.empty?(@users_active_approvals) do %>

@@ -74,7 +74,7 @@ defmodule HistoraWeb.Router do
     resources "/decisions", DecisionController
     resources "/reflections", ReflectionController
     resources "/teams", TeamController
-    resources "/tags", TagController
+    resources "/goals", GoalController
     get "/organization", OrganizationController, :index
   end
 

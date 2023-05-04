@@ -1,7 +1,10 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex sm:hidden">
     <!-- Trigger -->
     <span @click="toggle">
-        <%= @name %>
+        <div class="inline-flex items-center">
+            <Heroicons.LiveView.icon name="bars-3" type="solid" class="h-5 w-5 mr-4" />
+            <%= @name %>
+        </div>
     </span>
 
 
@@ -41,23 +44,23 @@
                         <%= if Histora.Users.is_admin?(@conn.assigns.current_user) do %>
                             <%= if Enum.member?(["trialing", "trial_expired"], @conn.assigns.organization.status) do %>
                                 <%= link to: Routes.settings_path(@conn, :convert_trial), method: :get do %>
-                                    <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
-                                    <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-2" /> Billing
+                                    <div class="flex flex-row justify-start text-xs rounded-md px-2 py-4 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
+                                    <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-4" /> Billing
                                     </div>
                                 <% end %>
                             <% else %>
                                 <%= link to: Routes.settings_path(@conn, :create_customer_portal_session, Histora.Organizations.get_organization_by_current_user(@current_user).stripe_customer_id), method: :post do%>
-                                    <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
-                                    <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-2" /> Billing
+                                    <div class="flex flex-row justify-start text-xs rounded-md px-2 py-4 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
+                                    <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-4" /> Billing
                                     </div>
                                 <% end %>
                             <% end %>
                         <% end %>
 
-                        <%= link to: Routes.tag_path(@conn, :index), method: :get do %>
-                            <div class={"#{String.contains?(@conn.request_path, "tags") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-4 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
-                            <Heroicons.LiveView.icon name="hashtag" type="solid" class="h-5 w-5 mr-3" />
-                            Tags
+                        <%= link to: Routes.goal_path(@conn, :index), method: :get do %>
+                            <div class={"#{String.contains?(@conn.request_path, "goals") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-4 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
+                            <Heroicons.LiveView.icon name="trophy" type="solid" class="h-5 w-5 mr-3" />
+                            Goals
                             </div>
                         <% end %>
 

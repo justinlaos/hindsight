@@ -31,8 +31,8 @@
                             <%= textarea f, :why, class: "block w-full my-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate",
                                 placeholder: "Provide context" %>
 
-                            <%= text_input f, :tag_list, class: "block w-full my-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate",
-                                placeholder: "Tags: operations, accounting, office, pricing" %>
+                            <%= text_input f, :goal_list, class: "block w-full my-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate",
+                                placeholder: "Goals: operations, accounting, office, pricing" %>
 
                             <%= text_input f, :reference, class: "block w-full my-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate",
                                 placeholder: "Link for extra context" %>
@@ -71,7 +71,7 @@
                     <div class="flex justify-end space-x-2">
                         <button type="button" x-on:click="$dialog.close()" class="text-sm dark:text-light-grey rounded-lg px-5 py-2.5 focus:border-primary">Close</button>
                         <%= submit do  %>
-                            <button class="text-primary font-bold py-2 px-3 mx-2"> Add </button>
+                            <button class="text-white bg-primary py-2 px-6 font-bold mx-2"> Add </button>
                         <% end %>
                     </div>
                 </div>

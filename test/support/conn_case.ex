@@ -31,8 +31,8 @@ defmodule HistoraWeb.ConnCase do
     end
   end
 
-  setup tags do
-    Histora.DataCase.setup_sandbox(tags)
+  setup goals do
+    Histora.DataCase.setup_sandbox(goals)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

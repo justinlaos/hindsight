@@ -1,21 +1,21 @@
-defmodule Histora.TagsFixtures do
+defmodule Histora.GoalsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Tags` context.
+  entities via the `Histora.Goals` context.
   """
 
   @doc """
-  Generate a tag.
+  Generate a goal.
   """
   def tag_fixture(attrs \\ %{}) do
-    {:ok, tag} =
+    {:ok, goal} =
       attrs
       |> Enum.into(%{
 
       })
-      |> Histora.Tags.create_tag()
+      |> Histora.Goals.create_goal()
 
-    tag
+    goal
   end
 
   @doc """
@@ -27,7 +27,7 @@ defmodule Histora.TagsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Tags.create_tag_decision()
+      |> Histora.Goals.create_goal_decision()
 
     tag_decision
   end
@@ -41,7 +41,7 @@ defmodule Histora.TagsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Tags.create_tag_favorite()
+      |> Histora.Goals.create_goal_favorite()
 
     tag_favorite
   end

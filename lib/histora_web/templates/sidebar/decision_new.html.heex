@@ -1,6 +1,14 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
     <!-- Trigger -->
-    <span @click="toggle"> <button class="text-primary text-sm mr-4"> Add Decision </button></span>
+    <span @click="toggle">
+
+        <button class="text-primary text-sm mr-4">
+            <div class="inline-flex items-center">
+                <Heroicons.LiveView.icon name="plus" type="solid" class="h-4 w-4 mr-1.5" />
+                Add Decision
+            </div>
+        </button>
+    </span>
 
     <!-- Slideover -->
     <div x-dialog x-model="open" style="display: none" class="fixed inset-0 overflow-hidden z-10" >
@@ -29,11 +37,55 @@
                             <%= textarea f, :why, class: "block w-full my-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate",
                                 placeholder: "Provide context" %>
 
-                            <%= text_input f, :tag_list, class: "block w-full my-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate",
-                                placeholder: "Tags: operations, accounting, office, pricing" %>
-
                             <%= text_input f, :reference, class: "block w-full my-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate",
                                 placeholder: "Link for extra context" %>
+
+                            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/choices.js/public/assets/styles/choices.min.css" />
+                            <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
+
+                            <div class="text-xs text-grey my-2">Connect Goals</div>
+
+                            <div
+                                x-data={"{
+                                    multiple: true,
+                                    value: [],
+                                    options: [
+                                        #{
+                                            for goal <- @conn.assigns.goals do
+                                                "{value: #{goal.id}, label: '#{goal.name}'}, "
+                                            end
+                                        }
+                                    ],
+                                    init() {
+                                        this.$nextTick(() => {
+                                            let choices = new Choices(this.$refs.select)
+
+                                            let refreshChoices = () => {
+                                                let selection = this.multiple ? this.value : [this.value]
+
+                                                choices.clearStore()
+                                                choices.setChoices(this.options.map(({ value, label }) => ({
+                                                    value,
+                                                    label,
+                                                    selected: selection.includes(value),
+                                                })))
+                                            }
+
+                                            refreshChoices()
+
+                                            this.$refs.select.addEventListener('change', () => {
+                                                this.value = choices.getValue(true)
+                                            })
+
+                                            this.$watch('value', () => refreshChoices())
+                                            this.$watch('options', () => refreshChoices())
+                                        })
+                                    }
+                                }"}
+                                class="bg-white w-full"
+                            >
+                                <select x-ref="select" :multiple="multiple" name="selected_goals[]" id="selected_goals[]" class="bg-white w-full"></select>
+                            </div>
 
                             <div class="text-xs text-grey my-2">Date</div>
                             <div x-data={"{ value: ['#{Date.to_string(Date.utc_today)}'], init() { let picker = flatpickr(this.$refs.picker, {
@@ -65,7 +117,7 @@
                     <div class="flex justify-end space-x-2">
                         <button type="button" x-on:click="$dialog.close()" class="text-sm dark:text-light-grey rounded-lg px-5 py-2.5 focus:border-primary">Close</button>
                         <%= submit do  %>
-                            <button class="text-primary font-bold py-2 px-3 mx-2"> Add </button>
+                            <button class="text-white bg-primary py-2 px-6 font-bold mx-2"> Add </button>
                         <% end %>
                     </div>
                 </div>

@@ -91,7 +91,7 @@ defmodule Histora.Teams do
 
   def get_decisions_for_team(id) do
     (Repo.all Ecto.assoc(Repo.get(Team, id), :decisions))
-    |> Repo.preload([:user, :tags, :users, :teams])
+    |> Repo.preload([:user, :goals, :users, :teams])
     |> Enum.group_by(& &1.date)
     |> Enum.map(fn {date, decisions_collection} -> %{date: date, decisions: decisions_collection} end)
     |> Enum.sort_by(&(&1.date), {:desc, Date})

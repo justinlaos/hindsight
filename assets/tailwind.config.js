@@ -22,9 +22,10 @@ module.exports = {
       'white': '#ffffff',
       'slate': '#121212',
       'yellow': '#FFD700',
+      'gold': '#e6be53',
       'orange': '#FFAC1C',
       'blue': '#0096FF',
-      'red': '#CC0000'
+      'red': '#9A2A2A'
     },
     container: {
       padding: {
