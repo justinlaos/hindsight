@@ -1,7 +1,7 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
     <!-- Trigger -->
     <span @click="toggle">
-        <button class="text-darkest-grey mx-4 py-2">
+        <button class="text-darkest-grey dark:text-light-grey mx-4 py-2">
             <div class="inline-flex items-center">
                 <Heroicons.LiveView.icon name="funnel" type="solid" class="h-4 w-4 mr-1.5" />
                 Filter
@@ -30,7 +30,7 @@
                                 <% end %>
                             </select>
 
-                            <select id="tag_list" name="tag_list" class="block w-full my-4 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primaryblock w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
+                            <select id="goal_list" name="goal_list" class="block w-full my-4 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primaryblock w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">
                                 <option disabled selected>Goals</option>
                                 <%= for goal <- @filterable_goals do %>
                                     <option value={"#{goal.id}"} selected={List.first(@selected_filtered_goals) != %{} && List.first(@selected_filtered_goals).id == goal.id}><%= goal.name %></option>
@@ -44,16 +44,11 @@
                                 <% end %>
                             </select>
 
-                            <div x-data={"{ value: ['#{ if @selected_filtered_date != 'N/A', do: @selected_filtered_date, else: nil }'], init() { let picker = flatpickr(this.$refs.picker, {
-                                    altInput: true, altFormat: 'F j, Y', dateFormat: 'Y-m-d', class: 'border-light-grey',
-                                    defaultDate: this.value, onChange: (date, dateString) => { this.value = dateString }}); this.$watch('value', () => picker.setDate(this.value))}}"} >
-                                <input name="date" id="date" class="block w-full mb-4 dark:text-white placeholder-black border-light-grey dark:border-dark-grey dark:bg-slate" x-ref="picker" type="text" placeholder="Date">
-                            </div>
+                            <input type="date" id="date" name="date" value={if @selected_filtered_date != 'N/A', do: @selected_filtered_date, else: nil} class="w-full mb-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate">
 
-                            <input name="search_term" id="search_term" value={ @filtered_search_term } class="block w-full mb-4 dark:text-white placeholder-black border-light-grey dark:border-dark-grey dark:bg-slate" type="text" placeholder="Search Term">
+                            <input name="search_term" id="search_term" value={ @filtered_search_term } class="block w-full mb-4 dark:text-white placeholder-black dark:placeholder-white border-light-grey dark:border-dark-grey dark:bg-slate" type="text" placeholder="Search Term">
 
-
-                            <%= if @selected_filtered_teams != %{} || List.first(@selected_filtered_users) != %{} || List.first(@selected_filtered_goals) != %{} do %>
+                            <%= if @selected_filtered_teams != %{} || List.first(@selected_filtered_users) != %{} || List.first(@selected_filtered_goals) != %{} || @selected_filtered_date != "" || @filtered_search_term != nil do %>
                                 <%= link to: Routes.decision_path(@conn, :index) do %>
                                     <div class="py-2 text-grey">Clear</div>
                                 <% end %>

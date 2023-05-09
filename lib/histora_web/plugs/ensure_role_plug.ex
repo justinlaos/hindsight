@@ -1,15 +1,4 @@
 defmodule HistoraWeb.EnsureRolePlug do
-  @moduledoc """
-  This plug ensures that a user has a particular role.
-
-  ## Example
-
-      plug HistoraWeb.EnsureRolePlug, [:user, :admin]
-
-      plug HistoraWeb.EnsureRolePlug, :admin
-
-      plug HistoraWeb.EnsureRolePlug, ~w(user admin)a
-  """
   import Plug.Conn, only: [halt: 1]
 
   alias HistoraWeb.Router.Helpers, as: Routes
@@ -17,12 +6,8 @@ defmodule HistoraWeb.EnsureRolePlug do
   alias Plug.Conn
   alias Pow.Plug
 
-  @doc false
-  @spec init(any()) :: any()
   def init(config), do: config
 
-  @doc false
-  @spec call(Conn.t(), atom() | binary() | [atom()] | [binary()]) :: Conn.t()
   def call(conn, roles) do
     conn
     |> Plug.current_user()

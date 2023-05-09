@@ -16,11 +16,11 @@ defmodule Histora.Decisions do
   end
 
   def filter_goals(decisions, params) do
-    if Map.has_key?(params, "tag_list") do
+    if Map.has_key?(params, "goal_list") do
       (from r in subquery(decisions),
       join: t in Goal_decision, on: r.id == t.decision_id,
       join: tt in Goal, on: tt.id == t.goal_id,
-      where: tt.id == ^String.to_integer(params["tag_list"]) )
+      where: tt.id == ^String.to_integer(params["goal_list"]) )
     else
       decisions
     end

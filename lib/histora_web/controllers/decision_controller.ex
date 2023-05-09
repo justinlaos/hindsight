@@ -28,7 +28,7 @@ defmodule HistoraWeb.DecisionController do
       filterable_goals: Goals.list_organization_goals(conn.assigns.organization),
       filterable_users: Users.get_organization_users(conn.assigns.organization),
       filterable_teams: Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),
-      selected_filtered_goals: (if Map.has_key?(params, "tag_list"), do: Goals.selected_filtered_goals(conn.assigns.organization, params["tag_list"]), else: [%{}]),
+      selected_filtered_goals: (if Map.has_key?(params, "goal_list"), do: Goals.selected_filtered_goals(conn.assigns.organization, params["goal_list"]), else: [%{}]),
       selected_filtered_users: (if Map.has_key?(params, "users"), do: Users.selected_filtered_users(conn.assigns.organization, params["users"]), else: [%{}]),
       selected_filtered_teams: (if Map.has_key?(params, "teams"), do: Teams.selected_filtered_teams(conn.assigns.organization, params["teams"]), else: %{}),
       selected_filtered_date: (if Map.has_key?(params, "date"), do: params["date"], else: ""),

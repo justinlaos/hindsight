@@ -1,8 +1,6 @@
 defmodule HistoraWeb.StripeWebhooksPlug do
     @behaviour Plug
 
-    import Plug.Conn
-
     def init(config), do: config
 
     def call(%{request_path: "/stripe/webhooks"} = conn, _) do
