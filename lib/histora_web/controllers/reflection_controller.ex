@@ -86,7 +86,6 @@ defmodule HistoraWeb.ReflectionController do
   end
 
   def update(conn, %{"id" => id, "reflection" => reflection_params, "status" => status, "goals" => goals}) do
-    IO.inspect(reflection_params)
     reflection = Reflections.get_reflection!(id)
 
     case Reflections.update_reflection(reflection, Map.merge(reflection_params, %{"status" => status})) do

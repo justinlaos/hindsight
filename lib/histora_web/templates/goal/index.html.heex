@@ -16,8 +16,8 @@
 <% end %>
 
 <%= if Enum.empty?(@goals) do %>
-  <%= for _ <- Enum.to_list 1..10 do  %>
-    <div class="m-6 dark:bg-darkest-grey bg-really-light-grey h-8 w-100">
-    </div>
-  <% end %>
+  <div class="flex flex-col items-center justify-center w-full pt-28">
+    <Heroicons.LiveView.icon name="folder-open" type="outline" class="w-3/12 text-really-light-grey dark:text-dark-grey" />
+    <div class="text-light-grey dark:text-dark-grey">Nothing Here</div>
+  </div>
 <% end %>

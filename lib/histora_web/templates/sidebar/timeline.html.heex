@@ -1,7 +1,7 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
     <!-- Trigger -->
     <span @click="toggle">
-        <button class="ml-6 text-xs  hover:text-primary mr-4">
+        <button class="ml-6 text-xs hover:text-primary mr-4 dark:text-light-grey">
             <div class="inline-flex items-center">
                 <Heroicons.LiveView.icon name="calendar" type="solid" class="h-3.5 w-3.5 mr-1" />
                 <div class="">Timeline</div>
@@ -40,7 +40,7 @@
                                 </div>
                             <% else %>
                                 <div class="flex items-center mt-4">
-                                    <%= if instance.status == "continuation" do %>
+                                    <%= if instance.status == "successful" do %>
                                         <div class="w-3 h-3 bg-primary rounded-full"></div>
                                     <% else %>
                                         <div class="w-3 h-3 bg-red rounded-full"></div>

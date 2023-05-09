@@ -7,11 +7,11 @@ defmodule HistoraWeb.API.V1.DecisionController do
   alias Histora.Goals
   alias Histora.Decisions
 
-  def create(conn, %{"what" => what, "why" => why, "tag_list" => tag_list, "reference" => reference, "source" => source}) do
+  def create(conn, %{"what" => what, "why" => why, "goal_list" => goal_list, "reference" => reference, "source" => source}) do
     case Decisions.create_decision(%{"user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.current_user.organization_id, "what" => what, "why" => why, "reference" => reference, "source" => source }) do
       {:ok, decision} ->
-        if tag_list != "" do
-          Goals.assign_goals_to_decision(tag_list, decision.id, decision.organization_id, decision.user_id)
+        if goal_list != "" do
+          Goals.assign_goals_to_decision(goal_list, decision.id, decision.organization_id, decision.user_id)
         end
 
         json(conn, %{status: 200, data: "decisioned created"})

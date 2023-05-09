@@ -58,12 +58,12 @@
         </div>
         <div class="flex text-white">
             <div class="flex flex-col justify-center items-center">
-                <div class="mb-2"><%= @reflection_continuation_percentage %>%</div>
-                <div class="font-bold text-sm text-primary">Continuation</div>
+                <div class="mb-2"><%= @reflection_successful_percentage %>%</div>
+                <div class="font-bold text-sm text-primary">Successful</div>
             </div>
             <div class="flex flex-col justify-center items-center ml-8">
-                <div class="mb-2"><%= @reflection_reversal_percentage %>%</div>
-                <div class="font-bold text-sm text-red">Reversal</div>
+                <div class="mb-2"><%= @reflection_rethink_percentage %>%</div>
+                <div class="font-bold text-sm text-red">Rethink</div>
             </div>
         </div>
     </div>
@@ -110,12 +110,12 @@
             </div>
             <div class="flex">
                 <div class="flex flex-col justify-center items-center">
-                    <div class="mb-2"><%= @reflection_continuation_percentage %>%</div>
-                    <div class="font-bold text-sm text-primary">Continuation</div>
+                    <div class="mb-2"><%= @reflection_successful_percentage %>%</div>
+                    <div class="font-bold text-sm text-primary">Successful</div>
                 </div>
                 <div class="flex flex-col justify-center items-center ml-8">
-                    <div class="mb-2"><%= @reflection_reversal_percentage %>%</div>
-                    <div class="font-bold text-sm text-red">Reversal</div>
+                    <div class="mb-2"><%= @reflection_rethink_percentage %>%</div>
+                    <div class="font-bold text-sm text-red">Rethink</div>
                 </div>
             </div>
         </div>
@@ -147,7 +147,7 @@
     <div class="text-xs ml-2">
         <%= for log <- @logs do %>
             <%= link to: Routes.decision_path(@conn, :show, log.decision_id) do %>
-                <div class="p-4 border-b-[.5px] border-light-grey dark:border-dark-grey">
+                <div class="p-4 border-b-[.5px] border-light-grey dark:border-dark-grey dark:text-light-grey">
                     <span class="font-bold mr-6"><%= Histora.Users.formate_time_stamp(log.updated_at) %></span>
                     <%= log.user.email %> <%= log.event %>
                 </div>

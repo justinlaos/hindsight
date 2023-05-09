@@ -17,17 +17,13 @@ defmodule HistoraWeb.GoalController do
   end
 
   def show(conn, params) do
-    goal_decisions = Goals.get_decisions_for_goal(params)
-      |> Decisions.formate_decisions(conn.assigns.current_user)
-
-      # |> Goals.filter_by_achieved(params)
-
-
     Histora.Data.page(conn.assigns.current_user, "Goal Show")
 
     render(conn, "show.html",
       goal: Goals.get_goal!(params["id"]),
-      decisions: goal_decisions
+      goal_achieved_percentage: Histora.Goals.goal_percentage(params["id"], true),
+      goal_unachieved_percentage: Histora.Goals.goal_percentage(params["id"], false),
+      decisions: Goals.get_decisions_for_goal(params) |> Decisions.formate_decisions(conn.assigns.current_user)
     )
   end
 

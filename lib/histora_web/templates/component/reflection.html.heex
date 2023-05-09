@@ -1,5 +1,5 @@
 <div class="bg-really-light-grey dark:bg-darkest-grey mx-6 p-4 max-w-4xl min-w-fit">
-    <%= if @reflection.status == "continuation" do %>
+    <%= if @reflection.status == "successful" do %>
         <div class="text-primary"><%= @reflection.status %></div>
     <% else %>
         <div class="text-red"><%= @reflection.status %></div>

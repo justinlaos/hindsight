@@ -88,18 +88,10 @@
                             </div>
 
                             <div class="text-xs text-grey my-2">Date</div>
-                            <div x-data={"{ value: ['#{Date.to_string(Date.utc_today)}'], init() { let picker = flatpickr(this.$refs.picker, {
-                                    altInput: true, altFormat: 'F j, Y', dateFormat: 'Y-m-d', class: 'border-light-grey',
-                                    defaultDate: this.value, onChange: (date, dateString) => { this.value = dateString }}); this.$watch('value', () => picker.setDate(this.value))}}"} >
-                                <input name="date" id="date" class="block w-full mb-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate" x-ref="picker" type="text">
-                            </div>
+                            <input type="date" name="date" id="date" value={ Date.to_string(Date.utc_today) } class="block w-full mb-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate">
 
                             <div class="text-xs text-grey my-2">Schedule Reflection Date</div>
-                            <div x-data={"{ value: ['#{ nil }'], init() { let picker = flatpickr(this.$refs.picker, {
-                                    altInput: true, altFormat: 'F j, Y', dateFormat: 'Y-m-d', class: 'border-light-grey',
-                                    defaultDate: this.value, onChange: (date, dateString) => { this.value = dateString }}); this.$watch('value', () => picker.setDate(this.value))}}"} >
-                                <input name="reflection_date" id="reflection_date" class="block w-full mb-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate" x-ref="picker" type="text">
-                            </div>
+                            <input type="date" name="reflection_date" id="reflection_date" class="block w-full mb-4 dark:text-white border-light-grey dark:border-dark-grey dark:bg-slate">
 
                             <div class="text-xs text-grey my-2">Request Approval </div>
                             <select id="approval_user" name="approval_user" class="block w-full my-2 dark:bg-slate dark:text-white border-light-grey dark:border-dark-grey text-black focus:border-primary">

@@ -32,10 +32,10 @@ defmodule Histora.Goals do
   end
 
 
-  def selected_filtered_goals(organization, tag_list) do
+  def selected_filtered_goals(organization, goal_list) do
     (from t in Goal,
       where: t.organization_id == ^organization.id,
-      where: t.id == ^String.to_integer(tag_list)
+      where: t.id == ^String.to_integer(goal_list)
     )
     |> Repo.all()
   end
@@ -98,7 +98,20 @@ defmodule Histora.Goals do
     end
   end
 
-  def goal_percentage(organization, status) do
+  def goal_percentage(goal, status) do
+
+    status_count = Repo.aggregate(from(r in Histora.Reflections.Reflection_goal, where: r.goal_id == ^goal and r.achieved == ^status), :count, :id)
+    goal_count = Repo.aggregate(from(r in Histora.Reflections.Reflection_goal, where: r.goal_id == ^goal), :count, :id)
+
+    if status_count == 0 && goal_count == 0 do
+      0
+    else
+      (status_count / goal_count) * 100
+      |> trunc()
+    end
+  end
+
+  def goals_percentage(organization, status) do
 
     status_count = Repo.aggregate(from(r in Histora.Reflections.Reflection_goal, where: r.organization_id == ^organization.id and r.achieved == ^status), :count, :id)
     organization_count = Repo.aggregate(from(r in Histora.Reflections.Reflection_goal, where: r.organization_id == ^organization.id), :count, :id)

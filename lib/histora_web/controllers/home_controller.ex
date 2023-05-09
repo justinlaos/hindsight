@@ -7,8 +7,8 @@ defmodule HistoraWeb.HomeController do
   def index(conn, _params) do
     decision_count = Decisions.organization_decision_count(conn.assigns.organization)
     reflection_count = Histora.Reflections.organization_reflection_count(conn.assigns.organization)
-    reflection_continuation_percentage = Histora.Reflections.organization_reflection_percentage_by_status(conn.assigns.organization, "continuation")
-    reflection_reversal_percentage = Histora.Reflections.organization_reflection_percentage_by_status(conn.assigns.organization, "reversal")
+    reflection_successful_percentage = Histora.Reflections.organization_reflection_percentage_by_status(conn.assigns.organization, "successful")
+    reflection_rethink_percentage = Histora.Reflections.organization_reflection_percentage_by_status(conn.assigns.organization, "rethink")
     users_scheduled_reflections = Histora.Reflections.users_scheduled_reflections(conn.assigns.organization, conn.assigns.current_user)
     users_past_due_reflections = Histora.Reflections.users_past_due_reflections(conn.assigns.organization, conn.assigns.current_user)
     logs = Histora.Logs.list_organization_decisions(conn.assigns.organization)
@@ -19,10 +19,10 @@ defmodule HistoraWeb.HomeController do
       decision_changeset: Decisions.change_decision(%Decisions.Decision{}),
       decision_count: decision_count,
       reflection_count: reflection_count,
-      reflection_continuation_percentage: reflection_continuation_percentage,
-      reflection_reversal_percentage: reflection_reversal_percentage,
-      goal_achieved_percentage: Histora.Goals.goal_percentage(conn.assigns.organization, true),
-      goal_unachieved_percentage: Histora.Goals.goal_percentage(conn.assigns.organization, false),
+      reflection_successful_percentage: reflection_successful_percentage,
+      reflection_rethink_percentage: reflection_rethink_percentage,
+      goal_achieved_percentage: Histora.Goals.goals_percentage(conn.assigns.organization, true),
+      goal_unachieved_percentage: Histora.Goals.goals_percentage(conn.assigns.organization, false),
       users_scheduled_reflections: users_scheduled_reflections,
       users_past_due_reflections: users_past_due_reflections,
       teams: Histora.Teams.list_organization_teams(conn.assigns.organization, conn.assigns.current_user),

@@ -7,7 +7,7 @@
     <div class="text-2xl dark:text-white text text-center">Select a plan to continue </div>
 
     <div class="dark:text-white text-sm text-center my-4">
-        Your organization has <span class="text-bold text-primary"><%= Enum.count(@managed_users) %></span> active user.
+        Your organization has <span class="text-bold text-primary"><%= Enum.count(@managed_users) %></span> active users.
     </div>
 
     <div class="text-grey text-center text-xs mb-6">Archive users if you need a smaller plan</div>
@@ -15,6 +15,6 @@
     <%= render "usersize_form.html", conn: @conn, managed_users_count: Enum.count(@managed_users) %>
 
     <div class="mt-6 mt-2 text-xs dark:text-grey w-10/12 lg:w-6/12">
-        Subscriptions are billed monthly. You can cancel anytime for any reason. You can update or downgrade your plan anytime.
+        Subscriptions are billed monthly. You can cancel anytime for any reason. Change your plan anytime.
     </div>
 </div>

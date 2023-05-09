@@ -21,7 +21,7 @@ defmodule HistoraWeb.SignupController do
     promo = if Map.has_key?(params, "promo"), do: params["promo"], else: nil
 
     case Histora.Signup.create_organization_trial(email, password, plan, promo) do
-      {:ok, _user} ->
+      {:ok, user} ->
         conn
         |> Pow.Plug.authenticate_user(params["user"])
         |> case do
