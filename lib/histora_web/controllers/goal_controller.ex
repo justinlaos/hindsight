@@ -7,7 +7,7 @@ defmodule HistoraWeb.GoalController do
 
   def index(conn, _params) do
     goals = Goals.list_organization_goals(conn.assigns.organization)
-    Histora.Data.page(conn.assigns.current_user, "Settings Goals")
+    Histora.Data.page(conn.assigns.current_user, "Goals Index")
 
     render(conn, "index.html",
       settings: true,
@@ -47,6 +47,7 @@ defmodule HistoraWeb.GoalController do
 
   def update(conn, %{"id" => id, "goal" => tag_params}) do
     goal = Goals.get_goal!(id)
+    Histora.Data.event(conn.assigns.current_user, "Updated Goal")
 
     case Goals.update_goal(goal, tag_params) do
       {:ok, goal} ->
@@ -62,6 +63,7 @@ defmodule HistoraWeb.GoalController do
   def delete(conn, %{"id" => id}) do
     goal = Goals.get_goal!(id)
     {:ok, _goal} = Goals.delete_goal(goal)
+    Histora.Data.event(conn.assigns.current_user, "Deleted Goal")
 
     conn
     |> put_flash(:info, "Goal deleted successfully.")

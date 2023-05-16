@@ -87,6 +87,8 @@ defmodule HistoraWeb.TeamController do
     team = Teams.get_team!(id)
     {:ok, _team} = Teams.delete_team(team)
 
+    Histora.Data.event(conn.assigns.current_user, "Deleted Team")
+
     conn
     |> put_flash(:info, "Team deleted successfully.")
     |> redirect(to: Routes.team_path(conn, :index))

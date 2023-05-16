@@ -7,7 +7,7 @@ defmodule HistoraWeb.OrganizationController do
 
   def index(conn, _params) do
     %{organization: organization} = conn.assigns
-    Histora.Data.page(conn.assigns.current_user, "Settings Organization")
+    Histora.Data.page(conn.assigns.current_user, "Organization Index")
 
     render(conn, "index.html",
       organization: organization,

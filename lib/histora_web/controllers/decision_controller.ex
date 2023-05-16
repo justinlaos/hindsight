@@ -12,6 +12,8 @@ defmodule HistoraWeb.DecisionController do
   alias Histora.Reflections.Reflection
 
   def index(conn, params) do
+    Histora.Data.page(conn.assigns.current_user, "Decisions Index")
+
     filtered_decisions =
       Decisions.list_organization_decisions(conn.assigns.organization)
       |> Decisions.filter_search_term(params)
@@ -146,12 +148,18 @@ defmodule HistoraWeb.DecisionController do
   def update_decision_approval(conn, params) do
     Decisions.update_decision_approval(params["decision_id"], params["approved"], params["note"])
     conn
+
+    Histora.Data.event(conn.assigns.current_user, "Updated Decision Approval")
+
     |> put_flash(:info, "Decision was approved")
     |> redirect(to: Routes.decision_path(conn, :show, params["decision_id"]))
   end
 
   def reset_decision_approval(conn, params) do
     Decisions.reset_decision_approval(conn.assigns.organization.id, params["user_id"], params["id"])
+
+    Histora.Data.event(conn.assigns.current_user, "Reset Decision Approval")
+
     conn
     |> put_flash(:info, "Approval was approved")
     |> redirect(to: Routes.decision_path(conn, :show, params["id"]))
@@ -160,6 +168,8 @@ defmodule HistoraWeb.DecisionController do
   def delete(conn, %{"id" => id}) do
     decision = Decisions.get_decision!(id)
     {:ok, _decision} = Decisions.delete_decision(decision)
+
+    Histora.Data.event(conn.assigns.current_user, "Delete Decision")
 
     conn
     |> put_flash(:info, "Decision deleted successfully.")

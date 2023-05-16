@@ -21,7 +21,7 @@ defmodule HistoraWeb.Admin.SettingsController do
     managed_users = Users.get_organization_users_for_settings(organization)
 
     new_user_changeset = User.invite_changeset(%User{}, conn.assigns.current_user, %{"email" => nil})
-    Histora.Data.page(conn.assigns.current_user, "Settings Organization")
+    Histora.Data.page(conn.assigns.current_user, "Organization Index")
 
     render(conn, "organization.html",
       organization: organization,

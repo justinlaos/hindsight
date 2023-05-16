@@ -2,17 +2,15 @@ defmodule HistoraWeb.WelcomeController do
   use HistoraWeb, :controller
 
   def getting_started(conn, _params) do
-    Histora.Data.page(conn.assigns.current_user, "Welcome Getting Started")
     render(conn, "getting_started.html")
   end
 
   def admin(conn, _params) do
-    Histora.Data.page(conn.assigns.current_user, "Welcome Admin")
     render(conn, "admin.html")
   end
 
   def complete_welcome(conn, _params) do
-    Histora.Data.event(conn.assigns.current_user, "Complete Welcome Getting Started")
+    Histora.Data.event(conn.assigns.current_user, "Complete Getting Started")
 
     user_data = Histora.Users.get_user_data_from_user(conn.assigns.current_user)
     case Histora.Users.update_user_data(user_data, %{getting_started_completed: true}) do
@@ -27,7 +25,7 @@ defmodule HistoraWeb.WelcomeController do
   end
 
   def complete_admin(conn, _params) do
-    Histora.Data.event(conn.assigns.current_user, "Complete Welcome Admin")
+    Histora.Data.event(conn.assigns.current_user, "Complete Getting Started Admin")
 
     user_data = Histora.Users.get_user_data_from_user(conn.assigns.current_user)
     case Histora.Users.update_user_data(user_data, %{welcome_admin_completed: true}) do

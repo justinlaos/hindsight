@@ -114,6 +114,8 @@ defmodule HistoraWeb.ReflectionController do
     reflection = Reflections.get_reflection!(id)
     {:ok, _reflection} = Reflections.delete_reflection(reflection)
 
+    Histora.Data.event(conn.assigns.current_user, "Deleted Reflection")
+
     conn
     |> put_flash(:info, "Reflection deleted successfully.")
     |> redirect(to: Routes.reflection_path(conn, :index))

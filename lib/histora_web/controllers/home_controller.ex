@@ -14,6 +14,8 @@ defmodule HistoraWeb.HomeController do
     logs = Histora.Logs.list_organization_decisions(conn.assigns.organization)
     users_active_approvals = Histora.Decisions.users_active_approvals(conn.assigns.organization, conn.assigns.current_user)
 
+    Histora.Data.page(conn.assigns.current_user, "Home")
+
 
     render(conn, "index.html",
       decision_changeset: Decisions.change_decision(%Decisions.Decision{}),
