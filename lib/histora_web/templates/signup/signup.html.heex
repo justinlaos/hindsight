@@ -24,7 +24,8 @@
         </div>
       </div>
 
-      <div><%= if Map.has_key?(@conn.assigns, :error), do: @error, else: "" %></div>
+      <div class="text-red text-xs mt-2"><%= if Map.has_key?(@conn.assigns, :error), do: @error, else: "" %></div>
+      <div class="text-red text-xs mt-2"><%= if Map.has_key?(@conn.params, "error"), do: @conn.params["error"], else: "" %></div>
 
       <div>
         <%= submit do %>

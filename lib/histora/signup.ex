@@ -3,22 +3,34 @@ defmodule Histora.Signup do
   alias Histora.Users
 
   def create_organization_trial(email, password, plan, promo) do
-    case Organizations.check_if_billing_email_exists(email) do
-      true -> {:error, "email already exists"}
-      false ->
-        case create_organization(email, plan, promo) do
-          {:ok, organization} -> case create_user(organization, email, password) do
-            {:ok, user} -> case create_user_data(user) do
-              {:ok, user} ->
-                create_starting_data(organization, user)
-                Histora.Email.new_trial("team@histora.app", organization, promo)
-                  |> Histora.Mailer.deliver_now()
-                {:ok, %{email: email, password: password}}
+    case check_signup_info(email, password) do
+      false -> {:error, "incorrect account info. please add a valid email and password of at least 6 characters"}
+      true ->
+        case Organizations.check_if_billing_email_exists(email) do
+          true -> {:error, "email already exists"}
+          false ->
+            case create_organization(email, plan, promo) do
+              {:ok, organization} -> case create_user(organization, email, password) do
+                {:ok, user} -> case create_user_data(user) do
+                  {:ok, user} ->
+                    create_starting_data(organization, user)
+                    Histora.Email.new_trial("team@histora.app", organization, promo)
+                      |> Histora.Mailer.deliver_now()
+                    {:ok, %{email: email, password: password}}
+                end
+                {:error, error} -> {:error, error}
+              end
+              {:error, error} -> {:error, error}
             end
-            {:error, error} -> {:error, error}
-          end
-          {:error, error} -> {:error, error}
         end
+    end
+  end
+
+  def check_signup_info(email, password) do
+    if String.length(email) <= 5 || String.contains?(email, "@") == false || String.length(password) <= 6  do
+      false
+    else
+      true
     end
   end
 

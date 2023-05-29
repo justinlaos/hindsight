@@ -32,12 +32,12 @@ defmodule HistoraWeb.SignupController do
             |> redirect(to: Routes.decision_path(conn, :index))
           end
       {:error, error} ->
-        changeset = Pow.Plug.change_user(conn)
         case is_map(error) do
           true ->
-            render(conn, "signup.html", changeset: changeset, plan: plan, error: "Password is not vaild, please use at least 6 charaters")
+            conn |> redirect(to: Routes.signup_path(conn, :signup, error: "Password is not vaild, please use at least 6 charaters"))
           false ->
-            render(conn, "signup.html", changeset: changeset, plan: plan, error: error)
+            conn |> redirect(to: Routes.signup_path(conn, :signup, error: error))
+
         end
     end
   end
