@@ -32,6 +32,7 @@ defmodule HistoraWeb.SignupController do
             |> redirect(to: Routes.decision_path(conn, :index))
           end
       {:error, error} ->
+        Histora.Data.signup_attempt_event(email, error)
         case is_map(error) do
           true ->
             conn |> redirect(to: Routes.signup_path(conn, :signup, error: "Password is not vaild, please use at least 6 charaters"))

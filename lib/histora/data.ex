@@ -31,4 +31,9 @@ defmodule Histora.Data do
       }
     )
   end
+
+  def signup_attempt_event(email, error) do
+    Segment.start_link(System.get_env("SEGMENT_API"))
+    Segment.Analytics.track("signup_attempt_user", "Signup Attempt", %{ email: email, error: error } )
+  end
 end
