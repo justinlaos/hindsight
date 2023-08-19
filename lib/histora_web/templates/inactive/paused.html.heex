@@ -6,7 +6,7 @@
     <button class="bg-primary dark:bg-primary dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-white font-bold py-4 px-16 mx-3 mt-6 rounded">
         <div class="flex flex-row items-center">
             <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-5 w-5 mr-2" />
-            <%= link "Billing", to: Routes.settings_path(@conn, :create_customer_portal_session, Histora.Organizations.get_organization_by_current_user(@current_user).stripe_customer_id), method: :post %>
+            <%= link "Billing", to: Routes.settings_path(@conn, :create_customer_portal_session, @organization.stripe_customer_id), method: :post %>
         </div>  
     </button>
 </div>
