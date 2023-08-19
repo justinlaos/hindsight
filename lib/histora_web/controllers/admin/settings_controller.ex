@@ -41,7 +41,7 @@ defmodule HistoraWeb.Admin.SettingsController do
         Histora.Data.event(conn.assigns.current_user, "Updated Organization Info")
         conn
         |> put_flash(:info, "organization updated successfully.")
-        |> redirect(to: Routes.settings_path(conn, :organization))
+        |> redirect(to: Routes.organization_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "organization.html", organization: organization, changeset: changeset)

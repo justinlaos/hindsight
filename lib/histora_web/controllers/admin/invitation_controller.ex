@@ -24,7 +24,7 @@ defmodule HistoraWeb.Admin.InvitationController do
 
         conn
         |> put_flash(:info, "Invitation sent")
-        |> redirect(to: Routes.settings_path(conn, :organization))
+        |> redirect(to: Routes.organization_path(conn, :index))
 
       {:error, changeset, conn} ->
         conn

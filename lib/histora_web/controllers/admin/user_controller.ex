@@ -15,12 +15,12 @@ defmodule HistoraWeb.Admin.UserController do
         Histora.Data.event(conn.assigns.current_user, "Archived A User")
         conn
         |> put_flash(:info, "User has been archived.")
-        |> redirect(to: Routes.settings_path(conn, :organization))
+        |> redirect(to: Routes.organization_path(conn, :index))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:error, "User couldn't be archived.")
-        |> redirect(to: Routes.settings_path(conn, :organization))
+        |> redirect(to: Routes.organization_path(conn, :index))
     end
   end
 
@@ -30,12 +30,12 @@ defmodule HistoraWeb.Admin.UserController do
         Histora.Data.event(conn.assigns.current_user, "Unarchived A User")
         conn
         |> put_flash(:info, "User has been unarchived.")
-        |> redirect(to: Routes.settings_path(conn, :organization))
+        |> redirect(to: Routes.organization_path(conn, :index))
 
       {:error, _changeset} ->
         conn
         |> put_flash(:error, "User couldn't be unarchived.")
-        |> redirect(to: Routes.settings_path(conn, :organization))
+        |> redirect(to: Routes.organization_path(conn, :index))
     end
   end
 
@@ -45,7 +45,7 @@ defmodule HistoraWeb.Admin.UserController do
         Histora.Data.event(conn.assigns.current_user, "Canceled Invite")
         conn
         |> put_flash(:info, "Invitation has been cancelled.")
-        |> redirect(to: Routes.settings_path(conn, :organization))
+        |> redirect(to: Routes.organization_path(conn, :index))
     end
   end
 
