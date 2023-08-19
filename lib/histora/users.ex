@@ -2,6 +2,7 @@ defmodule Histora.Users do
   alias Histora.{Repo, Users.User}
   alias Histora.Decisions.Decision
   alias Histora.Users.User_data
+  alias Histora.Teams.Team_user
   import Ecto.Changeset
 
   import Ecto.Query, warn: false
@@ -32,6 +33,7 @@ defmodule Histora.Users do
 
   def cancel_invite(user) do
     (from ud in User_data, where: ud.user_id == ^user.id) |> Repo.delete_all
+    (from ud in Team_user, where: ud.user_id == ^user.id) |> Repo.delete_all
     (from u in User, where: u.id == ^user.id) |> Repo.delete_all
   end
 
