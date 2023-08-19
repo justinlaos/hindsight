@@ -1,14 +1,22 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
-    <!-- Trigger -->
-    <span @click="toggle">
-
-        <button class="text-primary text-sm mr-4">
-            <div class="inline-flex items-center">
-                <Heroicons.LiveView.icon name="plus" type="solid" class="h-4 w-4 mr-1.5" />
-                Add Decision
-            </div>
-        </button>
-    </span>
+    
+    <%= if @conn.assigns.free_plan_decision_limit_reached do %>
+        <%= link to: Routes.settings_path(@conn, :convert_trial), method: :get do %>
+            <button class="text-white bg-primary py-2 px-4 text-sm mr-4">
+                Decision Limit Reached
+            </button>
+        <% end %>
+    <% else %>
+        <!-- Trigger -->
+        <span @click="toggle">
+            <button class="text-white bg-primary py-2 px-4 text-sm mr-4">
+                <div class="inline-flex items-center">
+                    <Heroicons.LiveView.icon name="plus" type="solid" class="h-3 w-3 mr-1.5 font-bold" />
+                    Add Decision
+                </div>
+            </button>
+        </span>
+    <% end %>
 
     <!-- Slideover -->
     <div x-dialog x-model="open" style="display: none" class="fixed inset-0 overflow-hidden z-10" >

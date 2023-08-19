@@ -14,13 +14,13 @@ defmodule HistoraWeb.SignupController do
     render(conn, "signup_email.html", plan: plan, changeset: changeset, promo: promo)
   end
 
-  def create_organization_trial(conn, params) do
+  def create_organization(conn, params) do
     email = if Map.has_key?(params["user"], "email"), do: params["user"]["email"], else: nil
     password = if Map.has_key?(params["user"], "password"), do: params["user"]["password"], else: nil
     plan = if Map.has_key?(params, "plan"), do: params["plan"], else: "10"
     promo = if Map.has_key?(params, "promo"), do: params["promo"], else: nil
 
-    case Histora.Signup.create_organization_trial(email, password, plan, promo) do
+    case Histora.Signup.create_organization(email, password, promo) do
       {:ok, user} ->
         conn
         |> Pow.Plug.authenticate_user(params["user"])

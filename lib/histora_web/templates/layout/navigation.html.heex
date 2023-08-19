@@ -40,7 +40,7 @@
 
     <div>
       <%= if Histora.Users.is_admin?(@current_user) do %>
-        <%= if Enum.member?(["trialing", "trial_expired"], @organization.status) do %>
+        <%= if Enum.member?(["free"], @organization.status) do %>
           <%= link to: Routes.settings_path(@conn, :convert_trial), method: :get do %>
             <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
               <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-2" /> Billing

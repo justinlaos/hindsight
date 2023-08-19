@@ -1,6 +1,14 @@
 <div class="sticky bg-white dark:bg-slate pt-4 top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
   <div class="flex flex-row justify-between text-1xl ml-6 pb-4 font-bold dark:text-white">
-    <div class="hidden sm:flex">Decisions</div>
+    <div class="hidden sm:flex flex flex-col">
+      <div>Decisions</div>
+
+      <%= if Enum.member?(["free"], @organization.status) do %>
+        <div class="mt-1 text-xs font-normal text-grey"> <%= @decisions_count %> / 50 </div>
+      <% else %>
+        <div class="mt-1 text-xs font-normal text-grey"> <%= @decisions_count %> </div>
+      <% end %>
+    </div>
     <%= render HistoraWeb.LayoutView, "mobile_navigation.html", conn: @conn, name: "Decisions" %>
     <%= render HistoraWeb.SidebarView, "decision_new.html", action: Routes.decision_path(@conn, :create), conn: @conn %>
   </div>
@@ -11,7 +19,7 @@
         <div class="text-xs text-grey ml-6 mr-4">Filters: </div>
         <%= if Enum.member?(@selected_filtered_users, @conn.assigns.current_user) do %>
           <%= link to: Routes.decision_path(@conn, :index) do %>
-            <div class="ml-6 mr-4 py-2 text-xs text-blue">
+            <div class="mr-4 py-2 text-xs text-blue">
               <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4" />
             </div>
           <% end %>

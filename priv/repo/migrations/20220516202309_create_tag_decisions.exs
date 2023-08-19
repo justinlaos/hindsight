@@ -1,14 +1,14 @@
-defmodule Histora.Repo.Migrations.CreateTagDecisions do
+defmodule Histora.Repo.Migrations.CreateGoalDecisions do
   use Ecto.Migration
 
   def change do
-    create table(:tag_decisions) do
-      add :tag_id, references(:goals, on_delete: :delete_all)
+    create table(:goal_decisions) do
+      add :goal_id, references(:goals, on_delete: :delete_all)
       add :decision_id, references(:decisions, on_delete: :delete_all)
 
       timestamps()
     end
 
-    create index(:tag_decisions, [:tag_id, :decision_id])
+    create index(:goal_decisions, [:goal_id, :decision_id])
   end
 end

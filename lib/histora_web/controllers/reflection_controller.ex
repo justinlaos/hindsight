@@ -54,8 +54,9 @@ defmodule HistoraWeb.ReflectionController do
     case Reflections.create_reflection(Map.merge(params["reflection"], %{"decision_id" => params["decision"], "user_id" => conn.assigns.current_user.id, "organization_id" => conn.assigns.organization.id, "status" => params["status"]})) do
       {:ok, reflection} ->
 
-        Reflections.create_reflection_goals(params["goals"], reflection.id, params["decision"], conn.assigns.current_user.id, conn.assigns.organization.id)
-
+        if params["goals"] do
+          Reflections.create_reflection_goals(params["goals"], reflection.id, params["decision"], conn.assigns.current_user.id, conn.assigns.organization.id)
+        end
 
         Histora.Logs.create_log(%{
           "organization_id" => conn.assigns.organization.id,

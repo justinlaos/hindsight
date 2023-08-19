@@ -1,8 +1,17 @@
 <div x-data="{ open: false, toggle() { this.open = ! this.open } }" class="flex justify-flex-start">
-    <!-- Trigger -->
-    <span @click="toggle"><button class="text-primary text-xs " x-tooltip="This creates a new decision that is connected to this reflection and lives in this decision tree">
-        Link New Decision
-    </button></span>
+
+    <%= if @free_plan_decision_limit_reached do %>
+        <%= link to: Routes.settings_path(@conn, :convert_trial), method: :get do %>
+            <button class="text-primary text-xs">
+                Limit Reached
+            </button>
+        <% end %>
+    <% else %>
+        <!-- Trigger -->
+        <span @click="toggle"><button class="text-primary text-xs" x-tooltip="This creates a new decision that is connected to this reflection and lives in this decision tree">
+            Link New Decision
+        </button></span>
+    <% end %>
 
     <!-- Slideover -->
     <div x-dialog x-model="open" style="display: none" class="fixed inset-0 overflow-hidden z-10" >

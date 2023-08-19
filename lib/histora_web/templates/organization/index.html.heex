@@ -10,7 +10,7 @@
 
   <div class="flex justify-between items-center py-2 pl-6 text-sm border-y-[.5px] border-light-grey dark:border-dark-grey">
       <div class="flex items-center dark:text-grey">
-        <div class="text-sm"> <%= Enum.count(@managed_users) %> /  <%= if Enum.member?(["trialing", "trial_expired"], @organization.status), do: "unlimited in trial", else: "#{@organization.user_limit} seats" %></div>
+        <div class="text-sm"> <%= Enum.count(@managed_users) %> /  <%= @organization.user_limit %> seats </div>
       </div>
 
     <%= if Histora.Users.is_admin?(@current_user) do %>

@@ -33,10 +33,6 @@ defmodule HistoraWeb.Router do
     plug HistoraWeb.EnsureOrganizationIsActivePlug
   end
 
-  pipeline :has_trial_expired do
-    plug HistoraWeb.CheckIfTrialHasExpiredPlug
-  end
-
   pipeline :authorized do
     plug Pow.Plug.RequireAuthenticated,
       error_handler: Pow.Phoenix.PlugErrorHandler
@@ -57,14 +53,14 @@ defmodule HistoraWeb.Router do
 
     get "/", MarketingController, :index
     get "/signup", SignupController, :signup
-    post "/create_organization_trial", SignupController, :create_organization_trial
+    post "/create_organization", SignupController, :create_organization
     get "/privacy_policy", PolicyController, :privacy_policy
     get "/terms_and_conditions", PolicyController, :terms_and_conditions
   end
 
   # Authorized Active Routes
   scope "/", HistoraWeb do
-    pipe_through [:browser, :authorized, :completed_welcome, :activeUser, :get_organization, :is_active, :has_trial_expired]
+    pipe_through [:browser, :authorized, :completed_welcome, :activeUser, :get_organization, :is_active]
 
     get "/home", HomeController, :index
     post "/results", SearchController, :results
@@ -91,7 +87,7 @@ defmodule HistoraWeb.Router do
 
   # Authorized Active Admin Routes
   scope "/admin", HistoraWeb do
-    pipe_through [:browser, :admin, :authorized, :activeUser, :get_organization, :is_active, :has_trial_expired]
+    pipe_through [:browser, :admin, :authorized, :activeUser, :get_organization, :is_active]
 
   end
 
@@ -111,7 +107,7 @@ defmodule HistoraWeb.Router do
 
   # Authorization Routes
   scope "/", Pow.Phoenix, as: "pow" do
-    pipe_through [:browser, :authorized, :activeUser, :is_active, :has_trial_expired]
+    pipe_through [:browser, :authorized, :activeUser, :is_active]
 
     resources "/registration", RegistrationController, singleton: true, only: [:edit, :update, :delete]
   end

@@ -103,10 +103,8 @@ defmodule Histora.Decisions do
     formated_end_date
   end
 
-  def formate_decisions_count(decisions, current_user) do
-    team_list = Teams.get_user_teams(current_user.id)
-    decisions = (from r in subquery(decisions), preload: [:user, :goals, :teams]) |> Repo.all()
-    Enum.filter(decisions, fn x -> x.user_id == current_user.id or filter_team(x, team_list) == true end)
+  def formate_decisions_count(organization_id) do
+    Repo.aggregate(from(r in Decision, where: r.organization_id == ^organization_id), :count, :id)
   end
 
   def create_decision_approval(organization_id, user_id, decision_id) do

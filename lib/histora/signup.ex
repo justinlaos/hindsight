@@ -2,14 +2,14 @@ defmodule Histora.Signup do
   alias Histora.Organizations
   alias Histora.Users
 
-  def create_organization_trial(email, password, plan, promo) do
+  def create_organization(email, password, promo) do
     case check_signup_info(email, password) do
       false -> {:error, "incorrect account info. please add a valid email and password of at least 6 characters"}
       true ->
         case Organizations.check_if_billing_email_exists(email) do
           true -> {:error, "email already exists"}
           false ->
-            case create_organization(email, plan, promo) do
+            case create_organization(email, promo) do
               {:ok, organization} -> case create_user(organization, email, password) do
                 {:ok, user} -> case create_user_data(user) do
                   {:ok, user} ->
@@ -34,18 +34,17 @@ defmodule Histora.Signup do
     end
   end
 
-  def create_organization(email, _plan, promo) do
+  def create_organization(email, promo) do
     case Organizations.create_organization(%{
-      "stripe_price_id" => "trialing",
-      "stripe_product_id" => "trialing",
-      "stripe_customer_id" => "trialing",
-      "stripe_subscription_id" => "trialing",
+      "stripe_price_id" => "free",
+      "stripe_product_id" => "free",
+      "stripe_customer_id" => "free",
+      "stripe_subscription_id" => "free",
       "billing_email" => email,
-      "user_limit" => 1000,
+      "user_limit" => 10,
       "promo_code" => promo,
-      "trial_expire_date" => Date.add(Date.utc_today, 30),
       "name" => create_new_organization_name(email),
-      "status" => "trialing"
+      "status" => "free"
     }) do
       {:ok, organization} -> {:ok, organization}
       {:error, error} -> {:error, error}

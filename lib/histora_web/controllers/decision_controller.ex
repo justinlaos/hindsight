@@ -5,11 +5,11 @@ defmodule HistoraWeb.DecisionController do
   alias Histora.Users
   alias Histora.Decisions
   alias Histora.Teams
-  alias Histora.Drafts
   alias Histora.Logs
   alias Histora.Decisions.Decision
   alias Histora.Reflections
   alias Histora.Reflections.Reflection
+  alias Histora.Organizations
 
   def index(conn, params) do
     Histora.Data.page(conn.assigns.current_user, "Decisions Index")
@@ -23,9 +23,10 @@ defmodule HistoraWeb.DecisionController do
       |> Decisions.filter_teams(params)
 
     render(conn, "index.html",
+      free_plan_decision_limit_reached: Organizations.free_plan_decision_limit_reached(conn.assigns.organization),
       decision_changeset: Decisions.change_decision(%Decision{}),
       decisions: Decisions.formate_decisions(filtered_decisions, conn.assigns.current_user),
-      decisions_count: Decisions.formate_decisions_count(filtered_decisions, conn.assigns.current_user),
+      decisions_count: Decisions.formate_decisions_count(conn.assigns.organization.id),
       users: Users.get_organization_users(conn.assigns.organization),
       filterable_goals: Goals.list_organization_goals(conn.assigns.organization),
       filterable_users: Users.get_organization_users(conn.assigns.organization),
@@ -84,6 +85,7 @@ defmodule HistoraWeb.DecisionController do
     Histora.Data.page(conn.assigns.current_user, "Decision Show")
 
     render(conn, "show.html",
+      free_plan_decision_limit_reached: Organizations.free_plan_decision_limit_reached(conn.assigns.organization),
       decision: Decisions.get_decision!(id),
       decision_changeset: Decisions.change_decision(%Decision{}),
       edit_decision_changeset: Decisions.change_decision(Decisions.get_decision!(id)),

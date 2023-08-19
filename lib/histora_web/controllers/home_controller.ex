@@ -2,6 +2,7 @@ defmodule HistoraWeb.HomeController do
   use HistoraWeb, :controller
 
   alias Histora.Decisions
+  alias Histora.Organizations
   alias Histora.Reflections
 
   def index(conn, _params) do
@@ -18,6 +19,7 @@ defmodule HistoraWeb.HomeController do
 
 
     render(conn, "index.html",
+      free_plan_decision_limit_reached: Organizations.free_plan_decision_limit_reached(conn.assigns.organization),
       decision_changeset: Decisions.change_decision(%Decisions.Decision{}),
       decision_count: decision_count,
       reflection_count: reflection_count,
