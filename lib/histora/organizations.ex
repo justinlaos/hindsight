@@ -16,7 +16,7 @@ defmodule Histora.Organizations do
     if organization.status == "free" do
       Repo.aggregate(from(r in Histora.Decisions.Decision, where: r.organization_id == ^organization.id), :count, :id) >= 50
     else
-      true
+      false
     end
   end
 
