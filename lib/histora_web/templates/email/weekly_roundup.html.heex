@@ -5,7 +5,7 @@
         <h2 class="text-primary"> <%= team.name %> </h2>
         <%= unless Enum.empty?(team.decisions) do %>
             <%= for decision <- team.decisions do  %>
-                <a href={"https://www.histora.app/decisions/#{decision.id}"} >
+                <a href={"https://www.gohindsight.com/decisions/#{decision.id}"} >
                     <div class="border-b border-light-grey dark:border-dark-grey">
                         <%= render HistoraWeb.ComponentView, "email_decision.html", decision: decision %>
                     </div>
@@ -19,5 +19,5 @@
     <div class="border-solid border-light-grey font-extralight space"></div>
 
     <p>Any decisions you need to add?</p>
-    <a href={"https://www.histora.app/session/new"} >Click here</a>
+    <a href={"https://www.gohindsight.com/session/new"} >Click here</a>
 </div>

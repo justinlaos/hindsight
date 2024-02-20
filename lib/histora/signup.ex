@@ -77,7 +77,7 @@ defmodule Histora.Signup do
         "user_id" => user.id,
         "what" => "Leverage Histora to help us steer our team in the right direction.",
         "why" => "With Histora we can stay informed, know what works, and avoid mistakes. We hope this will help us make informed decisions that lead to success and avoid those that do not.",
-        "reference" => "https://www.histora.app",
+        "reference" => "https://www.gohindsight.com",
         "date" => Date.to_string(Date.utc_today),
         "reflection_date" => Date.to_string(Date.add(Date.utc_today, 14))
       }) |> Histora.Repo.insert()
