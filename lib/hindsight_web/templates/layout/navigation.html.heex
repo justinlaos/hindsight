@@ -14,7 +14,6 @@
         </div>
       <% end %>
 
-
       <%= link to: Routes.decision_path(@conn, :index)  do %>
         <div class={"#{String.contains?(@conn.request_path, "decisions") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
           <Heroicons.LiveView.icon name="archive-box" type="solid" class="h-4 w-4 mr-2" />
@@ -72,8 +71,6 @@
         <Heroicons.LiveView.icon name="arrow-left-on-rectangle" type="solid" class="h-4 w-4 mr-2" />
         <%= link "Log out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
       </div>
-
     </div>
-
   </div>
 </div>
