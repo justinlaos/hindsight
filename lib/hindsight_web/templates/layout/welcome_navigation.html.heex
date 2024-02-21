@@ -1,6 +1,6 @@
 <div class="px-4 lg:px-12 flex flex-row justify-between content-center bg-primary dark:bg-dark-primary py-4">
   <%= link to: Routes.marketing_path(@conn, :index) do %>
-    <img class="w-16" src={ Routes.static_path(@conn, "/images/hindsightwhite.png")} alt="Hindsight Logo">
+    <div class="w-16 mt-4 self-center text-2xl text-bold text-white">hindsight</div>
   <% end %>
 
   <%= link to: Routes.pow_session_path(@conn, :delete), method: :delete do %>
