@@ -1,7 +1,7 @@
-defmodule HistoraWeb.User_dataControllerTest do
-  use HistoraWeb.ConnCase
+defmodule HindsightWeb.User_dataControllerTest do
+  use HindsightWeb.ConnCase
 
-  import Histora.UsersFixtures
+  import Hindsight.UsersFixtures
 
   @create_attrs %{}
   @update_attrs %{}

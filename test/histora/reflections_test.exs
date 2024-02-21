@@ -1,12 +1,12 @@
-defmodule Histora.ReflectionsTest do
-  use Histora.DataCase
+defmodule Hindsight.ReflectionsTest do
+  use Hindsight.DataCase
 
-  alias Histora.Reflections
+  alias Hindsight.Reflections
 
   describe "reflections" do
-    alias Histora.Reflections.Reflection
+    alias Hindsight.Reflections.Reflection
 
-    import Histora.ReflectionsFixtures
+    import Hindsight.ReflectionsFixtures
 
     @invalid_attrs %{}
 

@@ -1,7 +1,7 @@
-defmodule Histora.OrginizationsFixtures do
+defmodule Hindsight.OrginizationsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Orginizations` context.
+  entities via the `Hindsight.Orginizations` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Histora.OrginizationsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Orginizations.create_orginization()
+      |> Hindsight.Orginizations.create_orginization()
 
     orginization
   end

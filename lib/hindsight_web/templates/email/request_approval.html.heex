@@ -1,0 +1,11 @@
+
+<div class="container no-link-styles">
+    <p> <%= @decision.user.email %> requested your approval on their new decision.</p>
+
+    <a href={"https://www.gohindsight.com/decisions/#{@decision.id}"} >
+        <div class="border-b border-light-grey dark:border-dark-grey">
+            <%= render HindsightWeb.ComponentView, "email_decision.html", decision: @decision %>
+        </div>
+        <div class="border-solid border-light-grey font-extralight space"></div>
+    </a>
+</div>

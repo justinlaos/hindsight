@@ -1,7 +1,7 @@
-defmodule Histora.GoalsFixtures do
+defmodule Hindsight.GoalsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Goals` context.
+  entities via the `Hindsight.Goals` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Histora.GoalsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Goals.create_goal()
+      |> Hindsight.Goals.create_goal()
 
     goal
   end
@@ -27,7 +27,7 @@ defmodule Histora.GoalsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Goals.create_goal_decision()
+      |> Hindsight.Goals.create_goal_decision()
 
     tag_decision
   end
@@ -41,7 +41,7 @@ defmodule Histora.GoalsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Goals.create_goal_favorite()
+      |> Hindsight.Goals.create_goal_favorite()
 
     tag_favorite
   end

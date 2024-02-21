@@ -1,7 +1,7 @@
-defmodule Histora.UsersFixtures do
+defmodule Hindsight.UsersFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Users` context.
+  entities via the `Hindsight.Users` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Histora.UsersFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Users.create_user_favorite()
+      |> Hindsight.Users.create_user_favorite()
 
     user_favorite
   end
@@ -27,7 +27,7 @@ defmodule Histora.UsersFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Users.create_user_data()
+      |> Hindsight.Users.create_user_data()
 
     user_data
   end

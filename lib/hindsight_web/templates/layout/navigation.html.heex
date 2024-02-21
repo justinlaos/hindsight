@@ -1,0 +1,80 @@
+
+<div class="hidden sm:flex flex-col items-center justify-between w-fit border-r-[.5px] border-light-grey dark:border-dark-grey">
+
+
+  <%!-- <img class="w-16 mt-4 self-center" src={ Routes.static_path(@conn, "/images/hindsightnormal.png")} alt="Hindsight Logo"> --%>
+<div class="w-16 mt-4 self-center text-bold text-primary">hindsight</div>
+
+  <div class="flex flex-col justify-between grow w-28 mx-4 my-8 text-darkest-grey">
+
+    <div>
+      <%= link to: Routes.home_path(@conn, :index)  do %>
+        <div class={"#{String.contains?(@conn.request_path, "home") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
+          <Heroicons.LiveView.icon name="home" type="solid" class="h-4 w-4 mr-2" />
+          Dashboard
+        </div>
+      <% end %>
+
+
+      <%= link to: Routes.decision_path(@conn, :index)  do %>
+        <div class={"#{String.contains?(@conn.request_path, "decisions") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
+          <Heroicons.LiveView.icon name="archive-box" type="solid" class="h-4 w-4 mr-2" />
+          Decisions
+        </div>
+      <% end %>
+
+      <%= link to: Routes.goal_path(@conn, :index), method: :get do %>
+        <div class={"#{String.contains?(@conn.request_path, "goals") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
+          <Heroicons.LiveView.icon name="trophy" type="solid" class="h-4 w-4 mr-2" />
+          Goals
+        </div>
+      <% end %>
+
+      <%= link to: Routes.team_path(@conn, :index), method: :get do %>
+        <div class={"#{String.contains?(@conn.request_path, "team") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
+          <Heroicons.LiveView.icon name="user-group" type="solid" class="h-4 w-4 mr-2" />
+          Teams
+        </div>
+      <% end %>
+  </div>
+
+    <div>
+      <%= if Hindsight.Users.is_admin?(@current_user) do %>
+        <%= if Enum.member?(["free"], @organization.status) do %>
+          <%= link to: Routes.settings_path(@conn, :convert_trial), method: :get do %>
+            <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
+              <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-2" /> Billing
+            </div>
+          <% end %>
+        <% else %>
+          <%= link to: Routes.settings_path(@conn, :create_customer_portal_session, @organization.stripe_customer_id), method: :post do%>
+            <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
+              <Heroicons.LiveView.icon name="credit-card" type="solid" class="h-4 w-4 mr-2" /> Billing
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= link to: Routes.organization_path(@conn, :index), method: :get do %>
+        <div class={"#{String.contains?(@conn.request_path, "organization") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
+          <Heroicons.LiveView.icon name="identification" type="solid" class="h-4 w-4 mr-2" />
+          Account
+        </div>
+      <% end %>
+
+      <a href="https://intercom.help/hindsight">
+        <div class={"#{String.contains?(@conn.request_path, "help") && 'text-primary dark:text-primary'} flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey"}>
+          <Heroicons.LiveView.icon name="lifebuoy" type="solid" class="h-4 w-4 mr-2" />
+          Support
+        </div>
+      </a>
+
+      <div class="flex flex-row justify-start text-xs rounded-md px-2 py-2 mb-1 hover:bg-light-grey dark:hover:bg-darkest-grey hover:text-primary dark:text-grey">
+        <Heroicons.LiveView.icon name="arrow-left-on-rectangle" type="solid" class="h-4 w-4 mr-2" />
+        <%= link "Log out", to: Routes.pow_session_path(@conn, :delete), method: :delete %>
+      </div>
+
+    </div>
+
+  </div>
+</div>

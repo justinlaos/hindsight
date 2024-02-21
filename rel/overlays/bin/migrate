@@ -1,3 +1,3 @@
 #!/bin/sh
 cd -P -- "$(dirname -- "$0")"
-exec ./histora eval Histora.Release.migrate
+exec ./hindsight eval Hindsight.Release.migrate

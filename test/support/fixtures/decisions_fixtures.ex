@@ -1,7 +1,7 @@
-defmodule Histora.DecisionsFixtures do
+defmodule Hindsight.DecisionsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Decisions` context.
+  entities via the `Hindsight.Decisions` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Histora.DecisionsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Decisions.create_approval()
+      |> Hindsight.Decisions.create_approval()
 
       approval
   end

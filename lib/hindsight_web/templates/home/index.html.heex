@@ -1,0 +1,160 @@
+
+<%#
+      whats working / whats not working
+      States on number of decisions. reflections. radito chart of good/bad reflections
+      active log selection
+%>
+
+<div class="pt-4 bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
+  <div class="flex flex-row justify-between text-1xl ml-6 pb-4 font-bold dark:text-white">
+    <div class="hidden sm:flex">Dashboard</div>
+    <%= render HindsightWeb.LayoutView, "mobile_navigation.html", conn: @conn, name: "Dashboard" %>
+    <%= render HindsightWeb.SidebarView, "decision_new.html", Map.put(assigns, :action, Routes.decision_path(@conn, :create)) %>
+  </div>
+</div>
+
+<div style="white-space:nowrap;" class="flex bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
+
+    <%= render HindsightWeb.SidebarView, "reflections_scheduled.html", users_scheduled_reflections: @users_scheduled_reflections, conn: @conn %>
+
+    <%= unless Enum.empty?(@users_past_due_reflections) do %>
+        <%= render HindsightWeb.SidebarView, "reflections_past_due.html", users_past_due_reflections: @users_past_due_reflections, conn: @conn %>
+    <% end %>
+
+    <%= unless Enum.empty?(@users_active_approvals) do %>
+        <div class="hidden sm:flex ml-8 py-4 px-6  border-x-[.5px] border-light-grey dark:border-dark-grey">
+            <%= render HindsightWeb.SidebarView, "approvals_active.html", users_active_approvals: @users_active_approvals, conn: @conn %>
+        </div>
+    <% end %>
+</div>
+
+<%= unless Enum.empty?(@users_active_approvals) do %>
+    <div class="flex sm:hidden pl-6 py-4 border-b-[.5px] border-light-grey dark:border-dark-grey">
+        <%= render HindsightWeb.SidebarView, "approvals_active.html", users_active_approvals: @users_active_approvals, conn: @conn %>
+    </div>
+<% end %>
+
+<div class="sm:hidden">
+    <div class="py-6 px-10 flex flex-col justify-center items-center border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
+        <div class="text-xs mb-6 text-grey dark:text-white">
+            All Organization
+        </div>
+        <div class="flex">
+            <div class="flex flex-col justify-center items-center">
+                <div class="mb-2"><%= @decision_count %></div>
+                <div class="font-bold text-sm">Decisions</div>
+
+            </div>
+            <div class="flex flex-col justify-center items-center ml-8">
+                <div class="mb-2"><%= @reflection_count %></div>
+                <div class="font-bold text-sm">Reflections</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-6 px-10 flex flex-col justify-center items-center border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
+        <div class="text-xs mb-6 text-grey dark:text-white">
+            Reflection Ratio
+        </div>
+        <div class="flex text-white">
+            <div class="flex flex-col justify-center items-center">
+                <div class="mb-2"><%= @reflection_successful_percentage %>%</div>
+                <div class="font-bold text-sm text-primary">Successful</div>
+            </div>
+            <div class="flex flex-col justify-center items-center ml-8">
+                <div class="mb-2"><%= @reflection_rethink_percentage %>%</div>
+                <div class="font-bold text-sm text-red">Rethink</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="py-6 px-10 flex flex-col justify-center items-center border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
+        <div class="text-xs mb-6 text-grey dark:text-white">
+            Goal Ratio
+        </div>
+        <div class="flex text-white">
+            <div class="flex flex-col justify-center items-center">
+                <div class="mb-2"><%= @goal_achieved_percentage %>%</div>
+                <div class="font-bold text-sm text-primary">Achieved</div>
+            </div>
+            <div class="flex flex-col justify-center items-center ml-8">
+                <div class="mb-2"><%= @goal_unachieved_percentage %>%</div>
+                <div class="font-bold text-sm text-red">Unachieved</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="hidden sm:flex border-b-[.5px] border-light-grey dark:text-white dark:border-dark-grey">
+    <div class="flex">
+        <div class="py-46 px-10 flex flex-col justify-center items-center">
+            <div class="text-xs mb-6 text-grey dark:text-white">
+                All Organization
+            </div>
+            <div class="flex">
+                <div class="flex flex-col justify-center items-center">
+                    <div class="mb-2"><%= @decision_count %></div>
+                    <div class="font-bold text-sm">Decisions</div>
+
+                </div>
+                <div class="flex flex-col justify-center items-center ml-8">
+                    <div class="mb-2"><%= @reflection_count %></div>
+                    <div class="font-bold text-sm">Reflections</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-6 px-10 flex flex-col justify-center items-center border-x-[.5px] border-light-grey dark:border-dark-grey">
+            <div class="text-xs mb-6 text-grey dark:text-white">
+                Reflection Rate
+            </div>
+            <div class="flex">
+                <div class="flex flex-col justify-center items-center">
+                    <div class="mb-2"><%= @reflection_successful_percentage %>%</div>
+                    <div class="font-bold text-sm text-primary">Successful</div>
+                </div>
+                <div class="flex flex-col justify-center items-center ml-8">
+                    <div class="mb-2"><%= @reflection_rethink_percentage %>%</div>
+                    <div class="font-bold text-sm text-red">Rethink</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="py-6 px-10 flex flex-col justify-center items-center border-r-[.5px] border-light-grey dark:border-dark-grey">
+            <div class="text-xs mb-6 text-grey dark:text-white">
+                Goal Rate
+            </div>
+            <div class="flex">
+                <div class="flex flex-col justify-center items-center">
+                    <div class="mb-2"><%= @goal_achieved_percentage %>%</div>
+                    <div class="font-bold text-sm text-primary">Achieved</div>
+                </div>
+                <div class="flex flex-col justify-center items-center ml-8">
+                    <div class="mb-2"><%= @goal_unachieved_percentage %>%</div>
+                    <div class="font-bold text-sm text-red">Unachieved</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white dark:bg-slate top-0 border-b-[.5px] border-light-grey dark:border-dark-grey">
+
+    <div class="text-xs text-grey px-6 pt-6 pb-2 dark:text-white">
+        Activity
+    </div>
+
+    <div class="text-xs ml-2">
+        <%= for log <- @logs do %>
+            <%= link to: Routes.decision_path(@conn, :show, log.decision_id) do %>
+                <div class="p-4 border-b-[.5px] border-light-grey dark:border-dark-grey dark:text-light-grey">
+                    <span class="font-bold mr-6"><%= Hindsight.Users.formate_time_stamp(log.updated_at) %></span>
+                    <%= log.user.email %> <%= log.event %>
+                </div>
+            <% end %>
+        <% end %>
+
+    </div>
+
+
+</div>

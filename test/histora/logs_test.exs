@@ -1,12 +1,12 @@
-defmodule Histora.LogsTest do
-  use Histora.DataCase
+defmodule Hindsight.LogsTest do
+  use Hindsight.DataCase
 
-  alias Histora.Logs
+  alias Hindsight.Logs
 
   describe "logs" do
-    alias Histora.Logs.Log
+    alias Hindsight.Logs.Log
 
-    import Histora.LogsFixtures
+    import Hindsight.LogsFixtures
 
     @invalid_attrs %{}
 

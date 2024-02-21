@@ -1,0 +1,19 @@
+<div class="bg-really-light-grey dark:bg-darkest-grey mx-6 p-4 max-w-4xl min-w-fit">
+    <%= if @reflection.status == "successful" do %>
+        <div class="text-primary"><%= @reflection.status %></div>
+    <% else %>
+        <div class="text-red"><%= @reflection.status %></div>
+    <% end %>
+
+    <div class="text-base my-2 dark:text-white"><%= @reflection.content %></div>
+
+    <div class="flex flex-row items-center  text-xs mt-4">
+        <div class="mr-1 text-xs font-medium text-black dark:text-grey">
+            <%= Hindsight.Users.formate_time_stamp(@reflection.inserted_at) %>
+        </div>
+        <div class="inline-flex flex-row mx-0.5 px-2.5 dark:text-dark-grey py-1.5">
+            <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-4 w-4 mr-1" />
+            <%= @reflection.user.email %>
+        </div>
+    </div>
+</div>

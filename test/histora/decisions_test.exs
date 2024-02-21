@@ -1,12 +1,12 @@
-defmodule Histora.DecisionsTest do
-  use Histora.DataCase
+defmodule Hindsight.DecisionsTest do
+  use Hindsight.DataCase
 
-  alias Histora.Decisions
+  alias Hindsight.Decisions
 
   describe "approvals" do
-    alias Histora.Decisions.Approval
+    alias Hindsight.Decisions.Approval
 
-    import Histora.DecisionsFixtures
+    import Hindsight.DecisionsFixtures
 
     @invalid_attrs %{}
 

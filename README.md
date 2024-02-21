@@ -1,4 +1,4 @@
-# Histora
+# Hindsight
 
 To start your Phoenix server:
 

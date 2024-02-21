@@ -10,7 +10,7 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 
-config :histora, HistoraWeb.Endpoint,
+config :hindsight, HindsightWeb.Endpoint,
   url: [host: "www.gohindsight.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 
@@ -22,7 +22,7 @@ config :logger, level: :info
 # To get SSL working, you will need to add the `https` key
 # to the previous section and set your `:url` port to 443:
 #
-#     config :histora, HistoraWeb.Endpoint,
+#     config :hindsight, HindsightWeb.Endpoint,
 #       ...,
 #       url: [host: "example.com", port: 443],
 #       https: [
@@ -46,7 +46,7 @@ config :logger, level: :info
 # We also recommend setting `force_ssl` in your endpoint, ensuring
 # no data is ever sent via http, always redirecting to https:
 #
-#     config :histora, HistoraWeb.Endpoint,
+#     config :hindsight, HindsightWeb.Endpoint,
 #       force_ssl: [hsts: true]
 #
 # Check `Plug.SSL` for all available options in `force_ssl`.

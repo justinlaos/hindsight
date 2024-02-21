@@ -1,12 +1,12 @@
-defmodule Histora.DraftsTest do
-  use Histora.DataCase
+defmodule Hindsight.DraftsTest do
+  use Hindsight.DataCase
 
-  alias Histora.Drafts
+  alias Hindsight.Drafts
 
   describe "drafts" do
-    alias Histora.Drafts.Draft
+    alias Hindsight.Drafts.Draft
 
-    import Histora.DraftsFixtures
+    import Hindsight.DraftsFixtures
 
     @invalid_attrs %{}
 
@@ -56,9 +56,9 @@ defmodule Histora.DraftsTest do
   end
 
   describe "draft_users" do
-    alias Histora.Drafts.Draft_user
+    alias Hindsight.Drafts.Draft_user
 
-    import Histora.DraftsFixtures
+    import Hindsight.DraftsFixtures
 
     @invalid_attrs %{}
 
@@ -108,9 +108,9 @@ defmodule Histora.DraftsTest do
   end
 
   describe "draft_teams" do
-    alias Histora.Drafts.Draft_team
+    alias Hindsight.Drafts.Draft_team
 
-    import Histora.DraftsFixtures
+    import Hindsight.DraftsFixtures
 
     @invalid_attrs %{}
 
@@ -160,9 +160,9 @@ defmodule Histora.DraftsTest do
   end
 
   describe "draft_options" do
-    alias Histora.Drafts.Draft_option
+    alias Hindsight.Drafts.Draft_option
 
-    import Histora.DraftsFixtures
+    import Hindsight.DraftsFixtures
 
     @invalid_attrs %{}
 
@@ -212,9 +212,9 @@ defmodule Histora.DraftsTest do
   end
 
   describe "draft_votes" do
-    alias Histora.Drafts.Draft_vote
+    alias Hindsight.Drafts.Draft_vote
 
-    import Histora.DraftsFixtures
+    import Hindsight.DraftsFixtures
 
     @invalid_attrs %{}
 

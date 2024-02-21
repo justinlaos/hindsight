@@ -1,7 +1,7 @@
-defmodule Histora.DraftsFixtures do
+defmodule Hindsight.DraftsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Drafts` context.
+  entities via the `Hindsight.Drafts` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Histora.DraftsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Drafts.create_draft()
+      |> Hindsight.Drafts.create_draft()
 
     draft
   end
@@ -27,7 +27,7 @@ defmodule Histora.DraftsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Drafts.create_draft_user()
+      |> Hindsight.Drafts.create_draft_user()
 
     draft_user
   end
@@ -41,7 +41,7 @@ defmodule Histora.DraftsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Drafts.create_draft_team()
+      |> Hindsight.Drafts.create_draft_team()
 
     draft_team
   end
@@ -55,7 +55,7 @@ defmodule Histora.DraftsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Drafts.create_draft_option()
+      |> Hindsight.Drafts.create_draft_option()
 
     draft_option
   end
@@ -69,7 +69,7 @@ defmodule Histora.DraftsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Drafts.create_draft_vote()
+      |> Hindsight.Drafts.create_draft_vote()
 
     draft_vote
   end

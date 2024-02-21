@@ -1,7 +1,7 @@
-defmodule HistoraWeb.LogControllerTest do
-  use HistoraWeb.ConnCase
+defmodule HindsightWeb.LogControllerTest do
+  use HindsightWeb.ConnCase
 
-  import Histora.LogsFixtures
+  import Hindsight.LogsFixtures
 
   @create_attrs %{}
   @update_attrs %{}

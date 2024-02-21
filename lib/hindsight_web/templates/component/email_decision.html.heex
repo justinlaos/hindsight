@@ -1,0 +1,35 @@
+<div class="py-2 px-6 my-2">
+
+    <div class="flex flex-row text-xs mb-2">
+        <div class="inline-flex flex-row items-center dark:text-grey py-1.5 mr-4">
+            <%= Hindsight.Users.formate_time_stamp(@decision.inserted_at) %>
+        </div>
+
+        <%= if Ecto.assoc_loaded?(@decision.user) do %>
+            <div class="inline-flex text-xs flex-row items-center dark:text-dark-grey dark:hover:text-blue rounded-md py-1.5 hover:text-blue">
+                <Heroicons.LiveView.icon name="user-circle" type="solid" class="h-3 w-3 mr-1" />
+                <%= @decision.user.email %>
+            </div>
+        <% end %>
+    </div>
+
+    <div class="">
+        <div class="text-base dark:text-light-grey"><%= @decision.what %></div>
+        <div class="text-xs mt-2 text-dark-grey dark:text-grey"><%= @decision.why %></div>
+    </div>
+
+    <div class="flex flex-row text-xs mt-2 center-items">
+
+        <%= if @decision.reference != nil do %>
+            <div class="inline-flex items-center text-xs text-blue dark:text-dark-grey dark:hover:text-light-grey rounded-md mr-4 hover:text-blue">Reference</div>
+        <% end %>
+
+        <%= if @decision.goals != nil do %>
+            <%= for goal <- @decision.goals do %>
+                <div class="inline-flex items-center mr-4 py-1.5 rounded-md text-xs font-medium text-darkest-grey dark:text-grey hover:text-blue dark:hover:text-blue">
+                    <%= goal.name %>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+<div class="py-1.5 px-6 my-2">
+    <div class="flex flex-row text-xs pb-1.5 items-center">
+        <%= if Enum.count(@decision.reflections) >= 1 do %>
+            <%= if List.first(@decision.reflections).status == "successful" do %>
+                <div class="w-2 h-2 mr-4 bg-primary rounded-full"></div>
+            <% else %>
+                <div class="w-2 h-2 mr-4 bg-red rounded-full"></div>
+            <% end %>
+        <% end %>
+
+        <%= if Enum.count(@decision.teams) >= 1 and String.contains?(@conn.request_path, "team") == false do %>
+            <div class="flex dark:text-black mr-4">
+                <%= for team <- @decision.teams do %>
+                    <%= link to: Routes.decision_path(@conn, :index, teams: team.id) do %>
+                        <div style="white-space:nowrap;" class="inline-flex items-center text-xs font-extrabold hover:text-blue">
+                            <%= if Enum.empty?(@decision.teams) != true && List.first(@decision.teams).private do %>
+                                <div class="inline-flex items-center text-orange text-xs">
+                                    <Heroicons.LiveView.icon name="lock-closed" type="solid" class="h-3 w-3 mr-1.5 -ml-0.5" />
+                                    <div class="mt-0.5"><%= String.capitalize(team.name) %></div>
+                                </div>
+                            <% else %>
+                                <div class="text-black dark:text-white">
+                                    <%= String.capitalize(team.name) %>
+                                </div>
+                            <% end %>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+        <% end %>
+
+        <%= if @decision.reference != nil do %>
+            <a class="inline-flex items-center text-xs text-blue rounded-md mr-4 hover:text-blue" href={"#{ @decision.reference }"} target="_blank">
+                <Heroicons.LiveView.icon name="link" type="solid" class="h-3 w-3 mr-1" />
+            </a>
+        <% end %>
+
+        <div class="inline-flex flex-row items-center dark:text-grey mr-4">
+            <%= Hindsight.Users.formate_time_stamp(@decision.date) %>
+        </div>
+
+        <%= if Ecto.assoc_loaded?(@decision.user) do %>
+            <%= link to: Routes.decision_path(@conn, :index, users: @decision.user.id) do %>
+                <div class="inline-flex flex-row items-center text-dark-grey dark:hover:text-blue font-thin hover:text-blue">
+                    <%= @decision.user.email %>
+                </div>
+            <% end %>
+        <% end %>
+    </div>
+
+    <%= link to: Routes.decision_path(@conn, :show, @decision) do %>
+        <div class="py-3">
+            <div class="text-base dark:text-light-grey"><%= String.capitalize(@decision.what) %></div>
+            <div class="text-xs mt-2 text-dark-grey dark:text-grey"><%= @decision.why %></div>
+        </div>
+    <% end %>
+
+    <div class="flex flex-row text-xs mt-2 center-items">
+        <div class="flex overflow-x-scroll">
+            <%= if @decision.reflection_goals != [] do %>
+                <%= for reflection_goal <- @decision.reflection_goals do %>
+                    <%= link to: Routes.goal_path(@conn, :show, reflection_goal.goal.id) do %>
+                        <div style="white-space:nowrap;" class="text-dark-grey inline-flex items-center mr-4 text-xs text-darkest-grey dark:text-grey hover:text-blue dark:hover:text-blue">
+                            <Heroicons.LiveView.icon name="trophy" type="outline" class={"h-3 w-3 mr-1.5 #{if reflection_goal.achieved, do: 'text-gold', else: 'text-red' }"} />
+                            <%= String.capitalize(reflection_goal.goal.name) %>
+                        </div>
+                    <% end %>
+                <% end %>
+            <% else %>
+                <%= for goal <- @decision.goals do %>
+                    <%= link to: Routes.goal_path(@conn, :show, goal.id) do %>
+                        <div style="white-space:nowrap;" class="text-dark-grey inline-flex items-center mr-4 text-xs text-darkest-grey dark:text-grey hover:text-blue dark:hover:text-blue">
+                            <Heroicons.LiveView.icon name="trophy" type="outline" class={"h-3 w-3 mr-1.5 text-grey"} />
+                            <%= String.capitalize(goal.name) %>
+                        </div>
+                    <% end %>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
+</div>

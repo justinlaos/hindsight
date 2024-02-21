@@ -1,7 +1,7 @@
-defmodule Histora.TeamsFixtures do
+defmodule Hindsight.TeamsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Teams` context.
+  entities via the `Hindsight.Teams` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Histora.TeamsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Teams.create_team()
+      |> Hindsight.Teams.create_team()
 
     team
   end
@@ -27,7 +27,7 @@ defmodule Histora.TeamsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Teams.create_team_decision()
+      |> Hindsight.Teams.create_team_decision()
 
     team_decision
   end
@@ -41,7 +41,7 @@ defmodule Histora.TeamsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Teams.create_team_user()
+      |> Hindsight.Teams.create_team_user()
 
     team_user
   end

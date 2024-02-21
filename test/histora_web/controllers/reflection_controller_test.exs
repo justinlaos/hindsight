@@ -1,7 +1,7 @@
-defmodule HistoraWeb.ReflectionControllerTest do
-  use HistoraWeb.ConnCase
+defmodule HindsightWeb.ReflectionControllerTest do
+  use HindsightWeb.ConnCase
 
-  import Histora.ReflectionsFixtures
+  import Hindsight.ReflectionsFixtures
 
   @create_attrs %{}
   @update_attrs %{}

@@ -1,1 +1,1 @@
-call "%~dp0\histora" eval Histora.Release.migrate
+call "%~dp0\hindsight" eval Hindsight.Release.migrate

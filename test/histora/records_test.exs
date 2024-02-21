@@ -1,12 +1,12 @@
-defmodule Histora.DecisionsTest do
-  use Histora.DataCase
+defmodule Hindsight.DecisionsTest do
+  use Hindsight.DataCase
 
-  alias Histora.Decisions
+  alias Hindsight.Decisions
 
   describe "decisions" do
-    alias Histora.Decisions.Decision
+    alias Hindsight.Decisions.Decision
 
-    import Histora.DecisionsFixtures
+    import Hindsight.DecisionsFixtures
 
     @invalid_attrs %{}
 
@@ -56,9 +56,9 @@ defmodule Histora.DecisionsTest do
   end
 
   describe "decision_users" do
-    alias Histora.Decisions.Decision_user
+    alias Hindsight.Decisions.Decision_user
 
-    import Histora.DecisionsFixtures
+    import Hindsight.DecisionsFixtures
 
     @invalid_attrs %{}
 

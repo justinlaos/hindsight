@@ -5,23 +5,23 @@ import Config
 # The MIX_TEST_PARTITION environment variable can be used
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
-config :histora, Histora.Repo,
+config :hindsight, Hindsight.Repo,
   username: "postgres",
   password: "postgres",
   hostname: "localhost",
-  database: "histora_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "hindsight_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :histora, HistoraWeb.Endpoint,
+config :hindsight, HindsightWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "1dhcswTHnFA84PBcHmJxN2ic1sd6VXt42+ULQ+Udi3n9cyzDK7jMcSLIF2QSTdG8",
   server: false
 
 # In test we don't send emails.
-config :histora, Histora.Mailer, adapter: Swoosh.Adapters.Test
+config :hindsight, Hindsight.Mailer, adapter: Swoosh.Adapters.Test
 
 # Print only warnings and errors during test
 config :logger, level: :warn

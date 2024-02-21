@@ -1,3 +1,3 @@
-defmodule HistoraWeb.MarketingViewTest do
-  use HistoraWeb.ConnCase, async: true
+defmodule HindsightWeb.MarketingViewTest do
+  use HindsightWeb.ConnCase, async: true
 end

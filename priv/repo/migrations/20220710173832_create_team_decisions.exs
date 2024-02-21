@@ -1,4 +1,4 @@
-defmodule Histora.Repo.Migrations.CreateTeamDecisions do
+defmodule Hindsight.Repo.Migrations.CreateTeamDecisions do
   use Ecto.Migration
 
   def change do

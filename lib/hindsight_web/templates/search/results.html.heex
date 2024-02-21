@@ -1,0 +1,12 @@
+<h4 class="text-2xl font-bold dark:text-white">Search: <span class="text-1xl text-primary"><%= @search_term %> </span></h4>
+<div class="text-1xl font-bold dark:text-light-grey">results: <%= Enum.count(@search_results) %></div>
+
+<%= for decision <- @search_results do %>
+    <div class="my-6 rounded-lg ">
+        <div class="text-lg font-bold text-primary"><%= Hindsight.Users.formate_time_stamp(decision.inserted_at) %></div>
+    
+        <div class="my-4 divide-y divide-light-grey dark:divide-darkest-grey">
+        <%= render HindsightWeb.ComponentView, "decision.html", conn: @conn, decision: decision %>
+        </div>
+    </div>
+<% end %>

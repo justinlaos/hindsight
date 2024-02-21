@@ -1,0 +1,25 @@
+<div class="px-4 lg:px-12 flex flex-row justify-between content-center bg-primary dark:bg-dark-primary pb-20 lg:pb-4 pt-6">
+  <%= link to: Routes.marketing_path(@conn, :index) do %>
+    <%!-- <img class="w-20" src={ Routes.static_path(@conn, "/images/hindsightwhite.png")} alt="Hindsight Logo"> --%>
+    <div class="text-white text-bold text-2xl">hindsight</div>
+
+  <% end %>
+
+  <div class="flex">
+    <%= if assigns.conn.request_path != "/signup" do %>
+      <%= link to: Routes.signup_path(@conn, :signup) do %>
+        <div type="submit" class="hidden sm:inline dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-xs sm:text-sm text-white font-bold">Get Started For Free</div>
+      <% end %>
+    <% end %>
+
+    <div class="mr-12"></div>
+
+    <%= if assigns.conn.request_path != "/session/new" do %>
+      <%= link to: Routes.pow_session_path(@conn, :new) do %>
+        <div class="dark:hover:bg-dark-primary hover:bg-primary hover:text-white text-xs sm:text-sm text-white">
+          Login
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

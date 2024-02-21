@@ -1,5 +1,5 @@
-defmodule HistoraWeb.LayoutViewTest do
-  use HistoraWeb.ConnCase, async: true
+defmodule HindsightWeb.LayoutViewTest do
+  use HindsightWeb.ConnCase, async: true
 
   # When testing helpers, you may want to import Phoenix.HTML and
   # use functions such as safe_to_string() to convert the helper

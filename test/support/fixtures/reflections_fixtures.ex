@@ -1,7 +1,7 @@
-defmodule Histora.ReflectionsFixtures do
+defmodule Hindsight.ReflectionsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Reflections` context.
+  entities via the `Hindsight.Reflections` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Histora.ReflectionsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Reflections.create_reflection()
+      |> Hindsight.Reflections.create_reflection()
 
     reflection
   end

@@ -1,7 +1,7 @@
-defmodule HistoraWeb.Draft_teamControllerTest do
-  use HistoraWeb.ConnCase
+defmodule HindsightWeb.Draft_teamControllerTest do
+  use HindsightWeb.ConnCase
 
-  import Histora.DraftsFixtures
+  import Hindsight.DraftsFixtures
 
   @create_attrs %{}
   @update_attrs %{}

@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(Histora.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(Hindsight.Repo, :manual)

@@ -1,7 +1,7 @@
-defmodule Histora.LogsFixtures do
+defmodule Hindsight.LogsFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Histora.Logs` context.
+  entities via the `Hindsight.Logs` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule Histora.LogsFixtures do
       |> Enum.into(%{
 
       })
-      |> Histora.Logs.create_log()
+      |> Hindsight.Logs.create_log()
 
     log
   end

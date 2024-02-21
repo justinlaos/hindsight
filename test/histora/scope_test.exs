@@ -1,12 +1,12 @@
-defmodule Histora.TeamTest do
-  use Histora.DataCase
+defmodule Hindsight.TeamTest do
+  use Hindsight.DataCase
 
-  alias Histora.Team
+  alias Hindsight.Team
 
   describe "teams" do
-    alias Histora.Team.Teams
+    alias Hindsight.Team.Teams
 
-    import Histora.TeamFixtures
+    import Hindsight.TeamFixtures
 
     @invalid_attrs %{}
 

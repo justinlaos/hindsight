@@ -16,4 +16,4 @@ MIX_ENV=prod mix release --overwrite
 
 
 # Run migrations
-_build/prod/rel/histora/bin/histora eval "Histora.Release.migrate"
+_build/prod/rel/hindsight/bin/hindsight eval "Hindsight.Release.migrate"

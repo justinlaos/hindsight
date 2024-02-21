@@ -1,7 +1,7 @@
-defmodule HistoraWeb.Team_decisionControllerTest do
-  use HistoraWeb.ConnCase
+defmodule HindsightWeb.Team_decisionControllerTest do
+  use HindsightWeb.ConnCase
 
-  import Histora.TeamsFixtures
+  import Hindsight.TeamsFixtures
 
   @create_attrs %{}
   @update_attrs %{}

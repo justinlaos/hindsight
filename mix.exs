@@ -1,9 +1,9 @@
-defmodule Histora.MixProject do
+defmodule Hindsight.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :histora,
+      app: :hindsight,
       version: "0.1.0",
       elixir: "~> 1.12",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -19,7 +19,7 @@ defmodule Histora.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Histora.Application, []},
+      mod: {Hindsight.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

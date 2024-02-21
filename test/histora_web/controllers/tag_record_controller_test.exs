@@ -1,7 +1,7 @@
-defmodule HistoraWeb.Goal_decisionControllerTest do
-  use HistoraWeb.ConnCase
+defmodule HindsightWeb.Goal_decisionControllerTest do
+  use HindsightWeb.ConnCase
 
-  import Histora.GoalsFixtures
+  import Hindsight.GoalsFixtures
 
   @create_attrs %{}
   @update_attrs %{}

@@ -1,7 +1,7 @@
-defmodule HistoraWeb.Decision_userControllerTest do
-  use HistoraWeb.ConnCase
+defmodule HindsightWeb.Decision_userControllerTest do
+  use HindsightWeb.ConnCase
 
-  import Histora.DecisionsFixtures
+  import Hindsight.DecisionsFixtures
 
   @create_attrs %{}
   @update_attrs %{}

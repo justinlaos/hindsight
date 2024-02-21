@@ -7,15 +7,15 @@
 # General application configuration
 import Config
 
-config :histora,
-  ecto_repos: [Histora.Repo]
+config :hindsight,
+  ecto_repos: [Hindsight.Repo]
 
 # Configures the endpoint
-config :histora, HistoraWeb.Endpoint,
+config :hindsight, HindsightWeb.Endpoint,
   url: [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
   secret_key_base: "z34502VtAmc07Oc0Pq4JgEqkF+o3yiYSVWIjZXLJq5qhZSIeTwIrXbRDOrF7rsg7",
-  render_errors: [view: HistoraWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Histora.PubSub,
+  render_errors: [view: HindsightWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: Hindsight.PubSub,
   live_view: [signing_salt: "T7ClLDU5"]
 
 # Configures the mailer
@@ -25,7 +25,7 @@ config :histora, HistoraWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-# config :histora, Histora.Mailer, adapter: Swoosh.Adapters.Local
+# config :hindsight, Hindsight.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false
@@ -66,36 +66,36 @@ config :stripity_stripe,
   api_key: System.get_env("STRIPE_SECRET_API")
 
 # POW USER AUTH
-config :histora, :pow,
-  user: Histora.Users.User,
-  repo: Histora.Repo,
+config :hindsight, :pow,
+  user: Hindsight.Users.User,
+  repo: Hindsight.Repo,
   extensions: [ PowResetPassword, PowInvitation ],
   controller_callbacks: Pow.Extension.Phoenix.ControllerCallbacks,
-  web_module: HistoraWeb,
-  mailer_backend: HistoraWeb.Pow.Mailer,
-  web_mailer_module: HistoraWeb,
-  routes_backend: HistoraWeb.Pow.Routes
+  web_module: HindsightWeb,
+  mailer_backend: HindsightWeb.Pow.Mailer,
+  web_mailer_module: HindsightWeb,
+  routes_backend: HindsightWeb.Pow.Routes
 
 # POW EMAIL SENDER
-config :histora, HistoraWeb.Pow.Mailer,
+config :hindsight, HindsightWeb.Pow.Mailer,
   adapter: Bamboo.SendGridAdapter,
   api_key: System.get_env("SEND_GRID_API")
 
 # BAMBOO EMAIL SENDER
-config :histora, Histora.Mailer,
+config :hindsight, Hindsight.Mailer,
   adapter: Bamboo.SendGridAdapter,
   api_key: System.get_env("SEND_GRID_API")
 
 # CRON JOB SCHEDULER
-config :histora, Histora.Scheduler,
+config :hindsight, Hindsight.Scheduler,
   jobs: [
    run_weekly_roundup: [
     schedule: "@weekly",
-    task: {Histora.Job.Organizations, :run_weekly_roundup, []}
+    task: {Hindsight.Job.Organizations, :run_weekly_roundup, []}
    ],
    run_daily_scheduled_reflections: [
     schedule: "@daily",
-    task: {Histora.Job.Organizations, :run_daily_scheduled_reflections, []}
+    task: {Hindsight.Job.Organizations, :run_daily_scheduled_reflections, []}
    ]
   ]
 

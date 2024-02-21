@@ -1,12 +1,12 @@
-defmodule Histora.TeamsTest do
-  use Histora.DataCase
+defmodule Hindsight.TeamsTest do
+  use Hindsight.DataCase
 
-  alias Histora.Teams
+  alias Hindsight.Teams
 
   describe "teams" do
-    alias Histora.Teams.Team
+    alias Hindsight.Teams.Team
 
-    import Histora.TeamsFixtures
+    import Hindsight.TeamsFixtures
 
     @invalid_attrs %{}
 
@@ -56,9 +56,9 @@ defmodule Histora.TeamsTest do
   end
 
   describe "team_decisions" do
-    alias Histora.Teams.Team_decision
+    alias Hindsight.Teams.Team_decision
 
-    import Histora.TeamsFixtures
+    import Hindsight.TeamsFixtures
 
     @invalid_attrs %{}
 
@@ -108,9 +108,9 @@ defmodule Histora.TeamsTest do
   end
 
   describe "team_users" do
-    alias Histora.Teams.Team_user
+    alias Hindsight.Teams.Team_user
 
-    import Histora.TeamsFixtures
+    import Hindsight.TeamsFixtures
 
     @invalid_attrs %{}
 
