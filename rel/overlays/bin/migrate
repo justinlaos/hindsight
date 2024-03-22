@@ -1,3 +1,5 @@
 #!/bin/sh
+set -eu
+
 cd -P -- "$(dirname -- "$0")"
 exec ./hindsight eval Hindsight.Release.migrate

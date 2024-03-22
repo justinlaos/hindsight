@@ -5,9 +5,9 @@ defmodule Hindsight.MixProject do
     [
       app: :hindsight,
       version: "0.1.0",
-      elixir: "~> 1.12",
+      elixir: "~> 1.16",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:gettext] ++ Mix.compilers(),
+      compilers: [] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
       deps: deps()
@@ -33,7 +33,7 @@ defmodule Hindsight.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.6.7"},
+      {:phoenix, "~> 1.7.11"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.6"},
       {:postgrex, ">= 0.0.0"},
@@ -62,7 +62,8 @@ defmodule Hindsight.MixProject do
       {:premailex, "~> 0.3.0"},
       {:httpoison, "~> 1.8"},
       {:segment, "~> 0.2.6"},
-      {:quantum, "~> 3.0"}
+      {:quantum, "~> 3.0"},
+      {:bandit, "~> 1.0"}
     ]
   end
 
