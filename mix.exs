@@ -62,8 +62,7 @@ defmodule Hindsight.MixProject do
       {:premailex, "~> 0.3.0"},
       {:httpoison, "~> 1.8"},
       {:segment, "~> 0.2.6"},
-      {:quantum, "~> 3.0"},
-      {:bandit, "~> 1.0"}
+      {:quantum, "~> 3.0"}
     ]
   end
 

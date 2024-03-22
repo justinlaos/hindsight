@@ -12,7 +12,6 @@ config :hindsight,
 
 # Configures the endpoint
 config :hindsight, HindsightWeb.Endpoint,
-  adapter: Bandit.PhoenixAdapter,
   url: [host: System.get_env("RENDER_EXTERNAL_HOSTNAME") || "localhost", port: 80],
   secret_key_base: "z34502VtAmc07Oc0Pq4JgEqkF+o3yiYSVWIjZXLJq5qhZSIeTwIrXbRDOrF7rsg7",
   render_errors: [view: HindsightWeb.ErrorView, accepts: ~w(html json), layout: false],
