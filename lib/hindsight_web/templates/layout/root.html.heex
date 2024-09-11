@@ -36,36 +36,10 @@
         trackAttributes: true,
       });
     </script>
-    <script src="https://openpanel.dev/op1.js" defer async></script>
-    <link rel="stylesheet" href="https://unpkg.com/css-only-tooltip@latest/dist/styles.min.css">
-
+    
     <%= unless Pow.Plug.current_user(@conn) do %>
-      <!-- Start of Plausible Embed Code -->
-        <script defer data-domain="gohindsight.com" src="https://plausible.io/js/script.js"></script>
-        <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
-      <!-- End of Plausible Embed Code -->
-      <!--  Clickcease.com tracking-->
-        <script type='text/javascript'>var script = document.createElement('script');
-        script.async = true; script.type = 'text/javascript';
-        var target = 'https://www.clickcease.com/monitor/stat.js';
-        script.src = target;var elem = document.head;elem.appendChild(script);
-        </script>
-        <noscript>
-        <a href='https://www.clickcease.com' rel='nofollow'><img src='https://monitor.clickcease.com/stats/stats.aspx' alt='ClickCease'/></a>
-        </noscript>
-      <!--  Clickcease.com tracking-->
-      <!--  Innercom -->
-        <script>
-          window.intercomSettings = {
-            api_base: "https://api-iam.intercom.io",
-            app_id: "wdny4myz"
-          };
-        </script>
-        <script>
-        // We pre-filled your app ID in the widget URL: 'https://widget.intercom.io/widget/wdny4myz'
-        (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/wdny4myz';var x=d.getElementsByGoalName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-        </script>
-      <!--  Innercom -->
+      <script src="https://openpanel.dev/op1.js" defer async></script>
+      <link rel="stylesheet" href="https://unpkg.com/css-only-tooltip@latest/dist/styles.min.css">
     <% end %>
   </head>
     <%= if Pow.Plug.current_user(@conn) do %>
